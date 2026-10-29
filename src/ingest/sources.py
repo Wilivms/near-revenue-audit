@@ -167,6 +167,32 @@ def fetch_buyback_txns() -> Path:
     return _save("buyback_txns", fetch_account_history(BUYBACK_WALLET))
 
 
+def _view(contract: str, method: str, args: dict | None = None):
+    import base64
+
+    res = _rpc("query", {
+        "request_type": "call_function", "finality": "final", "account_id": contract,
+        "method_name": method, "args_base64": base64.b64encode(json.dumps(args or {}).encode()).decode(),
+    })
+    return json.loads(bytes(res["result"]))
+
+
+def fetch_governance() -> dict[str, Path]:
+    """Policy and every proposal (with descriptions) of the two revenue DAOs."""
+    out = {}
+    for dao in ("fefundsadmin.sputnik-dao.near", "1csfundsadmin.sputnik-dao.near"):
+        payload = {
+            "policy": _view(dao, "get_policy"),
+            "proposals": _view(dao, "get_proposals", {"from_index": 0, "limit": 100}),
+        }
+        folder = RAW / "governance"
+        folder.mkdir(parents=True, exist_ok=True)
+        path = folder / f"{dao.split('.')[0]}.json"
+        path.write_text(json.dumps(payload, indent=1))
+        out[dao] = path
+    return out
+
+
 def fetch_revenue_wallets() -> dict[str, Path]:
     """NEAR transfers and token transfers of all three revenue wallets."""
     out = {}
@@ -183,3 +209,4 @@ if __name__ == "__main__":
     print(fetch_chain_state())
     print(fetch_buyback_txns())
     print(fetch_revenue_wallets())
+    print(fetch_governance())
