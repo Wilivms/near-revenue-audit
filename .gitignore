@@ -4,3 +4,4 @@ __pycache__/
 .venv/
 submission_payload.json
 data/intents/
+data/intents_v2/
