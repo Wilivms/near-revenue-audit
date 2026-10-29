@@ -24,6 +24,33 @@ BUYBACK_WALLET = "buybacks.multisignature.near"
 YOCTO = 10**24
 
 
+def load_env(path: Path = ROOT / ".env") -> None:
+    """Load KEY=value lines from .env into os.environ (the file is git-ignored)."""
+    import os
+
+    if not path.exists():
+        return
+    for line in path.read_text().splitlines():
+        line = line.strip()
+        if line and not line.startswith("#") and "=" in line:
+            key, value = line.split("=", 1)
+            os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+
+
+def intents_jwt() -> str:
+    """Partner JWT for the NEAR Intents Explorer API, read from the environment."""
+    import os
+
+    load_env()
+    token = os.environ.get("INTENTS_JWT")
+    if not token:
+        raise RuntimeError(
+            "INTENTS_JWT is missing. Create a .env file at the repo root containing "
+            "INTENTS_JWT=<your key> (see .env.example)."
+        )
+    return token
+
+
 def _today() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
