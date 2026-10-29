@@ -135,23 +135,46 @@ def fetch_chain_state() -> Path:
 
 # --- NearBlocks ------------------------------------------------------------
 
-def fetch_buyback_txns(per_page: int = 25, max_pages: int = 400) -> Path:
-    """Full transaction history of the buyback wallet (oldest first)."""
-    txns, cursor = [], None
+# NEAR's three revenue wallets, as listed by revenue.near.org and DefiLlama's adapter.
+REVENUE_WALLETS = [
+    "buybacks.multisignature.near",
+    "fefundsadmin.sputnik-dao.near",
+    "1csfundsadmin.sputnik-dao.near",
+]
+
+
+def fetch_account_history(account: str, kind: str = "txns", per_page: int = 25, max_pages: int = 1000) -> list:
+    """Full NearBlocks history of an account, oldest first. kind: 'txns' or 'ft-txns'."""
+    rows, cursor = [], None
     for _ in range(max_pages):
         params = {"per_page": per_page, "order": "asc"}
         if cursor:
             params["cursor"] = cursor
-        page = _get(f"{NEARBLOCKS}/account/{BUYBACK_WALLET}/txns", params)
+        page = _get(f"{NEARBLOCKS}/account/{account}/{kind}", params)
         batch = page.get("txns", [])
         if not batch:
             break
-        txns.extend(batch)
+        rows.extend(batch)
         cursor = page.get("cursor")
         if not cursor:
             break
         time.sleep(1.2)  # stay well under the free-tier rate limit
-    return _save("buyback_txns", txns)
+    return rows
+
+
+def fetch_buyback_txns() -> Path:
+    """Full transaction history of the buyback wallet (kept for backward compatibility)."""
+    return _save("buyback_txns", fetch_account_history(BUYBACK_WALLET))
+
+
+def fetch_revenue_wallets() -> dict[str, Path]:
+    """NEAR transfers and token transfers of all three revenue wallets."""
+    out = {}
+    for wallet in REVENUE_WALLETS:
+        short = wallet.split(".")[0]
+        out[f"{short}_txns"] = _save(f"wallet_{short}_txns", fetch_account_history(wallet, "txns"))
+        out[f"{short}_ft"] = _save(f"wallet_{short}_ft", fetch_account_history(wallet, "ft-txns"))
+    return out
 
 
 if __name__ == "__main__":
@@ -159,3 +182,4 @@ if __name__ == "__main__":
     print(fetch_near_prices())
     print(fetch_chain_state())
     print(fetch_buyback_txns())
+    print(fetch_revenue_wallets())

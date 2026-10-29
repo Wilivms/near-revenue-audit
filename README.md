@@ -11,8 +11,13 @@ Most public NEAR theses quote headline figures (Intents volume, fees, buybacks).
 ```bash
 pip install -r requirements.txt
 make data       # fetches DefiLlama, NEAR RPC, NearBlocks and price data into data/raw/<source>/<date>.json
-make ledger     # → data/processed/ledger_daily.csv and a reconciliation summary printed as JSON
+make revenue    # rebuilds NEAR's captured revenue from its 3 revenue wallets → prints the reconciliation
+                #   with DefiLlama (expect a ratio close to 1.00) and data/processed/revenue_rebuilt_daily.csv
+make supply     # measured issuance (archival RPC) vs NEAR captured → data/processed/supply_monthly.csv
+make ledger     # first-pass reconciliation on the buyback wallet only (kept to show the scope issue)
 ```
+
+Findings so far, with the reasoning behind each one: [`RESEARCH_LOG.md`](RESEARCH_LOG.md).
 
 Committed snapshots in `data/raw/` let anyone re-run the analysis on exactly the data we used, without network access: skip `make data`.
 
