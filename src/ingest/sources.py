@@ -1,0 +1,134 @@
+"""Data ingestion for the NEAR Revenue Audit.
+
+Every fetch writes a dated raw snapshot to data/raw/<source>/<YYYY-MM-DD>.json
+so the analysis can be re-run on exactly the same data (reproducibility).
+"""
+from __future__ import annotations
+
+import json
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+
+import requests
+
+ROOT = Path(__file__).resolve().parents[2]
+RAW = ROOT / "data" / "raw"
+
+LLAMA = "https://api.llama.fi"
+LLAMA_COINS = "https://coins.llama.fi"
+NEAR_RPC = "https://rpc.mainnet.near.org"
+NEARBLOCKS = "https://api.nearblocks.io/v1"
+
+BUYBACK_WALLET = "buybacks.multisignature.near"
+YOCTO = 10**24
+
+
+def _today() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+
+def _save(source: str, payload, name: str | None = None) -> Path:
+    folder = RAW / source
+    folder.mkdir(parents=True, exist_ok=True)
+    path = folder / f"{name or _today()}.json"
+    path.write_text(json.dumps(payload))
+    return path
+
+
+def _get(url: str, params: dict | None = None, retries: int = 4):
+    for attempt in range(retries):
+        r = requests.get(url, params=params, timeout=30)
+        if r.status_code == 429:
+            time.sleep(5 * (attempt + 1))
+            continue
+        r.raise_for_status()
+        return r.json()
+    raise RuntimeError(f"Rate limited too many times: {url}")
+
+
+def _rpc(method: str, params):
+    r = requests.post(
+        NEAR_RPC,
+        json={"jsonrpc": "2.0", "id": 1, "method": method, "params": params},
+        timeout=30,
+    )
+    r.raise_for_status()
+    return r.json()["result"]
+
+
+# --- DefiLlama -------------------------------------------------------------
+
+def fetch_llama_intents() -> dict[str, Path]:
+    """Daily fees, revenue, holders revenue, volume and TVL of NEAR Intents."""
+    out = {}
+    for data_type in ("dailyFees", "dailyRevenue", "dailyHoldersRevenue"):
+        payload = _get(f"{LLAMA}/summary/fees/near-intents", {"dataType": data_type})
+        out[data_type] = _save(f"llama_{data_type}", payload)
+    out["volume"] = _save("llama_volume", _get(f"{LLAMA}/summary/dexs/near-intents"))
+    out["tvl"] = _save("llama_tvl", _get(f"{LLAMA}/protocol/near-intents"))
+    return out
+
+
+def fetch_near_prices(start_unix: int = 1730419200, span_days: int | None = None) -> Path:
+    """Daily NEAR/USD price from DefiLlama coins (CoinGecko id)."""
+    days = span_days or int((time.time() - start_unix) // 86400) + 1
+    prices, chunk = [], 300  # the endpoint rejects long spans
+    for offset in range(0, days, chunk):
+        payload = _get(
+            f"{LLAMA_COINS}/chart/coingecko:near",
+            {"start": start_unix + offset * 86400, "span": min(chunk, days - offset), "period": "1d"},
+        )
+        prices.extend(payload["coins"]["coingecko:near"]["prices"])
+    unique = {p["timestamp"] // 86400: p for p in prices}  # one point per UTC day
+    return _save("near_price", sorted(unique.values(), key=lambda p: p["timestamp"]))
+
+
+# --- NEAR RPC --------------------------------------------------------------
+
+def fetch_chain_state() -> Path:
+    """Current total supply, inflation parameters and buyback wallet balance."""
+    block = _rpc("block", {"finality": "final"})["header"]
+    config = _rpc("EXPERIMENTAL_protocol_config", {"finality": "final"})
+    wallet = _rpc(
+        "query",
+        {"request_type": "view_account", "finality": "final", "account_id": BUYBACK_WALLET},
+    )
+    payload = {
+        "block_height": block["height"],
+        "timestamp_ns": int(block["timestamp"]),
+        "total_supply_near": int(block["total_supply"]) / YOCTO,
+        "max_inflation_rate": config["max_inflation_rate"],
+        "protocol_reward_rate": config["protocol_reward_rate"],
+        "epoch_length": config["epoch_length"],
+        "buyback_wallet_near": int(wallet["amount"]) / YOCTO,
+    }
+    return _save("chain_state", payload)
+
+
+# --- NearBlocks ------------------------------------------------------------
+
+def fetch_buyback_txns(per_page: int = 25, max_pages: int = 400) -> Path:
+    """Full transaction history of the buyback wallet (oldest first)."""
+    txns, cursor = [], None
+    for _ in range(max_pages):
+        params = {"per_page": per_page, "order": "asc"}
+        if cursor:
+            params["cursor"] = cursor
+        page = _get(f"{NEARBLOCKS}/account/{BUYBACK_WALLET}/txns", params)
+        batch = page.get("txns", [])
+        if not batch:
+            break
+        txns.extend(batch)
+        cursor = page.get("cursor")
+        if not cursor:
+            break
+        time.sleep(1.2)  # stay well under the free-tier rate limit
+    return _save("buyback_txns", txns)
+
+
+if __name__ == "__main__":
+    print(fetch_llama_intents())
+    print(fetch_near_prices())
+    print(fetch_chain_state())
+    print(fetch_buyback_txns())

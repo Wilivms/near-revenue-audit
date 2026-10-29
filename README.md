@@ -1,0 +1,44 @@
+# NEAR Revenue Audit
+
+*Working title. Track: Investment Thesis (`thesis`), NEAR HACKATHON 2026.*
+
+**Question:** is NEAR's protocol revenue real, durable, or bought with incentives — and what does that imply for the long-term value of the NEAR token?
+
+Most public NEAR theses quote headline figures (Intents volume, fees, buybacks). This project rebuilds those figures from the chain, reconciles them across sources, and states in advance what would prove the thesis wrong.
+
+## How to reproduce (do X → see Y)
+
+```bash
+pip install -r requirements.txt
+make data       # fetches DefiLlama, NEAR RPC, NearBlocks and price data into data/raw/<source>/<date>.json
+make ledger     # → data/processed/ledger_daily.csv and a reconciliation summary printed as JSON
+```
+
+Committed snapshots in `data/raw/` let anyone re-run the analysis on exactly the data we used, without network access: skip `make data`.
+
+## Method
+
+The thesis is an audit in five pillars. Hypotheses were written **before** running the analysis: see [`HYPOTHESES.md`](HYPOTHESES.md).
+
+| Pillar | Question | Main sources |
+| --- | --- | --- |
+| 1. Ledger | Does reported revenue actually reach the buyback wallet? | DefiLlama, NearBlocks (`buybacks.multisignature.near`), NEAR price |
+| 2. Supply | Do buybacks offset issuance? | NEAR RPC (supply, inflation), NearBlocks |
+| 3. Quality of revenue | Where does revenue come from, and is it concentrated? | NEAR Intents Explorer API |
+| 4. Incentives | How much growth is bought with incentives (NEAR@3.33)? | Intents Explorer API (confidential flows) |
+| 5. Valuation | What is the range of outcomes for NEAR supply and value? | Monte Carlo on the above |
+
+## Status
+
+Work in progress. See `HYPOTHESES.md` for what is being tested.
+
+## Data sources
+
+- DefiLlama API (fees, revenue, holders revenue, volume, TVL of NEAR Intents; NEAR price)
+- NEAR mainnet RPC (`rpc.mainnet.near.org`)
+- NearBlocks API (transaction history of the buyback wallet)
+- NEAR Intents Explorer API (per-swap data; requires a partner JWT in the `INTENTS_JWT` environment variable, never committed)
+
+## License
+
+MIT
