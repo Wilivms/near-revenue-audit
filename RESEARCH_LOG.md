@@ -14,7 +14,9 @@ Pre-registered hypotheses: [`HYPOTHESES.md`](HYPOTHESES.md) (not edited after th
 | H2.1 buybacks offset < 20% of issuance | **Holds**: 14.7% Feb–Oct 2026 | entry 5 |
 | H2.2 public ~$177M/day threshold is right within 30% | **Rejected**: 3–4x too low | entry 6 |
 | H3.3 take rate stable | **Rejected, opposite direction**: captured rate doubled | entry 7 |
-| H3.1, H3.2, H3.4, H4.1, H5.1 | Pending swap-level data | collection in progress |
+| H3.1 top-3 integrators > 50% | **Supported on 1Click volume** (55%), fees pending | entry 8 |
+| H3.2 ZEC > 20% of volume | **Supported on 1Click** for 2 weeks (28%), 90-day check pending | entry 8 |
+| H3.4, H4.1, H5.1 | Pending (H4.1 needs a source that sees confidential swaps) | collection in progress |
 
 ## 2026-10-29
 
@@ -73,3 +75,18 @@ Pre-registered hypotheses: [`HYPOTHESES.md`](HYPOTHESES.md) (not edited after th
 - Captured revenue / volume: 2.3–2.6 bps May–Aug → 3.8 bps in Sep → 5.5 bps in Oct. Gross fees stayed at 14–16 bps of volume, so NEAR's share of fees rose from ~15–20% to ~35%.
 - Not a volume effect (October volume is below September).
 - Candidate explanations to test with swap-level data: a fee schedule change; a mix shift towards flows where NEAR keeps more (own front-end, confidential swaps, integrators without a partner key paying the default fee); quote improvement.
+
+### 8. First look at swap-level data: 1Click, 2026-10-15 to 2026-10-28 (preliminary)
+
+Source: Intents Explorer API, 217,156 swaps over 14 complete days. Only 1Click swaps are visible there.
+
+- **Coverage limit.** 1Click volume = $453M vs $1,619M total Intents volume per DefiLlama (whose volume comes from NEAR's own Dune dataset `dataset_near_intents_metrics`): **28%**. No confidential swap appears in the API. Conclusions below describe the 1Click channel, not all of Intents. Full coverage needs NEAR's Dune datasets.
+- Reliability: 97.2% of swaps succeed, 2.5% are refunded, 0.2% fail.
+- **Fees are much higher on 1Click than overall**: volume-weighted app fee **44.4 bps**, vs ~16 bps of gross fees across all Intents. 31% of 1Click volume pays 50–100 bps and 14% pays more than 100 bps — mostly wallets distributed through aggregators.
+- **NEAR's own cut rides on partner swaps**: `buybacks.multisignature.near` is a fee recipient on 45% of 1Click volume (36% of swaps). Its exact share per swap needs the per-recipient fees now stored by collector v2.
+- **Distribution is concentrated**: SwapKit referrals = 38% of 1Click volume. Named top 3 (SwapKit, LI.FI, ZODL) = **55%**; HHI ≈ 1,900 (moderately concentrated). SwapKit also powers several wallet fee recipients (Ledger, Trust, Tangem, THORSwap), so the real dependency on one distribution partner is higher than its referral share.
+- **ZEC matters a lot**: ZEC on either side in 5.4% of swaps but **28% of 1Click volume**.
+- **Whales drive volume**: swaps ≥ $100k are 0.33% of swaps but **37% of volume**; median swap $50.
+- 102,543 distinct senders over the 14 days.
+- Provisional reading of H3.1 (top-3 integrators > 50%): supported on volume; fees pending v2 data. H3.2 (ZEC > 20% of volume): supported for 1Click over these two weeks; 90-day check pending.
+- Method fix: v1 data stored only the total fee per swap. Collector v2 keeps each recipient's bps; the last two weeks are being re-collected in v2.
