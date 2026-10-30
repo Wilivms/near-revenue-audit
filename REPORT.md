@@ -111,6 +111,7 @@ The third result is a lesson as much as a finding: a kill criterion should measu
 - **High** on "real" and on "too small to offset issuance today": both follow from on-chain data and an identity.
 - **Medium** on durability: the swap-level evidence covers 1Click only (28% of volume), and the September change is not explained for the other 72%.
 - **Low** on end-2027 paths: the bootstrap can only replay the past, and the take rate is a policy choice.
+- A walk-forward check of the simulation engine (log 21) shows it **overestimated** buyback capacity in 2026: realised outcomes fell below the 10th percentile in a third of 90-day forecasts. If anything, the 21% base case is too generous, which makes "net inflationary through 2027" a conservative conclusion.
 
 Open questions for the NEAR team, to be asked once NEAR's Dune datasets have been checked: what changed in mid-September, how integrator fees are set, the status of the front-end fund's NEAR, and a source for confidential-intents TVL.
 

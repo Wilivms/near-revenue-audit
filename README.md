@@ -19,6 +19,7 @@ make revenue    # rebuilds NEAR's captured revenue from its 3 revenue wallets �
 make supply     # measured issuance (archival RPC) vs NEAR captured → data/processed/supply_monthly.csv
 make ledger     # first-pass reconciliation on the buyback wallet only (kept to show the scope issue)
 make montecarlo # H5.1: 10,000 paths to end-2027 → montecarlo_scenarios.csv, montecarlo_sensitivity.csv
+make backtest   # walk-forward check: would the Monte Carlo have been calibrated in the past?
 make test       # model checks (reproducibility, deflation identity)
 make dashboard-serve  # open http://localhost:8000 → live dashboard: headline figures and kill criteria
                 #   fetched from DefiLlama and the NEAR RPC on each load, plus the analysis outputs

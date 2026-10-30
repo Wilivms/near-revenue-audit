@@ -1,4 +1,4 @@
-.PHONY: data ledger revenue supply swaps montecarlo dashboard dashboard-serve test all
+.PHONY: data ledger revenue supply swaps montecarlo backtest dashboard dashboard-serve test all
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -17,6 +17,9 @@ swaps:       ## 1Click swap-level analysis: weekly take, ZEC, concentration, sna
 
 montecarlo:  ## H5.1: Monte Carlo of NEAR captured vs issued to end-2027, scenarios + sensitivity table
 	python3 -m src.analysis.montecarlo
+
+backtest:    ## walk-forward check of the Monte Carlo engine (calibration of past forecasts)
+	python3 -m src.analysis.backtest_mc
 
 dashboard:   ## bundle committed outputs into dashboard/data.json
 	python3 -m src.analysis.dashboard_data

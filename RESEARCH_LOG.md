@@ -19,7 +19,7 @@ Pre-registered hypotheses: [`HYPOTHESES.md`](HYPOTHESES.md) (not edited after th
 | H3.4 < 20% of senders active again at M+3 | **Supported at address level**: 3–5% (same week M+3), at most 9–19% | entry 14 |
 | H4.1 confidential TVL left after the snapshot | **Untestable with this source**; 1Click proxy shows no exodus of pre-snapshot arrivals | entry 15 |
 | Kill criterion 2 (top integrator > 60% of fees) | **Triggered on 1Click**: SwapKit 65–73% of app fees in every 30-day window since mid-Sep; but 1% of NEAR's revenue | entry 18 |
-| H5.1 NEAR stays net inflationary through end-2027 | **Holds in the base case**: buybacks offset a median ~18–21% of issuance; 9% chance 2027 is net deflationary | entry 17 |
+| H5.1 NEAR stays net inflationary through end-2027 | **Holds in the base case**: buybacks offset a median ~18–21% of issuance; 9% chance 2027 is net deflationary; walk-forward shows the engine leans optimistic | entries 17, 21 |
 
 ## 2026-10-29
 
@@ -246,3 +246,24 @@ Code: `src/analysis/montecarlo.py` (`make montecarlo`), tests in `tests/`.
 - **Monte Carlo explorer**: every scenario's monthly quantiles are now exported (`montecarlo_paths_all.csv`); the fan chart morphs between them.
 - **Re-sortable distribution chart** (by app fees, NEAR's revenue or volume), buybacks chart switchable to the buyback wallet only, snapshot marker on both take-rate charts, row/column tracing on the sensitivity table.
 - Motion kept to state changes and first reveals (Emil Kowalski's animation rules: transform/opacity only, strong ease-out, under 300 ms for UI, reduced-motion fallbacks). Palette re-validated for colour-blind separation in both themes.
+
+### 21. Would the Monte Carlo have been right in the past? (walk-forward check)
+
+Method borrowed from walk-forward validation in trading research ([quants.md](https://quants.md), QuantJourney backtester, Apache-2.0: anchored/rolling walk-forward, "a single good out-of-sample result is not proof"). Code: `src/analysis/backtest_mc.py` (`make backtest`), test in `tests/`.
+
+- At each origin (weekly, Jul 2025 to Sep 2026), the joint block bootstrap is calibrated **only on data before the origin**, simulates 30 or 90 days ahead, and we record where the realised outcome fell (PIT). Target: buyback capacity = 7-day volume / NEAR price, the quantity that sets NEAR bought per dollar of take.
+- Calibrated forecasts put about 80% of outcomes inside the 10th–90th band, with a mean PIT near 0.5.
+
+Origins in 2026, 90-day horizon:
+
+| Calibration window | Price drift | Inside 10–90 band | Below 10th pct | Mean PIT | Realised vs median |
+| --- | --- | --- | --- | --- | --- |
+| Rolling 365 days (base case) | removed | 67% | 33% | 0.18 | −67% (log −1.12) |
+| Rolling 180 days | removed | 80% | 20% | 0.39 | −22% (log −0.25) |
+| Expanding | removed | 67% | 33% | 0.15 | −72% |
+
+- **The engine was biased upwards.** Realised buyback capacity fell below the simulated median far more often than half the time, and never above the 90th percentile at 90 days. With a 365-day window, 2026 forecasts still carried the 2025 hyper-growth in volume.
+- Why: over the last 180 days, volume grew about 4x annualised but the NEAR price grew faster, so capacity (volume / price) fell about 60% annualised. The base case removes price drift; in the recent regime, that is generous to buybacks.
+- **Consequence for H5.1**: the base-case "about 21% of 2027 issuance offset" is, on this evidence, more likely too high than too low. The conclusion that NEAR stays net inflationary through 2027 is conservative.
+- Caveats: forecasts from origins less than 90 days apart overlap, so there are only about 4–5 independent 90-day checks in 2026; the 365-day window that misbehaved in early 2026 no longer contains the 2025 hyper-growth today.
+- Also applied the same source's review checklist to our code: signals and calibration use only past data (trailing 7-day mean, no centred windows); no missing day is turned into a zero change since the price-series fix (entry 16); costs are not relevant here.
