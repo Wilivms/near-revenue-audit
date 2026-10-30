@@ -1064,7 +1064,7 @@ function scorecard() {
     ["H3.3 Take rate stable", "bad", "Rejected", "Doubled from mid-September, on all Intents and on 1Click."],
     ["H3.4 Under 20% of senders active again at M+3", "ok", "Holds (address level)", "3–5% the same week three months later; at most 9–19%."],
     ["H4.1 Confidential TVL left after the NEAR@3.33 snapshot", "wait", "Not testable yet", "Needs confidential flows (Dune). 1Click proxy: no exodus of pre-snapshot arrivals."],
-    ["H5.1 NEAR stays net inflationary through 2027", "ok", "Holds", "Base case offsets ~21% of 2027 issuance; 9% chance of a deflationary 2027."],
+    ["H5.1 NEAR stays net inflationary through 2027", "ok", "Holds", "Base case offsets ~21% of 2027 issuance; 9% chance of a deflationary 2027. A walk-forward check shows the engine leaned optimistic in 2026."],
   ];
   const st = table($("tbScore"), ["Hypothesis", "Evidence", "Status"], score.map(([h, , s, e]) => [h, e, s]));
   st.classList.add("score");
