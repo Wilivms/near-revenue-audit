@@ -1,4 +1,4 @@
-.PHONY: data ledger revenue supply all
+.PHONY: data ledger revenue supply swaps all
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -11,5 +11,8 @@ revenue:     ## rebuild captured revenue from the 3 revenue wallets and reconcil
 
 supply:      ## measured issuance (archival RPC) vs NEAR captured
 	python3 -m src.analysis.supply
+
+swaps:       ## 1Click swap-level analysis: weekly take, ZEC, concentration, snapshot, retention (needs data/intents_v2)
+	python3 -m src.analysis.swaps
 
 all: data ledger revenue supply

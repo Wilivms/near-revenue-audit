@@ -15,11 +15,15 @@ make revenue    # rebuilds NEAR's captured revenue from its 3 revenue wallets �
                 #   with DefiLlama (expect a ratio close to 1.00) and data/processed/revenue_rebuilt_daily.csv
 make supply     # measured issuance (archival RPC) vs NEAR captured → data/processed/supply_monthly.csv
 make ledger     # first-pass reconciliation on the buyback wallet only (kept to show the scope issue)
+make swaps      # 1Click swap-level analysis → data/processed/swaps_weekly.csv, snapshot_windows.csv,
+                #   retention.csv, snapshot_entrants.csv (needs the swap data, see below)
 ```
 
 Findings so far, with the reasoning behind each one: [`RESEARCH_LOG.md`](RESEARCH_LOG.md).
 
 Committed snapshots in `data/raw/` let anyone re-run the analysis on exactly the data we used, without network access: skip `make data`.
+
+Swap-level data (`data/intents_v2/`, ~2.4M swaps) is not committed: it comes from the partner-only Explorer API. Collect it with `python3 -m src.ingest.intents_explorer` (continuous window) and `--sample-weeks` (Feb–Jul); the aggregated outputs in `data/processed/` are committed.
 
 ## Method
 

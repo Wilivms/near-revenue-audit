@@ -4,7 +4,7 @@ Written as the work goes, dead ends included. Figures are provisional until `REP
 Each entry states the question, the method, the result and the next question.
 Pre-registered hypotheses: [`HYPOTHESES.md`](HYPOTHESES.md) (not edited after the fact).
 
-## Hypothesis scorecard (provisional, 2026-10-29)
+## Hypothesis scorecard (provisional, 2026-10-30)
 
 | Hypothesis | Status | Evidence |
 | --- | --- | --- |
@@ -13,10 +13,12 @@ Pre-registered hypotheses: [`HYPOTHESES.md`](HYPOTHESES.md) (not edited after th
 | H1.3 buybacks executed at market | **Holds** for the front-end fund's conversions (+0.04%) | entry 4 |
 | H2.1 buybacks offset < 20% of issuance | **Holds**: 14.7% Feb–Oct 2026 | entry 5 |
 | H2.2 public ~$177M/day threshold is right within 30% | **Rejected**: 3–4x too low | entry 6 |
-| H3.3 take rate stable | **Rejected, opposite direction**: captured rate doubled | entry 7 |
+| H3.3 take rate stable | **Rejected, opposite direction**: captured rate doubled; on 1Click too (2.2 → 4.6 bps) | entries 7, 12 |
 | H3.1 top-3 integrators > 50% | **Supported on 1Click**: 55% of volume, 68% of NEAR's revenue | entries 8, 11 |
-| H3.2 ZEC > 20% of volume | **Supported on 1Click**: 22.5% of volume, 42% of NEAR's revenue (1 month); 90-day check pending | entries 8, 11 |
-| H3.4, H4.1, H5.1 | Pending (H4.1 needs a source that sees confidential swaps) | collection in progress |
+| H3.2 ZEC > 20% of volume | **Not supported over 76 days** on 1Click: 18.6% (above 20% only since mid-Sep); but ~half of NEAR's 1Click revenue | entries 8, 11, 13 |
+| H3.4 < 20% of senders active again at M+3 | **Supported at address level**: 3–5% (same week M+3), at most 9–15% | entry 14 |
+| H4.1 confidential TVL left after the snapshot | **Untestable with this source**; 1Click proxy shows no exodus of pre-snapshot arrivals | entry 15 |
+| H5.1 | Pending | |
 
 ## 2026-10-29
 
@@ -110,6 +112,7 @@ Read on-chain: DAO policies (`get_policy`), every DAO proposal with its descript
 - **NEAR's own fee on 1Click swaps did not change**: ~4.25 bps of 1Click volume over 2026-09-26..10-29, noisy day to day, no step.
 - 1Click fees to NEAR wallets ≈ $533k over that month vs ≈ $2.06M captured by the 3 wallets in October: 1Click explains about a quarter of captured revenue.
 - Provisional answer: the jump came from channels the Explorer API does not see (near.com front-end, confidential swaps, partner revenue shares, quote improvement). To confirm with NEAR's Dune datasets or NEAR's answer.
+- **Revised in entry 12**: the "no change on 1Click" reading was wrong. The window started on 2026-09-26, after the change. With data from 2026-08-15, NEAR's take on 1Click doubled too.
 
 ### 11. Who pays NEAR on 1Click? (value capture)
 
@@ -123,3 +126,66 @@ Read on-chain: DAO policies (`get_policy`), every DAO proposal with its descript
 - Fee schedule observed for NEAR: 1 bp on 50% of the paid volume, 20 bps on 28%, 5 bps on 9%.
 - **ZEC**: 22.5% of 1Click volume but **42% of NEAR's 1Click revenue** (7.9 bps vs 3.2 for the rest). 64% of ZEC volume (ZODL, SwapKit, Vizor) pays NEAR nothing; the rest comes mostly through users without referral and Trust Wallet.
 - Implication: on 1Click, distribution partners capture most of the economics. NEAR's revenue there rests on users who arrive without an integrator, on a few direct relationships and on ZEC. That is the "who owns the customer" risk.
+
+## 2026-10-30
+
+Data: 2.38M successful 1Click swaps (collector v2): continuous from 2026-08-15 to 2026-10-29, plus one sample week per month (days 8–14) from February to July. Code: `src/analysis/swaps.py` (`make swaps`). Everything below is about the 1Click channel only (~28% of Intents volume, no confidential swaps).
+
+### 12. Did NEAR's take on 1Click change around the NEAR@3.33 snapshot? (H3.3, revises entry 10)
+
+Four weeks before the snapshot (Aug 18–Sep 14) vs four weeks after (Sep 18–Oct 15) vs the last two weeks (Oct 16–29):
+
+| | Before | After | Last 2 weeks |
+| --- | --- | --- | --- |
+| 1Click volume / day | $48.6M | $44.9M | $32.2M |
+| NEAR revenue / day (1Click) | $10.8k | $15.8k | $15.0k |
+| NEAR's take, bps of volume | 2.23 | 3.52 | **4.64** |
+| All app fees, bps | 37.0 | 47.8 | 43.4 |
+| NEAR's share of the fee pool | 6.0% | 7.4% | 10.7% |
+| Senders / day | 16.9k | 12.0k | 8.9k |
+
+- **NEAR's take on 1Click doubled**, in step with the take across all Intents (entry 10: 2.2 → 5.4 bps). Volume fell by a third, NEAR's revenue rose by 40%.
+- **The modal fee did not move** (1 bp on most paid swaps, 0 on 55–73% of volume). What changed is the volume paying NEAR 11–20 bps: 1.1% of volume before, 7.5% after, 14.8% in the last two weeks. That slice now brings **64%** of NEAR's 1Click revenue (9% before).
+- Shift-share decomposition, before → last 2 weeks (+2.4 bps):
+  - **a new flow**: Trust Wallet's ZEC swaps, routed with referral `trustwallet` at 20 bps to NEAR from October. 6% of volume, **+1.2 bps**;
+  - **higher NEAR fees inside existing segments**, about +1.4 bps: swaps with no referral 3.0 → 7.0 bps (ZEC ones 10.6 → 28.7), Rango 0.6 → 4.2, the anonymous referral `e1a72603…` 22 → 72;
+  - **a lost source**, about −0.7 bps: `new.intents-referral.near` (8% of volume at 7.4 bps before, almost gone after).
+- Timing: the no-referral fee rose in steps from 2026-09-12 (3 → ~8 bps around the snapshot, 7–11 bps late September). It coincides with the snapshot but this data cannot say why.
+- Reading: on 1Click the jump is mostly **pricing, not mix**. NEAR charges more on the flows it can (unattributed users, ZEC) and signed at least one 20-bps distribution deal. Open question for NEAR: was there a fee change for default-fee swaps in mid-September?
+
+### 13. ZEC over a longer window (H3.2)
+
+- ZEC share of 1Click volume: **18.6%** from 2026-08-15 to 10-29 (76 days). By week: 8–13% in late August, 17–25% from mid-September, 25–32% in the last two weeks. Sample weeks Feb–Jul: 26%, 12%, 13%, 21%, 11%, 15%.
+- So H3.2 (>20% over 90 days) is **not supported** on the longer window: the 22.5% of entry 8 was a recent peak, not the norm.
+- Its weight in revenue is the real exposure: ZEC is **49% of NEAR's 1Click revenue in the last two weeks** (24% before the snapshot), because ZEC swaps pay NEAR 8 bps vs 3.3 for the rest.
+- Implication: NEAR's 1Click revenue rests more and more on one asset and on a few ZEC distribution channels (Trust Wallet, users without referral).
+
+### 14. Do 1Click senders come back? (H3.4)
+
+Cohort = senders active on days 8–14 of month M (Feb–Jul). Sender = first deposit address, hashed: someone coming back from another address or chain counts as new, so these are **lower bounds** on user retention.
+
+| Cohort (M) | Senders | Same week, M+1 | Same week, M+3 | Any time Aug 15–Oct 29 |
+| --- | --- | --- | --- | --- |
+| Feb | 43.9k | 8.0% | 4.8% | 8.9% |
+| Mar | 53.0k | 8.5% | 3.9% | 8.5% |
+| Apr | 72.7k | 7.5% | 3.0% | 10.2% |
+| May | 64.5k | 6.9% | – | 12.0% |
+| Jun | 61.2k | 6.6% | 2.6% | 14.8% |
+
+- Even the loosest measure (active at any time over 2.5 months, 2–6 months later) stays at 9–15%. H3.4 (< 20% at M+3) is **supported at address level**.
+- Volume is less fragile than senders: one sender in ten coming back still carries a large share of volume, because whales drive volume (swaps ≥ $100k ≈ 31–38% of volume, median swap $40–60).
+- Reading: 1Click users are mostly transient. Volume depends on integrators bringing new users, which ties back to the "who owns the customer" risk (entry 11).
+
+### 15. Did users who arrived just before the snapshot leave? (H4.1, 1Click proxy)
+
+- H4.1 is about confidential TVL, which the Explorer API does not show. **It stays untestable** without NEAR's Dune data.
+- Proxy on 1Click, symmetric design: cohorts = senders active over 14 days and not seen in the 17 days before; follow-up = 14 days, starting 14 days after the cohort ends.
+
+| Cohort | New senders / day | Senders retained | Volume retained |
+| --- | --- | --- | --- |
+| Arrived Sep 1–14 (just before the snapshot) | 10.1k | 4.3% | 9.1% |
+| Arrived Sep 18–Oct 1 (placebo) | 9.5k | 4.9% | 5.4% |
+
+- No sign that pre-snapshot arrivals left faster than later ones on 1Click.
+- But daily senders fell from ~17–19k (late Aug–early Sep) to ~9k (late Oct). Most of the drop is Rango: from ~11k swaps a day in early September to ~2k by mid-September, with larger swaps afterwards. That looks like the end of a burst of small swaps, possibly farming, through one integrator. The cause is not visible in this data.
+- Next: confidential TVL before and after the snapshot needs NEAR's Dune datasets (`dune.near.dataset_near_intents_metrics`) or numbers from the NEAR team.
