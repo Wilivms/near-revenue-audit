@@ -1,4 +1,4 @@
-.PHONY: data ledger revenue supply swaps all
+.PHONY: data ledger revenue supply swaps montecarlo test all
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -14,5 +14,11 @@ supply:      ## measured issuance (archival RPC) vs NEAR captured
 
 swaps:       ## 1Click swap-level analysis: weekly take, ZEC, concentration, snapshot, retention (needs data/intents_v2)
 	python3 -m src.analysis.swaps
+
+montecarlo:  ## H5.1: Monte Carlo of NEAR captured vs issued to end-2027, scenarios + sensitivity table
+	python3 -m src.analysis.montecarlo
+
+test:        ## model checks
+	python3 -m pytest -q tests
 
 all: data ledger revenue supply

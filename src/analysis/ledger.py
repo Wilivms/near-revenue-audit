@@ -25,7 +25,8 @@ def llama_daily(source: str, column: str) -> pd.Series:
 
 def near_price() -> pd.Series:
     rows = _latest("near_price")
-    s = pd.Series({pd.to_datetime(p["timestamp"], unit="s").normalize(): p["price"] for p in rows})
+    # Round to the nearest UTC day: points sit a few seconds either side of midnight.
+    s = pd.Series({pd.to_datetime(round(p["timestamp"] / 86400) * 86400, unit="s"): p["price"] for p in rows})
     full = pd.date_range(s.index.min(), s.index.max(), freq="D")
     return s.reindex(full).interpolate().rename("near_usd")
 

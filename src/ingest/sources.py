@@ -104,10 +104,13 @@ def fetch_near_prices(start_unix: int = 1730419200, span_days: int | None = None
     for offset in range(0, days, chunk):
         payload = _get(
             f"{LLAMA_COINS}/chart/coingecko:near",
-            {"start": start_unix + offset * 86400, "span": min(chunk, days - offset), "period": "1d"},
+            {"start": start_unix + offset * 86400, "span": min(chunk, days - offset), "period": "1d",
+             "searchWidth": 600},
         )
         prices.extend(payload["coins"]["coingecko:near"]["prices"])
-    unique = {p["timestamp"] // 86400: p for p in prices}  # one point per UTC day
+    # Points land a few seconds either side of midnight (e.g. 23:59:59): round to the nearest
+    # UTC day, otherwise two points collide on one day and the next day is left empty.
+    unique = {round(p["timestamp"] / 86400): p for p in prices}  # one point per UTC day
     return _save("near_price", sorted(unique.values(), key=lambda p: p["timestamp"]))
 
 

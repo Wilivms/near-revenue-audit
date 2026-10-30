@@ -18,7 +18,7 @@ Pre-registered hypotheses: [`HYPOTHESES.md`](HYPOTHESES.md) (not edited after th
 | H3.2 ZEC > 20% of volume | **Not supported over 76 days** on 1Click: 18.6% (above 20% only since mid-Sep); but ~half of NEAR's 1Click revenue | entries 8, 11, 13 |
 | H3.4 < 20% of senders active again at M+3 | **Supported at address level**: 3–5% (same week M+3), at most 9–19% | entry 14 |
 | H4.1 confidential TVL left after the snapshot | **Untestable with this source**; 1Click proxy shows no exodus of pre-snapshot arrivals | entry 15 |
-| H5.1 | Pending | |
+| H5.1 NEAR stays net inflationary through end-2027 | **Holds in the base case**: buybacks offset a median ~18–21% of issuance; 9% chance 2027 is net deflationary | entry 17 |
 
 ## 2026-10-29
 
@@ -28,7 +28,7 @@ Pre-registered hypotheses: [`HYPOTHESES.md`](HYPOTHESES.md) (not edited after th
 - NEAR RPC and archival RPC: total supply at any block, protocol config. On-chain `max_inflation_rate` = 1/40 = **2.5%**, `protocol_reward_rate` = 0.
 - NearBlocks API: full history of any account.
 - NEAR Intents Explorer API (partner key): per-swap assets, chains, USD amounts, referral, app fees, deposit type including `CONFIDENTIAL_INTENTS`. History starts March 2025.
-- Known limitation: the daily NEAR price series has gaps (583 of ~728 days), filled by interpolation. To fix before the final report.
+- Known limitation: the daily NEAR price series has gaps (583 of ~728 days), filled by interpolation. To fix before the final report. **Fixed in entry 16.**
 
 ### 2. Does reported revenue actually reach the revenue wallets? (H1.1)
 
@@ -190,3 +190,33 @@ Cohort = senders active on days 8–14 of month M (Feb–Jul; M+3 for Jun–Jul 
 - No sign that pre-snapshot arrivals left faster than later ones on 1Click.
 - But daily senders fell from ~17–19k (late Aug–early Sep) to ~9k (late Oct). Most of the drop is Rango: from ~11k swaps a day in early September to ~2k by mid-September, with larger swaps afterwards. That looks like the end of a burst of small swaps, possibly farming, through one integrator. The cause is not visible in this data.
 - Next: confidential TVL before and after the snapshot needs NEAR's Dune datasets (`dune.near.dataset_near_intents_metrics`) or numbers from the NEAR team.
+
+### 16. Fixing the price series (method)
+
+- The 146 missing days were a bucketing bug, not missing data: DefiLlama returns points a few seconds either side of midnight (e.g. 23:59:59), and flooring to the day put two points on one day and left the next one empty.
+- Fix: round to the nearest UTC day (`sources.py`, `ledger.py`). Now 729 daily prices, **0 gaps**, no interpolation needed.
+- Effect on the reconciliation: rebuilt revenue $7,287,030 vs DefiLlama $7,295,035 (ratio 0.999, was 0.998). Nothing else moves materially, but the Monte Carlo needs real daily returns, not interpolated ones, to get volatility right.
+
+### 17. Does NEAR become net deflationary before end-2027? (H5.1)
+
+Code: `src/analysis/montecarlo.py` (`make montecarlo`), tests in `tests/`.
+
+- **Model.** 10,000 paths, 2026-11-01 to 2027-12-31. Daily changes of Intents volume (7-day mean) and NEAR price are drawn **together** in 30-day blocks from history, so volatility, autocorrelation and the volume–price link are kept. NEAR captured = volume × take rate / price. Issuance = measured net rate **2.42%/yr** of supply (archival RPC). Price drift is removed by default: this is not a price forecast.
+- **Start point.** Volume $135M/day (last 30 days), NEAR $4.67, take rate **5.41 bps** (last 30 days; 2.63 bps in May–Aug).
+- **Identity behind it.** Deflation needs market cap / annual captured revenue < **41x**. Today: ~$6.1B / ~$27M ≈ **230x**.
+
+| Scenario | Take | Median share of 2027 issuance offset (p10–p90) | P(2027 net deflationary) | First deflationary month, median path |
+| --- | --- | --- | --- | --- |
+| **Base**: 365-day history | 5.41 | **21%** (6–90%) | **9%** | never |
+| Take back to May–Aug level | 2.63 | 10% (3–44%) | 3% | never |
+| Zero volume drift | 5.41 | 13% (4–54%) | 4% | never |
+| Price keeps its 365-day drift | 5.41 | 13% (4–54%) | 4% | never |
+| Only the buyback wallet counts as retired | 5.41 × 0.6 | 12% (3–54%) | 4% | never |
+| Take doubles again | 10.8 | 41% (11–181%) | 21% | never |
+| 180-day history (volume ~10x by Dec 2027) | 5.41 | 92% (21–422%) | 47% | Sep 2027 |
+| Full history since Mar 2025 (hyper-growth) | 5.41 | 300% (34–3,989%) | 73% | May 2027 |
+
+- **H5.1 holds** in the base case: the median path never turns deflationary; buybacks offset about a fifth of issuance, and this share barely moves over the horizon (18% each month), because volume and price tend to move together.
+- What breaks it: only scenarios where volume grows several times over **without** the price following. Two-way table at today's price (`montecarlo_sensitivity.csv`): deflation needs about **$750M/day at 5.4 bps**, $500M/day at 8 bps or $250M/day at 15 bps. Current volume is $135M/day.
+- Reading: the "buyback makes NEAR deflationary" narrative needs a 5x jump in volume at today's take rate, or a mix of higher volume and higher take. The take rate is now the main lever, and entry 12 shows it is set by NEAR's pricing towards integrators, which faces competition.
+- Limits: the bootstrap can only replay the past (the 180-day window contains the September spike); the take rate is fixed per path; the front-end fund's NEAR is counted as retired in the base case although nothing commits it (entry 9).
