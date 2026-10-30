@@ -16,7 +16,7 @@ Pre-registered hypotheses: [`HYPOTHESES.md`](HYPOTHESES.md) (not edited after th
 | H3.3 take rate stable | **Rejected, opposite direction**: captured rate doubled; on 1Click too (2.2 → 4.6 bps) | entries 7, 12 |
 | H3.1 top-3 integrators > 50% | **Supported on 1Click**: 55% of volume, 68% of NEAR's revenue | entries 8, 11 |
 | H3.2 ZEC > 20% of volume | **Not supported over 76 days** on 1Click: 18.6% (above 20% only since mid-Sep); but ~half of NEAR's 1Click revenue | entries 8, 11, 13 |
-| H3.4 < 20% of senders active again at M+3 | **Supported at address level**: 3–5% (same week M+3), at most 9–15% | entry 14 |
+| H3.4 < 20% of senders active again at M+3 | **Supported at address level**: 3–5% (same week M+3), at most 9–19% | entry 14 |
 | H4.1 confidential TVL left after the snapshot | **Untestable with this source**; 1Click proxy shows no exodus of pre-snapshot arrivals | entry 15 |
 | H5.1 | Pending | |
 
@@ -129,7 +129,7 @@ Read on-chain: DAO policies (`get_policy`), every DAO proposal with its descript
 
 ## 2026-10-30
 
-Data: 2.38M successful 1Click swaps (collector v2): continuous from 2026-08-15 to 2026-10-29, plus one sample week per month (days 8–14) from February to July. Code: `src/analysis/swaps.py` (`make swaps`). Everything below is about the 1Click channel only (~28% of Intents volume, no confidential swaps).
+Data: 2.42M successful 1Click swaps (collector v2): continuous from 2026-08-15 to 2026-10-29, plus one sample week per month (days 8–14) from February to July. Code: `src/analysis/swaps.py` (`make swaps`). Everything below is about the 1Click channel only (~28% of Intents volume, no confidential swaps).
 
 ### 12. Did NEAR's take on 1Click change around the NEAR@3.33 snapshot? (H3.3, revises entry 10)
 
@@ -155,24 +155,25 @@ Four weeks before the snapshot (Aug 18–Sep 14) vs four weeks after (Sep 18–O
 
 ### 13. ZEC over a longer window (H3.2)
 
-- ZEC share of 1Click volume: **18.6%** from 2026-08-15 to 10-29 (76 days). By week: 8–13% in late August, 17–25% from mid-September, 25–32% in the last two weeks. Sample weeks Feb–Jul: 26%, 12%, 13%, 21%, 11%, 15%.
+- ZEC share of 1Click volume: **18.6%** from 2026-08-15 to 10-29 (76 days). By week: 8–13% in late August, 17–25% from mid-September, 25–32% in the last two weeks. Sample weeks Feb–Jul: 26%, 12%, 13%, 21%, 11%, 18%.
 - So H3.2 (>20% over 90 days) is **not supported** on the longer window: the 22.5% of entry 8 was a recent peak, not the norm.
 - Its weight in revenue is the real exposure: ZEC is **49% of NEAR's 1Click revenue in the last two weeks** (24% before the snapshot), because ZEC swaps pay NEAR 8 bps vs 3.3 for the rest.
 - Implication: NEAR's 1Click revenue rests more and more on one asset and on a few ZEC distribution channels (Trust Wallet, users without referral).
 
 ### 14. Do 1Click senders come back? (H3.4)
 
-Cohort = senders active on days 8–14 of month M (Feb–Jul). Sender = first deposit address, hashed: someone coming back from another address or chain counts as new, so these are **lower bounds** on user retention.
+Cohort = senders active on days 8–14 of month M (Feb–Jul; M+3 for Jun–Jul falls in Sep–Oct). Sender = first deposit address, hashed: someone coming back from another address or chain counts as new, so these are **lower bounds** on user retention.
 
 | Cohort (M) | Senders | Same week, M+1 | Same week, M+3 | Any time Aug 15–Oct 29 |
 | --- | --- | --- | --- | --- |
 | Feb | 43.9k | 8.0% | 4.8% | 8.9% |
 | Mar | 53.0k | 8.5% | 3.9% | 8.5% |
-| Apr | 72.7k | 7.5% | 3.0% | 10.2% |
+| Apr | 72.7k | 7.5% | 3.6% | 10.2% |
 | May | 64.5k | 6.9% | – | 12.0% |
-| Jun | 61.2k | 6.6% | 2.6% | 14.8% |
+| Jun | 61.2k | 7.7% | 2.6% | 14.8% |
+| Jul | 64.8k | – | 2.7% | 18.6% |
 
-- Even the loosest measure (active at any time over 2.5 months, 2–6 months later) stays at 9–15%. H3.4 (< 20% at M+3) is **supported at address level**.
+- Even the loosest measure (active at any time over 2.5 months, 2–6 months later) stays at 9–19%. H3.4 (< 20% at M+3) is **supported at address level**.
 - Volume is less fragile than senders: one sender in ten coming back still carries a large share of volume, because whales drive volume (swaps ≥ $100k ≈ 31–38% of volume, median swap $40–60).
 - Reading: 1Click users are mostly transient. Volume depends on integrators bringing new users, which ties back to the "who owns the customer" risk (entry 11).
 
