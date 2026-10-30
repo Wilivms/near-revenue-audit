@@ -18,6 +18,7 @@ Pre-registered hypotheses: [`HYPOTHESES.md`](HYPOTHESES.md) (not edited after th
 | H3.2 ZEC > 20% of volume | **Not supported over 76 days** on 1Click: 18.6% (above 20% only since mid-Sep); but ~half of NEAR's 1Click revenue | entries 8, 11, 13 |
 | H3.4 < 20% of senders active again at M+3 | **Supported at address level**: 3–5% (same week M+3), at most 9–19% | entry 14 |
 | H4.1 confidential TVL left after the snapshot | **Untestable with this source**; 1Click proxy shows no exodus of pre-snapshot arrivals | entry 15 |
+| Kill criterion 2 (top integrator > 60% of fees) | **Triggered on 1Click**: SwapKit 65–73% of app fees in every 30-day window since mid-Sep; but 1% of NEAR's revenue | entry 18 |
 | H5.1 NEAR stays net inflationary through end-2027 | **Holds in the base case**: buybacks offset a median ~18–21% of issuance; 9% chance 2027 is net deflationary | entry 17 |
 
 ## 2026-10-29
@@ -220,3 +221,21 @@ Code: `src/analysis/montecarlo.py` (`make montecarlo`), tests in `tests/`.
 - What breaks it: only scenarios where volume grows several times over **without** the price following. Two-way table at today's price (`montecarlo_sensitivity.csv`): deflation needs about **$750M/day at 5.4 bps**, $500M/day at 8 bps or $250M/day at 15 bps. Current volume is $135M/day.
 - Reading: the "buyback makes NEAR deflationary" narrative needs a 5x jump in volume at today's take rate, or a mix of higher volume and higher take. The take rate is now the main lever, and entry 12 shows it is set by NEAR's pricing towards integrators, which faces competition.
 - Limits: the bootstrap can only replay the past (the 180-day window contains the September spike); the take rate is fixed per path; the front-end fund's NEAR is counted as retired in the base case although nothing commits it (entry 9).
+
+### 18. Kill criterion 2 is triggered on 1Click, and it was badly specified
+
+- Pre-registered: "the thesis is invalidated if the top integrator's share stays above 60% of fees for 30 consecutive days".
+- On 1Click, **SwapKit holds 65–73% of all app fees in every 30-day window from 2026-09-13 to 2026-10-28**, and 60–81% in each Feb–Jul sample week. As written, the criterion is triggered on this channel, and has been all year.
+- But SwapKit brings **1.3%** of NEAR's own 1Click revenue (entry 11). The criterion did not say whose fees: the integrators' fee pool or NEAR's revenue. Measured on NEAR's revenue, the top source is users without an integrator (46%), and the top integrator (the anonymous referral `e1a72603…`) is at 12%.
+- We do not re-word a pre-registered criterion after seeing the data. It is reported as **triggered on 1Click**, with this caveat, and it stays open for all of Intents (Dune).
+- What it does say: NEAR does not own the customer on 1Click. The integrator that controls 40% of volume and 71% of fees pays NEAR almost nothing. If SwapKit routed elsewhere, NEAR would lose volume, not revenue. If SwapKit started paying NEAR, revenue would jump.
+- Lesson for the method: write kill criteria against the quantity the thesis depends on (NEAR's captured revenue), not a proxy.
+
+### 19. Live dashboard
+
+`dashboard/index.html` (`make dashboard-serve`). Every visit:
+- fetches DefiLlama (revenue, holders revenue and volume of NEAR Intents), DefiLlama coins (NEAR price) and the NEAR RPC (total supply);
+- recomputes the headline ("for every 100 NEAR issued, revenue buys back X") and kill criteria 1 and 3;
+- shows the committed outputs: monthly buybacks vs issuance, take rate (all Intents and 1Click), who owns the customer, Monte Carlo fan chart, scenarios, sensitivity table and the hypothesis scorecard;
+- falls back to the repository snapshot if live sources are unreachable, and says so.
+- First live reading (2026-10-30): **19 NEAR bought back per 100 issued** (last 30 days, at today's price), take rate 5.6 bps, market cap / annual captured revenue **213x** vs 41x break-even.

@@ -7,6 +7,7 @@ Outputs (data/processed/):
 - swaps_weekly.csv     one row per 7-day period (Feb–Jul sample weeks, then weekly from Aug 15): volume, NEAR's bps, ZEC share, mix, concentration
 - snapshot_windows.csv before / after the NEAR@3.33 snapshot (2026-09-15/17)
 - retention.csv        sender retention between sample weeks and into the continuous window
+- fee_shares_last30d.csv each referral's share of volume, app fees and NEAR revenue (last 30 days)
 - snapshot_entrants.csv retention of senders who arrived just before the snapshot vs a placebo cohort
 """
 from __future__ import annotations
@@ -204,6 +205,23 @@ def retention(df: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def fee_shares(df: pd.DataFrame, days: int = 30) -> pd.DataFrame:
+    """Last `days` days: each referral's share of volume, of all app fees and of NEAR's revenue.
+
+    Feeds kill criterion 2 (top integrator > 60% of fees). Swaps without referral are one row,
+    "(none)", but are not an integrator.
+    """
+    end = df["ts"].max()
+    g = df[df["ts"] > end - pd.Timedelta(days=days)].groupby("ref")[["usd", "fee_usd", "near_usd"]].sum()
+    out = pd.DataFrame({
+        "volume_share": g["usd"] / g["usd"].sum(),
+        "fee_share": g["fee_usd"] / g["fee_usd"].sum(),
+        "near_revenue_share": g["near_usd"] / g["near_usd"].sum(),
+    }).sort_values("fee_share", ascending=False)
+    out.attrs["window"] = f"{(end - pd.Timedelta(days=days)).date()}..{end.date()}"
+    return out
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     df = load()
@@ -214,6 +232,10 @@ def main() -> None:
     snap.to_csv(OUT / "snapshot_windows.csv", index=False)
     ret = retention(df)
     ret.to_csv(OUT / "retention.csv", index=False)
+    fs = fee_shares(df)
+    fs.head(25).to_csv(OUT / "fee_shares_last30d.csv")
+    print("fee shares, last 30 days", fs.attrs["window"])
+    print(fs.head(6).round(3).to_string())
     pd.set_option("display.width", 220, "display.max_columns", 30)
     cols = ["period_start", "volume_usd_per_day", "near_bps", "fee_bps", "near_share_of_fees", "zec_vol_share",
             "zec_near_rev_share", "noref_near_rev_share", "swapkit_vol_share", "top3_integrators_vol",

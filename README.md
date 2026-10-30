@@ -17,6 +17,8 @@ make supply     # measured issuance (archival RPC) vs NEAR captured → data/pro
 make ledger     # first-pass reconciliation on the buyback wallet only (kept to show the scope issue)
 make montecarlo # H5.1: 10,000 paths to end-2027 → montecarlo_scenarios.csv, montecarlo_sensitivity.csv
 make test       # model checks (reproducibility, deflation identity)
+make dashboard-serve  # open http://localhost:8000 → live dashboard: headline figures and kill criteria
+                #   fetched from DefiLlama and the NEAR RPC on each load, plus the analysis outputs
 make swaps      # 1Click swap-level analysis → data/processed/swaps_weekly.csv, snapshot_windows.csv,
                 #   retention.csv, snapshot_entrants.csv (needs the swap data, see below)
 ```
