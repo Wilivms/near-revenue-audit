@@ -4,6 +4,9 @@
 
 **Question:** is NEAR's protocol revenue real, durable, or bought with incentives — and what does that imply for the long-term value of the NEAR token?
 
+**Live dashboard:** https://near-revenue-audit.vercel.app (headline figures and kill criteria recomputed from DefiLlama and the NEAR RPC on every visit).
+**The thesis:** [`REPORT.md`](REPORT.md).
+
 Most public NEAR theses quote headline figures (Intents volume, fees, buybacks). This project rebuilds those figures from the chain, reconciles them across sources, and states in advance what would prove the thesis wrong.
 
 ## How to reproduce (do X → see Y)
