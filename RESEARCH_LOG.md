@@ -173,7 +173,7 @@ Cohort = senders active on days 8–14 of month M (Feb–Jul; M+3 for Jun–Jul 
 | Jun | 61.2k | 7.7% | 2.6% | 14.8% |
 | Jul | 64.8k | – | 2.7% | 18.6% |
 
-- Even the loosest measure (active at any time over 2.5 months, 2–6 months later) stays at 9–19%. H3.4 (< 20% at M+3) is **supported at address level**.
+- Even the loosest measure (active at any time over 2.5 months, 1–6 months later) stays at 9–19%; the July cohort, closest to the window, is the highest. H3.4 (< 20% at M+3) is **supported at address level**.
 - Volume is less fragile than senders: one sender in ten coming back still carries a large share of volume, because whales drive volume (swaps ≥ $100k ≈ 31–38% of volume, median swap $40–60).
 - Reading: 1Click users are mostly transient. Volume depends on integrators bringing new users, which ties back to the "who owns the customer" risk (entry 11).
 
