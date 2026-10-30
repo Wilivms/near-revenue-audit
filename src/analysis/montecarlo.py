@@ -13,7 +13,8 @@ Identity used as a check: captured NEAR / issued NEAR = annual captured revenue 
 NEAR is net deflationary iff market cap / annual captured revenue < 1 / rate (≈ 40x).
 
 Outputs (data/processed/): montecarlo_scenarios.csv (one row per scenario),
-montecarlo_paths_base.csv (monthly quantiles of the base case) and
+montecarlo_paths_base.csv (monthly quantiles of the base case),
+montecarlo_paths_all.csv (monthly quantiles of every scenario) and
 montecarlo_sensitivity.csv (volume x take rate table at today's price).
 """
 from __future__ import annotations
@@ -159,17 +160,21 @@ def main() -> None:
     cal = calibration()
     print("calibration:", {k: (round(v, 4) if isinstance(v, float) else v) for k, v in cal.items()})
     print(f"identity check: deflation needs mcap / annual captured revenue < {1 / cal['issuance_rate']:.1f}x")
-    rows, base = [], None
+    rows, base, paths = [], None, []
     for sc in scenarios(cal):
         res = simulate(sc, cal)
         rows.append(res["summary"])
         base = base or res
+        qs = np.quantile(res["ratio"], [0.1, 0.5, 0.9], axis=0)
+        paths.append(pd.DataFrame({"scenario": sc.name, "month": res["months"].astype(str),
+                                   "p10": qs[0], "median": qs[1], "p90": qs[2]}))
     out = pd.DataFrame(rows)
     OUT.mkdir(parents=True, exist_ok=True)
     out.to_csv(OUT / "montecarlo_scenarios.csv", index=False)
     q = np.quantile(base["ratio"], [0.1, 0.5, 0.9], axis=0)
     pd.DataFrame({"month": base["months"].astype(str), "p10": q[0], "median": q[1], "p90": q[2]}) \
         .to_csv(OUT / "montecarlo_paths_base.csv", index=False)
+    pd.concat(paths).to_csv(OUT / "montecarlo_paths_all.csv", index=False)
     pd.set_option("display.width", 250, "display.max_columns", 20)
     cols = ["name", "take_bps", "median_offset_2027", "p10_offset_2027", "p90_offset_2027",
             "p_any_deflationary_month", "p_2027_net_deflationary", "median_path_deflationary_month",

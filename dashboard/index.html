@@ -11,162 +11,262 @@
 <style>
 :root {
   color-scheme: light;
-  --page: #e9e1cd; --card: #eee7d6; --surface: #e1d7c0; --muted-bg: #dcd2ba;
-  --ink: #322e25; --ink-2: #655d4f; --muted: #857b69;
-  --line: #bdb199; --grid: #d8cdb4; --axis: #b7ac94; --ring: #bdb199;
-  --primary: #005fb0; --on-primary: #fff7e9; --band-bg: #005fb0; --band-ink: #fff7e9; --band-dim: rgba(255,247,233,0.18); --band-line: rgba(255,247,233,0.28);
-  --series-1: #005fb0; --series-2: #c26a1f; --band: rgba(0,95,176,0.22);
-  --critical: #b53124; --good: #2f7d32; --good-text: #2f6b2c; --critical-text: #b53124;
-  --seq-1: #cfdcea; --seq-2: #9db9d8; --seq-3: #5b8fc4; --seq-4: #2a6aa8; --seq-5: #0d3f75;
-  --sans: Arial, Helvetica, sans-serif;
+  --page: #ebe4d3; --card: #f3eee2; --surface: #e3dbc8; --sunk: #dcd3be;
+  --ink: #2b2820; --ink-2: #5f584b; --muted: #8a8170;
+  --line: #c9bfa8; --grid: #ddd4c0; --axis: #b5aa92;
+  --accent: #005fb0; --accent-ink: #f7f2e7; --accent-soft: rgba(0,95,176,0.12);
+  --band-bg: #0c3b66; --band-ink: #f3eee2; --band-dim: rgba(243,238,226,0.14); --band-line: rgba(243,238,226,0.22); --band-hi: #8cc4ff;
+  --series-1: #005fb0; --series-2: #b0541e; --band: rgba(0,95,176,0.18);
+  --critical: #b53124; --good: #2f7d32; --good-text: #2a6627; --critical-text: #a92d20;
+  --seq-1: #d7e2ec; --seq-2: #a9c3dd; --seq-3: #6a9acb; --seq-4: #2f6ead; --seq-5: #0c3f75;
+  --sans: "Helvetica Neue", Arial, Helvetica, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, monospace;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --page: #161a15; --card: #1c211a; --surface: #20271d; --muted-bg: #2c3327;
-    --ink: #e7dfca; --ink-2: #b0b29d; --muted: #8d907e;
-    --line: #454d3d; --grid: #2e3529; --axis: #4a5241; --ring: #454d3d;
-    --primary: #0091fd; --on-primary: #181c16; --band-bg: #0b3d6b; --band-ink: #e7dfca; --band-dim: rgba(231,223,202,0.16); --band-line: rgba(231,223,202,0.22);
-    --series-1: #0091fd; --series-2: #c8742a; --band: rgba(0,145,253,0.20);
+    --page: #141813; --card: #1a1f19; --surface: #1f251d; --sunk: #262d23;
+    --ink: #ece5d3; --ink-2: #b3b4a1; --muted: #878a78;
+    --line: #3d4537; --grid: #2a3127; --axis: #4a5241;
+    --accent: #2f8ae6; --accent-ink: #10140f; --accent-soft: rgba(47,138,230,0.16);
+    --band-bg: #0d2c4a; --band-ink: #ece5d3; --band-dim: rgba(236,229,211,0.12); --band-line: rgba(236,229,211,0.2); --band-hi: #8cc4ff;
+    --series-1: #2f8ae6; --series-2: #d4733a; --band: rgba(47,138,230,0.22);
     --critical: #ff8b84; --good: #6fbf6a; --good-text: #8fd18a; --critical-text: #ff8b84;
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --page: #161a15; --card: #1c211a; --surface: #20271d; --muted-bg: #2c3327;
-  --ink: #e7dfca; --ink-2: #b0b29d; --muted: #8d907e;
-  --line: #454d3d; --grid: #2e3529; --axis: #4a5241; --ring: #454d3d;
-  --primary: #0091fd; --on-primary: #181c16; --band-bg: #0b3d6b; --band-ink: #e7dfca; --band-dim: rgba(231,223,202,0.16); --band-line: rgba(231,223,202,0.22);
-  --series-1: #0091fd; --series-2: #c8742a; --band: rgba(0,145,253,0.20);
+  --page: #141813; --card: #1a1f19; --surface: #1f251d; --sunk: #262d23;
+  --ink: #ece5d3; --ink-2: #b3b4a1; --muted: #878a78;
+  --line: #3d4537; --grid: #2a3127; --axis: #4a5241;
+  --accent: #2f8ae6; --accent-ink: #10140f; --accent-soft: rgba(47,138,230,0.16);
+  --band-bg: #0d2c4a; --band-ink: #ece5d3; --band-dim: rgba(236,229,211,0.12); --band-line: rgba(236,229,211,0.2); --band-hi: #8cc4ff;
+  --series-1: #2f8ae6; --series-2: #d4733a; --band: rgba(47,138,230,0.22);
   --critical: #ff8b84; --good: #6fbf6a; --good-text: #8fd18a; --critical-text: #ff8b84;
 }
 * { box-sizing: border-box; }
-html { background: var(--page); scroll-behavior: smooth; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.6 var(--mono); }
+html { background: var(--page); }
+body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.6 var(--mono); -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-underline-offset: 3px; }
-:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* scroll progress: state indication, no JS */
+.progress { position: fixed; inset: 0 0 auto 0; height: 2px; background: var(--accent); transform-origin: 0 50%; transform: scaleX(0); z-index: 20; }
+@supports (animation-timeline: scroll()) {
+  .progress { animation: grow linear both; animation-timeline: scroll(root); }
+  @keyframes grow { to { transform: scaleX(1); } }
+}
 
 /* top bar */
-.bar { border-bottom: 1px solid var(--line); }
-.bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; }
-.brand { display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 14px; text-decoration: none; }
+.bar { border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 15; background: color-mix(in srgb, var(--page) 88%, transparent); backdrop-filter: blur(8px); }
+.bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 60px; }
+.brand { display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 14px; text-decoration: none; white-space: nowrap; }
+@media (max-width: 1340px) { .brand small, .brand .sep { display: none; } }
 .brand .sep { width: 1px; height: 20px; background: var(--line); }
 .brand small { font-weight: 400; color: var(--ink-2); font-size: 13px; }
-.nav { display: flex; gap: 22px; font-size: 13px; }
-.nav a { text-decoration: none; color: var(--ink); }
-.nav a:hover { text-decoration: underline; }
+.nav { display: flex; gap: 4px; font-size: 13px; }
+.nav a { text-decoration: none; color: var(--ink-2); padding: 6px 9px; white-space: nowrap; position: relative; transition: color 150ms ease; }
+.nav a::after { content: ""; position: absolute; left: 10px; right: 10px; bottom: 2px; height: 1px; background: var(--ink); transform: scaleX(0); transform-origin: 0 50%; transition: transform 200ms var(--ease-out); }
+.nav a.on { color: var(--ink); }
+.nav a.on::after { transform: scaleX(1); }
+@media (hover: hover) and (pointer: fine) { .nav a:hover { color: var(--ink); } }
 .actions { display: flex; gap: 8px; }
-.btn { font: 500 13px var(--mono); border: 0; padding: 0 16px; height: 36px; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer; }
+.btn { white-space: nowrap; font: 500 13px var(--mono); border: 0; padding: 0 16px; height: 36px; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer; transition: transform 120ms var(--ease-out), filter 150ms ease; }
+.btn:active { transform: scale(0.97); }
 .btn.dark { background: var(--ink); color: var(--page); width: 36px; padding: 0; justify-content: center; }
-.btn.blue { background: var(--primary); color: var(--on-primary); }
+.btn.blue { background: var(--accent); color: var(--accent-ink); }
+@media (hover: hover) and (pointer: fine) { .btn:hover { filter: brightness(1.1); } }
 .btn svg { width: 14px; height: 14px; }
 .btn .short { display: none; }
 
 /* hero */
-.hero { padding: 72px 0 40px; text-align: center; }
-.hero h1 { font: 700 clamp(44px, 8.4vw, 112px)/0.95 var(--sans); letter-spacing: -0.04em; margin: 0; }
-.hero .q { margin: 22px auto 0; max-width: 64ch; color: var(--ink-2); }
-.hero .q strong { color: var(--primary); font-weight: 600; }
-.hero-foot { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-top: 56px; text-align: left; flex-wrap: wrap; }
+.hero { padding: 80px 0 44px; text-align: center; }
+.hero h1 { font: 700 clamp(44px, 8.6vw, 116px)/0.95 var(--sans); letter-spacing: -0.045em; margin: 0; }
+.hero h1 .w { display: inline-block; clip-path: inset(0 0 0 0); }
+.hero h1 .w > span { display: inline-block; }
+.js .hero h1 .w > span { transform: translateY(105%); transition: transform 800ms var(--ease-out); }
+.js .hero h1 .w:nth-child(2) > span { transition-delay: 70ms; }
+.js .hero h1 .w:nth-child(3) > span { transition-delay: 140ms; }
+.js .hero.in h1 .w > span { transform: translateY(0); }
+.hero .q { margin: 26px auto 0; max-width: 64ch; color: var(--ink-2); }
+.hero .q strong { color: var(--accent); font-weight: 600; }
+.js .hero .fade { opacity: 0; transition: opacity 600ms ease 450ms; }
+.js .hero.in .fade { opacity: 1; }
+.hero-foot { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-top: 60px; text-align: left; flex-wrap: wrap; }
 .hero-foot p { margin: 0; font-size: 13px; color: var(--ink-2); max-width: 56ch; }
 .hero-foot p b { color: var(--ink); font-weight: 500; }
-.hero-foot .links { display: flex; gap: 12px; align-items: center; }
-.hero-foot .ghost { font-size: 13px; text-decoration: none; border-bottom: 1px solid var(--ink); padding: 8px 2px; }
+.hero-foot .ghost { font-size: 13px; text-decoration: none; border-bottom: 1px solid var(--ink); padding: 8px 2px; display: inline-flex; gap: 8px; align-items: center; }
+.hero-foot .ghost svg { transition: transform 200ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .hero-foot .ghost:hover svg { transform: translateY(2px); } }
 
 /* ticker */
 .ticker { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; background: var(--surface); }
-.ticker-track { display: flex; width: max-content; animation: tick 60s linear infinite; }
-.ticker span { padding: 14px 22px; font-size: 13px; font-weight: 500; white-space: nowrap; text-transform: uppercase; letter-spacing: .02em; }
-.ticker span.star { color: var(--primary); padding: 14px 0; }
+.ticker-track { display: flex; width: max-content; animation: tick 70s linear infinite; }
+.ticker:hover .ticker-track { animation-play-state: paused; }
+.ticker span { padding: 13px 22px; font-size: 12.5px; font-weight: 500; white-space: nowrap; text-transform: uppercase; letter-spacing: .03em; }
+.ticker span.star { color: var(--accent); padding: 13px 0; }
 @keyframes tick { to { transform: translateX(-50%); } }
-@media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
 
-/* blue band */
-.glance { background: var(--band-bg); color: var(--band-ink); padding: 64px 0 72px; }
+/* live band */
+.glance { background: var(--band-bg); color: var(--band-ink); padding: 68px 0 76px; }
 .glance .wrap { display: grid; grid-template-columns: 1fr 1.15fr; gap: 56px; align-items: start; }
-.kicker { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; margin: 0 0 18px; }
+.kicker { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; margin: 0 0 18px; color: var(--ink-2); }
+.glance .kicker { color: var(--band-ink); opacity: .75; }
 .glance h2 { font: 700 clamp(36px, 4.6vw, 64px)/0.98 var(--sans); letter-spacing: -0.035em; margin: 0; text-transform: uppercase; }
-.glance p { color: var(--band-ink); opacity: .9; margin: 22px 0 0; max-width: 46ch; font-size: 14px; }
-.glance .meter { margin-top: 28px; max-width: 420px; }
-.meter-track { height: 10px; background: var(--band-dim); position: relative; }
-.meter-fill { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--band-ink); transition: width 1s cubic-bezier(.2,.7,.2,1); }
-.meter-scale { display: flex; justify-content: space-between; font-size: 11px; margin-top: 8px; opacity: .85; }
-@media (prefers-reduced-motion: reduce) { .meter-fill { transition: none; } }
-.glance .readout-label { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; margin: 0 0 20px; }
-.matrix { display: block; height: auto; width: 100%; max-width: 560px; }
+.glance p.lede { opacity: .88; margin: 22px 0 0; max-width: 46ch; font-size: 14px; }
+.meter { margin-top: 30px; max-width: 440px; }
+.meter-track { height: 10px; background: var(--band-dim); position: relative; overflow: hidden; }
+.meter-fill { position: absolute; inset: 0; background: var(--band-ink); transform-origin: 0 50%; transform: scaleX(0); transition: transform 1100ms var(--ease-out) 300ms; }
+.meter-scale { display: flex; justify-content: space-between; font-size: 11px; margin-top: 8px; opacity: .8; }
+.status-line { margin-top: 18px; font-size: 12px; opacity: .88; }
+.status-line .dot { display: inline-block; width: 8px; height: 8px; background: var(--band-ink); margin-right: 8px; opacity: .45; }
+.status-line.live .dot { background: var(--band-hi); opacity: 1; animation: blink 2s steps(2) infinite; }
+@keyframes blink { 50% { opacity: .25; } }
+.readout-label { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; margin: 0 0 22px; opacity: .8; }
+.matrix { display: block; width: 100%; max-width: 560px; height: auto; }
+.matrix rect { fill: var(--band-dim); transition: fill 300ms ease; }
 .matrix rect.on { fill: var(--band-ink); }
-.matrix rect.off { fill: var(--band-dim); }
-.readout-unit { font-size: 13px; margin-top: 10px; }
-.gtable { width: 100%; border-collapse: collapse; margin-top: 30px; font-size: 13px; font-variant-numeric: tabular-nums; }
-.gtable th { text-align: left; font-weight: 400; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; padding: 0 0 8px; opacity: .8; border-bottom: 1px solid var(--band-line); }
+.readout-unit { font-size: 13px; margin-top: 12px; opacity: .9; }
+.gtable { width: 100%; border-collapse: collapse; margin-top: 30px; font-size: 13px; }
+.gtable th { text-align: left; font-weight: 400; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; padding: 0 0 8px; opacity: .75; border-bottom: 1px solid var(--band-line); }
 .gtable th:last-child, .gtable td:last-child { text-align: right; }
-.gtable td { padding: 10px 0; border-bottom: 1px solid var(--band-line); color: var(--band-ink); }
+.gtable td { padding: 11px 0; border-bottom: 1px solid var(--band-line); }
 .gtable td:first-child { font-weight: 600; text-transform: uppercase; font-size: 12px; letter-spacing: .02em; }
-.gtable td.n { opacity: .8; }
-.status-line { margin-top: 16px; font-size: 12px; opacity: .9; }
-.status-line .dot { display: inline-block; width: 8px; height: 8px; background: var(--band-ink); margin-right: 8px; vertical-align: 0; opacity: .5; }
-.status-line.live .dot { opacity: 1; animation: blink 1.6s steps(2) infinite; }
-@keyframes blink { 50% { opacity: .2; } }
-@media (prefers-reduced-motion: reduce) { .status-line.live .dot { animation: none; } }
+.gtable td.n { opacity: .78; }
+
+/* odometer digits: transitions retarget, so rapid updates stay smooth */
+.odo { display: inline-flex; overflow: hidden; line-height: 1; vertical-align: bottom; font-variant-numeric: tabular-nums; white-space: pre; letter-spacing: 0; }
+.odo .col { display: inline-block; height: 1em; overflow: hidden; width: 0.6em; text-align: center; }
+.odo .col > span { display: flex; flex-direction: column; transition: transform 450ms var(--ease-out); }
+.odo .col > span > i { font-style: normal; height: 1em; line-height: 1; }
 
 /* sections */
-section.block { border-bottom: 1px solid var(--line); padding: 72px 0; }
-.block .head { display: grid; grid-template-columns: 1fr 1.15fr; gap: 56px; margin-bottom: 32px; align-items: end; }
-.block h2 { font: 700 clamp(30px, 3.6vw, 48px)/1 var(--sans); letter-spacing: -0.03em; margin: 0; text-transform: uppercase; }
+section.block { border-bottom: 1px solid var(--line); padding: 80px 0; }
+.block .head { display: grid; grid-template-columns: 1fr 1.15fr; gap: 56px; margin-bottom: 34px; align-items: end; }
+.block h2 { font: 700 clamp(30px, 3.6vw, 50px)/1 var(--sans); letter-spacing: -0.035em; margin: 0; text-transform: uppercase; }
 .block .head p { margin: 0; color: var(--ink-2); font-size: 14px; max-width: 62ch; }
-.block .kicker { color: var(--ink-2); }
-.card { background: var(--card); border: 1px solid var(--line); padding: 20px 20px 14px; }
+.card { background: var(--card); border: 1px solid var(--line); padding: 22px 22px 16px; }
 .card + .card { margin-top: 16px; }
-.card h3 { font: 700 18px/1.25 var(--sans); letter-spacing: -0.01em; margin: 0 0 4px; }
-.card .sub { font-size: 12px; color: var(--ink-2); margin: 0 0 12px; }
+.card h3 { font: 700 19px/1.25 var(--sans); letter-spacing: -0.015em; margin: 0 0 4px; }
+.card .sub { font-size: 12px; color: var(--ink-2); margin: 0 0 14px; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .grid2 .card + .card { margin-top: 0; }
-.legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 12px; color: var(--ink-2); margin: 0 0 8px; }
+.legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 12px; color: var(--ink-2); margin: 0 0 10px; }
 .legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; margin-right: 6px; vertical-align: -1px; background: var(--c); }
 .legend span.line::before { height: 2px; width: 14px; vertical-align: 3px; }
 .legend span.band::before { background: var(--band); }
+.legend span.mark::before { width: 1px; height: 12px; vertical-align: -2px; background: var(--ink-2); }
+.cardbar { display: flex; justify-content: space-between; align-items: start; gap: 16px; flex-wrap: wrap; }
+
+/* segmented control with a sliding indicator */
+.seg { position: relative; display: inline-flex; background: var(--sunk); padding: 3px; flex-wrap: wrap; }
+.seg button { position: relative; z-index: 1; font: 500 12px var(--mono); color: var(--ink-2); background: none; border: 0; padding: 7px 12px; cursor: pointer; transition: color 200ms ease; }
+.seg button[aria-pressed="true"] { color: var(--accent-ink); }
+@media (hover: hover) and (pointer: fine) { .seg button[aria-pressed="false"]:hover { color: var(--ink); } }
+.seg .pill { position: absolute; z-index: 0; top: 0; left: 0; background: var(--accent); transition: transform 280ms var(--ease-in-out), width 280ms var(--ease-in-out); }
+
+/* charts */
 svg.chart { display: block; width: 100%; height: auto; overflow: visible; font-family: var(--mono); }
 svg.chart text { fill: var(--ink-2); font-size: 11px; font-variant-numeric: tabular-nums; }
 svg.chart .grid { stroke: var(--grid); stroke-width: 1; }
 svg.chart .base { stroke: var(--axis); stroke-width: 1; }
 svg.chart .ref { stroke: var(--critical); stroke-width: 1.5; }
-svg.chart text.ref-label { fill: var(--critical-text); font-size: 11px; }
+svg.chart .event { stroke: var(--ink-2); stroke-width: 1; }
+svg.chart text.ref-label { fill: var(--critical-text); }
+svg.chart text.event-label { fill: var(--ink-2); }
 svg.chart text.end-label { fill: var(--ink); font-size: 12px; font-weight: 600; }
 .hit { fill: transparent; }
-.mark.on { filter: brightness(1.15); }
-details.numbers { margin-top: 10px; font-size: 12px; border-top: 1px solid var(--grid); padding-top: 6px; }
+.bars .mark { transition: opacity 150ms ease; }
+.bars.hovering .mark { opacity: .38; }
+.bars.hovering .mark.on { opacity: 1; }
+/* reveal once when scrolled into view */
+.js .reveal .bar-g { transform: scaleY(0); transform-box: fill-box; transform-origin: 50% 100%; transition: transform 650ms var(--ease-out); }
+.js .reveal.in .bar-g { transform: scaleY(1); }
+.js .reveal .draw { stroke-dasharray: var(--len); stroke-dashoffset: var(--len); transition: stroke-dashoffset 1200ms var(--ease-in-out); }
+.js .reveal.in .draw { stroke-dashoffset: 0; }
+.js .reveal .soft { opacity: 0; transition: opacity 500ms ease 700ms; }
+.js .reveal.in .soft { opacity: 1; }
+.hbar { transition: transform 420ms var(--ease-in-out); }
+.hbar rect.v { transform-box: fill-box; transform-origin: 0 50%; transition: transform 650ms var(--ease-out); }
+.js .reveal:not(.in) .hbar rect.v { transform: scaleX(0); }
+
+details.numbers { margin-top: 12px; font-size: 12px; border-top: 1px solid var(--grid); padding-top: 6px; }
 details.numbers summary { cursor: pointer; color: var(--ink-2); padding: 4px 0; }
 .tbl-wrap { overflow-x: auto; }
 table.t { border-collapse: collapse; width: 100%; font-size: 12px; font-variant-numeric: tabular-nums; }
 table.t th, table.t td { text-align: right; padding: 8px 10px; border-bottom: 1px solid var(--grid); white-space: nowrap; }
 table.t th:first-child, table.t td:first-child { text-align: left; padding-left: 0; }
-table.t th { font-weight: 500; color: var(--ink-2); font-size: 11px; text-transform: uppercase; letter-spacing: .03em; }
+table.t th { font-weight: 500; color: var(--ink-2); font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }
+table.t tbody tr { transition: background-color 150ms ease; }
+@media (hover: hover) and (pointer: fine) { table.t:not(.sens) tbody tr:hover { background: var(--accent-soft); } }
+
+/* simulator */
+.sim { display: grid; grid-template-columns: 1fr 1.15fr; gap: 16px; }
+.sim .card { margin: 0; }
+.ctrl + .ctrl { margin-top: 22px; }
+.ctrl label { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-2); }
+.ctrl label b { color: var(--ink); font-weight: 600; text-transform: none; letter-spacing: 0; font-size: 14px; }
+.ctrl .hint { font-size: 11px; color: var(--muted); margin-top: 4px; }
+input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 22px; background: transparent; margin: 8px 0 0; cursor: pointer; }
+input[type=range]::-webkit-slider-runnable-track { height: 4px; background: linear-gradient(to right, var(--accent) var(--p, 50%), var(--line) var(--p, 50%)); }
+input[type=range]::-moz-range-track { height: 4px; background: linear-gradient(to right, var(--accent) var(--p, 50%), var(--line) var(--p, 50%)); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--card); border: 2px solid var(--accent); margin-top: -6px; transition: transform 120ms var(--ease-out); }
+input[type=range]::-moz-range-thumb { width: 12px; height: 12px; background: var(--card); border: 2px solid var(--accent); border-radius: 0; }
+input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); }
+.toggle { display: flex; gap: 10px; align-items: start; font-size: 12px; color: var(--ink-2); margin-top: 22px; cursor: pointer; }
+.toggle input { accent-color: var(--accent); margin-top: 3px; }
+.presets { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--grid); }
+.chip { font: 500 12px var(--mono); background: transparent; color: var(--ink); border: 1px solid var(--line); padding: 6px 10px; cursor: pointer; transition: border-color 150ms ease, transform 120ms var(--ease-out); }
+.chip:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) { .chip:hover { border-color: var(--ink); } }
+.out { display: flex; flex-direction: column; }
+.out .big { font: 700 clamp(64px, 9vw, 120px)/1 var(--sans); letter-spacing: -0.05em; margin: 10px 0 4px; display: flex; align-items: baseline; gap: 12px; }
+.out .big small { font: 500 14px var(--mono); letter-spacing: 0; color: var(--ink-2); }
+.simbar { position: relative; height: 34px; margin: 18px 0 6px; background: var(--sunk); overflow: hidden; }
+.simbar .fill { position: absolute; inset: 0; background: var(--accent); transform-origin: 0 50%; transform: scaleX(0); transition: transform 450ms var(--ease-out), background-color 300ms ease; }
+.simbar .fill.over { background: var(--good); }
+.simbar .even { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--critical); left: 66.666%; }
+.simscale { position: relative; height: 16px; font-size: 11px; color: var(--ink-2); }
+.simscale span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.verdict { margin-top: 18px; font-size: 14px; padding: 14px 16px; border-left: 3px solid var(--critical); background: var(--sunk); transition: border-color 300ms ease; }
+.verdict.ok { border-left-color: var(--good); }
+.facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 18px; }
+.facts div { background: var(--card); padding: 12px 14px; }
+.facts .l { font-size: 11px; color: var(--ink-2); text-transform: uppercase; letter-spacing: .04em; }
+.facts .v { font: 700 22px/1.2 var(--sans); letter-spacing: -0.02em; margin-top: 6px; }
 
 /* kill criteria */
 .kill { border: 1px solid var(--line); background: var(--card); }
-.kill .row { display: grid; grid-template-columns: 210px 1fr 220px; gap: 24px; padding: 20px; align-items: start; }
+.kill .row { display: grid; grid-template-columns: 210px 1fr 220px; gap: 24px; padding: 20px 22px; align-items: start; }
 .kill .row + .row { border-top: 1px solid var(--line); }
 .kill .state { font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; display: flex; gap: 10px; align-items: center; }
 .kill .state svg { flex: none; }
 .kill .state.ok { color: var(--good-text); }
 .kill .state.bad { color: var(--critical-text); }
 .kill .state.wait { color: var(--muted); }
-.kill .what { font: 700 18px/1.25 var(--sans); }
-.kill .what small { display: block; font: 400 13px/1.55 var(--mono); color: var(--ink-2); margin-top: 6px; }
-.kill .reading { font-size: 14px; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+.kill .what { font: 700 19px/1.25 var(--sans); letter-spacing: -0.01em; }
+.kill .what small { display: block; font: 400 13px/1.55 var(--mono); color: var(--ink-2); margin-top: 6px; letter-spacing: 0; }
+.kill .reading { font-size: 14px; font-weight: 600; text-align: right; }
 .kill .reading small { display: block; font-weight: 400; color: var(--ink-2); font-size: 11px; margin-top: 2px; }
 
-.sens td.cell { color: #fff7e9; font-weight: 500; text-align: center; }
-.sens td.cell.light { color: #322e25; }
-.sens td.cell.flip { outline: 2px solid var(--ink); outline-offset: -2px; }
+.sens td.cell { color: #f7f2e7; font-weight: 500; text-align: center; transition: box-shadow 150ms ease; }
+.sens td.cell.light { color: #2b2820; }
+.sens td.cell.flip { box-shadow: inset 0 0 0 2px var(--ink); }
+.sens td.cell.cross { box-shadow: inset 0 0 0 2px var(--series-2); }
 .score td:nth-child(2) { white-space: normal; text-align: left; color: var(--ink-2); }
 .score td:first-child { white-space: normal; max-width: 320px; font-weight: 500; }
 .score .tag { display: inline-flex; gap: 8px; align-items: center; font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: .03em; }
+.mcstats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin: 6px 0 14px; }
+.mcstats div { background: var(--card); padding: 12px 14px; }
+.mcstats .l { font-size: 11px; color: var(--ink-2); text-transform: uppercase; letter-spacing: .04em; }
+.mcstats .v { font: 700 24px/1.2 var(--sans); letter-spacing: -0.02em; margin-top: 6px; }
 
-#tip { position: fixed; pointer-events: none; z-index: 10; background: var(--card); border: 1px solid var(--line); padding: 8px 10px; font-size: 12px; box-shadow: 4px 4px 0 var(--surface); display: none; min-width: 160px; }
+#tip { position: fixed; pointer-events: none; z-index: 30; background: var(--card); border: 1px solid var(--line); padding: 8px 10px; font-size: 12px; box-shadow: 4px 4px 0 var(--sunk); min-width: 170px; opacity: 0; transform: translateY(4px); transition: opacity 120ms ease, transform 160ms var(--ease-out); }
+#tip.show { opacity: 1; transform: translateY(0); }
 #tip .t { color: var(--ink-2); margin-bottom: 4px; }
 #tip .r { display: flex; align-items: center; gap: 8px; justify-content: space-between; }
 #tip .r i { display: inline-block; width: 12px; height: 2px; background: var(--c); }
@@ -175,50 +275,63 @@ table.t th { font-weight: 500; color: var(--ink-2); font-size: 11px; text-transf
 
 footer { padding: 64px 0 56px; font-size: 13px; color: var(--ink-2); }
 footer .cols { display: grid; grid-template-columns: 1fr 1.15fr; gap: 56px; }
-footer h2 { font: 700 32px/1 var(--sans); letter-spacing: -0.03em; color: var(--ink); text-transform: uppercase; margin: 0 0 16px; }
+footer h2 { font: 700 32px/1 var(--sans); letter-spacing: -0.035em; color: var(--ink); text-transform: uppercase; margin: 0 0 16px; }
 footer pre { background: var(--ink); color: var(--page); padding: 16px 18px; overflow-x: auto; font: 12px/1.7 var(--mono); margin: 0 0 16px; }
 footer ul { padding-left: 18px; margin: 0; }
 footer li + li { margin-top: 6px; }
 
-@media (max-width: 900px) {
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+  .status-line.live .dot { animation: none; }
+  .js .hero h1 .w > span { transform: none; transition: none; }
+  .js .reveal .bar-g, .js .reveal:not(.in) .hbar rect.v { transform: none; transition: none; }
+  .js .reveal .draw { stroke-dasharray: none; transition: none; }
+  .hbar, .hbar rect.v, .odo .col > span, .meter-fill, .simbar .fill, .seg .pill { transition-duration: 0ms; }
+  .js .reveal .soft, .js .hero .fade { transition: opacity 200ms ease; }
+  .progress { display: none; }
+}
+@media (max-width: 960px) {
   .nav { display: none; }
-  .glance .wrap, .block .head, footer .cols { grid-template-columns: 1fr; gap: 24px; }
+  .glance .wrap, .block .head, footer .cols, .sim { grid-template-columns: 1fr; gap: 24px; }
   .grid2 { grid-template-columns: 1fr; }
-  .grid2 .card + .card { margin-top: 0; }
   .kill .row { grid-template-columns: 1fr; gap: 8px; }
   .kill .reading { text-align: left; }
 }
-@media (max-width: 520px) {
+@media (max-width: 560px) {
   .wrap { padding: 0 16px; }
   .brand small, .brand .sep { display: none; }
   .btn .long { display: none; } .btn .short { display: inline; }
+  .hero { padding-top: 52px; }
   .gtable th:last-child, .gtable td:last-child { display: none; }
   .gtable th:nth-child(2), .gtable td:nth-child(2) { text-align: right; }
-  .hero { padding-top: 48px; }
+  .facts, .mcstats { grid-template-columns: 1fr; }
+  .seg button { padding: 7px 9px; }
 }
 </style>
+<script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
+<div class="progress" aria-hidden="true"></div>
 <header class="bar">
   <div class="wrap">
     <a class="brand" href="#top"><span>near-revenue-audit</span><span class="sep"></span><small>Investment thesis track</small></a>
-    <nav class="nav" aria-label="Sections">
-      <a href="#kill-criteria">Kill criteria</a><a href="#buybacks">Buybacks</a><a href="#take-rate">Take rate</a><a href="#customer">Customer</a><a href="#forecast">2027</a><a href="#hypotheses">Hypotheses</a>
+    <nav class="nav" aria-label="Sections" id="nav">
+      <a href="#simulator">Simulator</a><a href="#kill-criteria">Kill criteria</a><a href="#buybacks">Buybacks</a><a href="#take-rate">Take rate</a><a href="#customer">Customer</a><a href="#forecast">2027</a><a href="#hypotheses">Hypotheses</a>
     </nav>
     <div class="actions">
-      <button class="btn dark" id="themeBtn" type="button" aria-label="Switch to dark mode"></button>
+      <button class="btn dark" id="themeBtn" type="button" aria-label="Switch theme"></button>
       <a class="btn blue" href="https://github.com/Wilivms/near-revenue-audit"><span class="long">Code and data</span><span class="short">Code</span> <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M4 10L10 4M5 4h5v5" stroke="currentColor" stroke-width="1.6" fill="none"/></svg></a>
     </div>
   </div>
 </header>
 
 <main id="top">
-  <div class="hero wrap">
-    <h1>NEAR REVENUE AUDIT</h1>
-    <p class="q">Is NEAR's protocol revenue <strong>real, durable, or bought</strong> with incentives, and does it offset the 2.4% a year of new NEAR?</p>
-    <div class="hero-foot">
+  <div class="hero wrap" id="hero">
+    <h1 aria-label="NEAR Revenue Audit"><span class="w" aria-hidden="true"><span>NEAR</span></span> <span class="w" aria-hidden="true"><span>REVENUE</span></span> <span class="w" aria-hidden="true"><span>AUDIT</span></span></h1>
+    <p class="q fade">Is NEAR's protocol revenue <strong>real, durable, or bought</strong> with incentives, and does it offset the 2.4% a year of new NEAR?</p>
+    <div class="hero-foot fade">
       <p>Rebuilt from the chain, reconciled across sources, tested against hypotheses written before the data.<br><b>Built at NEAR Hackathon 2026. Every figure below can be re-run.</b></p>
-      <div class="links"><a class="ghost" href="#kill-criteria">See what would prove it wrong</a></div>
+      <a class="ghost" href="#simulator">Try the numbers yourself <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1v9M2 6.5L6 10.5 10 6.5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></a>
     </div>
   </div>
 
@@ -229,7 +342,7 @@ footer li + li { margin-top: 6px; }
       <div>
         <p class="kicker">00 / Live reading</p>
         <h2 id="h-glance">For every 100 NEAR issued</h2>
-        <p>NEAR's revenue is real: it reconciles to the chain within 0.1%. It is growing, mostly because NEAR now charges more on the flows it controls. But at today's market cap it buys back only a fraction of what is issued. This reading is recomputed from live data each time the page loads.</p>
+        <p class="lede">NEAR's revenue is real: it reconciles to the chain within 0.1%. It is growing, mostly because NEAR now charges more on the flows it controls. But at today's market cap it buys back only a fraction of what is issued. Recomputed from live data each time the page loads.</p>
         <div class="meter" aria-hidden="true">
           <div class="meter-track"><div class="meter-fill" id="meterFill"></div></div>
           <div class="meter-scale"><span>0</span><span>50</span><span>100 = supply stops growing</span></div>
@@ -239,8 +352,55 @@ footer li + li { margin-top: 6px; }
       <div>
         <p class="readout-label">NEAR bought back with protocol revenue, last 30 days</p>
         <div id="heroMatrix" role="img" aria-label="Loading"></div>
-        <div class="readout-unit" id="heroUnit">NEAR per 100 issued</div>
+        <div class="readout-unit">NEAR bought back per 100 NEAR issued</div>
         <table class="gtable" id="tiles"><thead><tr><th>Measure</th><th>Value</th><th>Context</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="simulator" aria-labelledby="h-sim">
+    <div class="wrap">
+      <div class="head">
+        <div><p class="kicker">01 / Simulator</p><h2 id="h-sim">What would it take?</h2></div>
+        <p>Move the inputs and see how many NEAR the protocol buys back for every 100 issued. It starts from today's live values. The identity is exact: buybacks match issuance when market cap is below about 41 times annual captured revenue.</p>
+      </div>
+      <div class="sim">
+        <div class="card">
+          <div class="ctrl">
+            <label for="sVol">Daily Intents volume <b class="num" id="vVol"></b></label>
+            <input type="range" id="sVol" min="0" max="1000" step="1">
+            <div class="hint" id="hVol"></div>
+          </div>
+          <div class="ctrl">
+            <label for="sTake">NEAR's take, bps of volume <b class="num" id="vTake"></b></label>
+            <input type="range" id="sTake" min="10" max="250" step="1">
+            <div class="hint">2.6 bps in May–Aug, about 5.5 since mid-September</div>
+          </div>
+          <div class="ctrl">
+            <label for="sPrice">NEAR price <b class="num" id="vPrice"></b></label>
+            <input type="range" id="sPrice" min="0" max="1000" step="1">
+            <div class="hint">A higher price means fewer NEAR per dollar of revenue</div>
+          </div>
+          <label class="toggle"><input type="checkbox" id="sOnly"> <span>Count only the buyback wallet as retired (about 60% of what is captured). The front-end fund has no on-chain commitment not to sell.</span></label>
+          <div class="presets" role="group" aria-label="Presets">
+            <button class="chip" type="button" data-p="today">Today</button>
+            <button class="chip" type="button" data-p="mayaug">Take back to May–Aug</button>
+            <button class="chip" type="button" data-p="vol5">Volume ×5</button>
+            <button class="chip" type="button" data-p="even">Break-even volume</button>
+          </div>
+        </div>
+        <div class="card out" aria-live="polite">
+          <div class="kicker" style="margin:0">NEAR bought back per 100 issued</div>
+          <div class="big"><span id="simBig" class="odo num"></span><small>of 100</small></div>
+          <div class="simbar" aria-hidden="true"><div class="fill" id="simFill"></div><div class="even"></div></div>
+          <div class="simscale" aria-hidden="true"><span style="left:0;transform:none">0</span><span style="left:33.33%">50</span><span style="left:66.666%">100 break-even</span><span style="left:auto;right:0;transform:none">150</span></div>
+          <div class="verdict" id="simVerdict"></div>
+          <div class="facts">
+            <div><div class="l">Market cap / revenue</div><div class="v num" id="fMult"></div></div>
+            <div><div class="l">Annual revenue</div><div class="v num" id="fRev"></div></div>
+            <div><div class="l">Break-even volume</div><div class="v num" id="fEven"></div></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -248,7 +408,7 @@ footer li + li { margin-top: 6px; }
   <section class="block" id="kill-criteria" aria-labelledby="h-kill">
     <div class="wrap">
       <div class="head">
-        <div><p class="kicker">01 / Kill criteria</p><h2 id="h-kill">What would prove this wrong</h2></div>
+        <div><p class="kicker">02 / Kill criteria</p><h2 id="h-kill">What would prove this wrong</h2></div>
         <p>Three criteria were written before the analysis (<a href="https://github.com/Wilivms/near-revenue-audit/blob/main/HYPOTHESES.md">HYPOTHESES.md</a>). Each invalidates the thesis if it holds for 30 consecutive days. Two are checked live on every visit; one needs swap-level data.</p>
       </div>
       <div class="kill" id="kill"></div>
@@ -258,12 +418,14 @@ footer li + li { margin-top: 6px; }
   <section class="block" id="buybacks" aria-labelledby="h-supply">
     <div class="wrap">
       <div class="head">
-        <div><p class="kicker">02 / Supply</p><h2 id="h-supply">Buybacks against issuance</h2></div>
-        <p>NEAR captured by the three revenue wallets, as a share of the NEAR issued that month (total supply read from the archival RPC). The red line is break-even: above it, NEAR supply would shrink.</p>
+        <div><p class="kicker">03 / Supply</p><h2 id="h-supply">Buybacks against issuance</h2></div>
+        <p>NEAR captured by the revenue wallets, as a share of the NEAR issued that month (total supply read from the archival RPC). The red line is break-even: above it, NEAR supply would shrink.</p>
       </div>
-      <div class="card">
-        <h3>NEAR bought back, % of NEAR issued</h3>
-        <p class="sub">Monthly, Nov 2025 to Oct 2026</p>
+      <div class="card reveal">
+        <div class="cardbar">
+          <div><h3>NEAR bought back, % of NEAR issued</h3><p class="sub">Monthly, Nov 2025 to Oct 2026</p></div>
+          <div class="seg" id="segSupply" role="group" aria-label="Wallets counted"><span class="pill"></span><button type="button" data-k="all" aria-pressed="true">3 revenue wallets</button><button type="button" data-k="bb" aria-pressed="false">Buyback wallet only</button></div>
+        </div>
         <div id="chSupply"></div>
         <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbSupply"></div></details>
       </div>
@@ -273,19 +435,21 @@ footer li + li { margin-top: 6px; }
   <section class="block" id="take-rate" aria-labelledby="h-take">
     <div class="wrap">
       <div class="head">
-        <div><p class="kicker">03 / Pricing</p><h2 id="h-take">NEAR's cut doubled in September</h2></div>
+        <div><p class="kicker">04 / Pricing</p><h2 id="h-take">NEAR's cut doubled in September</h2></div>
         <p>Captured revenue in basis points of volume. Volume did not drive the rise; NEAR's take did. On 1Click, swap-level data shows why: a 20 bps Trust Wallet ZEC flow and higher fees on swaps that arrive without an integrator.</p>
       </div>
       <div class="grid2">
-        <div class="card">
+        <div class="card reveal">
           <h3>All Intents</h3>
-          <p class="sub">Captured revenue, bps of volume, 14-day rolling, since the fee switch</p>
+          <p class="sub">Captured revenue, bps of volume, 14-day rolling</p>
+          <div class="legend"><span class="line" style="--c:var(--series-1)">Take, bps</span><span class="mark">NEAR@3.33 snapshot</span></div>
           <div id="chTake"></div>
           <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbTake"></div></details>
         </div>
-        <div class="card">
+        <div class="card reveal">
           <h3>1Click channel</h3>
           <p class="sub">NEAR's take, bps of volume, weekly (Feb–Jul: sample weeks)</p>
+          <div class="legend"><span class="line" style="--c:var(--series-1)">Take, bps</span><span class="mark">NEAR@3.33 snapshot</span></div>
           <div id="chOneClick"></div>
           <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbOne"></div></details>
         </div>
@@ -296,12 +460,14 @@ footer li + li { margin-top: 6px; }
   <section class="block" id="customer" aria-labelledby="h-who">
     <div class="wrap">
       <div class="head">
-        <div><p class="kicker">04 / Distribution</p><h2 id="h-who">Who owns the customer</h2></div>
-        <p>On 1Click, distribution partners keep most of the fee pool. SwapKit takes 71% of all app fees but sends NEAR almost nothing; NEAR's own revenue comes mostly from users who arrive without an integrator.</p>
+        <div><p class="kicker">05 / Distribution</p><h2 id="h-who">Who owns the customer</h2></div>
+        <p>On 1Click, distribution partners keep most of the fee pool. SwapKit takes 71% of all app fees but sends NEAR almost nothing; NEAR's own revenue comes mostly from users who arrive without an integrator. Re-sort to see who matters for whom.</p>
       </div>
-      <div class="card">
-        <h3>Share of app fees vs share of NEAR's revenue</h3>
-        <p class="sub" id="whoSub">1Click swaps, last 30 days (1Click is about 28% of Intents volume)</p>
+      <div class="card reveal">
+        <div class="cardbar">
+          <div><h3>Share of app fees vs share of NEAR's revenue</h3><p class="sub">1Click swaps, last 30 days (1Click is about 28% of Intents volume)</p></div>
+          <div class="seg" id="segWho" role="group" aria-label="Sort by"><span class="pill"></span><button type="button" data-k="fee" aria-pressed="true">By app fees</button><button type="button" data-k="near" aria-pressed="false">By NEAR's revenue</button><button type="button" data-k="vol" aria-pressed="false">By volume</button></div>
+        </div>
         <div class="legend"><span style="--c:var(--series-1)">Share of all app fees</span><span style="--c:var(--series-2)">Share of NEAR's revenue</span></div>
         <div id="chWho"></div>
         <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbWho"></div></details>
@@ -312,23 +478,23 @@ footer li + li { margin-top: 6px; }
   <section class="block" id="forecast" aria-labelledby="h-mc">
     <div class="wrap">
       <div class="head">
-        <div><p class="kicker">05 / Valuation</p><h2 id="h-mc">Where it goes by end-2027</h2></div>
-        <p>10,000 simulated paths. Volume and price are drawn together, in 30-day blocks, from the last 365 days; take rate held at its last-30-day level; no price drift. The base case never reaches break-even: buybacks offset about a fifth of issuance.</p>
+        <div><p class="kicker">06 / Valuation</p><h2 id="h-mc">Where it goes by end-2027</h2></div>
+        <p>10,000 simulated paths per scenario. Volume and price are drawn together, in 30-day blocks, from history. Pick a scenario: the base case never reaches break-even; only several-fold volume growth does.</p>
       </div>
-      <div class="card">
-        <h3>NEAR bought back, % of NEAR issued, base case</h3>
+      <div class="card reveal">
+        <div class="seg" id="segMc" role="group" aria-label="Scenario" style="margin-bottom:16px"><span class="pill"></span></div>
+        <div class="mcstats">
+          <div><div class="l">2027 offset, median</div><div class="v num" id="mcMed"></div></div>
+          <div><div class="l">P(2027 net deflationary)</div><div class="v num" id="mcP"></div></div>
+          <div><div class="l">Median path breaks even</div><div class="v num" id="mcWhen"></div></div>
+        </div>
         <div class="legend"><span class="line" style="--c:var(--series-1)">Median path</span><span class="band">10th–90th percentile</span></div>
         <div id="chFan"></div>
         <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbFan"></div></details>
       </div>
       <div class="card">
-        <h3>Scenarios</h3>
-        <p class="sub">Share of 2027 issuance offset by buybacks, and probability that 2027 is net deflationary</p>
-        <div class="tbl-wrap" id="tbScen"></div>
-      </div>
-      <div class="card">
         <h3>What break-even takes, at today's price</h3>
-        <p class="sub">Share of issuance offset for a daily Intents volume and take rate. Outlined cells reach break-even.</p>
+        <p class="sub">Share of issuance offset for a daily Intents volume and take rate. Outlined cells reach break-even. Hover a cell to trace its row and column.</p>
         <div class="tbl-wrap" id="tbSens"></div>
       </div>
     </div>
@@ -337,8 +503,8 @@ footer li + li { margin-top: 6px; }
   <section class="block" id="hypotheses" aria-labelledby="h-score">
     <div class="wrap">
       <div class="head">
-        <div><p class="kicker">06 / Scorecard</p><h2 id="h-score">Hypotheses, as registered</h2></div>
-        <p>Each was written down before the test. Reasoning, dead ends and corrections: <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/RESEARCH_LOG.md">RESEARCH_LOG.md</a>.</p>
+        <div><p class="kicker">07 / Scorecard</p><h2 id="h-score">Hypotheses, as registered</h2></div>
+        <p>Each was written down before the test. Reasoning, dead ends and corrections: <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/RESEARCH_LOG.md">RESEARCH_LOG.md</a>. The full thesis: <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/REPORT.md">REPORT.md</a>.</p>
       </div>
       <div class="card"><div class="tbl-wrap" id="tbScore"></div></div>
     </div>
@@ -371,39 +537,14 @@ make dashboard dashboard-serve</pre>
 "use strict";
 const $ = (id) => document.getElementById(id);
 const SVGNS = "http://www.w3.org/2000/svg";
-const fmtUSD = (v) => v >= 1e9 ? `$${(v/1e9).toFixed(2)}B` : v >= 1e6 ? `$${(v/1e6).toFixed(1)}M` : v >= 1e3 ? `$${(v/1e3).toFixed(0)}k` : `$${v.toFixed(0)}`;
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const fmtUSD = (v) => v >= 1e9 ? `$${(v/1e9).toFixed(2)}B` : v >= 1e6 ? `$${(v/1e6).toFixed(v >= 1e8 ? 0 : 1)}M` : v >= 1e3 ? `$${(v/1e3).toFixed(0)}k` : `$${v.toFixed(0)}`;
 const fmtPct = (v, d = 0) => `${(v*100).toFixed(d)}%`;
 const fmtNear = (v) => v >= 1e6 ? `${(v/1e6).toFixed(2)}M` : `${(v/1e3).toFixed(0)}k`;
-const monthName = (s) => new Date(s + (s.length === 7 ? "-01" : "") + "T00:00:00Z").toLocaleDateString("en-GB", { month: "short", year: "2-digit", timeZone: "UTC" });
-const dayName = (s) => new Date(s + "T00:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
+const monthName = (s) => new Date(s.slice(0, 7) + "-01T00:00:00Z").toLocaleDateString("en-GB", { month: "short", year: "2-digit", timeZone: "UTC" });
+const dayName = (s) => new Date(s + "T00:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+const SNAPSHOT = "2026-09-16";
 
-// Theme toggle: explicit choice wins over the OS setting.
-const initTheme = () => {
-  const btn = $("themeBtn");
-  const sysDark = () => matchMedia("(prefers-color-scheme: dark)").matches;
-  let saved = null;
-  try { saved = localStorage.getItem("theme"); } catch (e) {}
-  if (saved) document.documentElement.dataset.theme = saved;
-  const isDark = () => (document.documentElement.dataset.theme || (sysDark() ? "dark" : "light")) === "dark";
-  const label = () => {
-    const dark = isDark();
-    btn.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
-    const s = svgEl("svg", { viewBox: "0 0 16 16", "aria-hidden": "true" });
-    if (dark) { s.appendChild(svgEl("circle", { cx: 8, cy: 8, r: 3.2, fill: "currentColor" }));
-      [[8,1,8,3],[8,13,8,15],[1,8,3,8],[13,8,15,8],[3,3,4.4,4.4],[11.6,11.6,13,13],[3,13,4.4,11.6],[11.6,4.4,13,3]].forEach(([a,b,c,d]) => s.appendChild(svgEl("line", { x1: a, y1: b, x2: c, y2: d, stroke: "currentColor", "stroke-width": 1.4 }))); }
-    else s.appendChild(svgEl("path", { d: "M10.5 2.2a6 6 0 1 0 3.3 8.6A5 5 0 0 1 10.5 2.2z", fill: "currentColor" }));
-    btn.replaceChildren(s);
-  };
-  label();
-  btn.addEventListener("click", () => {
-    const next = isDark() ? "light" : "dark";
-    document.documentElement.dataset.theme = next;
-    try { localStorage.setItem("theme", next); } catch (e) {}
-    label();
-  });
-};
-
-// ---------- small DOM helpers (text only via textContent) ----------
 function el(tag, attrs = {}, text) {
   const n = document.createElement(tag);
   for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
@@ -415,12 +556,40 @@ function svgEl(tag, attrs = {}) {
   for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
   return n;
 }
+function svgText(parent, x, y, text, attrs = {}) { const t = svgEl("text", { x, y, ...attrs }); t.textContent = text; parent.appendChild(t); return t; }
 function table(host, head, rows) {
   const t = el("table", { class: "t" }); const thead = el("thead"); const tr = el("tr");
   head.forEach((h) => tr.appendChild(el("th", {}, h))); thead.appendChild(tr); t.appendChild(thead);
   const tb = el("tbody");
   rows.forEach((r) => { const row = el("tr"); r.forEach((c) => row.appendChild(el("td", {}, c))); tb.appendChild(row); });
   t.appendChild(tb); host.replaceChildren(t); return t;
+}
+
+// ---------- theme ----------
+function initTheme() {
+  const btn = $("themeBtn");
+  const sysDark = () => matchMedia("(prefers-color-scheme: dark)").matches;
+  let saved = null;
+  try { saved = localStorage.getItem("theme"); } catch (e) {}
+  if (saved) document.documentElement.dataset.theme = saved;
+  const isDark = () => (document.documentElement.dataset.theme || (sysDark() ? "dark" : "light")) === "dark";
+  const label = () => {
+    const dark = isDark();
+    btn.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
+    const s = svgEl("svg", { viewBox: "0 0 16 16", "aria-hidden": "true" });
+    if (dark) {
+      s.appendChild(svgEl("circle", { cx: 8, cy: 8, r: 3.2, fill: "currentColor" }));
+      [[8,1,8,3],[8,13,8,15],[1,8,3,8],[13,8,15,8],[3,3,4.4,4.4],[11.6,11.6,13,13],[3,13,4.4,11.6],[11.6,4.4,13,3]].forEach(([a,b,c,d]) => s.appendChild(svgEl("line", { x1: a, y1: b, x2: c, y2: d, stroke: "currentColor", "stroke-width": 1.4 })));
+    } else s.appendChild(svgEl("path", { d: "M10.5 2.2a6 6 0 1 0 3.3 8.6A5 5 0 0 1 10.5 2.2z", fill: "currentColor" }));
+    btn.replaceChildren(s);
+  };
+  label();
+  btn.addEventListener("click", () => {
+    const next = isDark() ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem("theme", next); } catch (e) {}
+    label();
+  });
 }
 
 // ---------- tooltip ----------
@@ -433,86 +602,132 @@ function showTip(evt, title, rows) {
     r.append(key, el("span", {}, name), el("b", {}, value));
     tip.appendChild(r);
   });
-  tip.style.display = "block";
+  tip.classList.add("show");
   const x = Math.min(evt.clientX + 14, innerWidth - tip.offsetWidth - 8);
   const y = Math.max(8, evt.clientY - tip.offsetHeight - 12);
   tip.style.left = x + "px"; tip.style.top = y + "px";
 }
-const hideTip = () => { tip.style.display = "none"; };
+const hideTip = () => tip.classList.remove("show");
+const centerEvt = (node) => { const b = node.getBoundingClientRect(); return { clientX: b.left + b.width / 2, clientY: b.top + 20 }; };
+
+// ---------- odometer: digits roll with a CSS transition, so rapid updates retarget ----------
+function odo(host, text) {
+  host.classList.add("odo");
+  const chars = [...text];
+  const shape =chars.map((c) => /\d/.test(c) ? "d" : c).join("");
+  if (host.dataset.shape !== shape) {
+    host.replaceChildren();
+    chars.forEach((c) => {
+      if (/\d/.test(c)) {
+        const col = el("span", { class: "col" }); const strip = el("span");
+        for (let d = 0; d <= 9; d++) strip.appendChild(el("i", {}, String(d)));
+        col.appendChild(strip); host.appendChild(col);
+      } else host.appendChild(el("span", {}, c));
+    });
+    host.dataset.shape = shape;
+    host.offsetHeight; // commit layout so the first roll animates
+  }
+  chars.forEach((c, i) => { if (/\d/.test(c)) host.children[i].firstChild.style.transform = `translateY(${-Number(c)}em)`; });
+  host.setAttribute("aria-label", text);
+}
+
+// ---------- reveal on scroll, once ----------
+const io = "IntersectionObserver" in window ? new IntersectionObserver((entries) => {
+  entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+}, { rootMargin: "0px 0px -12% 0px" }) : null;
+function observeReveals() { document.querySelectorAll(".reveal:not(.in)").forEach((n) => io ? io.observe(n) : n.classList.add("in")); }
+
+// ---------- segmented control ----------
+function seg(host, onChange) {
+  const pill = host.querySelector(".pill");
+  const place = () => {
+    const on = host.querySelector('button[aria-pressed="true"]'); if (!on) return;
+    pill.style.width = on.offsetWidth + "px";
+    pill.style.height = on.offsetHeight + "px";
+    pill.style.transform = `translate(${on.offsetLeft}px, ${on.offsetTop}px)`;
+  };
+  host.addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b || b.getAttribute("aria-pressed") === "true") return;
+    host.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    place(); onChange(b.dataset.k);
+  });
+  requestAnimationFrame(place);
+  addEventListener("resize", place);
+  if (document.fonts) document.fonts.ready.then(place);
+}
 
 // ---------- charts ----------
-let W = 640; const PAD = { l: 48, r: 16, t: 16, b: 30 };
+let W = 640; const PAD = { l: 48, r: 18, t: 18, b: 30 };
 function frame(host, h, yMax, ticks, fmt) {
   W = Math.max(300, Math.round(host.clientWidth || 640));
   const svg = svgEl("svg", { viewBox: `0 0 ${W} ${h}`, class: "chart", role: "img" });
   const ih = h - PAD.t - PAD.b;
-  const y = (v) => PAD.t + ih - (v / yMax) * ih;
+  const y = (v) => PAD.t + ih - (Math.min(v, yMax) / yMax) * ih;
   ticks.forEach((t) => {
     svg.appendChild(svgEl("line", { x1: PAD.l, x2: W - PAD.r, y1: y(t), y2: y(t), class: t === 0 ? "base" : "grid" }));
-    const lab = svgEl("text", { x: PAD.l - 8, y: y(t) + 4, "text-anchor": "end" }); lab.textContent = fmt(t); svg.appendChild(lab);
+    svgText(svg, PAD.l - 8, y(t) + 4, fmt(t), { "text-anchor": "end" });
   });
   host.replaceChildren(svg);
-  return { svg, y, ih, h };
+  return { svg, y, h };
+}
+function refLine(svg, y, v, label) {
+  svg.appendChild(svgEl("line", { x1: PAD.l, x2: W - PAD.r, y1: y(v), y2: y(v), class: "ref" }));
+  svgText(svg, W - PAD.r, y(v) - 7, label, { "text-anchor": "end", class: "ref-label" });
 }
 
-function columnChart(host, data, { yMax, ticks, fmt, ref, refLabel, label, color = "var(--series-1)", tipRows }) {
-  const { svg, y, h } = frame(host, 280, yMax, ticks, fmt);
-  const n = data.length, band = (W - PAD.l - PAD.r) / n, bw = Math.min(24, band * 0.6);
-  if (ref !== undefined) {
-    svg.appendChild(svgEl("line", { x1: PAD.l, x2: W - PAD.r, y1: y(ref), y2: y(ref), class: "ref" }));
-    const t = svgEl("text", { x: W - PAD.r, y: y(ref) - 6, "text-anchor": "end", class: "ref-label" }); t.textContent = refLabel; svg.appendChild(t);
-  }
+function columnChart(host, data, { yMax, ticks, fmt, ref, refLabel, tipRows, color = "var(--series-1)" }) {
+  const { svg, y, h } = frame(host, 290, yMax, ticks, fmt);
+  if (ref !== undefined) refLine(svg, y, ref, refLabel);
+  const n = data.length, band = (W - PAD.l - PAD.r) / n, bw = Math.min(26, band * 0.56);
+  const g = svgEl("g", { class: "bars" }); svg.appendChild(g);
+  const st = Math.ceil(n / 8);
   data.forEach((d, i) => {
     const cx = PAD.l + band * (i + 0.5), top = y(d.v), base = y(0), hgt = Math.max(0, base - top), r = Math.min(4, hgt);
     const path = `M${cx - bw/2},${base} V${top + r} Q${cx - bw/2},${top} ${cx - bw/2 + r},${top} H${cx + bw/2 - r} Q${cx + bw/2},${top} ${cx + bw/2},${top + r} V${base} Z`;
-    const hit = svgEl("rect", { x: cx - band/2, y: PAD.t, width: band, height: h - PAD.t - PAD.b, class: "hit", tabindex: 0, "aria-label": `${d.x}: ${fmt(d.v)}` });
+    const wrapG = svgEl("g", { class: "bar-g", style: `transition-delay:${i * 40}ms` });
     const mark = svgEl("path", { d: path, fill: color, class: "mark" });
-    const show = (e) => { mark.classList.add("on"); showTip(e.clientX ? e : centerEvt(hit), d.x, tipRows(d)); };
-    hit.addEventListener("pointermove", show); hit.addEventListener("focus", show);
-    hit.addEventListener("pointerleave", () => { mark.classList.remove("on"); hideTip(); }); hit.addEventListener("blur", () => { mark.classList.remove("on"); hideTip(); });
-    svg.append(hit, mark);
-    const st = Math.ceil(n / 8);
-    if ((i % st === 0 && n - 1 - i >= st) || i === n - 1) {
-      const t = svgEl("text", { x: cx, y: h - 8, "text-anchor": "middle" }); t.textContent = label(d); svg.appendChild(t);
-    }
+    wrapG.appendChild(mark); g.appendChild(wrapG);
+    const hit = svgEl("rect", { x: cx - band/2, y: PAD.t, width: band, height: h - PAD.t - PAD.b, class: "hit", tabindex: 0, "aria-label": `${d.x}: ${fmt(d.v)}` });
+    const on = (e) => { g.classList.add("hovering"); mark.classList.add("on"); showTip(e.clientX ? e : centerEvt(hit), d.x, tipRows(d)); };
+    const off = () => { g.classList.remove("hovering"); mark.classList.remove("on"); hideTip(); };
+    hit.addEventListener("pointermove", on); hit.addEventListener("focus", on);
+    hit.addEventListener("pointerleave", off); hit.addEventListener("blur", off);
+    svg.appendChild(hit);
+    if ((i % st === 0 && n - 1 - i >= st) || i === n - 1) svgText(svg, cx, h - 8, d.x, { "text-anchor": "middle" });
   });
   const last = data[n - 1];
-  const t = svgEl("text", { x: PAD.l + band * (n - 0.5), y: y(last.v) - 8, "text-anchor": "middle", class: "end-label" }); t.textContent = fmt(last.v); svg.appendChild(t);
+  svgText(svg, PAD.l + band * (n - 0.5), y(last.v) - 9, fmt(last.v), { "text-anchor": "middle", class: "end-label soft" });
 }
-function centerEvt(node) { const b = node.getBoundingClientRect(); return { clientX: b.left + b.width / 2, clientY: b.top + 20 }; }
 
-function lineChart(host, xs, series, { yMax, ticks, fmt, label, ref, refLabel, band, title }) {
-  const { svg, y, h } = frame(host, 280, yMax, ticks, fmt);
+function lineChart(host, xs, values, { yMax, ticks, fmt, label, longLabel, event, title, color = "var(--series-1)" }) {
+  const { svg, y, h } = frame(host, 290, yMax, ticks, fmt);
   const n = xs.length, x = (i) => PAD.l + (i / (n - 1)) * (W - PAD.l - PAD.r);
-  if (band) {
-    let d = ""; band.hi.forEach((v, i) => { d += `${i ? "L" : "M"}${x(i)},${y(Math.min(v, yMax))}`; });
-    for (let i = n - 1; i >= 0; i--) d += `L${x(i)},${y(band.lo[i])}`;
-    svg.appendChild(svgEl("path", { d: d + "Z", fill: "var(--band)" }));
+  if (event) {
+    let ei = xs.findIndex((d) => d >= event.at); if (ei < 0) ei = n - 1;
+    svg.appendChild(svgEl("line", { x1: x(ei), x2: x(ei), y1: PAD.t, y2: h - PAD.b, class: "event soft" }));
+    svgText(svg, x(ei) - 6, PAD.t + 10, event.label, { "text-anchor": "end", class: "event-label soft" });
   }
-  if (ref !== undefined) {
-    svg.appendChild(svgEl("line", { x1: PAD.l, x2: W - PAD.r, y1: y(ref), y2: y(ref), class: "ref" }));
-    const t = svgEl("text", { x: W - PAD.r, y: y(ref) - 6, "text-anchor": "end", class: "ref-label" }); t.textContent = refLabel; svg.appendChild(t);
-  }
-  series.forEach((s) => {
-    let d = "", pen = false;
-    s.v.forEach((v, i) => { if (v == null) { pen = false; return; } d += `${pen ? "L" : "M"}${x(i)},${y(v)}`; pen = true; });
-    svg.appendChild(svgEl("path", { d, fill: "none", stroke: s.color, "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
-    let li = s.v.length - 1; while (li > 0 && s.v[li] == null) li--;
-    svg.appendChild(svgEl("circle", { cx: x(li), cy: y(s.v[li]), r: 4, fill: s.color, stroke: "var(--surface)", "stroke-width": 2 }));
-    const t = svgEl("text", { x: x(li) - 10, y: y(s.v[li]) - 14, "text-anchor": "end", class: "end-label" }); t.textContent = fmt(s.v[li]); svg.appendChild(t);
-  });
+  let d = "", pen = false;
+  values.forEach((v, i) => { if (v == null) { pen = false; return; } d += `${pen ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`; pen = true; });
+  const path = svgEl("path", { d, fill: "none", stroke: color, "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round", class: "draw" });
+  svg.appendChild(path);
+  try { path.style.setProperty("--len", Math.ceil(path.getTotalLength()) + 1); } catch (e) {}
+  let li = values.length - 1; while (li > 0 && values[li] == null) li--;
+  svg.appendChild(svgEl("circle", { cx: x(li), cy: y(values[li]), r: 4, fill: color, stroke: "var(--card)", "stroke-width": 2, class: "soft" }));
+  svgText(svg, x(li) - 10, y(values[li]) - 12, fmt(values[li]), { "text-anchor": "end", class: "end-label soft" });
   const step = Math.ceil(n / 6);
-  xs.forEach((xv, i) => { if (i % step === 0) { const t = svgEl("text", { x: x(i), y: h - 8, "text-anchor": "middle" }); t.textContent = label(xv); svg.appendChild(t); } });
-  // crosshair
+  let prev = "";
+  xs.forEach((xv, i) => { const lab = label(xv); if (i % step === 0 && lab !== prev) { svgText(svg, x(i), h - 8, lab, { "text-anchor": "middle" }); prev = lab; } });
   const cross = svgEl("line", { y1: PAD.t, y2: h - PAD.b, stroke: "var(--axis)", "stroke-width": 1, visibility: "hidden" });
+  const dot = svgEl("circle", { r: 4, fill: color, stroke: "var(--card)", "stroke-width": 2, visibility: "hidden" });
   const hit = svgEl("rect", { x: PAD.l, y: PAD.t, width: W - PAD.l - PAD.r, height: h - PAD.t - PAD.b, class: "hit", tabindex: 0, "aria-label": `${title}: use arrow keys to read values` });
-  svg.append(cross, hit);
+  svg.append(cross, dot, hit);
   let idx = n - 1;
   const render = (i, e) => {
-    idx = Math.max(0, Math.min(n - 1, i)); cross.setAttribute("x1", x(idx)); cross.setAttribute("x2", x(idx)); cross.setAttribute("visibility", "visible");
-    const rows = series.map((s) => [s.name, s.v[idx] == null ? "–" : fmt(s.v[idx]), s.color]);
-    if (band) rows.push(["10th–90th pct", `${fmt(band.lo[idx])} – ${fmt(band.hi[idx])}`, "var(--band)"]);
-    showTip(e, label(xs[idx], true), rows);
+    idx = Math.max(0, Math.min(n - 1, i));
+    cross.setAttribute("x1", x(idx)); cross.setAttribute("x2", x(idx)); cross.setAttribute("visibility", "visible");
+    if (values[idx] != null) { dot.setAttribute("cx", x(idx)); dot.setAttribute("cy", y(values[idx])); dot.setAttribute("visibility", "visible"); }
+    showTip(e, longLabel(xs[idx]), [[title, values[idx] == null ? "–" : fmt(values[idx]), color]]);
   };
   hit.addEventListener("pointermove", (e) => {
     const b = svg.getBoundingClientRect(); const px = (e.clientX - b.left) * (W / b.width);
@@ -520,36 +735,99 @@ function lineChart(host, xs, series, { yMax, ticks, fmt, label, ref, refLabel, b
   });
   hit.addEventListener("focus", () => render(idx, centerEvt(hit)));
   hit.addEventListener("keydown", (e) => { if (e.key === "ArrowLeft" || e.key === "ArrowRight") { e.preventDefault(); render(idx + (e.key === "ArrowRight" ? 1 : -1), centerEvt(hit)); } });
-  const off = () => { cross.setAttribute("visibility", "hidden"); hideTip(); };
+  const off = () => { cross.setAttribute("visibility", "hidden"); dot.setAttribute("visibility", "hidden"); hideTip(); };
   hit.addEventListener("pointerleave", off); hit.addEventListener("blur", off);
 }
 
-function pairedBars(host, rows) {
+// Horizontal paired bars; rows keep their node and slide to a new slot on re-sort (transform transition).
+const who = { rows: [], nodes: new Map(), sort: "fee" };
+const ROW_H = 38;
+function pairedBars(host) {
   W = Math.max(300, Math.round(host.clientWidth || 640));
-  const rowH = 34, h = rows.length * rowH + 24, labW = W < 500 ? 100 : 150, x0 = labW + 8, x1 = W - 52;
-  const svg = svgEl("svg", { viewBox: `0 0 ${W} ${h}`, class: "chart", role: "img" });
+  const rows = who.rows, h = rows.length * ROW_H + 30, labW = W < 520 ? 104 : 160, x0 = labW + 10, x1 = W - 56;
+  const svg = svgEl("svg", { viewBox: `0 0 ${W} ${h}`, class: "chart", role: "img", "aria-label": "Share of app fees and of NEAR's revenue by integrator" });
   const x = (v) => x0 + v * (x1 - x0);
   [0, 0.25, 0.5, 0.75].forEach((t) => {
-    svg.appendChild(svgEl("line", { x1: x(t), x2: x(t), y1: 0, y2: h - 20, class: t ? "grid" : "base" }));
-    const lab = svgEl("text", { x: x(t), y: h - 4, "text-anchor": "middle" }); lab.textContent = fmtPct(t); svg.appendChild(lab);
+    svg.appendChild(svgEl("line", { x1: x(t), x2: x(t), y1: 0, y2: h - 22, class: t ? "grid" : "base" }));
+    svgText(svg, x(t), h - 5, fmtPct(t), { "text-anchor": "middle" });
   });
-  rows.forEach((r, i) => {
-    const yy = i * rowH + 6;
-    const name = svgEl("text", { x: labW, y: yy + 15, "text-anchor": "end", style: "fill:var(--ink-2);font-size:12px" });
-    name.textContent = r.name; svg.appendChild(name);
-    [["fee", r.fee, "var(--series-1)", "Share of all app fees"], ["near", r.near, "var(--series-2)", "Share of NEAR's revenue"]].forEach(([k, v, c, nm], j) => {
-      const by = yy + j * 12, w = Math.max(0, x(v) - x0), rr = Math.min(4, w);
-      const d = `M${x0},${by} H${x0 + w - rr} Q${x0 + w},${by} ${x0 + w},${by + rr} V${by + 10 - rr} Q${x0 + w},${by + 10} ${x0 + w - rr},${by + 10} H${x0} Z`;
-      svg.appendChild(svgEl("path", { d, fill: c, class: "mark" }));
-      const t = svgEl("text", { x: x0 + w + 6, y: by + 9 }); t.textContent = fmtPct(v); svg.appendChild(t);
+  who.nodes = new Map();
+  rows.forEach((r) => {
+    const g = svgEl("g", { class: "hbar" });
+    svgText(g, labW, 16, r.name, { "text-anchor": "end", style: "fill:var(--ink-2);font-size:12px" });
+    [[r.fee, "var(--series-1)"], [r.near, "var(--series-2)"]].forEach(([v, c], j) => {
+      const by = 3 + j * 13, w = Math.max(1, x(v) - x0);
+      g.appendChild(svgEl("rect", { x: x0, y: by, width: w, height: 10, fill: c, class: "v" }));
+      svgText(g, x0 + w + 6, by + 9, fmtPct(v), { class: "soft" });
     });
-    const hit = svgEl("rect", { x: 0, y: yy - 4, width: W, height: rowH, class: "hit", tabindex: 0, "aria-label": `${r.name}: ${fmtPct(r.fee)} of app fees, ${fmtPct(r.near)} of NEAR's revenue` });
+    const hit = svgEl("rect", { x: 0, y: -6, width: W, height: ROW_H, class: "hit", tabindex: 0, "aria-label": `${r.name}: ${fmtPct(r.fee)} of app fees, ${fmtPct(r.near)} of NEAR's revenue, ${fmtPct(r.vol)} of volume` });
     const show = (e) => showTip(e.clientX ? e : centerEvt(hit), r.name, [["App fees", fmtPct(r.fee, 1), "var(--series-1)"], ["NEAR's revenue", fmtPct(r.near, 1), "var(--series-2)"], ["Volume", fmtPct(r.vol, 1)]]);
     hit.addEventListener("pointermove", show); hit.addEventListener("focus", show);
     hit.addEventListener("pointerleave", hideTip); hit.addEventListener("blur", hideTip);
-    svg.appendChild(hit);
+    g.appendChild(hit);
+    svg.appendChild(g); who.nodes.set(r.name, g);
   });
   host.replaceChildren(svg);
+  placeWho(false);
+}
+function placeWho(animate) {
+  const order = [...who.rows].sort((a, b) => b[who.sort] - a[who.sort]);
+  order.forEach((r, i) => {
+    const g = who.nodes.get(r.name);
+    if (!animate) g.style.transition = "none";
+    g.style.transform = `translateY(${i * ROW_H + 6}px)`;
+    if (!animate) { g.getBoundingClientRect(); g.style.transition = ""; }
+  });
+}
+
+// Fan chart that tweens between scenarios (arrays and y-scale interpolate together).
+const fan = { cur: null, raf: 0, months: [] };
+const easeInOut = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+function drawFan(host, st) {
+  const months = fan.months, yMax = st.yMax;
+  const ticks = (yMax > 2.5 ? [0, 1, 2, 3, 4] : [0, 0.5, 1, 1.5]).filter((t) => t <= yMax + 1e-9);
+  const { svg, y, h } = frame(host, 300, yMax, ticks, (v) => fmtPct(v));
+  const n = months.length, x = (i) => PAD.l + (i / (n - 1)) * (W - PAD.l - PAD.r);
+  let d = ""; st.hi.forEach((v, i) => { d += `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`; });
+  for (let i = n - 1; i >= 0; i--) d += `L${x(i).toFixed(1)},${y(st.lo[i]).toFixed(1)}`;
+  svg.appendChild(svgEl("path", { d: d + "Z", fill: "var(--band)" }));
+  refLine(svg, y, 1, "Break-even");
+  let m = ""; st.med.forEach((v, i) => { m += `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`; });
+  svg.appendChild(svgEl("path", { d: m, fill: "none", stroke: "var(--series-1)", "stroke-width": 2, "stroke-linejoin": "round" }));
+  svg.appendChild(svgEl("circle", { cx: x(n - 1), cy: y(st.med[n - 1]), r: 4, fill: "var(--series-1)", stroke: "var(--card)", "stroke-width": 2 }));
+  svgText(svg, x(n - 1) - 10, y(st.med[n - 1]) - 12, fmtPct(st.med[n - 1]), { "text-anchor": "end", class: "end-label" });
+  [0, 3, 6, 9, 12].forEach((i) => { if (i < n) svgText(svg, x(i), h - 8, monthName(months[i]), { "text-anchor": "middle" }); });
+  const cross = svgEl("line", { y1: PAD.t, y2: h - PAD.b, stroke: "var(--axis)", "stroke-width": 1, visibility: "hidden" });
+  const hit = svgEl("rect", { x: PAD.l, y: PAD.t, width: W - PAD.l - PAD.r, height: h - PAD.t - PAD.b, class: "hit", tabindex: 0, "aria-label": "Monte Carlo paths: use arrow keys" });
+  svg.append(cross, hit);
+  let idx = n - 1;
+  const render = (i, e) => { idx = Math.max(0, Math.min(n - 1, i)); cross.setAttribute("x1", x(idx)); cross.setAttribute("x2", x(idx)); cross.setAttribute("visibility", "visible");
+    showTip(e, monthName(months[idx]), [["Median", fmtPct(fan.cur.med[idx]), "var(--series-1)"], ["10th–90th pct", `${fmtPct(fan.cur.lo[idx])} – ${fmtPct(fan.cur.rawHi ? fan.cur.rawHi[idx] : fan.cur.hi[idx])}`, "var(--band)"]]); };
+  hit.addEventListener("pointermove", (e) => { const b = svg.getBoundingClientRect(); render(Math.round((((e.clientX - b.left) * (W / b.width) - PAD.l) / (W - PAD.l - PAD.r)) * (n - 1)), e); });
+  hit.addEventListener("focus", () => render(idx, centerEvt(hit)));
+  hit.addEventListener("keydown", (e) => { if (e.key === "ArrowLeft" || e.key === "ArrowRight") { e.preventDefault(); render(idx + (e.key === "ArrowRight" ? 1 : -1), centerEvt(hit)); } });
+  const off = () => { cross.setAttribute("visibility", "hidden"); hideTip(); };
+  hit.addEventListener("pointerleave", off); hit.addEventListener("blur", off);
+}
+function fanState(rows) {
+  const rawHi = rows.map((r) => r.p90), lo = rows.map((r) => r.p10), med = rows.map((r) => r.median);
+  const yMax = Math.max(1.6, Math.min(4.5, Math.max(...rawHi) * 1.05));
+  return { hi: rawHi.map((v) => Math.min(v, yMax)), rawHi, lo, med, yMax };
+}
+function setFan(host, rows, animate) {
+  fan.months = rows.map((r) => r.month);
+  const to = fanState(rows);
+  cancelAnimationFrame(fan.raf);
+  if (!fan.cur || REDUCED || !animate) { fan.cur = to; drawFan(host, to); return; }
+  const from = fan.cur, t0 = performance.now(), dur = 420;
+  const mix = (a, b, t) => a.map((v, i) => v + (b[i] - v) * t);
+  const step = (now) => {
+    const t = easeInOut(Math.min(1, (now - t0) / dur));
+    fan.cur = { hi: mix(from.hi, to.hi, t), rawHi: to.rawHi, lo: mix(from.lo, to.lo, t), med: mix(from.med, to.med, t), yMax: from.yMax + (to.yMax - from.yMax) * t };
+    drawFan(host, fan.cur);
+    if (t < 1) fan.raf = requestAnimationFrame(step); else fan.cur = to;
+  };
+  fan.raf = requestAnimationFrame(step);
 }
 
 // ---------- status icons ----------
@@ -557,7 +835,7 @@ function icon(kind) {
   const s = svgEl("svg", { width: 16, height: 16, viewBox: "0 0 16 16", "aria-hidden": "true" });
   if (kind === "ok") { s.appendChild(svgEl("circle", { cx: 8, cy: 8, r: 7, fill: "var(--good)" })); s.appendChild(svgEl("path", { d: "M4.5 8.2l2.3 2.3 4.7-4.9", stroke: "#fff", "stroke-width": 1.8, fill: "none", "stroke-linecap": "round" })); }
   else if (kind === "bad") { s.appendChild(svgEl("circle", { cx: 8, cy: 8, r: 7, fill: "var(--critical)" })); s.appendChild(svgEl("path", { d: "M5.3 5.3l5.4 5.4M10.7 5.3l-5.4 5.4", stroke: "#fff", "stroke-width": 1.8, "stroke-linecap": "round" })); }
-  else { s.appendChild(svgEl("circle", { cx: 8, cy: 8, r: 6.2, fill: "none", stroke: "var(--muted)", "stroke-width": 1.6 })); }
+  else s.appendChild(svgEl("circle", { cx: 8, cy: 8, r: 6.2, fill: "none", stroke: "var(--muted)", "stroke-width": 1.6 }));
   return s;
 }
 function killRow(host, kind, stateText, what, why, reading, readingNote) {
@@ -585,13 +863,8 @@ async function liveData() {
     getJSON("https://rpc.mainnet.near.org", { method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "block", params: { finality: "final" } }) }),
   ]);
-  return {
-    holders: series(hold), revenue: series(rev), volume: series(vol),
-    price: px.coins["coingecko:near"].price,
-    supply: parseFloat(blk.result.header.total_supply) / 1e24,
-  };
+  return { holders: series(hold), revenue: series(rev), volume: series(vol), price: px.coins["coingecko:near"].price, supply: parseFloat(blk.result.header.total_supply) / 1e24 };
 }
-// Drop today's partial day; keep complete UTC days only.
 const complete = (s) => { const today = new Date().toISOString().slice(0, 10); return s.filter(([d]) => d < today); };
 const sumLast = (s, n, skip = 0) => s.slice(s.length - n - skip, s.length - skip).reduce((a, [, v]) => a + v, 0);
 
@@ -604,119 +877,182 @@ const GLYPH = {
   "8":["01110","10001","10001","01110","10001","10001","01110"], "9":["01110","10001","10001","01111","00001","00010","01100"],
   "/":["00001","00010","00010","00100","01000","01000","10000"], " ":["00000","00000","00000","00000","00000","00000","00000"],
 };
+// The grid is built once; on each update, cells switch in a left-to-right sweep (CSS fill transition).
 function matrix(host, text, label) {
-  const cell = 10, gap = 2, cols = text.length * 6 - 1;
-  const svg = svgEl("svg", { viewBox: `0 0 ${cols * (cell + gap)} ${7 * (cell + gap)}`, class: "matrix", width: cols * (cell + gap), "aria-hidden": "true" });
-  [...text].forEach((ch, k) => {
-    const g = GLYPH[ch] || GLYPH[" "];
-    for (let r = 0; r < 7; r++) for (let c = 0; c < 6; c++) {
-      const on = c < 5 && g[r][c] === "1";
-      if (c === 5 && k === text.length - 1) continue;
-      svg.appendChild(svgEl("rect", { x: (k * 6 + c) * (cell + gap), y: r * (cell + gap), width: cell, height: cell, class: on ? "on" : "off" }));
-    }
+  const cell = 10, gap = 2, cols = 6 * 6 - 1;
+  let svg = host.querySelector("svg");
+  if (!svg) {
+    svg = svgEl("svg", { viewBox: `0 0 ${cols * (cell + gap) - gap} ${7 * (cell + gap) - gap}`, class: "matrix", "aria-hidden": "true" });
+    for (let c = 0; c < cols; c++) for (let r = 0; r < 7; r++) svg.appendChild(svgEl("rect", { x: c * (cell + gap), y: r * (cell + gap), width: cell, height: cell, "data-c": c, "data-r": r }));
+    host.replaceChildren(svg);
+    svg.getBoundingClientRect();
+  }
+  const padded = text.padStart(6, " ").slice(-6);
+  svg.querySelectorAll("rect").forEach((rect) => {
+    const c = +rect.dataset.c, r = +rect.dataset.r, k = Math.floor(c / 6), cc = c % 6;
+    const on = cc < 5 && (GLYPH[padded[k]] || GLYPH[" "])[r][cc] === "1";
+    rect.style.transitionDelay = REDUCED ? "0ms" : `${c * 18}ms`;
+    rect.classList.toggle("on", on);
   });
-  host.replaceChildren(svg); host.setAttribute("aria-label", label);
+  host.setAttribute("aria-label", label);
 }
 
+const LIVE = {};
 function headline(D, L, live) {
-  const holders30 = L.holders30, vol30 = L.vol30, price = L.price, supply = L.supply;
-  const issued30 = D.issuance_rate * supply * 30 / 365;
-  const bought30 = holders30 / price;
-  const offset = bought30 / issued30;
-  const mcap = supply * price, annual = holders30 * 365 / 30;
-  const per100 = Math.round(offset * 100);
+  const issued30 = D.issuance_rate * L.supply * 30 / 365, bought30 = L.holders30 / L.price, offset = bought30 / issued30;
+  const mcap = L.supply * L.price, annual = L.holders30 * 365 / 30, per100 = Math.round(offset * 100), take = L.holders30 / L.vol30 * 1e4;
+  Object.assign(LIVE, { volDay: L.vol30 / 30, take, price: L.price, supply: L.supply });
   matrix($("heroMatrix"), `${per100}/100`, `${per100} NEAR bought back per 100 NEAR issued`);
-  $("meterFill").style.width = Math.min(100, offset * 100) + "%";
+  $("meterFill").style.transform = `scaleX(${Math.min(1, offset)})`;
   const sl = $("statusLine");
   sl.className = "status-line" + (live ? " live" : "");
   sl.replaceChildren(el("span", { class: "dot" }), document.createTextNode(live
-    ? `Live: 30 complete days to ${L.asOf}, NEAR at $${price.toFixed(2)}. Loaded ${new Date().toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" })}.`
-    : `Live sources unreachable: repository snapshot of ${L.asOf}.`));
+    ? `Live: 30 complete days to ${L.asOf}, NEAR at $${L.price.toFixed(2)}. Loaded ${new Date().toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" })}.`
+    : `Showing the repository snapshot of ${L.asOf} while live data loads.`));
   const rows = [
-    ["Revenue captured, 30d", fmtUSD(holders30), `${fmtNear(bought30)} NEAR at today's price`],
-    ["Take rate", `${(holders30 / vol30 * 1e4).toFixed(1)} bps`, `of ${fmtUSD(vol30)} Intents volume`],
+    ["Revenue captured, 30d", fmtUSD(L.holders30), `${fmtNear(bought30)} NEAR at today's price`],
+    ["Take rate", `${take.toFixed(1)} bps`, `of ${fmtUSD(L.vol30)} Intents volume`],
     ["Market cap / revenue", `${Math.round(mcap / annual)}×`, `break-even below ${Math.round(1 / D.issuance_rate)}×`],
     ["NEAR issued, 30d", fmtNear(issued30), `${(D.issuance_rate * 100).toFixed(2)}% a year, on-chain`],
   ];
-  const tb = $("tiles").tBodies[0]; tb.replaceChildren();
-  rows.forEach(([a, b, c]) => { const tr = el("tr"); tr.append(el("td", {}, a), el("td", {}, b), el("td", { class: "n" }, c)); tb.appendChild(tr); });
-  const items = [
-    `${per100} NEAR bought back per 100 issued`, `Take rate ${(holders30 / vol30 * 1e4).toFixed(1)} bps`,
-    `Market cap ${Math.round(mcap / annual)}× annual revenue`, `Break-even below ${Math.round(1 / D.issuance_rate)}×`,
-    `Revenue ${fmtUSD(holders30)} in 30 days`, `NEAR $${price.toFixed(2)}`, "Reconciled to the chain within 0.1%",
-  ];
+  const tb = $("tiles").tBodies[0];
+  rows.forEach(([a, b, c], i) => {
+    let tr = tb.rows[i];
+    if (!tr) { tr = el("tr"); const v = el("td", { class: "num" }); v.appendChild(el("span", { class: "odo" })); tr.append(el("td", {}, a), v, el("td", { class: "n" })); tb.appendChild(tr); }
+    odo(tr.cells[1].firstChild, b); tr.cells[2].textContent = c;
+  });
+  const items = [`${per100} NEAR bought back per 100 issued`, `Take rate ${take.toFixed(1)} bps`, `Market cap ${Math.round(mcap / annual)}× annual revenue`,
+    `Break-even below ${Math.round(1 / D.issuance_rate)}×`, `Revenue ${fmtUSD(L.holders30)} in 30 days`, `NEAR $${L.price.toFixed(2)}`, "Reconciled to the chain within 0.1%"];
   const tk = $("ticker"); tk.replaceChildren();
-  for (let rep = 0; rep < 2; rep++) items.forEach((t) => { tk.append(el("span", {}, t), el("span", { class: "star" }, "✳")); });
+  for (let rep = 0; rep < 2; rep++) items.forEach((t) => tk.append(el("span", {}, t), el("span", { class: "star" }, "✳")));
 }
 
-function killCriteria(D, L, live) {
+function killCriteria(D, L, live, failed) {
   const host = $("kill"); host.replaceChildren();
   if (L.revenue) {
     const r30 = sumLast(L.revenue, 30), r180 = sumLast(L.revenue, 180) / 6, ratio = r30 / r180;
-    killRow(host, ratio < 0.5 ? "bad" : "ok", ratio < 0.5 ? "Triggered" : "Not triggered",
-      "Revenue collapses", "30-day Intents protocol revenue below 50% of its trailing 180-day average.",
-      `${fmtPct(ratio)} of the average`, `${fmtUSD(r30)} vs ${fmtUSD(r180)} per 30 days${live ? ", live" : ""}`);
+    killRow(host, ratio < 0.5 ? "bad" : "ok", ratio < 0.5 ? "Triggered" : "Not triggered", "Revenue collapses",
+      "30-day Intents protocol revenue below 50% of its trailing 180-day average.", `${fmtPct(ratio)} of the average`, `${fmtUSD(r30)} vs ${fmtUSD(r180)} per 30 days${live ? ", live" : ""}`);
     let gap = 0; for (let i = L.holders.length - 1; i >= 0 && L.holders[i][1] <= 0; i--) gap++;
-    const feesOn = sumLast(L.revenue, 14) > 0;
-    const trig = gap > 14 && feesOn;
-    killRow(host, trig ? "bad" : "ok", trig ? "Triggered" : "Not triggered",
-      "Buybacks stop", "No NEAR reaches the revenue wallets for more than 14 days while fees continue.",
-      gap === 0 ? "Inflow yesterday" : `${gap} days without inflow`, `last day checked ${L.asOf}${live ? ", live" : ""}`);
+    const trig = gap > 14 && sumLast(L.revenue, 14) > 0;
+    killRow(host, trig ? "bad" : "ok", trig ? "Triggered" : "Not triggered", "Buybacks stop",
+      "No NEAR reaches the revenue wallets for more than 14 days while fees continue.", gap === 0 ? "Inflow yesterday" : `${gap} days without inflow`, `last day checked ${L.asOf}${live ? ", live" : ""}`);
   } else {
-    killRow(host, "wait", "Needs live data", "Revenue collapses", "30-day revenue below 50% of its trailing 180-day average.", "–", "live sources unreachable");
-    killRow(host, "wait", "Needs live data", "Buybacks stop", "No inflow for more than 14 days while fees continue.", "–", "live sources unreachable");
+    const s = failed ? "Live data unreachable" : "Checking live data", note = failed ? "reload to retry" : "loading";
+    killRow(host, "wait", s, "Revenue collapses", "30-day revenue below 50% of its trailing 180-day average.", "–", note);
+    killRow(host, "wait", s, "Buybacks stop", "No inflow for more than 14 days while fees continue.", "–", note);
   }
   const top = D.fee_shares_last30d.find((r) => r.referral !== "(none)");
-  killRow(host, top.fee_share > 0.6 ? "bad" : "ok", top.fee_share > 0.6 ? "Triggered on 1Click" : "Not triggered",
-    "One integrator dominates", `Top integrator above 60% of fees. On 1Click, ${top.referral} has held more than 60% of all app fees every 30-day window since mid-September (60–81% in the Feb–Jul sample weeks). It brings ${fmtPct(top.near_revenue_share, 1)} of NEAR's own 1Click revenue, so the criterion, as written, does not separate the fee pool from NEAR's revenue. All-Intents measurement pending (Dune).`,
+  killRow(host, top.fee_share > 0.6 ? "bad" : "ok", top.fee_share > 0.6 ? "Triggered on 1Click" : "Not triggered", "One integrator dominates",
+    `Top integrator above 60% of fees. On 1Click, ${top.referral} has held more than 60% of all app fees in every 30-day window since mid-September (60–81% in the Feb–Jul sample weeks). It brings ${fmtPct(top.near_revenue_share, 1)} of NEAR's own 1Click revenue: the criterion, as written, does not separate the fee pool from NEAR's revenue. All-Intents measure pending (Dune).`,
     `${fmtPct(top.fee_share)} of app fees`, `1Click, last 30 days to ${D.live_fallback.as_of}`);
 }
 
-// ---------- static sections ----------
-function staticSections(D) {
+// ---------- simulator ----------
+const VOL = { min: 50e6, max: 3e9 }, PX = { min: 1, max: 25 };
+const logTo = (v, r) => Math.round(1000 * Math.log(v / r.min) / Math.log(r.max / r.min));
+const logFrom = (s, r) => r.min * Math.pow(r.max / r.min, s / 1000);
+const setRange = (input, s) => { input.value = s; };
+function simInit(D) {
+  const sVol = $("sVol"), sTake = $("sTake"), sPrice = $("sPrice"), sOnly = $("sOnly");
+  const read = () => ({ vol: logFrom(+sVol.value, VOL), take: +sTake.value / 10, price: logFrom(+sPrice.value, PX), share: sOnly.checked ? 0.6 : 1 });
+  const issuedDay = () => D.issuance_rate * LIVE.supply / 365;
+  const evenVol = (s) => issuedDay() * s.price / (s.take / 1e4) / s.share;
+  const update = () => {
+    [sVol, sTake, sPrice].forEach((i) => i.style.setProperty("--p", `${(i.value - i.min) / (i.max - i.min) * 100}%`));
+    const s = read();
+    const bought = s.vol * s.take / 1e4 / s.price * s.share, per100 = bought / issuedDay() * 100;
+    $("vVol").textContent = fmtUSD(s.vol) + "/day"; $("vTake").textContent = s.take.toFixed(1) + " bps"; $("vPrice").textContent = "$" + s.price.toFixed(2);
+    $("hVol").textContent = `Last 30 days: ${fmtUSD(LIVE.volDay)}/day`;
+    odo($("simBig"), String(Math.round(Math.min(per100, 9999))));
+    const fill = $("simFill"); fill.style.transform = `scaleX(${Math.min(1, per100 / 150)})`; fill.classList.toggle("over", per100 >= 100);
+    const annualRev = s.vol * s.take / 1e4 * 365 * s.share, mcap = LIVE.supply * s.price, net = (issuedDay() - bought) * 365;
+    odo($("fMult"), `${Math.round(mcap / annualRev)}×`);
+    odo($("fRev"), fmtUSD(annualRev));
+    odo($("fEven"), fmtUSD(evenVol(s)) + "/d");
+    const v = $("simVerdict");
+    v.className = "verdict" + (net <= 0 ? " ok" : "");
+    v.textContent = net > 0
+      ? `Supply still grows by about ${fmtNear(net)} NEAR a year. Break-even needs ${(evenVol(s) / s.vol).toFixed(1)}× this volume, or a take of ${(s.take * 100 / per100).toFixed(1)} bps.`
+      : `Supply shrinks by about ${fmtNear(-net)} NEAR a year: buybacks exceed issuance.`;
+  };
+  const preset = (p) => {
+    const base = { vol: LIVE.volDay, take: LIVE.take, price: LIVE.price };
+    if (p === "mayaug") base.take = 2.6;
+    if (p === "vol5") base.vol = LIVE.volDay * 5;
+    if (p === "even") base.vol = issuedDay() * base.price / (base.take / 1e4) / (sOnly.checked ? 0.6 : 1);
+    setRange(sVol, logTo(Math.min(VOL.max, Math.max(VOL.min, base.vol)), VOL));
+    setRange(sTake, Math.round(Math.min(25, Math.max(1, base.take)) * 10));
+    setRange(sPrice, logTo(Math.min(PX.max, Math.max(PX.min, base.price)), PX));
+    update();
+  };
+  [sVol, sTake, sPrice, sOnly].forEach((i) => i.addEventListener("input", update));
+  document.querySelectorAll(".chip").forEach((b) => b.addEventListener("click", () => preset(b.dataset.p)));
+  return () => preset("today");
+}
+
+// ---------- sections ----------
+const SHORT = {
+  "base: take now, 365d history": "Base", "take back to May–Aug level": "Take May–Aug", "take now, zero volume drift": "No volume drift",
+  "take now, price keeps its 365d drift": "Price drift", "base, buyback wallet only counted as retired": "Buyback wallet only",
+  "take doubles again (11 bps)": "Take doubles", "take now, 180d history (bull)": "180-day history", "take now, full history since Mar-2025 (hyper-growth)": "Full history",
+};
+let supplyKey = "all", currentScenario = "base: take now, 365d history";
+function renderSupply(D) {
+  const v = (r) => supplyKey === "all" ? r.captured_share_of_issuance : r.captured_near_buyback_wallet / r.net_issuance_near;
+  columnChart($("chSupply"), D.supply_monthly.map((r) => ({ x: monthName(r.date), v: v(r), r })), {
+    yMax: 1.05, ticks: [0, 0.25, 0.5, 0.75, 1], fmt: (x) => fmtPct(x), ref: 1, refLabel: "Break-even: supply stops growing",
+    tipRows: (d) => [["Bought back / issued", fmtPct(d.v, 1), "var(--series-1)"], ["NEAR bought back", fmtNear(supplyKey === "all" ? d.r.captured_near_3_wallets : d.r.captured_near_buyback_wallet)], ["NEAR issued", fmtNear(d.r.net_issuance_near)]],
+  });
+}
+function charts(D) {
+  renderSupply(D);
+  const daily = D.daily.filter((r) => r.take_bps_14d != null && r.date >= "2026-03-08");
+  lineChart($("chTake"), daily.map((r) => r.date), daily.map((r) => r.take_bps_14d),
+    { yMax: 7, ticks: [0, 2, 4, 6], fmt: (v) => v.toFixed(1), label: monthName, longLabel: dayName, title: "Take, bps", event: { at: SNAPSHOT, label: "Snapshot" } });
+  const w = D.oneclick_weekly;
+  lineChart($("chOneClick"), w.map((r) => r.period_start), w.map((r) => r.near_bps),
+    { yMax: 7, ticks: [0, 2, 4, 6], fmt: (v) => v.toFixed(1), label: monthName, longLabel: (d) => `Week of ${dayName(d)}`, title: "NEAR's take, bps", event: { at: SNAPSHOT, label: "Snapshot" } });
+  pairedBars($("chWho"));
+  setFan($("chFan"), D.montecarlo.paths[currentScenario], false);
+}
+function tables(D) {
   $("builtAt").textContent = `(built ${D.built_at})`;
   const sm = D.supply_monthly;
-  columnChart($("chSupply"), sm.map((r) => ({ x: monthName(r.date.slice(0, 7)), v: r.captured_share_of_issuance, r })), {
-    yMax: 1.05, ticks: [0, 0.25, 0.5, 0.75, 1], fmt: (v) => fmtPct(v), ref: 1, refLabel: "Break-even: supply stops growing",
-    label: (d) => d.x, tipRows: (d) => [["Bought back / issued", fmtPct(d.v, 1), "var(--series-1)"], ["NEAR bought back", fmtNear(d.r.captured_near_3_wallets)], ["NEAR issued", fmtNear(d.r.net_issuance_near)]],
-  });
-  table($("tbSupply"), ["Month", "NEAR issued", "NEAR bought back", "of which buyback wallet", "Share"],
+  table($("tbSupply"), ["Month", "NEAR issued", "Bought back, 3 wallets", "of which buyback wallet", "Share"],
     sm.map((r) => [r.date.slice(0, 7), Math.round(r.net_issuance_near).toLocaleString("en"), Math.round(r.captured_near_3_wallets).toLocaleString("en"), Math.round(r.captured_near_buyback_wallet).toLocaleString("en"), fmtPct(r.captured_share_of_issuance, 1)]));
-
   const daily = D.daily.filter((r) => r.take_bps_14d != null && r.date >= "2026-03-08");
-  lineChart($("chTake"), daily.map((r) => r.date), [{ name: "Captured, bps", v: daily.map((r) => r.take_bps_14d), color: "var(--series-1)" }],
-    { yMax: 7, ticks: [0, 2, 4, 6], fmt: (v) => v.toFixed(1), label: (d, long) => long ? d : monthName(d.slice(0, 7)), title: "Captured revenue in bps" });
-  table($("tbTake"), ["Date", "Volume", "Captured", "bps, 14-day"], daily.filter((_, i) => i % 7 === 0 || i === daily.length - 1)
-    .map((r) => [r.date, fmtUSD(r.volume_usd), fmtUSD(r.captured_usd), r.take_bps_14d.toFixed(2)]));
-
-  const w = D.oneclick_weekly;
-  lineChart($("chOneClick"), w.map((r) => r.period_start), [{ name: "NEAR's take, bps", v: w.map((r) => r.near_bps), color: "var(--series-1)" }],
-    { yMax: 7, ticks: [0, 2, 4, 6], fmt: (v) => v.toFixed(1), label: (d, long) => long ? `Week of ${dayName(d)}` : monthName(d.slice(0, 7)), title: "1Click NEAR take in bps" });
-  table($("tbOne"), ["Week of", "Volume / day", "NEAR bps", "All fees bps", "ZEC share of NEAR revenue", "No-referral share of NEAR revenue"],
-    w.map((r) => [r.period_start, fmtUSD(r.volume_usd_per_day), r.near_bps.toFixed(2), r.fee_bps.toFixed(1), fmtPct(r.zec_near_rev_share), fmtPct(r.noref_near_rev_share)]));
-
-  const fs = D.fee_shares_last30d.slice(0, 7).map((r) => ({ name: r.referral === "(none)" ? "No integrator" : r.referral.length > 18 ? r.referral.slice(0, 8) + "…" : r.referral, fee: r.fee_share, near: r.near_revenue_share, vol: r.volume_share }));
-  pairedBars($("chWho"), fs);
+  table($("tbTake"), ["Date", "Volume", "Captured", "bps, 14-day"], daily.filter((_, i) => i % 7 === 0 || i === daily.length - 1).map((r) => [r.date, fmtUSD(r.volume_usd), fmtUSD(r.captured_usd), r.take_bps_14d.toFixed(2)]));
+  table($("tbOne"), ["Week of", "Volume / day", "NEAR bps", "All fees bps", "ZEC share of NEAR revenue", "No-integrator share of NEAR revenue"],
+    D.oneclick_weekly.map((r) => [r.period_start, fmtUSD(r.volume_usd_per_day), r.near_bps.toFixed(2), r.fee_bps.toFixed(1), fmtPct(r.zec_near_rev_share), fmtPct(r.noref_near_rev_share)]));
+  who.rows = D.fee_shares_last30d.slice(0, 7).map((r) => ({ name: r.referral === "(none)" ? "No integrator" : r.referral.length > 16 ? r.referral.slice(0, 8) + "…" : r.referral, fee: r.fee_share, near: r.near_revenue_share, vol: r.volume_share }));
   table($("tbWho"), ["Integrator (referral)", "Volume", "App fees", "NEAR's revenue"], D.fee_shares_last30d.map((r) => [r.referral, fmtPct(r.volume_share, 1), fmtPct(r.fee_share, 1), fmtPct(r.near_revenue_share, 1)]));
-
-  const p = D.montecarlo.base_paths;
-  lineChart($("chFan"), p.map((r) => r.month), [{ name: "Median path", v: p.map((r) => r.median), color: "var(--series-1)" }],
-    { yMax: 1.6, ticks: [0, 0.5, 1, 1.5], fmt: (v) => fmtPct(v), label: (d) => monthName(d), ref: 1, refLabel: "Break-even", band: { lo: p.map((r) => r.p10), hi: p.map((r) => r.p90) }, title: "Monte Carlo base case" });
-  table($("tbFan"), ["Month", "10th pct", "Median", "90th pct"], p.map((r) => [r.month, fmtPct(r.p10, 1), fmtPct(r.median, 1), fmtPct(r.p90, 1)]));
-
-  table($("tbScen"), ["Scenario", "Take, bps", "2027 offset, median", "10th–90th pct", "P(2027 deflationary)", "Median path breaks even"],
-    D.montecarlo.scenarios.map((s) => [s.name, s.take_bps.toFixed(2), fmtPct(s.median_offset_2027), `${fmtPct(s.p10_offset_2027)} – ${fmtPct(s.p90_offset_2027)}`, fmtPct(s.p_2027_net_deflationary), s.median_path_deflationary_month || "never"]));
-
   const sens = D.montecarlo.sensitivity, cols = Object.keys(sens[0]).filter((k) => k !== "volume");
   const t = table($("tbSens"), ["Daily volume", ...cols], sens.map((r) => [r.volume, ...cols.map((c) => fmtPct(r[c]))]));
   t.classList.add("sens");
-  const steps = ["--seq-1", "--seq-2", "--seq-3", "--seq-4", "--seq-5"];
+  const steps = ["--seq-1", "--seq-2", "--seq-3", "--seq-4", "--seq-5"], cells = [];
   [...t.tBodies[0].rows].forEach((row, i) => cols.forEach((c, j) => {
     const v = sens[i][c], cell = row.cells[j + 1], k = Math.min(4, Math.floor(Math.min(v, 1.999) / 0.4));
     cell.classList.add("cell"); if (k < 2) cell.classList.add("light"); if (v >= 1) cell.classList.add("flip");
-    cell.style.background = `var(${steps[k]})`;
+    cell.style.background = `var(${steps[k]})`; cell.dataset.r = i; cell.dataset.c = j; cells.push(cell);
   }));
-
+  t.addEventListener("pointerover", (e) => { const c = e.target.closest("td.cell"); cells.forEach((x) => x.classList.toggle("cross", !!c && (x.dataset.r === c.dataset.r || x.dataset.c === c.dataset.c))); });
+  t.addEventListener("pointerleave", () => cells.forEach((x) => x.classList.remove("cross")));
+  scorecard();
+}
+function mcInit(D) {
+  const host = $("segMc");
+  D.montecarlo.scenarios.forEach((s) => host.appendChild(el("button", { type: "button", "data-k": s.name, "aria-pressed": String(s.name === currentScenario) }, SHORT[s.name] || s.name)));
+  const stats = (name) => {
+    const s = D.montecarlo.scenarios.find((x) => x.name === name);
+    odo($("mcMed"), fmtPct(s.median_offset_2027)); odo($("mcP"), fmtPct(s.p_2027_net_deflationary));
+    $("mcWhen").textContent = s.median_path_deflationary_month ? monthName(s.median_path_deflationary_month) : "Never";
+    table($("tbFan"), ["Month", "10th pct", "Median", "90th pct"], D.montecarlo.paths[name].map((r) => [r.month, fmtPct(r.p10, 1), fmtPct(r.median, 1), fmtPct(r.p90, 1)]));
+  };
+  seg(host, (k) => { currentScenario = k; stats(k); setFan($("chFan"), D.montecarlo.paths[k], true); });
+  stats(currentScenario);
+}
+function scorecard() {
   const score = [
     ["H1.1 Reported revenue reaches the revenue wallets", "ok", "Holds", "Rebuilt from the chain: $7.29M vs DefiLlama $7.30M since the fee switch (3 wallets, not 1)."],
     ["H1.2 Bought-back NEAR stays put", "ok", "Holds", "1.6% left the wallets, traced to corrections returned to the bridge operator."],
@@ -735,28 +1071,47 @@ function staticSections(D) {
   [...st.tBodies[0].rows].forEach((row, i) => { const c = row.cells[2]; const txt = c.textContent; c.replaceChildren(); const sp = el("span", { class: "tag" }); sp.append(icon(score[i][1]), document.createTextNode(txt)); c.appendChild(sp); });
 }
 
+// nav: underline the section in view
+function navSpy() {
+  if (!("IntersectionObserver" in window)) return;
+  const links = [...document.querySelectorAll("#nav a")];
+  const map = new Map(links.map((a) => [a.getAttribute("href").slice(1), a]));
+  const spy = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) links.forEach((a) => a.classList.toggle("on", a === map.get(e.target.id))); }), { rootMargin: "-45% 0px -50% 0px" });
+  map.forEach((_, id) => { const s = $(id); if (s) spy.observe(s); });
+}
+
 // ---------- boot ----------
 (async () => {
   initTheme();
+  requestAnimationFrame(() => requestAnimationFrame(() => $("hero").classList.add("in")));
+  navSpy();
   let D;
   try { D = await getJSON("data.json"); }
   catch (e) { $("statusLine").textContent = "Could not load data.json. Serve this folder over HTTP (make dashboard-serve)."; return; }
-  staticSections(D);
-  let rt; let lastW = innerWidth;
-  addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (Math.abs(innerWidth - lastW) > 40) { lastW = innerWidth; staticSections(D); } }, 200); });
+  tables(D);
+  mcInit(D);
+  charts(D);
+  seg($("segSupply"), (k) => { supplyKey = k; renderSupply(D); $("chSupply").closest(".reveal").classList.add("in"); });
+  seg($("segWho"), (k) => { who.sort = k; placeWho(!REDUCED); });
+  observeReveals();
+  let rt, lastW = innerWidth;
+  addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (Math.abs(innerWidth - lastW) > 40) { lastW = innerWidth; charts(D); } }, 200); });
   const fb = D.live_fallback;
-  const snapshot = { holders30: fb.captured_30d_usd, vol30: fb.volume_30d_usd, price: fb.price, supply: fb.supply, asOf: fb.as_of };
-  headline(D, snapshot, false);
-  killCriteria(D, {}, false);
+  headline(D, { holders30: fb.captured_30d_usd, vol30: fb.volume_30d_usd, price: fb.price, supply: fb.supply, asOf: fb.as_of }, false);
+  killCriteria(D, {}, false, false);
+  const simToday = simInit(D); simToday();
   try {
     const L = await liveData();
     const holders = complete(L.holders), revenue = complete(L.revenue), volume = complete(L.volume);
     const asOf = holders[holders.length - 1][0];
     const live = { holders30: sumLast(holders, 30), vol30: sumLast(volume, 30), price: L.price, supply: L.supply, asOf, holders, revenue };
     headline(D, live, true);
-    killCriteria(D, live, true);
+    killCriteria(D, live, true, false);
+    simToday();
   } catch (e) {
     console.warn("live fetch failed", e);
+    $("statusLine").lastChild.textContent = `Live sources unreachable: showing the repository snapshot of ${fb.as_of}.`;
+    killCriteria(D, {}, false, true);
   }
 })();
 </script>

@@ -239,3 +239,10 @@ Code: `src/analysis/montecarlo.py` (`make montecarlo`), tests in `tests/`.
 - shows the committed outputs: monthly buybacks vs issuance, take rate (all Intents and 1Click), who owns the customer, Monte Carlo fan chart, scenarios, sensitivity table and the hypothesis scorecard;
 - falls back to the repository snapshot if live sources are unreachable, and says so.
 - First live reading (2026-10-30): **19 NEAR bought back per 100 issued** (last 30 days, at today's price), take rate 5.6 bps, market cap / annual captured revenue **213x** vs 41x break-even.
+
+### 20. Dashboard v2: interactive
+
+- **Simulator** ("What would it take?"): daily volume, take rate, NEAR price and "buyback wallet only" inputs, starting from today's live values; returns NEAR bought back per 100 issued, market cap / revenue and break-even volume from the identity of entry 6. Presets: today, take back to May–Aug, volume ×5, break-even volume. At today's take and price, break-even needs about 5x today's volume.
+- **Monte Carlo explorer**: every scenario's monthly quantiles are now exported (`montecarlo_paths_all.csv`); the fan chart morphs between them.
+- **Re-sortable distribution chart** (by app fees, NEAR's revenue or volume), buybacks chart switchable to the buyback wallet only, snapshot marker on both take-rate charts, row/column tracing on the sensitivity table.
+- Motion kept to state changes and first reveals (Emil Kowalski's animation rules: transform/opacity only, strong ease-out, under 300 ms for UI, reduced-motion fallbacks). Palette re-validated for colour-blind separation in both themes.

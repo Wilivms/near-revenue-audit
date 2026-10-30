@@ -39,6 +39,7 @@ def build() -> dict:
     fees = pd.read_csv(OUT / "fee_shares_last30d.csv").rename(columns={"ref": "referral"})
     mc_s = pd.read_csv(OUT / "montecarlo_scenarios.csv")
     mc_p = pd.read_csv(OUT / "montecarlo_paths_base.csv")
+    mc_all = pd.read_csv(OUT / "montecarlo_paths_all.csv")
     sens = pd.read_csv(OUT / "montecarlo_sensitivity.csv")
     chain = json.loads(sorted((RAW / "chain_state").glob("*.json"))[-1].read_text())
 
@@ -68,6 +69,7 @@ def build() -> dict:
                                         "p90_offset_2027", "p_2027_net_deflationary",
                                         "median_path_deflationary_month"]]),
             "base_paths": _records(mc_p),
+            "paths": {name: _records(g.drop(columns="scenario")) for name, g in mc_all.groupby("scenario", sort=False)},
             "sensitivity": _records(sens),
         },
     }
