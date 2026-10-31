@@ -267,3 +267,28 @@ Origins in 2026, 90-day horizon:
 - **Consequence for H5.1**: the base-case "about 21% of 2027 issuance offset" is, on this evidence, more likely too high than too low. The conclusion that NEAR stays net inflationary through 2027 is conservative.
 - Caveats: forecasts from origins less than 90 days apart overlap, so there are only about 4–5 independent 90-day checks in 2026; the 365-day window that misbehaved in early 2026 no longer contains the 2025 hyper-growth today.
 - Also applied the same source's review checklist to our code: signals and calibration use only past data (trailing 7-day mean, no centred windows); no missing day is turned into a zero change since the price-series fix (entry 16); costs are not relevant here.
+
+## 2026-10-31
+
+### 22. Other angles while waiting for Dune: protocol fee, peers, market share
+
+**Is the September jump a protocol fee change? No.** Read on-chain (`intents.near` views and every `set_fee` / `set_fee_collector` call via NearBlocks):
+- the protocol fee of `intents.near` is **1 pip** (0.0001% of each trade, about 0.01 bps), unchanged since 2025-03-10 (set by `intents.sputnik-dao.near`; later `set_fee` calls by other accounts did not change the stored value: the view still returns 1);
+- its collector is an implicit account (`7066024d…`, since 2025-10-03), not one of the three revenue wallets;
+- the revenue wallets hold almost nothing inside `intents.near` (one token each): fees are converted and withdrawn as they arrive.
+- So NEAR's revenue does not come from the protocol fee. It comes from app fees (1Click, front-ends) paid to NEAR's wallets, which is where the September change must be (entry 12 on 1Click).
+
+**Peers: market cap / annualised holders revenue** (`src/analysis/comps.py`, `make comps`; DefiLlama holders revenue summed per parent protocol, CoinGecko market caps, 2026-10-30):
+
+| | Multiple |
+| --- | --- |
+| Peers with reported holders revenue (12) | median **22x** (interquartile 6–28x); e.g. HYPE 27x, UNI 46x, JUP 36x, PUMP 5.5x |
+| NEAR (NEAR Intents + chain fees burnt) | **212x** |
+| Break-even for NEAR supply | 41x |
+
+- At the peer median, NEAR Intents' current holders revenue would support about **$0.58B** of market cap, against $5.6B. About 90% of NEAR's value is priced on something other than this revenue: an L1 premium, staking, optionality on Intents' growth.
+- Caveat: NEAR is a layer 1, peers are mostly applications; not all peers are comparable, and AAVE, ENA, LDO, RUNE and JTO report no holders revenue on DefiLlama, so they are left out rather than counted as zero.
+
+**Market share among cross-chain swap venues** reporting to DefiLlama (NEAR Intents, THORChain, Chainflip, Maya): NEAR Intents went from **6%** of their combined volume in June 2025 to **45%** in October 2025 and **61–79%** in each month since May 2026. THORChain fell from 84% to 16–32%.
+- This supports the "real" half of the thesis: NEAR Intents won its category on volume. It does not change the "not enough" half: volume share has not turned into enough captured revenue.
+- Caveat: bridges and aggregators (Relay, Across, LI.FI, deBridge) are tracked separately by DefiLlama and are not in this denominator; several of them route through NEAR Intents.

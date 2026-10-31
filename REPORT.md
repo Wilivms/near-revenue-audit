@@ -80,6 +80,12 @@ Monte Carlo, 10,000 paths, volume and price drawn jointly in 30-day blocks from 
 
 Break-even at today's price: about $750M/day at 5.4 bps, $500M/day at 8 bps, $250M/day at 15 bps.
 
+### 6. Against peers and competitors
+
+- **Peers.** Tokens whose holders receive protocol revenue trade at a median **22x** market cap / annualised holders revenue (12 peers, interquartile 6–28x). NEAR trades at **212x**. At the peer median, NEAR Intents' revenue would support about $0.6B of market cap, against $5.6B: about 90% of NEAR's value rests on something other than this revenue (log 22). NEAR is a layer 1 and most peers are applications, so the gap is partly a category premium, not a mispricing.
+- **Competitors.** Among cross-chain swap venues on DefiLlama, NEAR Intents went from 6% of volume (June 2025) to 61–79% each month since May 2026; THORChain fell from 84% to 16–32%. NEAR won its category on volume; it has not yet turned that share into enough captured revenue.
+- **Protocol fee.** The `intents.near` fee itself is 1 pip (about 0.01 bps), unchanged since March 2025: NEAR's revenue comes from app fees, not from the protocol fee.
+
 ## Bull case and bear case
 
 **Bull.** The take rate is a lever NEAR can still pull: it doubled in two months and the sensitivity table shows that 8–15 bps with 2–4x today's volume reaches break-even. A single deal with the largest integrator, which now pays NEAR almost nothing, would add more revenue than any volume growth. The revenue is clean, reconciles to the chain and is not being sold.
