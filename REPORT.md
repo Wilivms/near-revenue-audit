@@ -86,6 +86,12 @@ Break-even at today's price: about $750M/day at 5.4 bps, $500M/day at 8 bps, $25
 - **Competitors.** Among cross-chain swap venues on DefiLlama, NEAR Intents went from 6% of volume (June 2025) to 61–79% each month since May 2026; THORChain fell from 84% to 16–32%. NEAR won its category on volume; it has not yet turned that share into enough captured revenue.
 - **Protocol fee.** The `intents.near` fee itself is 1 pip (about 0.01 bps), unchanged since March 2025: NEAR's revenue comes from app fees, not from the protocol fee.
 
+### 7. The holder's view
+
+- **Risk** (daily prices, Nov 2024 to Oct 2026): NEAR's volatility is about **103% a year** against 44% for BTC; its worst drawdown was **−88%** (Dec 2024 to Feb 2026), with 692 days under water; beta to BTC about 1.3–1.5. Revenue has not dampened the token's swings.
+- **Dilution**: issuance adds 2.4% of supply a year; buybacks at the last 30 days' pace remove 0.4%. Supply still grows about **2.0% a year**. A holder who does not stake loses about 2% of their share of the network each year; stakers (45% of supply) earn about 5.3% gross, before validator commission. Today, staking, not buybacks, is what protects a holder from dilution.
+- **What NEAR earns on** (1Click, last 30 days): swaps whose volatile leg is BTC bring 30% of NEAR's revenue, ZEC 23%, ETH 16%. Stablecoin-to-stablecoin swaps are 30% of volume but 9% of revenue, at 1.3 bps.
+
 ## Bull case and bear case
 
 **Bull.** The take rate is a lever NEAR can still pull: it doubled in two months and the sensitivity table shows that 8–15 bps with 2–4x today's volume reaches break-even. A single deal with the largest integrator, which now pays NEAR almost nothing, would add more revenue than any volume growth. The revenue is clean, reconciles to the chain and is not being sold.

@@ -42,6 +42,11 @@ def build() -> dict:
     mc_all = pd.read_csv(OUT / "montecarlo_paths_all.csv")
     sens = pd.read_csv(OUT / "montecarlo_sensitivity.csv")
     chain = json.loads(sorted((RAW / "chain_state").glob("*.json"))[-1].read_text())
+    comps = pd.read_csv(OUT / "comps.csv")
+    share = pd.read_csv(OUT / "crosschain_share.csv", index_col=0)
+    risk = pd.read_csv(OUT / "token_risk.csv")
+    hy = pd.read_csv(OUT / "holder_yield.csv")
+    by_asset = pd.read_csv(OUT / "revenue_by_asset_last30d.csv").rename(columns={"label": "asset"})
 
     sm = supply[supply["date"] >= "2026-02-01"]
     issuance_rate = sm["net_issuance_near"].sum() / pd.to_datetime(sm["date"]).dt.days_in_month.sum() * 365 \
@@ -64,6 +69,11 @@ def build() -> dict:
                                             "zec_vol_share", "zec_near_rev_share", "noref_near_rev_share",
                                             "top3_integrators_near_rev", "senders_per_day"]]),
         "fee_shares_last30d": _records(fees.head(8)),
+        "revenue_by_asset": _records(by_asset),
+        "comps": _records(comps[comps["mcap_to_holders_revenue"].notna()][["token", "market_cap_usd", "annualised_usd", "mcap_to_holders_revenue"]]),
+        "crosschain_share": _records(share.filter(like="_share").reset_index().rename(columns={share.index.name or "index": "month"})),
+        "token_risk": _records(risk),
+        "holder_yield": _records(hy),
         "montecarlo": {
             "scenarios": _records(mc_s[["name", "take_bps", "median_offset_2027", "p10_offset_2027",
                                         "p90_offset_2027", "p_2027_net_deflationary",

@@ -155,6 +155,7 @@ section.block { border-bottom: 1px solid var(--line); padding: 80px 0; }
 .card .sub { font-size: 12px; color: var(--ink-2); margin: 0 0 14px; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .grid2 .card + .card { margin-top: 0; }
+.grid2 + .card { margin-top: 16px; }
 .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 12px; color: var(--ink-2); margin: 0 0 10px; }
 .legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; margin-right: 6px; vertical-align: -1px; background: var(--c); }
 .legend span.line::before { height: 2px; width: 14px; vertical-align: 3px; }
@@ -265,6 +266,12 @@ input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); }
 .mcstats .l { font-size: 11px; color: var(--ink-2); text-transform: uppercase; letter-spacing: .04em; }
 .mcstats .v { font: 700 24px/1.2 var(--sans); letter-spacing: -0.02em; margin-top: 6px; }
 
+.holder { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.holder div { background: var(--card); padding: 14px 16px; }
+.holder .l { font-size: 11px; color: var(--ink-2); text-transform: uppercase; letter-spacing: .04em; }
+.holder .v { font: 700 26px/1.2 var(--sans); letter-spacing: -0.02em; margin-top: 6px; }
+.holder .c { font-size: 11px; color: var(--muted); margin-top: 4px; }
+@media (max-width: 560px) { .holder { grid-template-columns: 1fr 1fr; } }
 #tip { position: fixed; pointer-events: none; z-index: 30; background: var(--card); border: 1px solid var(--line); padding: 8px 10px; font-size: 12px; box-shadow: 4px 4px 0 var(--sunk); min-width: 170px; opacity: 0; transform: translateY(4px); transition: opacity 120ms ease, transform 160ms var(--ease-out); }
 #tip.show { opacity: 1; transform: translateY(0); }
 #tip .t { color: var(--ink-2); margin-bottom: 4px; }
@@ -316,7 +323,7 @@ footer li + li { margin-top: 6px; }
   <div class="wrap">
     <a class="brand" href="#top"><span>near-revenue-audit</span><span class="sep"></span><small>Investment thesis track</small></a>
     <nav class="nav" aria-label="Sections" id="nav">
-      <a href="#simulator">Simulator</a><a href="#kill-criteria">Kill criteria</a><a href="#buybacks">Buybacks</a><a href="#take-rate">Take rate</a><a href="#customer">Customer</a><a href="#forecast">2027</a><a href="#hypotheses">Hypotheses</a>
+      <a href="#simulator">Simulator</a><a href="#kill-criteria">Kill criteria</a><a href="#buybacks">Buybacks</a><a href="#take-rate">Take rate</a><a href="#customer">Customer</a><a href="#forecast">2027</a><a href="#context">Context</a><a href="#hypotheses">Hypotheses</a>
     </nav>
     <div class="actions">
       <button class="btn dark" id="themeBtn" type="button" aria-label="Switch theme"></button>
@@ -466,11 +473,18 @@ footer li + li { margin-top: 6px; }
       <div class="card reveal">
         <div class="cardbar">
           <div><h3>Share of app fees vs share of NEAR's revenue</h3><p class="sub">1Click swaps, last 30 days (1Click is about 28% of Intents volume)</p></div>
-          <div class="seg" id="segWho" role="group" aria-label="Sort by"><span class="pill"></span><button type="button" data-k="fee" aria-pressed="true">By app fees</button><button type="button" data-k="near" aria-pressed="false">By NEAR's revenue</button><button type="button" data-k="vol" aria-pressed="false">By volume</button></div>
+          <div class="seg" id="segWho" role="group" aria-label="Sort by"><span class="pill"></span><button type="button" data-k="a" aria-pressed="true">By app fees</button><button type="button" data-k="b" aria-pressed="false">By NEAR's revenue</button><button type="button" data-k="vol" aria-pressed="false">By volume</button></div>
         </div>
         <div class="legend"><span style="--c:var(--series-1)">Share of all app fees</span><span style="--c:var(--series-2)">Share of NEAR's revenue</span></div>
         <div id="chWho"></div>
         <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbWho"></div></details>
+      </div>
+      <div class="card reveal">
+        <h3>What NEAR earns on, by asset</h3>
+        <p class="sub">1Click swaps, last 30 days, labelled by the volatile leg (BTC→USDT counts as BTC). Stablecoin-to-stablecoin swaps are 30% of volume but pay NEAR 1.3 bps.</p>
+        <div class="legend"><span style="--c:var(--series-1)">Share of volume</span><span style="--c:var(--series-2)">Share of NEAR's revenue</span></div>
+        <div id="chAsset"></div>
+        <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbAsset"></div></details>
       </div>
     </div>
   </section>
@@ -500,10 +514,38 @@ footer li + li { margin-top: 6px; }
     </div>
   </section>
 
+  <section class="block" id="context" aria-labelledby="h-ctx">
+    <div class="wrap">
+      <div class="head">
+        <div><p class="kicker">07 / Context</p><h2 id="h-ctx">Peers, rivals, holders</h2></div>
+        <p>NEAR Intents won its category on volume, but NEAR is priced far above tokens whose holders share in revenue. And for a holder who does not stake, issuance still dilutes about 2% a year.</p>
+      </div>
+      <div class="grid2">
+        <div class="card reveal">
+          <h3>Market cap / annualised holders revenue</h3>
+          <p class="sub">Tokens whose holders receive protocol revenue (DefiLlama, CoinGecko). Log scale.</p>
+          <div id="chComps"></div>
+          <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbComps"></div></details>
+        </div>
+        <div class="card reveal">
+          <h3>NEAR Intents' share of cross-chain swap volume</h3>
+          <p class="sub">Against THORChain, Chainflip and Maya, monthly (DefiLlama)</p>
+          <div id="chShare"></div>
+          <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbShare"></div></details>
+        </div>
+      </div>
+      <div class="card">
+        <h3>The holder's view</h3>
+        <p class="sub">Daily prices since Nov 2024; supply, stake and buybacks at today's pace</p>
+        <div class="holder" id="holder"></div>
+      </div>
+    </div>
+  </section>
+
   <section class="block" id="hypotheses" aria-labelledby="h-score">
     <div class="wrap">
       <div class="head">
-        <div><p class="kicker">07 / Scorecard</p><h2 id="h-score">Hypotheses, as registered</h2></div>
+        <div><p class="kicker">08 / Scorecard</p><h2 id="h-score">Hypotheses, as registered</h2></div>
         <p>Each was written down before the test. Reasoning, dead ends and corrections: <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/RESEARCH_LOG.md">RESEARCH_LOG.md</a>. The full thesis: <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/REPORT.md">REPORT.md</a>.</p>
       </div>
       <div class="card"><div class="tbl-wrap" id="tbScore"></div></div>
@@ -740,44 +782,81 @@ function lineChart(host, xs, values, { yMax, ticks, fmt, label, longLabel, event
 }
 
 // Horizontal paired bars; rows keep their node and slide to a new slot on re-sort (transform transition).
-const who = { rows: [], nodes: new Map(), sort: "fee" };
+// st = { rows: [{name, a, b, extra}], sort, names: [nameA, nameB], aria }
+const who = { rows: [], nodes: new Map(), sort: "a", names: ["App fees", "NEAR's revenue"], aria: "Share of app fees and of NEAR's revenue by integrator" };
+const assets = { rows: [], nodes: new Map(), sort: "b", names: ["Volume", "NEAR's revenue"], aria: "Share of 1Click volume and of NEAR's revenue by asset" };
 const ROW_H = 38;
-function pairedBars(host) {
+function pairedBars(host, st) {
   W = Math.max(300, Math.round(host.clientWidth || 640));
-  const rows = who.rows, h = rows.length * ROW_H + 30, labW = W < 520 ? 104 : 160, x0 = labW + 10, x1 = W - 56;
-  const svg = svgEl("svg", { viewBox: `0 0 ${W} ${h}`, class: "chart", role: "img", "aria-label": "Share of app fees and of NEAR's revenue by integrator" });
-  const x = (v) => x0 + v * (x1 - x0);
-  [0, 0.25, 0.5, 0.75].forEach((t) => {
+  const rows = st.rows, maxV = Math.max(0.5, ...rows.flatMap((r) => [r.a, r.b]));
+  const ticks = maxV > 0.5 ? [0, 0.25, 0.5, 0.75] : [0, 0.1, 0.2, 0.3, 0.4, 0.5];
+  const top = maxV > 0.5 ? 0.8 : 0.5;
+  const h = rows.length * ROW_H + 30, labW = W < 520 ? 104 : 160, x0 = labW + 10, x1 = W - 56;
+  const svg = svgEl("svg", { viewBox: `0 0 ${W} ${h}`, class: "chart", role: "img", "aria-label": st.aria });
+  const x = (v) => x0 + (v / top) * (x1 - x0);
+  ticks.forEach((t) => {
     svg.appendChild(svgEl("line", { x1: x(t), x2: x(t), y1: 0, y2: h - 22, class: t ? "grid" : "base" }));
     svgText(svg, x(t), h - 5, fmtPct(t), { "text-anchor": "middle" });
   });
-  who.nodes = new Map();
+  st.nodes = new Map();
   rows.forEach((r) => {
     const g = svgEl("g", { class: "hbar" });
     svgText(g, labW, 16, r.name, { "text-anchor": "end", style: "fill:var(--ink-2);font-size:12px" });
-    [[r.fee, "var(--series-1)"], [r.near, "var(--series-2)"]].forEach(([v, c], j) => {
+    [[r.a, "var(--series-1)"], [r.b, "var(--series-2)"]].forEach(([v, c], j) => {
       const by = 3 + j * 13, w = Math.max(1, x(v) - x0);
       g.appendChild(svgEl("rect", { x: x0, y: by, width: w, height: 10, fill: c, class: "v" }));
       svgText(g, x0 + w + 6, by + 9, fmtPct(v), { class: "soft" });
     });
-    const hit = svgEl("rect", { x: 0, y: -6, width: W, height: ROW_H, class: "hit", tabindex: 0, "aria-label": `${r.name}: ${fmtPct(r.fee)} of app fees, ${fmtPct(r.near)} of NEAR's revenue, ${fmtPct(r.vol)} of volume` });
-    const show = (e) => showTip(e.clientX ? e : centerEvt(hit), r.name, [["App fees", fmtPct(r.fee, 1), "var(--series-1)"], ["NEAR's revenue", fmtPct(r.near, 1), "var(--series-2)"], ["Volume", fmtPct(r.vol, 1)]]);
+    const tipRows = [[st.names[0], fmtPct(r.a, 1), "var(--series-1)"], [st.names[1], fmtPct(r.b, 1), "var(--series-2)"], ...(r.extra || [])];
+    const hit = svgEl("rect", { x: 0, y: -6, width: W, height: ROW_H, class: "hit", tabindex: 0, "aria-label": `${r.name}: ${tipRows.map((t) => `${t[0]} ${t[1]}`).join(", ")}` });
+    const show = (e) => showTip(e.clientX ? e : centerEvt(hit), r.name, tipRows);
     hit.addEventListener("pointermove", show); hit.addEventListener("focus", show);
     hit.addEventListener("pointerleave", hideTip); hit.addEventListener("blur", hideTip);
     g.appendChild(hit);
-    svg.appendChild(g); who.nodes.set(r.name, g);
+    svg.appendChild(g); st.nodes.set(r.name, g);
   });
   host.replaceChildren(svg);
-  placeWho(false);
+  placeRows(st, false);
 }
-function placeWho(animate) {
-  const order = [...who.rows].sort((a, b) => b[who.sort] - a[who.sort]);
+function placeRows(st, animate) {
+  const order = [...st.rows].sort((a, b) => b[st.sort] - a[st.sort]);
   order.forEach((r, i) => {
-    const g = who.nodes.get(r.name);
+    const g = st.nodes.get(r.name);
     if (!animate) g.style.transition = "none";
     g.style.transform = `translateY(${i * ROW_H + 6}px)`;
     if (!animate) { g.getBoundingClientRect(); g.style.transition = ""; }
   });
+}
+
+// Peers on a log scale: NEAR in the accent, others recessive (highlight one, grey the rest).
+function compsChart(host, rows, breakEven) {
+  W = Math.max(300, Math.round(host.clientWidth || 640));
+  const sorted = [...rows].sort((a, b) => a.mcap_to_holders_revenue - b.mcap_to_holders_revenue);
+  const rowH = 26, h = sorted.length * rowH + 34, labW = 58, x0 = labW + 8, x1 = W - 60;
+  const lo = Math.log10(1), hi = Math.log10(400), x = (v) => x0 + (Math.log10(Math.max(1, v)) - lo) / (hi - lo) * (x1 - x0);
+  const svg = svgEl("svg", { viewBox: `0 0 ${W} ${h}`, class: "chart", role: "img", "aria-label": "Market cap divided by annualised holders revenue, by token, log scale" });
+  [1, 3, 10, 30, 100, 300].forEach((t) => {
+    svg.appendChild(svgEl("line", { x1: x(t), x2: x(t), y1: 0, y2: h - 26, class: t === 1 ? "base" : "grid" }));
+    svgText(svg, x(t), h - 8, `${t}×`, { "text-anchor": "middle" });
+  });
+  const g = svgEl("g", { class: "bars" }); svg.appendChild(g);
+  sorted.forEach((r, i) => {
+    const y = i * rowH + 4, w = Math.max(1, x(r.mcap_to_holders_revenue) - x0), isNear = r.token === "NEAR";
+    svgText(svg, labW, y + 12, r.token, { "text-anchor": "end", style: `fill:var(${isNear ? "--ink" : "--ink-2"});font-size:12px;font-weight:${isNear ? 600 : 400}` });
+    const wrapG = svgEl("g", { class: "bar-g", style: `transition-delay:${i * 30}ms` });
+    const mark = svgEl("rect", { x: x0, y, width: w, height: 14, fill: isNear ? "var(--series-1)" : "var(--axis)", class: "mark" });
+    wrapG.appendChild(mark); g.appendChild(wrapG);
+    svgText(svg, x0 + w + 6, y + 11, `${r.mcap_to_holders_revenue.toFixed(r.mcap_to_holders_revenue < 10 ? 1 : 0)}×`, { class: "soft", style: isNear ? "fill:var(--ink);font-weight:600" : "" });
+    const hit = svgEl("rect", { x: 0, y: y - 4, width: W, height: rowH, class: "hit", tabindex: 0, "aria-label": `${r.token}: ${r.mcap_to_holders_revenue.toFixed(1)} times` });
+    const on = (e) => { g.classList.add("hovering"); mark.classList.add("on"); showTip(e.clientX ? e : centerEvt(hit), r.token, [["Market cap / revenue", `${r.mcap_to_holders_revenue.toFixed(1)}×`, isNear ? "var(--series-1)" : "var(--axis)"], ["Market cap", fmtUSD(r.market_cap_usd)], ["Holders revenue, annualised", fmtUSD(r.annualised_usd)]]); };
+    const off = () => { g.classList.remove("hovering"); mark.classList.remove("on"); hideTip(); };
+    hit.addEventListener("pointermove", on); hit.addEventListener("focus", on); hit.addEventListener("pointerleave", off); hit.addEventListener("blur", off);
+    svg.appendChild(hit);
+  });
+  const bx = x(breakEven);
+  svg.appendChild(svgEl("line", { x1: bx, x2: bx, y1: 0, y2: h - 26, class: "ref" }));
+  svgText(svg, bx + 6, h - 30, `${Math.round(breakEven)}× break-even`, { class: "ref-label" });
+  host.replaceChildren(svg);
 }
 
 // Fan chart that tweens between scenarios (arrays and y-scale interpolate together).
@@ -1013,7 +1092,12 @@ function charts(D) {
   const w = D.oneclick_weekly;
   lineChart($("chOneClick"), w.map((r) => r.period_start), w.map((r) => r.near_bps),
     { yMax: 7, ticks: [0, 2, 4, 6], fmt: (v) => v.toFixed(1), label: monthName, longLabel: (d) => `Week of ${dayName(d)}`, title: "NEAR's take, bps", event: { at: SNAPSHOT, label: "Snapshot" } });
-  pairedBars($("chWho"));
+  pairedBars($("chWho"), who);
+  pairedBars($("chAsset"), assets);
+  compsChart($("chComps"), D.comps, 1 / D.issuance_rate);
+  const cs = D.crosschain_share;
+  lineChart($("chShare"), cs.map((r) => r.month), cs.map((r) => r["near-intents_share"]),
+    { yMax: 1, ticks: [0, 0.25, 0.5, 0.75, 1], fmt: (v) => fmtPct(v), label: monthName, longLabel: monthName, title: "NEAR Intents share" });
   setFan($("chFan"), D.montecarlo.paths[currentScenario], false);
 }
 function tables(D) {
@@ -1025,7 +1109,12 @@ function tables(D) {
   table($("tbTake"), ["Date", "Volume", "Captured", "bps, 14-day"], daily.filter((_, i) => i % 7 === 0 || i === daily.length - 1).map((r) => [r.date, fmtUSD(r.volume_usd), fmtUSD(r.captured_usd), r.take_bps_14d.toFixed(2)]));
   table($("tbOne"), ["Week of", "Volume / day", "NEAR bps", "All fees bps", "ZEC share of NEAR revenue", "No-integrator share of NEAR revenue"],
     D.oneclick_weekly.map((r) => [r.period_start, fmtUSD(r.volume_usd_per_day), r.near_bps.toFixed(2), r.fee_bps.toFixed(1), fmtPct(r.zec_near_rev_share), fmtPct(r.noref_near_rev_share)]));
-  who.rows = D.fee_shares_last30d.slice(0, 7).map((r) => ({ name: r.referral === "(none)" ? "No integrator" : r.referral.length > 16 ? r.referral.slice(0, 8) + "…" : r.referral, fee: r.fee_share, near: r.near_revenue_share, vol: r.volume_share }));
+  who.rows = D.fee_shares_last30d.slice(0, 7).map((r) => ({ name: r.referral === "(none)" ? "No integrator" : r.referral.length > 16 ? r.referral.slice(0, 8) + "…" : r.referral, a: r.fee_share, b: r.near_revenue_share, vol: r.volume_share, extra: [["Volume", fmtPct(r.volume_share, 1)]] }));
+  assets.rows = D.revenue_by_asset.filter((r) => r.near_revenue_share >= 0.01).map((r) => ({ name: r.asset, a: r.volume_share, b: r.near_revenue_share, extra: [["NEAR's take", `${r.near_bps.toFixed(1)} bps`], ["All app fees", `${r.all_fees_bps.toFixed(0)} bps`]] }));
+  table($("tbAsset"), ["Asset (volatile leg)", "Volume", "NEAR's revenue", "NEAR bps", "All fees bps"], D.revenue_by_asset.map((r) => [r.asset, fmtPct(r.volume_share, 1), fmtPct(r.near_revenue_share, 1), r.near_bps.toFixed(1), r.all_fees_bps.toFixed(0)]));
+  table($("tbComps"), ["Token", "Market cap", "Holders revenue, annualised", "Multiple"], [...D.comps].sort((a, b) => a.mcap_to_holders_revenue - b.mcap_to_holders_revenue).map((r) => [r.token, fmtUSD(r.market_cap_usd), fmtUSD(r.annualised_usd), `${r.mcap_to_holders_revenue.toFixed(1)}×`]));
+  table($("tbShare"), ["Month", "NEAR Intents", "THORChain", "Chainflip", "Maya"], D.crosschain_share.map((r) => [r.month.slice(0, 7), fmtPct(r["near-intents_share"]), fmtPct(r["thorchain-dex_share"]), fmtPct(r["chainflip-amm_share"]), fmtPct(r["maya-protocol_share"])]));
+  holderView(D);
   table($("tbWho"), ["Integrator (referral)", "Volume", "App fees", "NEAR's revenue"], D.fee_shares_last30d.map((r) => [r.referral, fmtPct(r.volume_share, 1), fmtPct(r.fee_share, 1), fmtPct(r.near_revenue_share, 1)]));
   const sens = D.montecarlo.sensitivity, cols = Object.keys(sens[0]).filter((k) => k !== "volume");
   const t = table($("tbSens"), ["Daily volume", ...cols], sens.map((r) => [r.volume, ...cols.map((c) => fmtPct(r[c]))]));
@@ -1071,6 +1160,22 @@ function scorecard() {
   [...st.tBodies[0].rows].forEach((row, i) => { const c = row.cells[2]; const txt = c.textContent; c.replaceChildren(); const sp = el("span", { class: "tag" }); sp.append(icon(score[i][1]), document.createTextNode(txt)); c.appendChild(sp); });
 }
 
+function holderView(D) {
+  const r = (asset, win) => D.token_risk.find((x) => x.asset === asset && x.window === win);
+  const n = r("NEAR", "since Nov 2024"), b = r("BTC", "since Nov 2024"), n1 = r("NEAR", "last 365 days");
+  const y = Object.fromEntries(D.holder_yield.map((x) => [x.measure, x.value]));
+  const tiles = [
+    ["Volatility, a year", fmtPct(n.annualised_vol), `BTC ${fmtPct(b.annualised_vol)}`],
+    ["Worst drawdown", fmtPct(n.max_drawdown), `${n.longest_underwater_days} days under water; BTC ${fmtPct(b.max_drawdown)}`],
+    ["Beta to BTC", n.beta_to_btc.toFixed(2), `correlation ${n.corr_to_btc.toFixed(2)}; last year ${n1.beta_to_btc.toFixed(2)}`],
+    ["Net supply growth", fmtPct(y["Net supply growth, % a year"], 1), `issuance ${fmtPct(y["NEAR issuance, % of supply a year"], 1)} − buybacks ${fmtPct(y["Buybacks at the last 30 days' pace, % of supply a year"], 1)}`],
+    ["Staker reward, gross", fmtPct(y["Staker gross reward, % a year (before commission)"], 1), `${fmtPct(y["Share of supply staked"])} of supply staked`],
+    ["Unstaked holder", fmtPct(y["Unstaked holder: change in share of supply, % a year"], 1), "change in share of supply, a year"],
+  ];
+  const host = $("holder"); host.replaceChildren();
+  tiles.forEach(([l, v, c]) => { const d = el("div"); d.append(el("div", { class: "l" }, l), el("div", { class: "v num" }, v), el("div", { class: "c" }, c)); host.appendChild(d); });
+}
+
 // nav: underline the section in view
 function navSpy() {
   if (!("IntersectionObserver" in window)) return;
@@ -1092,7 +1197,7 @@ function navSpy() {
   mcInit(D);
   charts(D);
   seg($("segSupply"), (k) => { supplyKey = k; renderSupply(D); $("chSupply").closest(".reveal").classList.add("in"); });
-  seg($("segWho"), (k) => { who.sort = k; placeWho(!REDUCED); });
+  seg($("segWho"), (k) => { who.sort = k; placeRows(who, !REDUCED); });
   observeReveals();
   let rt, lastW = innerWidth;
   addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (Math.abs(innerWidth - lastW) > 40) { lastW = innerWidth; charts(D); } }, 200); });

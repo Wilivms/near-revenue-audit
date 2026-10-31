@@ -292,3 +292,10 @@ Origins in 2026, 90-day horizon:
 **Market share among cross-chain swap venues** reporting to DefiLlama (NEAR Intents, THORChain, Chainflip, Maya): NEAR Intents went from **6%** of their combined volume in June 2025 to **45%** in October 2025 and **61–79%** in each month since May 2026. THORChain fell from 84% to 16–32%.
 - This supports the "real" half of the thesis: NEAR Intents won its category on volume. It does not change the "not enough" half: volume share has not turned into enough captured revenue.
 - Caveat: bridges and aggregators (Relay, Across, LI.FI, deBridge) are tracked separately by DefiLlama and are not in this denominator; several of them route through NEAR Intents.
+
+### 23. The holder's view, revenue by asset, dashboard context section
+
+- **Risk** (`src/analysis/token_risk.py`, `make risk`; NEAR and BTC daily prices from DefiLlama coins, Nov 2024 to Oct 2026): NEAR volatility 103% a year vs BTC 44%; max drawdown −88% (BTC −53%); 692 days under water; 95% daily CVaR 12.3% vs 5.1%; correlation 0.63 and beta 1.46 to BTC (1.29 over the last year). The rolling 90-day correlation fell from ~0.8 in early 2026 to ~0.3 in June–July, when NEAR moved on its own.
+- **Dilution** (stake from the RPC `validators` call: 593M NEAR staked, 45% of supply): issuance 2.42% a year, buybacks 0.40% at the last 30 days' pace and prices, net supply growth **2.0%**. Unstaked holders lose about 2% of their share a year; stakers earn about 5.3% gross before commission.
+- **Revenue by asset** (1Click, last 30 days, labelled by the volatile leg): BTC 30% of NEAR's revenue, ZEC 23%, ETH 16%, stablecoin↔stablecoin 9% (30% of volume, 1.3 bps). This labelling counts ZEC↔BTC swaps once, by origin, so ZEC's share here is lower than the "ZEC on either side" measure of entry 13.
+- **Dashboard**: new "Context" section (peers on a log scale with the 41x break-even, cross-chain market share, holder tiles) and a "What NEAR earns on, by asset" chart in the distribution section.

@@ -20,6 +20,8 @@ make supply     # measured issuance (archival RPC) vs NEAR captured → data/pro
 make ledger     # first-pass reconciliation on the buyback wallet only (kept to show the scope issue)
 make montecarlo # H5.1: 10,000 paths to end-2027 → montecarlo_scenarios.csv, montecarlo_sensitivity.csv
 make backtest   # walk-forward check: would the Monte Carlo have been calibrated in the past?
+make comps      # peers (market cap / holders revenue) and cross-chain swap market share
+make risk       # holder's view: volatility, drawdown, beta to BTC, net dilution, staking
 make test       # model checks (reproducibility, deflation identity)
 make dashboard-serve  # open http://localhost:8000 → live dashboard: headline figures and kill criteria
                 #   fetched from DefiLlama and the NEAR RPC on each load, plus the analysis outputs

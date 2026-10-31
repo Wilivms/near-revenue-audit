@@ -1,4 +1,4 @@
-.PHONY: data ledger revenue supply swaps montecarlo backtest comps dashboard dashboard-serve test all
+.PHONY: data ledger revenue supply swaps montecarlo backtest comps risk dashboard dashboard-serve test all
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -23,6 +23,9 @@ backtest:    ## walk-forward check of the Monte Carlo engine (calibration of pas
 
 comps:       ## peers (market cap / holders revenue) and cross-chain swap market share; refreshes data/raw/comps
 	python3 -m src.analysis.comps
+
+risk:        ## holder's view: NEAR vs BTC risk, issuance, stake, buyback yield; refreshes BTC prices and stake
+	python3 -m src.analysis.token_risk
 
 dashboard:   ## bundle committed outputs into dashboard/data.json
 	python3 -m src.analysis.dashboard_data

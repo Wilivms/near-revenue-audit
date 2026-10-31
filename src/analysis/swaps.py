@@ -7,6 +7,7 @@ Outputs (data/processed/):
 - swaps_weekly.csv     one row per 7-day period (Feb–Jul sample weeks, then weekly from Aug 15): volume, NEAR's bps, ZEC share, mix, concentration
 - snapshot_windows.csv before / after the NEAR@3.33 snapshot (2026-09-15/17)
 - retention.csv        sender retention between sample weeks and into the continuous window
+- revenue_by_asset_last30d.csv volume and NEAR revenue by the volatile leg of each swap (last 30 days)
 - fee_shares_last30d.csv each referral's share of volume, app fees and NEAR revenue (last 30 days)
 - snapshot_entrants.csv retention of senders who arrived just before the snapshot vs a placebo cohort
 """
@@ -222,6 +223,48 @@ def fee_shares(df: pd.DataFrame, days: int = 30) -> pd.DataFrame:
     return out
 
 
+STABLES = {
+    "nep141:eth-0xdac17f958d2ee523a2206206994597c13d831ec7.omft.near", "nep141:eth-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.omft.near",
+    "nep141:eth-0x6b175474e89094c44da98b954eedeac495271d0f.omft.near", "nep141:tron-d28a265909efecdcee7c5028585214ea0b96f015.omft.near",
+    "nep141:base-0x833589fcd6edb6e08f4c7c32d4f71b54bda02913.omft.near", "nep141:sol-5ce3bf3a31af18be40ba30f721101b4341690186.omft.near",
+    "nep141:sol-c800a4bd850783ccb82c2b2c7e84175443606352.omft.near", "nep141:arb-0xaf88d065e77c8cc2239327c5edb3a432268e5831.omft.near",
+    "nep141:arb-0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9.omft.near", "nep141:usdt.tether-token.near",
+    "nep141:17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+}
+MAJORS = {
+    "nep141:eth.omft.near": "ETH", "nep141:base.omft.near": "ETH", "nep141:arb.omft.near": "ETH", "nep141:sol.omft.near": "SOL",
+    "1cs_v1:btc:native:coin": "BTC", "nep141:nbtc.bridge.near": "BTC", "nep141:zec.omft.near": "ZEC", "nep141:ltc.omft.near": "LTC",
+    "nep141:xrp.omft.near": "XRP", "nep141:doge.omft.near": "DOGE", "nep141:tron.omft.near": "TRX", "nep141:wrap.near": "NEAR",
+    "nep141:sui.omft.near": "SUI", "nep141:cardano.omft.near": "ADA", "nep141:bch.omft.near": "BCH",
+}
+
+
+def _family(asset: str) -> str:
+    if asset in STABLES:
+        return "stable"
+    return MAJORS.get(asset, "other")
+
+
+def revenue_by_asset(df: pd.DataFrame, days: int = 30) -> pd.DataFrame:
+    """Last `days` days: volume and NEAR's revenue by the non-stable asset of each swap.
+
+    A swap is labelled by its non-stablecoin leg (BTC→USDT is "BTC"); stable→stable swaps are
+    "stable↔stable"; when both legs are volatile, the origin asset is used.
+    """
+    end = df["ts"].max()
+    d = df[df["ts"] > end - pd.Timedelta(days=days)]
+    o, t = d["origin_asset"].map(_family), d["destination_asset"].map(_family)
+    label = o.where(o != "stable", t).where(~((o == "stable") & (t == "stable")), "stable↔stable")
+    g = d.assign(label=label).groupby("label")[["usd", "near_usd", "fee_usd"]].sum()
+    out = pd.DataFrame({
+        "volume_share": g["usd"] / g["usd"].sum(),
+        "near_revenue_share": g["near_usd"] / g["near_usd"].sum(),
+        "near_bps": g["near_usd"] / g["usd"] * 1e4,
+        "all_fees_bps": g["fee_usd"] / g["usd"] * 1e4,
+    }).sort_values("near_revenue_share", ascending=False)
+    return out
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     df = load()
@@ -234,6 +277,9 @@ def main() -> None:
     ret.to_csv(OUT / "retention.csv", index=False)
     fs = fee_shares(df)
     fs.head(25).to_csv(OUT / "fee_shares_last30d.csv")
+    ra = revenue_by_asset(df)
+    ra.to_csv(OUT / "revenue_by_asset_last30d.csv")
+    print("NEAR revenue by asset, last 30 days"); print(ra.round(3).to_string())
     print("fee shares, last 30 days", fs.attrs["window"])
     print(fs.head(6).round(3).to_string())
     pd.set_option("display.width", 220, "display.max_columns", 30)
