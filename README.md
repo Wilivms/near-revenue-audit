@@ -16,7 +16,7 @@
 | Real | Revenue rebuilt from the chain matches DefiLlama within 0.1% ($7.29M since the 2026-02-23 fee switch) | `make revenue`, log 2 |
 | Growing, partly bought | NEAR's take doubled from mid-September (≈2.2 → 5.4 bps of volume), mostly because confidential swaps went from 13% to 41% of volume; that growth follows the NEAR@3.33 airdrop, whose first drop (~$1.39M) about equals the revenue uplift it produced | `make confidential`, logs 24–25 |
 | Not owned | On 1Click, integrators keep ~91% of the fee pool; SwapKit has 71% of app fees and sends NEAR ~1% of its revenue | `make swaps` outputs, logs 11, 18 |
-| Too small | Buybacks offset about **one fifth** of issuance; market cap ≈ 210x annual captured revenue vs 41x needed for supply to stop growing | `make supply`, `make montecarlo`, logs 5–6, 17 |
+| Too small | Buybacks offset about **one fifth** of issuance; market cap ≈ 200x annual captured revenue (moves with price; live on the dashboard) vs 41x needed for supply to stop growing | `make supply`, `make montecarlo`, logs 5–6, 17 |
 | Still true in 2027 | Base case: 21% of 2027 issuance offset, 9% chance of a net deflationary 2027; a walk-forward test shows the engine leans optimistic | `make montecarlo`, `make backtest`, logs 17, 21 |
 | Priced on something else | Peers whose holders share revenue trade at a median 22x; NEAR at 212x | `make comps`, log 22 |
 
