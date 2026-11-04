@@ -112,9 +112,9 @@ Break-even at today's price: about $750M/day at 5.4 bps, $500M/day at 8 bps, $25
 
 ## Bull case and bear case
 
-**Bull.** The take rate is a lever NEAR can still pull: it doubled in two months and the sensitivity table shows that 8–15 bps with 2–4x today's volume reaches break-even. A single deal with the largest integrator, which now pays NEAR almost nothing, would add more revenue than any volume growth. The revenue is clean, reconciles to the chain and is not being sold.
+**Bull.** Confidential swaps are a product NEAR monetises well (7–12 bps against under 1 bp on public swaps), and they reached 41% of volume. If a part of that use outlives the airdrop, the take rate stays well above its old level. The take rate is a lever NEAR can still pull: it doubled in two months and the sensitivity table shows that 8–15 bps with 2–4x today's volume reaches break-even. A single deal with the largest integrator, which now pays NEAR almost nothing, would add more revenue than any volume growth. The revenue is clean, reconciles to the chain and is not being sold.
 
-**Bear.** The rise came from pricing, on flows NEAR controls (users without integrator, ZEC). Those are the flows most exposed to competition from other routes. Integrators own the users, users do not stay, and half the 1Click revenue rides on one asset. If the take falls back to its May–Aug level, buybacks offset a tenth of issuance. Nearly half of what is called "buyback" sits in a treasury with no commitment not to sell.
+**Bear.** The rise came mostly from confidential swaps whose growth an airdrop is paying for (Drop 1 ≈ the revenue uplift it created), with each parked dollar swapped every 2–3 days. On 1Click, it came from pricing on flows NEAR controls (users without integrator, ZEC), the flows most exposed to competition. Integrators own the users, users do not stay, and half the 1Click revenue rides on one asset. If the take falls back to its May–Aug level, buybacks offset a tenth of issuance. Nearly half of what is called "buyback" sits in a treasury with no commitment not to sell.
 
 ## What would change our mind
 
@@ -134,12 +134,12 @@ The third result is a lesson as much as a finding: a kill criterion should measu
 - A revenue-sharing deal with SwapKit or other large integrators.
 - An on-chain commitment (or a sale) by the front-end fund.
 - ZEC flows: their share of NEAR's revenue, and whether Trust Wallet's deal lasts.
-- Confidential-intents flows after the NEAR@3.33 snapshot (H4.1, not yet testable).
+- Confidential share of volume and TVL once NEAR@3.33 rounds stop: the test of whether the take-rate jump is durable.
 
 ## Conviction and limits
 
 - **High** on "real" and on "too small to offset issuance today": both follow from on-chain data and an identity.
-- **Medium** on durability: the swap-level evidence covers 1Click only (28% of volume), and the September change is not explained for the other 72%.
+- **Medium-low** on durability: the September jump is now explained (confidential swaps, log 24), and that channel is incentive-driven. The fee NEAR earns on confidential swaps is estimated (7–12 bps), not published.
 - **Low** on end-2027 paths: the bootstrap can only replay the past, and the take rate is a policy choice.
 - A walk-forward check of the simulation engine (log 21) shows it **overestimated** buyback capacity in 2026: realised outcomes fell below the 10th percentile in a third of 90-day forecasts. If anything, the 21% base case is too generous, which makes "net inflationary through 2027" a conservative conclusion.
 
