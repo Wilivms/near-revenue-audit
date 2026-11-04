@@ -1214,7 +1214,10 @@ function navSpy() {
   requestAnimationFrame(() => requestAnimationFrame(() => $("hero").classList.add("in")));
   navSpy();
   let D;
-  try { D = await getJSON("data.json"); }
+  // Newest bundle from the daily GitHub refresh first; the copy deployed with the page as fallback.
+  try { D = await getJSON("https://raw.githubusercontent.com/Wilivms/near-revenue-audit/main/dashboard/data.json"); }
+  catch (e) { D = null; }
+  if (!D) try { D = await getJSON("data.json"); }
   catch (e) { $("statusLine").textContent = "Could not load data.json. Serve this folder over HTTP (make dashboard-serve)."; return; }
   tables(D);
   mcInit(D);

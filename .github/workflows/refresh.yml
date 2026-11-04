@@ -1,0 +1,31 @@
+name: daily refresh
+# Re-fetches the public sources, recomputes every offline step and commits the new
+# dashboard/data.json. The dashboard reads that file from GitHub, so it updates without a redeploy.
+# Raw snapshots stay frozen in the repository (they back REPORT.md); only the dashboard bundle moves.
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -r requirements.txt
+      - name: Fetch fresh public data and recompute
+        run: make refresh
+      - name: Commit the dashboard bundle only
+        run: |
+          git checkout -- data
+          git clean -fdq data
+          git config user.name "near-revenue-audit bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add dashboard/data.json
+          git diff --cached --quiet || git commit -m "Daily refresh of dashboard data ($(date -u +%F))"
+          git push
