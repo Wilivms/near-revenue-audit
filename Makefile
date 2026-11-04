@@ -1,4 +1,4 @@
-.PHONY: data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all
+.PHONY: reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -39,4 +39,10 @@ dashboard-serve: ## open the dashboard at http://localhost:8000 (live figures lo
 test:        ## model checks
 	python3 -m pytest -q tests
 
-all: data ledger revenue supply
+reproduce:   ## every offline step on the committed snapshots, then the tests
+	$(MAKE) ledger revenue supply montecarlo backtest confidential dashboard test
+
+refresh:     ## fetch fresh public snapshots (network), then re-run everything
+	$(MAKE) data comps risk reproduce
+
+all: reproduce
