@@ -39,6 +39,24 @@
   "all_confidential_fees_usd_dune_alltime": 3089268.81,
   "confidential_fee_bps_dune_alltime": 7.4261851538580945
  },
+ "turnover_daily": {
+  "2026-02": 0.0,
+  "2026-03": 0.0,
+  "2026-04": 0.251,
+  "2026-05": 0.221,
+  "2026-06": 0.372,
+  "2026-07": 0.186,
+  "2026-08": 0.388,
+  "2026-09": 0.457,
+  "2026-10": 0.351
+ },
+ "counterfactual": {
+  "may_aug_take_bps": 2.379411744581294,
+  "sep_oct_volume_usd": 8788000000.0,
+  "sep_oct_actual_usd": 3806885.1578066456,
+  "sep_oct_at_may_aug_take_usd": 2091027.0411380413,
+  "uplift_usd": 1715858.1166686043
+ },
  "monthly_confidential_share": {
   "2024-10": null,
   "2024-11": null,

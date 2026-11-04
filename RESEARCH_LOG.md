@@ -326,3 +326,12 @@ Dune's free plan has no API and no trial for this account, so the data was read 
 - "Durable": weaker. The fastest-growing source of NEAR's revenue is a channel whose growth is being paid for by an incentive with more rounds announced. The test is what confidential volume does once the rounds stop.
 - "Bought with incentives": now measurable. Roughly a third to a half of the confidential channel's revenue so far was handed back as Drop 1.
 - New kill criterion candidate, not pre-registered and therefore reported separately: confidential share of volume falling back below 15% for 30 days after the last NEAR@3.33 round.
+
+### 25. Did the airdrop pay for itself? Roughly, and it nets out in NEAR
+
+- **Counterfactual** (`counterfactual()` in `confidential.py`): at the May–Aug take rate (2.38 bps of all volume, when confidential swaps were 4–13% of volume), the $8.79B of Sep–Oct volume would have produced **$2.09M**; actual captured revenue was **$3.81M**. Uplift: **$1.72M** in two months.
+- Drop 1 of NEAR@3.33 cost about **$1.39M** (333,333 NEAR at ~$4.16). If all of the uplift is attributed to the program, it returned about 1.2x its cost in two months, before any later round.
+- **In NEAR, it nets out.** Daily, Sep 1–Oct 29: the uplift bought about **408k NEAR**; Drop 1 released **333k NEAR** into circulation. The program's net effect on circulating supply so far is about +75k NEAR retired, against 2.6M NEAR issued per month. The incentive moved revenue a lot and supply hardly at all.
+- **Turnover**: daily confidential volume / confidential TVL went from 0.19 (July) to 0.39 (August), 0.46 (September) and 0.35 (October): each dollar parked in a confidential balance is swapped every 2–3 days. Consistent with activity farming for later rounds (allocation weights reward activity), though the data cannot separate farming from genuine use.
+- Where the fee goes: Aurora's docs for confidential swaps say fees "behave exactly as they do today", and a user report puts a near.com confidential ETH→USDC swap at about 3x the cost of the same swap on Rabby, mostly attributed to solver spreads. Neither states the bps NEAR receives, so the 7–12 bps range stays an estimate. Question kept for the NEAR team.
+- Scenario link: the Monte Carlo scenario "take back to May–Aug level" (2.63 bps) is the "incentive ends" case. It offsets a median 10% of 2027 issuance, half the base case.

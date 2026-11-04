@@ -109,6 +109,26 @@ def json_fees() -> float:
     raise ValueError("confidential fees not found")
 
 
+def turnover(monthly: pd.DataFrame, tvl: pd.Series) -> dict:
+    """Daily confidential volume / confidential TVL, by month: how often each parked dollar is swapped."""
+    tv = tvl.resample("MS").mean()
+    x = monthly[["confidential_usd", "days"]].join(tv.rename("tvl"), how="inner")
+    x = x[x["tvl"] > 0]
+    return {str(k.date())[:7]: round(float(r.confidential_usd / r.days / r.tvl), 3) for k, r in x.iterrows()}
+
+
+def counterfactual(monthly: pd.DataFrame) -> dict:
+    """Sep–Oct revenue if the take rate had stayed at its May–Aug level (confidential share ~9%), vs actual."""
+    rev = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True)["rebuilt_total_usd"]
+    vol = monthly["public_usd"] + monthly["confidential_usd"]
+    base_take = rev["2026-05-01":"2026-08-31"].sum() / vol["2026-05-01":"2026-08-01"].sum()
+    sep_oct_vol = vol["2026-09-01":"2026-10-01"].sum()
+    actual = rev["2026-09-01":"2026-10-31"].sum()
+    return {"may_aug_take_bps": float(base_take * 1e4), "sep_oct_volume_usd": float(sep_oct_vol),
+            "sep_oct_actual_usd": float(actual), "sep_oct_at_may_aug_take_usd": float(sep_oct_vol * base_take),
+            "uplift_usd": float(actual - sep_oct_vol * base_take)}
+
+
 def main() -> None:
     monthly = monthly_volume()
     tvl = confidential_tvl()
@@ -117,6 +137,8 @@ def main() -> None:
         "regression": reg,
         "h41": h41(tvl),
         "incentive": incentive_cost(monthly, reg["rebuilt_total_usd"]["bps_confidential"]),
+        "turnover_daily": turnover(monthly, tvl),
+        "counterfactual": counterfactual(monthly),
         "monthly_confidential_share": {str(k.date())[:7]: (None if pd.isna(v) else round(float(v), 4)) for k, v in monthly["confidential_share"].items()},
     }
     OUT.mkdir(parents=True, exist_ok=True)
