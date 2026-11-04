@@ -146,28 +146,52 @@ REVENUE_WALLETS = [
 ]
 
 
-def fetch_account_history(account: str, kind: str = "txns", per_page: int = 25, max_pages: int = 1000) -> list:
-    """Full NearBlocks history of an account, oldest first. kind: 'txns' or 'ft-txns'."""
+def _row_key(row: dict) -> str:
+    # 'txns' rows are receipts (receipt_id); 'ft-txns' rows are token events (event_index)
+    return str(row.get("receipt_id") or row.get("event_index") or row.get("id"))
+
+
+def _previous(source: str) -> list | None:
+    files = sorted((RAW / source).glob("*.json"))
+    return json.loads(files[-1].read_text()) if files else None
+
+
+def fetch_account_history(account: str, kind: str = "txns", per_page: int = 25, max_pages: int = 1000,
+                          known: list | None = None) -> list:
+    """NearBlocks history of an account, oldest first. kind: 'txns' or 'ft-txns'.
+
+    With `known` (the last snapshot), only pages newer than it are fetched, newest first, and the
+    new rows are appended: a daily refresh needs a few calls instead of the whole history.
+    """
+    seen = {_row_key(r) for r in known} if known else None
     rows, cursor = [], None
     for _ in range(max_pages):
-        params = {"per_page": per_page, "order": "asc"}
+        params = {"per_page": per_page, "order": "desc" if seen else "asc"}
         if cursor:
             params["cursor"] = cursor
         page = _get(f"{NEARBLOCKS}/account/{account}/{kind}", params)
         batch = page.get("txns", [])
         if not batch:
             break
-        rows.extend(batch)
+        if seen is not None:
+            fresh = [r for r in batch if _row_key(r) not in seen]
+            rows.extend(fresh)
+            if len(fresh) < len(batch):
+                break
+        else:
+            rows.extend(batch)
         cursor = page.get("cursor")
         if not cursor:
             break
         time.sleep(1.2)  # stay well under the free-tier rate limit
-    return rows
+    if seen is None:
+        return rows
+    return known + sorted(rows, key=lambda r: int(r["block_timestamp"]))
 
 
 def fetch_buyback_txns() -> Path:
     """Full transaction history of the buyback wallet (kept for backward compatibility)."""
-    return _save("buyback_txns", fetch_account_history(BUYBACK_WALLET))
+    return _save("buyback_txns", fetch_account_history(BUYBACK_WALLET, known=_previous("buyback_txns")))
 
 
 def _view(contract: str, method: str, args: dict | None = None):
@@ -201,8 +225,9 @@ def fetch_revenue_wallets() -> dict[str, Path]:
     out = {}
     for wallet in REVENUE_WALLETS:
         short = wallet.split(".")[0]
-        out[f"{short}_txns"] = _save(f"wallet_{short}_txns", fetch_account_history(wallet, "txns"))
-        out[f"{short}_ft"] = _save(f"wallet_{short}_ft", fetch_account_history(wallet, "ft-txns"))
+        for kind, tag in (("txns", "txns"), ("ft-txns", "ft")):
+            name = f"wallet_{short}_{tag}"
+            out[f"{short}_{tag}"] = _save(name, fetch_account_history(wallet, kind, known=_previous(name)))
     return out
 
 

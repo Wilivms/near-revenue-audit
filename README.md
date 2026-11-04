@@ -34,7 +34,7 @@ make reproduce        # runs every offline step and the tests; ends with "5 pass
 | Command | You should see |
 | --- | --- |
 | `make revenue` | captured revenue rebuilt from 3 revenue wallets vs DefiLlama: ratio 0.999, each month within ±5% |
-| `make supply` | Feb–Oct 2026: 23.7M NEAR issued, 3.49M captured (14.7%) |
+| `make supply` | Feb–Oct 2026: 23.9M NEAR issued, 3.53M captured (14.8%) |
 | `make confidential` | confidential share of volume by month (41% in Oct), weekly fit `0.65 bps × public + 12.2 bps × confidential`, H4.1 test (TVL $71M → $155M), airdrop counterfactual |
 | `make montecarlo` | 9 scenarios (including an incentive wind-down) to end-2027 and the volume × take-rate table (break-even ≈ $750M/day at 5.4 bps) |
 | `make backtest` | calibration of past forecasts (share inside the 10–90% band, mean PIT) |

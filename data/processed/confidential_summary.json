@@ -1,40 +1,40 @@
 {
  "regression": {
-  "weeks": 12,
+  "weeks": 13,
   "first_week": "2026-08-03",
-  "last_week": "2026-10-19",
+  "last_week": "2026-10-26",
   "rebuilt_total_usd": {
-   "bps_public": 0.6525823519652818,
-   "bps_confidential": 12.170498864424522,
-   "r2": 0.8622915353682593
+   "bps_public": 1.0207694146048045,
+   "bps_confidential": 11.024354817756416,
+   "r2": 0.8457591720023836
   },
   "rebuilt_buybacks_usd": {
-   "bps_public": 0.5097440336876512,
-   "bps_confidential": 8.053991727951892,
-   "r2": 0.9449167303680271
+   "bps_public": 0.650979765005132,
+   "bps_confidential": 7.614333442661096,
+   "r2": 0.9412579737219557
   },
   "rebuilt_fefundsadmin_usd": {
-   "bps_public": 0.14161310282829642,
-   "bps_confidential": 4.115866855566276,
-   "r2": 0.628273188231181
+   "bps_public": 0.368285787249842,
+   "bps_confidential": 3.4102485051290348,
+   "r2": 0.5730355125543998
   },
   "bootstrap_90ci": {
    "bps_public": [
-    -0.1319070913822672,
-    1.2342667448176032
+    0.1781709999848378,
+    1.6687608090885384
    ],
    "bps_confidential": [
-    10.790255226822168,
-    14.481552867671605
+    9.725432750959888,
+    13.396201325418069
    ]
   },
   "daily_fit_bps": {
-   "public": 1.2971414474782772,
-   "confidential": 10.172409021155357,
-   "days": 90
+   "public": 1.5730112509978054,
+   "confidential": 9.230501970487024,
+   "days": 94
   },
-  "corr_confidential_vs_buyback_wallet": 0.9730727970276808,
-  "corr_public_vs_buyback_wallet": 0.3405345932663137
+  "corr_confidential_vs_buyback_wallet": 0.966728136100914,
+  "corr_public_vs_buyback_wallet": 0.1878542067972767
  },
  "h41": {
   "tvl_at_snapshot_usd": 71400000.0,
@@ -50,7 +50,7 @@
   "near_price_at_conversion": 4.163360981216509,
   "drop1_usd_at_conversion": 1387785.6059518426,
   "confidential_volume_jun15_oct_usd": 3753466666.6666665,
-  "captured_from_confidential_usd_regression": 4568156.180432196,
+  "captured_from_confidential_usd_regression": 4137954.832995478,
   "all_confidential_fees_usd_dune_alltime": 3089268.81,
   "confidential_fee_bps_dune_alltime": 7.4261851538580945
  },
@@ -68,9 +68,9 @@
  "counterfactual": {
   "may_aug_take_bps": 2.379411744581294,
   "sep_oct_volume_usd": 8788000000.0,
-  "sep_oct_actual_usd": 3806885.1578066456,
+  "sep_oct_actual_usd": 3957616.633615491,
   "sep_oct_at_may_aug_take_usd": 2091027.0411380413,
-  "uplift_usd": 1715858.1166686043
+  "uplift_usd": 1866589.5924774497
  },
  "monthly_confidential_share": {
   "2024-10": null,

@@ -346,3 +346,9 @@ Dune's free plan has no API and no trial for this account, so the data was read 
 - **New Monte Carlo scenario, "incentive winds down over 6 months"**: the take rate falls linearly from 5.41 bps to its May–Aug level (2.63) over 180 days, then stays there. 2027 offset: median **11%** of issuance (p10–p90 3–47%), 3% chance of a net deflationary 2027. Close to the "take back to May–Aug" case: by 2027 most of the wind-down has happened.
 - **Post-hoc kill criterion** (not pre-registered, reported separately): confidential share of volume below 15% for 30 days after the last NEAR@3.33 round. Today: 42% (week of 2026-10-19), rounds ongoing.
 - **Not done**: volume by asset for all of Intents (Dune query 5175131). The page's pagination did not give a consistent read (more rows collected than the 545 the table reports), so the figure is not used.
+
+### 27. Daily refresh: two bugs found by running it
+
+- The first scheduled runs spent over 30 minutes re-downloading the full history of the four revenue wallets from NearBlocks, 25 rows per call, with rate-limit back-offs. The fetch is now incremental: it reads the latest snapshot, then pulls only newer rows (newest first) until it meets one it already has. A day's refresh of all wallets now takes about a minute.
+- The supply cache (archival RPC) was never extended after the first run, so revenue-wallet flows from November met no supply reading and the monthly share divided by zero. The cache now adds the current final block when it is more than 3 days old, and the monthly table keeps complete months only.
+- Effect on the numbers: October now ends on a real supply reading instead of an interpolation. Feb–Oct 2026: 23.9M NEAR issued, 3.53M captured (**14.8%**, was 14.7%). Holder view unchanged (issuance 2.42% a year, net supply growth 2.0%).

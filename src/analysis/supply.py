@@ -35,6 +35,14 @@ def sample_supply(start: str = "2025-10-01", step_days: int = 7) -> pd.DataFrame
     """Total supply roughly every `step_days`, found by walking block heights back from now."""
     cache = json.loads(CACHE.read_text()) if CACHE.exists() else []
     if cache:
+        # Daily refresh: add the current final block when the cache is more than 3 days old
+        # (issuance is close to linear, so the gap is interpolated).
+        if time.time() - max(p["ts"] for p in cache) > 3 * 86400:
+            try:
+                cache.append(_header("final"))
+                CACHE.write_text(json.dumps(cache))
+            except Exception as e:  # noqa: BLE001
+                print(f"WARNING supply: could not read the final block, using the cache: {e}")
         return pd.DataFrame(cache)
     now = _header("final")
     rate = 1.65  # blocks per second, refined after each sample
@@ -70,8 +78,10 @@ def monthly() -> pd.DataFrame:
 
     df = pd.concat([issuance, captured, direct.rename("captured_near_buyback_wallet"),
                     left.rename("near_left_revenue_wallets")], axis=1, sort=True).fillna(0)
+    df = df.loc[: daily.index.max()]  # only days covered by a supply reading
     m = df.resample("MS").sum().loc["2025-11-01":]
-    m["captured_share_of_issuance"] = m.captured_near_3_wallets / m.net_issuance_near
+    m = m[m.index + pd.offsets.MonthEnd(0) <= daily.index.max()]  # complete months only
+    m["captured_share_of_issuance"] = m.captured_near_3_wallets / m.net_issuance_near.where(m.net_issuance_near > 0)
     m["net_flow_to_market_near"] = m.net_issuance_near - m.captured_near_3_wallets + m.near_left_revenue_wallets
     m.to_csv(OUT / "supply_monthly.csv")
     return m
@@ -83,6 +93,6 @@ if __name__ == "__main__":
     since = m.loc["2026-02-01":]
     issued, cap = since.net_issuance_near.sum(), since.captured_near_3_wallets.sum()
     direct = since.captured_near_buyback_wallet.sum()
-    print(f"\nFeb–Oct 2026: issued {issued:,.0f} NEAR | captured by the 3 revenue wallets {cap:,.0f} ({cap/issued:.1%})"
+    print(f"\nFeb 2026 to {m.index.max():%b %Y}: issued {issued:,.0f} NEAR | captured by the 3 revenue wallets {cap:,.0f} ({cap/issued:.1%})"
           f" | of which straight into the buyback wallet {direct:,.0f} ({direct/issued:.1%})"
           f" | left the revenue wallets {since.near_left_revenue_wallets.sum():,.0f}")
