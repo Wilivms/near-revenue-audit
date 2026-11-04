@@ -7,7 +7,7 @@
 **Question:** is NEAR's protocol revenue real, durable, or bought with incentives, and what does that imply for the NEAR token?
 
 - **Live dashboard:** https://near-revenue-audit.vercel.app (headline figures and kill criteria recomputed from DefiLlama and the NEAR RPC on every visit; analysis outputs refreshed daily).
-- **The thesis:** [`REPORT.md`](REPORT.md). **Working notes, dead ends, corrections:** [`RESEARCH_LOG.md`](RESEARCH_LOG.md). **Hypotheses written before the tests:** [`HYPOTHESES.md`](HYPOTHESES.md).
+- **The thesis:** [`REPORT.md`](REPORT.md). **Working notes, dead ends, corrections:** [`RESEARCH_LOG.md`](RESEARCH_LOG.md). **Hypotheses written before the tests:** [`HYPOTHESES.md`](HYPOTHESES.md). **Reviewer FAQ:** [`FAQ.md`](FAQ.md).
 
 ## Findings in 60 seconds
 
@@ -36,12 +36,12 @@ make reproduce        # runs every offline step and the tests; ends with "5 pass
 | `make revenue` | captured revenue rebuilt from 3 revenue wallets vs DefiLlama: ratio 0.999, each month within ±5% |
 | `make supply` | Feb–Oct 2026: 23.7M NEAR issued, 3.49M captured (14.7%) |
 | `make confidential` | confidential share of volume by month (41% in Oct), weekly fit `0.65 bps × public + 12.2 bps × confidential`, H4.1 test (TVL $71M → $155M), airdrop counterfactual |
-| `make montecarlo` | 8 scenarios to end-2027 and the volume × take-rate table (break-even ≈ $750M/day at 5.4 bps) |
+| `make montecarlo` | 9 scenarios (including an incentive wind-down) to end-2027 and the volume × take-rate table (break-even ≈ $750M/day at 5.4 bps) |
 | `make backtest` | calibration of past forecasts (share inside the 10–90% band, mean PIT) |
 | `make dashboard-serve` | the dashboard at http://localhost:8000 |
 | `make test` | model checks: seed reproducibility, deflation identity, no look-ahead in the backtest |
 
-With network access, `make refresh` fetches fresh snapshots (DefiLlama, NEAR RPC and archival RPC, NearBlocks, CoinGecko) and re-runs everything. A daily GitHub Action does this and redeploys the dashboard.
+With network access, `make refresh` fetches fresh snapshots (DefiLlama, NEAR RPC and archival RPC, NearBlocks, CoinGecko) and re-runs everything. A daily GitHub Action does this and commits the refreshed `dashboard/data.json`, which the hosted dashboard loads.
 
 ## Method
 

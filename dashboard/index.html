@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>NEAR Revenue Audit</title>
 <meta name="description" content="Live audit of NEAR Intents revenue: is it real, durable, and does it offset NEAR issuance?">
+<meta property="og:type" content="website">
+<meta property="og:title" content="NEAR Revenue Audit">
+<meta property="og:description" content="Revenue rebuilt from the chain: real (0.1% from DefiLlama), partly bought by the NEAR@3.33 airdrop, and buying back about a fifth of new NEAR.">
+<meta property="og:url" content="https://near-revenue-audit.vercel.app/">
+<meta property="og:image" content="https://near-revenue-audit.vercel.app/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://near-revenue-audit.vercel.app/og.png">
+<meta name="theme-color" content="#ebe4d3">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -84,7 +93,7 @@ a { color: inherit; text-underline-offset: 3px; }
 .btn .short { display: none; }
 
 /* hero */
-.hero { padding: 80px 0 44px; text-align: center; }
+.hero { padding: 80px 24px 44px; text-align: center; }
 .hero h1 { font: 700 clamp(44px, 8.6vw, 116px)/0.95 var(--sans); letter-spacing: -0.045em; margin: 0; }
 .hero h1 .w { display: inline-block; clip-path: inset(0 0 0 0); }
 .hero h1 .w > span { display: inline-block; }
@@ -732,7 +741,7 @@ function columnChart(host, data, { yMax, ticks, fmt, ref, refLabel, tipRows, col
   if (ref !== undefined) refLine(svg, y, ref, refLabel);
   const n = data.length, band = (W - PAD.l - PAD.r) / n, bw = Math.min(26, band * 0.56);
   const g = svgEl("g", { class: "bars" }); svg.appendChild(g);
-  const st = Math.ceil(n / 8);
+  const st = Math.ceil(n / (W < 480 ? 4 : 8));
   data.forEach((d, i) => {
     const cx = PAD.l + band * (i + 0.5), top = y(d.v), base = y(0), hgt = Math.max(0, base - top), r = Math.min(4, hgt);
     const path = `M${cx - bw/2},${base} V${top + r} Q${cx - bw/2},${top} ${cx - bw/2 + r},${top} H${cx + bw/2 - r} Q${cx + bw/2},${top} ${cx + bw/2},${top + r} V${base} Z`;
@@ -767,7 +776,7 @@ function lineChart(host, xs, values, { yMax, ticks, fmt, label, longLabel, event
   let li = values.length - 1; while (li > 0 && values[li] == null) li--;
   svg.appendChild(svgEl("circle", { cx: x(li), cy: y(values[li]), r: 4, fill: color, stroke: "var(--card)", "stroke-width": 2, class: "soft" }));
   svgText(svg, x(li) - 10, y(values[li]) - 12, fmt(values[li]), { "text-anchor": "end", class: "end-label soft" });
-  const step = Math.ceil(n / 6);
+  const step = Math.ceil(n / (W < 480 ? 4 : 6));
   let prev = "";
   xs.forEach((xv, i) => { const lab = label(xv); if (i % step === 0 && lab !== prev) { svgText(svg, x(i), h - 8, lab, { "text-anchor": "middle" }); prev = lab; } });
   const cross = svgEl("line", { y1: PAD.t, y2: h - PAD.b, stroke: "var(--axis)", "stroke-width": 1, visibility: "hidden" });
