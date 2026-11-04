@@ -13,7 +13,7 @@ NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys 
 ## The answer in five lines
 
 - **Real.** Rebuilt from the chain, captured revenue matches DefiLlama to 0.1% ($7.29M since the fee switch). Almost nothing has left the wallets (1.6%, traced to corrections returned to the bridge operator).
-- **Growing, through pricing.** NEAR's cut of volume doubled from mid-September (about 2.2 to 5.4 bps of volume). On the 1Click channel, the rise comes from charging more on flows NEAR controls and from one new 20 bps distribution deal, not from more volume.
+- **Growing, but partly bought.** NEAR's cut of volume doubled from mid-September (about 2.2 to 5.4 bps). Most of the rise comes from **confidential swaps**, which went from 13% of Intents volume in August to 41% in October and pay NEAR roughly 7–12 bps, against under 1 bp on public swaps. That surge coincides with an airdrop campaign (NEAR@3.33) that rewards confidential balances and swaps; its first drop cost about $1.4M in NEAR, a third to a half of the revenue the channel brought.
 - **Not owned.** On 1Click, integrators keep about 91% of the fee pool. The largest one (SwapKit, 40% of volume, 71% of app fees) pays NEAR almost nothing. Half of NEAR's 1Click revenue comes from users without an integrator, and about half from one asset, ZEC.
 - **Too small for the supply story.** Buybacks offset about **one fifth** of issuance: 19 NEAR bought back for every 100 issued over the last 30 days. Market cap is about **210 times** annual captured revenue; break-even needs **41 times**.
 - **Still true at end-2027 in the base case.** In 10,000 simulated paths, buybacks offset a median 21% of 2027 issuance; there is a 9% chance that 2027 is net deflationary. Break-even needs about $750M of daily volume at today's take, against $135M now.
@@ -31,7 +31,23 @@ NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys 
 
 One caveat changes the reading of "buyback". The front-end fund holds about 1.95M NEAR (47% of all NEAR captured to date). It is a Sputnik DAO run by accounts that appear to belong to Aurora's finance team. It has not sold, but nothing on-chain commits it not to, and it paid four 50,000 USDC invoices from revenue. **Bought is not retired.**
 
-### 2. The revenue is growing, but through pricing
+### 2. The revenue is growing, mostly through confidential swaps, which an incentive is paying for
+
+Source: NEAR's own Dune dashboard (@near, "NEAR Intents"), read from its public result tables (log 24).
+
+| | Aug 2026 | Sep 2026 | Oct 2026 |
+| --- | --- | --- | --- |
+| Confidential share of Intents volume | 13% | 28% | 41% |
+| Confidential volume | $0.43B | $1.35B | $1.63B |
+| Captured revenue, bps of all volume | ~2.3 | ~3.7 | ~5.5 |
+
+- Weekly, Aug–Oct (12 complete weeks): captured revenue ≈ **0.7 bps × public volume + 12 bps × confidential volume** (R² 0.86). Confidential volume tracks inflows to the buyback wallet (correlation 0.97; public volume 0.34). Dune's own fee table puts all confidential fees at 7.4 bps of confidential volume, all time. On either figure, confidential swaps explain **most of the September–October jump**: from about 60% (at 7.4 bps) to nearly all of it (at 12 bps).
+- **Why it grew**: NEAR@3.33 (NEAR Foundation, announced 2026-06-15) rewards users who keep a confidential balance on near.com and swap confidentially. Drop 1, 333,333 NEAR, was triggered when confidential TVL reached $70M (mid-September) and converts to NEAR once NEAR holds $3.33 for three days, which happened around 2026-09-21 (about **$1.39M** at that price). Later rounds require more activity, which is consistent with TVL still growing after the snapshot.
+- **Cost against revenue**: confidential volume from the launch to October ≈ $3.75B, i.e. **$2.8M–4.6M** of revenue at 7.4–12 bps. Drop 1 alone cost **30–50%** of it, paid in NEAR that enters circulation, against about 1M NEAR captured by the revenue wallets in September and October.
+- **H4.1 is rejected**: confidential TVL did not leave after the snapshot. It was $71M on 2026-09-16, $155M thirty days later, peaked at $187M on 2026-09-27 and was $143M on 2026-10-31.
+
+#### On 1Click (public swaps)
+
 
 - Captured revenue / volume, 14-day rolling: about 2.2 bps in mid-August, 3.0 in mid-September, 5.4 in mid-October. Gross fees stayed at 14–16 bps, so NEAR's share of fees rose from about 15–20% to 35%. (log 7, 10)
 - On 1Click (2.42M swaps collected from the Explorer API), NEAR's take went from 2.23 to 4.64 bps between the four weeks before the NEAR@3.33 snapshot and the last two weeks. Shift-share of the +2.4 bps (log 12):

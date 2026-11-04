@@ -1,0 +1,6 @@
+# Read 2026-11-01..03 from @near's public Dune queries (all time, USD, all fee recipients)
+# 6162606 Total generated fees: fees=58993552.74 public=55904283.93 confidential=3089268.81
+# 5175176 30 Days Volume: volume=3897049478.62 public=2239884182.55 confidential=1657165296.06
+# 5179085 cumulative to 2026-11-02: total=37186797115.87 public=33026829722.12 confidential=4159967393.75
+# 6162721 fees by channel (all time): swapkit 42094775; zodl 3237731; confidential intents 3041310; zashi 2989792; near-intents.intents-referral.near 1964339; rango 777397; new.intents-referral.near 600573; aurora 285763; vizor 277496; solswap.intents-referral.near 226853; e1a72603-64b3-4be1-8265-8bae5970d396 207857; lifi 187101; swapkit-thorswap 186520; shapeshift 131811; thorwallet 128525; near-mobile 74720; leodex 73939; rubic 70939; kyberswap 69666; gemwallet 61169; trustwallet 53766; exchange 45783; blackmarket.tg 43237; intents.tg 41635; protocol fee 34587
+# SQL of 6162721: protocol fees from dune.near.dataset_near_intents_protocol_fees + referral fees from dune.near.dataset_near_intents_fees (referral like %aurora% grouped)

@@ -1,4 +1,4 @@
-.PHONY: data ledger revenue supply swaps montecarlo backtest comps risk dashboard dashboard-serve test all
+.PHONY: data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -26,6 +26,9 @@ comps:       ## peers (market cap / holders revenue) and cross-chain swap market
 
 risk:        ## holder's view: NEAR vs BTC risk, issuance, stake, buyback yield; refreshes BTC prices and stake
 	python3 -m src.analysis.token_risk
+
+confidential: ## confidential swaps from NEAR's Dune dashboard (data/raw/dune): volume share, take-rate regression, H4.1, incentive cost
+	python3 -m src.analysis.confidential
 
 dashboard:   ## bundle committed outputs into dashboard/data.json
 	python3 -m src.analysis.dashboard_data

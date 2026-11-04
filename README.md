@@ -22,6 +22,7 @@ make montecarlo # H5.1: 10,000 paths to end-2027 → montecarlo_scenarios.csv, m
 make backtest   # walk-forward check: would the Monte Carlo have been calibrated in the past?
 make comps      # peers (market cap / holders revenue) and cross-chain swap market share
 make risk       # holder's view: volatility, drawdown, beta to BTC, net dilution, staking
+make confidential # confidential swaps (from NEAR's Dune dashboard): share of volume, take-rate regression, H4.1
 make test       # model checks (reproducibility, deflation identity)
 make dashboard-serve  # open http://localhost:8000 → live dashboard: headline figures and kill criteria
                 #   fetched from DefiLlama and the NEAR RPC on each load, plus the analysis outputs
@@ -44,7 +45,7 @@ The thesis is an audit in five pillars. Hypotheses were written **before** runni
 | 1. Ledger | Does reported revenue actually reach the buyback wallet? | DefiLlama, NearBlocks (`buybacks.multisignature.near`), NEAR price |
 | 2. Supply | Do buybacks offset issuance? | NEAR RPC (supply, inflation), NearBlocks |
 | 3. Quality of revenue | Where does revenue come from, and is it concentrated? | NEAR Intents Explorer API |
-| 4. Incentives | How much growth is bought with incentives (NEAR@3.33)? | Intents Explorer API (confidential flows) |
+| 4. Incentives | How much growth is bought with incentives (NEAR@3.33)? | NEAR's Dune dashboard (confidential volume and TVL), read from its public result tables |
 | 5. Valuation | What is the range of outcomes for NEAR supply and value? | Monte Carlo on the above |
 
 ## Status

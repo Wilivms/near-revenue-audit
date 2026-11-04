@@ -349,7 +349,7 @@ footer li + li { margin-top: 6px; }
       <div>
         <p class="kicker">00 / Live reading</p>
         <h2 id="h-glance">For every 100 NEAR issued</h2>
-        <p class="lede">NEAR's revenue is real: it reconciles to the chain within 0.1%. It is growing, mostly because NEAR now charges more on the flows it controls. But at today's market cap it buys back only a fraction of what is issued. Recomputed from live data each time the page loads.</p>
+        <p class="lede">NEAR's revenue is real: it reconciles to the chain within 0.1%. It is growing, mostly through confidential swaps that an airdrop campaign is paying for. And at today's market cap it buys back only a fraction of what is issued. Recomputed from live data each time the page loads.</p>
         <div class="meter" aria-hidden="true">
           <div class="meter-track"><div class="meter-fill" id="meterFill"></div></div>
           <div class="meter-scale"><span>0</span><span>50</span><span>100 = supply stops growing</span></div>
@@ -443,7 +443,7 @@ footer li + li { margin-top: 6px; }
     <div class="wrap">
       <div class="head">
         <div><p class="kicker">04 / Pricing</p><h2 id="h-take">NEAR's cut doubled in September</h2></div>
-        <p>Captured revenue in basis points of volume. Volume did not drive the rise; NEAR's take did. On 1Click, swap-level data shows why: a 20 bps Trust Wallet ZEC flow and higher fees on swaps that arrive without an integrator.</p>
+        <p>Captured revenue in basis points of volume. Volume did not drive the rise. Mostly, confidential swaps did: they went from 13% to 41% of volume between August and October and pay NEAR far more than public swaps. On 1Click, NEAR also repriced (a 20 bps Trust Wallet ZEC flow, higher fees on swaps without an integrator).</p>
       </div>
       <div class="grid2">
         <div class="card reveal">
@@ -460,6 +460,16 @@ footer li + li { margin-top: 6px; }
           <div id="chOneClick"></div>
           <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbOne"></div></details>
         </div>
+      </div>
+      <div class="card reveal">
+        <h3>Confidential swaps: where the jump came from, and what pays for it</h3>
+        <p class="sub" id="confSub">From NEAR's own Dune dashboard. Confidential swaps pay NEAR roughly 7–12 bps, against under 1 bp on public swaps; their growth follows the NEAR@3.33 airdrop, which rewards confidential balances and swaps.</p>
+        <div class="grid2" style="margin-top:8px">
+          <div><div class="legend"><span class="line" style="--c:var(--series-1)">Confidential share of volume, weekly</span></div><div id="chConfShare"></div></div>
+          <div><div class="legend"><span class="line" style="--c:var(--series-2)">Confidential TVL</span><span class="mark">NEAR@3.33 snapshot</span></div><div id="chConfTvl"></div></div>
+        </div>
+        <div class="mcstats" id="confStats" style="margin-top:14px"></div>
+        <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbConf"></div></details>
       </div>
     </div>
   </section>
@@ -1092,6 +1102,12 @@ function charts(D) {
   const w = D.oneclick_weekly;
   lineChart($("chOneClick"), w.map((r) => r.period_start), w.map((r) => r.near_bps),
     { yMax: 7, ticks: [0, 2, 4, 6], fmt: (v) => v.toFixed(1), label: monthName, longLabel: (d) => `Week of ${dayName(d)}`, title: "NEAR's take, bps", event: { at: SNAPSHOT, label: "Snapshot" } });
+  const cw = D.confidential.weekly;
+  lineChart($("chConfShare"), cw.map((r) => r.week), cw.map((r) => r.confidential_share),
+    { yMax: 0.5, ticks: [0, 0.1, 0.2, 0.3, 0.4, 0.5], fmt: (v) => fmtPct(v), label: monthName, longLabel: (d) => `Week of ${dayName(d)}`, title: "Confidential share", event: { at: SNAPSHOT, label: "Snapshot" } });
+  const ct = D.confidential.tvl.filter((r) => r.date >= "2026-05-01");
+  lineChart($("chConfTvl"), ct.map((r) => r.date), ct.map((r) => r.confidential_tvl_usd / 1e6),
+    { yMax: 200, ticks: [0, 50, 100, 150, 200], fmt: (v) => `$${v.toFixed(0)}M`, label: monthName, longLabel: dayName, title: "Confidential TVL", event: { at: SNAPSHOT, label: "Snapshot" }, color: "var(--series-2)" });
   pairedBars($("chWho"), who);
   pairedBars($("chAsset"), assets);
   compsChart($("chComps"), D.comps, 1 / D.issuance_rate);
@@ -1115,6 +1131,13 @@ function tables(D) {
   table($("tbComps"), ["Token", "Market cap", "Holders revenue, annualised", "Multiple"], [...D.comps].sort((a, b) => a.mcap_to_holders_revenue - b.mcap_to_holders_revenue).map((r) => [r.token, fmtUSD(r.market_cap_usd), fmtUSD(r.annualised_usd), `${r.mcap_to_holders_revenue.toFixed(1)}×`]));
   table($("tbShare"), ["Month", "NEAR Intents", "THORChain", "Chainflip", "Maya"], D.crosschain_share.map((r) => [r.month.slice(0, 7), fmtPct(r["near-intents_share"]), fmtPct(r["thorchain-dex_share"]), fmtPct(r["chainflip-amm_share"]), fmtPct(r["maya-protocol_share"])]));
   holderView(D);
+  const cs2 = D.confidential.summary;
+  const cst = $("confStats"); cst.replaceChildren();
+  [["NEAR's take on confidential", `${cs2.regression.bps_confidential.toFixed(0)} bps`, `vs ${cs2.regression.bps_public.toFixed(1)} on public (weekly fit, R² ${cs2.regression.r2.toFixed(2)})`],
+   ["Drop 1 cost", fmtUSD(cs2.incentive.drop1_usd_at_conversion), `333,333 NEAR, vs ${fmtUSD(cs2.incentive.confidential_volume_jun15_oct_usd * cs2.incentive.confidential_fee_bps_dune_alltime / 1e4)}–${fmtUSD(cs2.incentive.captured_from_confidential_usd_regression)} of revenue from the channel since June`],
+   ["Confidential TVL", `${fmtUSD(cs2.h41.tvl_at_snapshot_usd)} → ${fmtUSD(cs2.h41.tvl_30d_after_usd)}`, "at the snapshot → 30 days later (H4.1 rejected)"]]
+    .forEach(([l, v, c]) => { const d = el("div"); d.append(el("div", { class: "l" }, l), el("div", { class: "v num" }, v), el("div", { class: "l", style: "text-transform:none;margin-top:4px" }, c)); cst.appendChild(d); });
+  table($("tbConf"), ["Week of", "Public volume", "Confidential volume", "Confidential share", "Captured, bps"], D.confidential.weekly.map((r) => [r.week, fmtUSD(r.public_usd), fmtUSD(r.confidential_usd), fmtPct(r.confidential_share), r.take_bps.toFixed(2)]));
   table($("tbWho"), ["Integrator (referral)", "Volume", "App fees", "NEAR's revenue"], D.fee_shares_last30d.map((r) => [r.referral, fmtPct(r.volume_share, 1), fmtPct(r.fee_share, 1), fmtPct(r.near_revenue_share, 1)]));
   const sens = D.montecarlo.sensitivity, cols = Object.keys(sens[0]).filter((k) => k !== "volume");
   const t = table($("tbSens"), ["Daily volume", ...cols], sens.map((r) => [r.volume, ...cols.map((c) => fmtPct(r[c]))]));
@@ -1150,9 +1173,9 @@ function scorecard() {
     ["H2.2 Public ~$177M/day threshold right within 30%", "bad", "Rejected", "It assumes 100% of fees buy NEAR; with the captured share, the threshold is 3–6× higher."],
     ["H3.1 Top 3 integrators above 50%", "ok", "Holds on 1Click", "55% of volume, 68% of NEAR's 1Click revenue."],
     ["H3.2 ZEC above 20% of volume (90 days)", "bad", "Rejected on 1Click", "18.6% over 76 days, but about half of NEAR's 1Click revenue lately."],
-    ["H3.3 Take rate stable", "bad", "Rejected", "Doubled from mid-September, on all Intents and on 1Click."],
+    ["H3.3 Take rate stable", "bad", "Rejected", "Doubled from mid-September, mostly from confidential swaps (41% of October volume, 7–12 bps to NEAR)."],
     ["H3.4 Under 20% of senders active again at M+3", "ok", "Holds (address level)", "3–5% the same week three months later; at most 9–19%."],
-    ["H4.1 Confidential TVL left after the NEAR@3.33 snapshot", "wait", "Not testable yet", "Needs confidential flows (Dune). 1Click proxy: no exodus of pre-snapshot arrivals."],
+    ["H4.1 Confidential TVL left after the NEAR@3.33 snapshot", "bad", "Rejected", "Confidential TVL $71M at the snapshot, $155M thirty days later, $143M on 31 Oct (NEAR's Dune dashboard)."],
     ["H5.1 NEAR stays net inflationary through 2027", "ok", "Holds", "Base case offsets ~21% of 2027 issuance; 9% chance of a deflationary 2027. A walk-forward check shows the engine leaned optimistic in 2026."],
   ];
   const st = table($("tbScore"), ["Hypothesis", "Evidence", "Status"], score.map(([h, , s, e]) => [h, e, s]));

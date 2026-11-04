@@ -1,0 +1,70 @@
+{
+ "regression": {
+  "weeks": 12,
+  "first_week": "2026-08-03",
+  "last_week": "2026-10-19",
+  "rebuilt_total_usd": {
+   "bps_public": 0.6525823519652818,
+   "bps_confidential": 12.170498864424522,
+   "r2": 0.8622915353682593
+  },
+  "rebuilt_buybacks_usd": {
+   "bps_public": 0.5097440336876512,
+   "bps_confidential": 8.053991727951892,
+   "r2": 0.9449167303680271
+  },
+  "rebuilt_fefundsadmin_usd": {
+   "bps_public": 0.14161310282829642,
+   "bps_confidential": 4.115866855566276,
+   "r2": 0.628273188231181
+  },
+  "corr_confidential_vs_buyback_wallet": 0.9730727970276808,
+  "corr_public_vs_buyback_wallet": 0.3405345932663137
+ },
+ "h41": {
+  "tvl_at_snapshot_usd": 71400000.0,
+  "tvl_30d_after_usd": 154900000.0,
+  "peak_usd": 187300000.0,
+  "peak_date": "2026-09-27",
+  "last_usd": 143000000.0,
+  "last_date": "2026-10-31",
+  "rejected": true
+ },
+ "incentive": {
+  "drop1_near": 333333,
+  "near_price_at_conversion": 4.163360981216509,
+  "drop1_usd_at_conversion": 1387785.6059518426,
+  "confidential_volume_jun15_oct_usd": 3753466666.6666665,
+  "captured_from_confidential_usd_regression": 4568156.180432196,
+  "all_confidential_fees_usd_dune_alltime": 3089268.81,
+  "confidential_fee_bps_dune_alltime": 7.4261851538580945
+ },
+ "monthly_confidential_share": {
+  "2024-10": null,
+  "2024-11": null,
+  "2024-12": 0.0,
+  "2025-01": 0.0,
+  "2025-02": 0.0,
+  "2025-03": 0.0,
+  "2025-04": 0.0,
+  "2025-05": 0.0,
+  "2025-06": 0.0,
+  "2025-07": 0.0,
+  "2025-08": 0.0,
+  "2025-09": 0.0,
+  "2025-10": 0.0,
+  "2025-11": 0.0,
+  "2025-12": 0.0,
+  "2026-01": 0.0,
+  "2026-02": 0.0,
+  "2026-03": 0.0,
+  "2026-04": 0.0248,
+  "2026-05": 0.0391,
+  "2026-06": 0.108,
+  "2026-07": 0.0795,
+  "2026-08": 0.1327,
+  "2026-09": 0.2817,
+  "2026-10": 0.4098,
+  "2026-11": 0.6076
+ }
+}

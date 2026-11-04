@@ -46,6 +46,9 @@ def build() -> dict:
     share = pd.read_csv(OUT / "crosschain_share.csv", index_col=0)
     risk = pd.read_csv(OUT / "token_risk.csv")
     hy = pd.read_csv(OUT / "holder_yield.csv")
+    conf_w = pd.read_csv(OUT / "confidential_weekly.csv")
+    conf_tvl = pd.read_csv(OUT / "confidential_tvl.csv")
+    conf_sum = json.loads((OUT / "confidential_summary.json").read_text())
     by_asset = pd.read_csv(OUT / "revenue_by_asset_last30d.csv").rename(columns={"label": "asset"})
 
     sm = supply[supply["date"] >= "2026-02-01"]
@@ -70,6 +73,12 @@ def build() -> dict:
                                             "top3_integrators_near_rev", "senders_per_day"]]),
         "fee_shares_last30d": _records(fees.head(8)),
         "revenue_by_asset": _records(by_asset),
+        "confidential": {
+            "weekly": _records(conf_w.rename(columns={conf_w.columns[0]: "week"})[["week", "public_usd", "confidential_usd", "confidential_share", "take_bps"]]),
+            "tvl": _records(conf_tvl.rename(columns={conf_tvl.columns[0]: "date"})),
+            "monthly_share": conf_sum["monthly_confidential_share"],
+            "summary": {"regression": conf_sum["regression"]["rebuilt_total_usd"], "h41": conf_sum["h41"], "incentive": conf_sum["incentive"]},
+        },
         "comps": _records(comps[comps["mcap_to_holders_revenue"].notna()][["token", "market_cap_usd", "annualised_usd", "mcap_to_holders_revenue"]]),
         "crosschain_share": _records(share.filter(like="_share").reset_index().rename(columns={share.index.name or "index": "month"})),
         "token_risk": _records(risk),

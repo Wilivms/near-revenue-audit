@@ -13,11 +13,11 @@ Pre-registered hypotheses: [`HYPOTHESES.md`](HYPOTHESES.md) (not edited after th
 | H1.3 buybacks executed at market | **Holds** for the front-end fund's conversions (+0.04%) | entry 4 |
 | H2.1 buybacks offset < 20% of issuance | **Holds**: 14.7% Feb–Oct 2026 | entry 5 |
 | H2.2 public ~$177M/day threshold is right within 30% | **Rejected**: 3–4x too low | entry 6 |
-| H3.3 take rate stable | **Rejected, opposite direction**: captured rate doubled; on 1Click too (2.2 → 4.6 bps) | entries 7, 12 |
+| H3.3 take rate stable | **Rejected, opposite direction**: captured rate doubled, mostly from the surge of confidential swaps (7–12 bps to NEAR) | entries 7, 12, 24 |
 | H3.1 top-3 integrators > 50% | **Supported on 1Click**: 55% of volume, 68% of NEAR's revenue | entries 8, 11 |
 | H3.2 ZEC > 20% of volume | **Not supported over 76 days** on 1Click: 18.6% (above 20% only since mid-Sep); but ~half of NEAR's 1Click revenue | entries 8, 11, 13 |
 | H3.4 < 20% of senders active again at M+3 | **Supported at address level**: 3–5% (same week M+3), at most 9–19% | entry 14 |
-| H4.1 confidential TVL left after the snapshot | **Untestable with this source**; 1Click proxy shows no exodus of pre-snapshot arrivals | entry 15 |
+| H4.1 confidential TVL left after the snapshot | **Rejected**: $71M at the snapshot, $155M thirty days later (Dune) | entries 15, 24 |
 | Kill criterion 2 (top integrator > 60% of fees) | **Triggered on 1Click**: SwapKit 65–73% of app fees in every 30-day window since mid-Sep; but 1% of NEAR's revenue | entry 18 |
 | H5.1 NEAR stays net inflationary through end-2027 | **Holds in the base case**: buybacks offset a median ~18–21% of issuance; 9% chance 2027 is net deflationary; walk-forward shows the engine leans optimistic | entries 17, 21 |
 
@@ -299,3 +299,30 @@ Origins in 2026, 90-day horizon:
 - **Dilution** (stake from the RPC `validators` call: 593M NEAR staked, 45% of supply): issuance 2.42% a year, buybacks 0.40% at the last 30 days' pace and prices, net supply growth **2.0%**. Unstaked holders lose about 2% of their share a year; stakers earn about 5.3% gross before commission.
 - **Revenue by asset** (1Click, last 30 days, labelled by the volatile leg): BTC 30% of NEAR's revenue, ZEC 23%, ETH 16%, stablecoin↔stablecoin 9% (30% of volume, 1.3 bps). This labelling counts ZEC↔BTC swaps once, by origin, so ZEC's share here is lower than the "ZEC on either side" measure of entry 13.
 - **Dashboard**: new "Context" section (peers on a log scale with the 41x break-even, cross-chain market share, holder tiles) and a "What NEAR earns on, by asset" chart in the distribution section.
+
+## 2026-11-03
+
+### 24. Confidential swaps explain the September jump, and an airdrop explains confidential swaps
+
+Dune's free plan has no API and no trial for this account, so the data was read from the public result tables of NEAR's own dashboard ([dune.com/near/near-intents](https://dune.com/near/near-intents)), page by page in the browser, and saved as text in `data/raw/dune/` with each query id. Code: `src/analysis/confidential.py` (`make confidential`).
+
+**What Dune shows that the Explorer API could not**
+- Confidential swaps are **41% of Intents volume in October** ($1.63B of $3.99B), up from 2–4% in April–May, 13% in August and 28% in September. Their volume is included in DefiLlama's total (Dune and DefiLlama totals for October match).
+- All-time fees generated (all recipients): $59.0M, of which confidential $3.09M (7.4 bps of confidential volume) and protocol fee $35k. By channel: SwapKit $42.1M, ZODL $3.2M, confidential intents $3.0M, Zashi $3.0M.
+
+**Does it explain the take-rate jump (entries 7, 10, 12)? Mostly yes.**
+- Weekly regression, no intercept, 12 complete weeks Aug 3–Oct 25: captured revenue = 0.65 bps × public + **12.2 bps × confidential** (R² 0.86). On the buyback wallet alone: 0.51 and 8.1 bps (R² 0.94). Correlation of weekly confidential volume with buyback-wallet inflows: 0.97; public volume: 0.34.
+- The two regressors are correlated and the sample is short, so the split is rough. Dune's own fee table gives 7.4 bps for confidential swaps (all time, all recipients). Taken together: confidential swaps account for roughly 60% to nearly all of the rise in captured revenue since August. The 1Click repricing (entry 12) is the rest.
+- This revises entry 10 ("the jump came from channels the Explorer API does not see"): the main channel is now identified.
+
+**Why confidential swaps grew: NEAR@3.33**
+- NEAR Foundation program announced 2026-06-15: users with a sustained confidential balance above $100 on near.com and at least one confidential swap earn locked milestone tokens. Drop 1: 333,333 tokens (2% cap per wallet), snapshot when confidential TVL reaches $70M, conversion 1:1 into NEAR once NEAR's 3-day VWAP is at or above $3.33. Later rounds are announced and require more activity.
+- Confidential TVL (query 8644298): $70M first crossed 2026-09-11, $71.4M on 2026-09-16; NEAR closed above $3.33 three days running by 2026-09-21 (daily closes, a proxy for the VWAP rule). Drop 1 ≈ $1.39M at that price.
+- **H4.1 rejected**: confidential TVL 30 days after the snapshot ($154.9M) is above its level at the snapshot ($71.4M). It peaked at $187.3M on 2026-09-27 and stood at $143.0M on 2026-10-31 (−24% from the peak).
+- **Cost vs revenue**: confidential volume from 2026-06-15 to October ≈ $3.75B → $2.8M (7.4 bps) to $4.6M (12.2 bps) of revenue. Drop 1 cost 30–50% of that, in NEAR entering circulation; about 1M NEAR were captured by the revenue wallets over September–October, so Drop 1 offsets about a third of two months of buybacks.
+
+**What it changes in the thesis**
+- "Real": unchanged.
+- "Durable": weaker. The fastest-growing source of NEAR's revenue is a channel whose growth is being paid for by an incentive with more rounds announced. The test is what confidential volume does once the rounds stop.
+- "Bought with incentives": now measurable. Roughly a third to a half of the confidential channel's revenue so far was handed back as Drop 1.
+- New kill criterion candidate, not pre-registered and therefore reported separately: confidential share of volume falling back below 15% for 30 days after the last NEAR@3.33 round.
