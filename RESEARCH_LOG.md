@@ -352,3 +352,8 @@ Dune's free plan has no API and no trial for this account, so the data was read 
 - The first scheduled runs spent over 30 minutes re-downloading the full history of the four revenue wallets from NearBlocks, 25 rows per call, with rate-limit back-offs. The fetch is now incremental: it reads the latest snapshot, then pulls only newer rows (newest first) until it meets one it already has. A day's refresh of all wallets now takes about a minute.
 - The supply cache (archival RPC) was never extended after the first run, so revenue-wallet flows from November met no supply reading and the monthly share divided by zero. The cache now adds the current final block when it is more than 3 days old, and the monthly table keeps complete months only.
 - Effect on the numbers: October now ends on a real supply reading instead of an interpolation. Feb–Oct 2026: 23.9M NEAR issued, 3.53M captured (**14.8%**, was 14.7%). Holder view unchanged (issuance 2.42% a year, net supply growth 2.0%).
+
+### 28. First answer from the NEAR team (Discord support ticket, 2026-11-04)
+
+- Further NEAR@3.33 drops after Drop 1: "tba". No size or schedule is public, so the report keeps two cases side by side: incentives continue (base case, take rate held at 5.4 bps) and incentives wind down over 6 months (11% of 2027 issuance offset). Nothing is assumed about Drop 2.
+- The fee on confidential intents and whether fefundsadmin's NEAR is ever sold: the moderator redirected these to near.com support; the question was sent there. Until an answer arrives, the report keeps the 7–12 bps range.
