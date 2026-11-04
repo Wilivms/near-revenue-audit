@@ -113,7 +113,11 @@ def crosschain_share(payload: dict) -> pd.DataFrame:
 
 
 def main(refresh: bool = True) -> None:
-    payload = fetch() if refresh else latest()
+    try:
+        payload = fetch() if refresh else latest()
+    except Exception as e:  # noqa: BLE001
+        print(f"WARNING comps fetch failed, using the last snapshot: {e}")
+        payload = latest()
     c = comps(payload)
     s = crosschain_share(payload)
     OUT.mkdir(parents=True, exist_ok=True)

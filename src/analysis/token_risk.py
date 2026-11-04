@@ -127,8 +127,11 @@ def holder_yield() -> pd.DataFrame:
 
 def main(refresh: bool = True) -> None:
     if refresh:
-        fetch_btc()
-        fetch_stake()
+        for f in (fetch_btc, fetch_stake):
+            try:
+                f()
+            except Exception as e:  # noqa: BLE001
+                print(f"WARNING {f.__name__} failed, using the last snapshot: {e}")
     r, roll = risk()
     y = holder_yield()
     OUT.mkdir(parents=True, exist_ok=True)

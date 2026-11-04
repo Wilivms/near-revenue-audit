@@ -18,6 +18,21 @@
    "bps_confidential": 4.115866855566276,
    "r2": 0.628273188231181
   },
+  "bootstrap_90ci": {
+   "bps_public": [
+    -0.1319070913822672,
+    1.2342667448176032
+   ],
+   "bps_confidential": [
+    10.790255226822168,
+    14.481552867671605
+   ]
+  },
+  "daily_fit_bps": {
+   "public": 1.2971414474782772,
+   "confidential": 10.172409021155357,
+   "days": 90
+  },
   "corr_confidential_vs_buyback_wallet": 0.9730727970276808,
   "corr_public_vs_buyback_wallet": 0.3405345932663137
  },

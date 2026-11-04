@@ -71,6 +71,21 @@ def weekly_regression() -> tuple[pd.DataFrame, dict]:
         pred = X @ coef
         out[col] = {"bps_public": float(coef[0] * 1e4), "bps_confidential": float(coef[1] * 1e4),
                     "r2": float(1 - ((y - pred) ** 2).sum() / ((y - y.mean()) ** 2).sum())}
+    # Pairs bootstrap over weeks: how uncertain is the split between the two channels?
+    rng = np.random.default_rng(11)
+    y = w["rebuilt_total_usd"].to_numpy()
+    draws = []
+    for _ in range(5000):
+        i = rng.integers(0, len(w), len(w))
+        c, *_ = np.linalg.lstsq(X[i], y[i], rcond=None)
+        draws.append(c * 1e4)
+    draws = np.array(draws)
+    out["bootstrap_90ci"] = {"bps_public": [float(np.quantile(draws[:, 0], q)) for q in (0.05, 0.95)],
+                             "bps_confidential": [float(np.quantile(draws[:, 1], q)) for q in (0.05, 0.95)]}
+    # Daily-level check of the same fit (noisier: buyback inflows are lumpy day to day)
+    Xd = df[["public_usd", "confidential_usd"]].to_numpy()
+    cd, *_ = np.linalg.lstsq(Xd, df["rebuilt_total_usd"].to_numpy(), rcond=None)
+    out["daily_fit_bps"] = {"public": float(cd[0] * 1e4), "confidential": float(cd[1] * 1e4), "days": len(df)}
     out["corr_confidential_vs_buyback_wallet"] = float(w["confidential_usd"].corr(w["rebuilt_buybacks_usd"]))
     out["corr_public_vs_buyback_wallet"] = float(w["public_usd"].corr(w["rebuilt_buybacks_usd"]))
     return w, out

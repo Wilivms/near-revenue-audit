@@ -63,11 +63,11 @@ def _save(source: str, payload, name: str | None = None) -> Path:
     return path
 
 
-def _get(url: str, params: dict | None = None, retries: int = 4):
+def _get(url: str, params: dict | None = None, retries: int = 7):
     for attempt in range(retries):
         r = requests.get(url, params=params, timeout=30)
         if r.status_code == 429:
-            time.sleep(5 * (attempt + 1))
+            time.sleep(min(60, 5 * 2 ** attempt))  # shared CI runners hit rate limits: back off harder
             continue
         r.raise_for_status()
         return r.json()
@@ -207,9 +207,17 @@ def fetch_revenue_wallets() -> dict[str, Path]:
 
 
 if __name__ == "__main__":
-    print(fetch_llama_intents())
-    print(fetch_near_prices())
-    print(fetch_chain_state())
-    print(fetch_buyback_txns())
-    print(fetch_revenue_wallets())
-    print(fetch_governance())
+    # Each source is fetched independently: if one is rate-limited or down, its last committed
+    # snapshot stays in use (every reader takes the latest file) and the others still refresh.
+    import sys
+
+    failed = []
+    for fetch in (fetch_llama_intents, fetch_near_prices, fetch_chain_state, fetch_buyback_txns,
+                  fetch_revenue_wallets, fetch_governance):
+        try:
+            print(fetch.__name__, fetch())
+        except Exception as e:  # noqa: BLE001
+            failed.append(fetch.__name__)
+            print(f"WARNING {fetch.__name__} failed, keeping the previous snapshot: {e}", file=sys.stderr)
+    if len(failed) == 6:
+        sys.exit("every source failed")

@@ -42,6 +42,8 @@ class Scenario:
     demean_volume: bool = False  # remove the historical volume drift, keep its volatility
     demean_price: bool = True    # no price drift by default: the model is not a price forecast
     retired_share: float = 1.0   # share of captured NEAR counted as retired (buyback wallet ≈ 0.6)
+    take_end_bps: float | None = None  # if set, the take rate moves linearly to this level...
+    ramp_days: int = 180               # ...over this many days, then stays there (incentive wind-down)
 
 
 def history() -> pd.DataFrame:
@@ -101,7 +103,11 @@ def simulate(sc: Scenario, cal: dict, n_paths: int = N_PATHS, seed: int = SEED) 
     log_vol = np.log(cal["volume0"]) + np.cumsum(draws[:, :, 0], axis=1)
     log_px = np.log(cal["price0"]) + np.cumsum(draws[:, :, 1], axis=1)
     vol, px = np.exp(log_vol), np.exp(log_px)
-    captured = vol * sc.take_bps / 1e4 / px * sc.retired_share   # NEAR per day
+    take = np.full(n_days, sc.take_bps)
+    if sc.take_end_bps is not None:
+        ramp = np.clip(np.arange(n_days) / sc.ramp_days, 0, 1)
+        take = sc.take_bps + (sc.take_end_bps - sc.take_bps) * ramp
+    captured = vol * take / 1e4 / px * sc.retired_share   # NEAR per day
     issued = cal["supply0"] * cal["issuance_rate"] / 365          # NEAR per day (supply drift < 0.3%/yr ignored)
 
     month = dates.to_period("M")
@@ -143,6 +149,7 @@ def scenarios(cal: dict) -> list[Scenario]:
         Scenario("take now, price keeps its 365d drift", now, 365, demean_price=False),
         Scenario("base, buyback wallet only counted as retired", now, 365, retired_share=0.6),
         Scenario("take doubles again (11 bps)", round(2 * now, 2), 365),
+        Scenario("incentive winds down over 6 months", now, 365, take_end_bps=low, ramp_days=180),
     ]
 
 
