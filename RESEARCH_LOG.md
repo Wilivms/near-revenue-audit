@@ -335,3 +335,14 @@ Dune's free plan has no API and no trial for this account, so the data was read 
 - **Turnover**: daily confidential volume / confidential TVL went from 0.19 (July) to 0.39 (August), 0.46 (September) and 0.35 (October): each dollar parked in a confidential balance is swapped every 2–3 days. Consistent with activity farming for later rounds (allocation weights reward activity), though the data cannot separate farming from genuine use.
 - Where the fee goes: Aurora's docs for confidential swaps say fees "behave exactly as they do today", and a user report puts a near.com confidential ETH→USDC swap at about 3x the cost of the same swap on Rabby, mostly attributed to solver spreads. Neither states the bps NEAR receives, so the 7–12 bps range stays an estimate. Question kept for the NEAR team.
 - Scenario link: the Monte Carlo scenario "take back to May–Aug level" (2.63 bps) is the "incentive ends" case. It offsets a median 10% of 2027 issuance, half the base case.
+
+## 2026-11-04
+
+### 26. How solid is the "12 bps on confidential swaps" estimate? And what if the incentive winds down?
+
+- **Bootstrap** (5,000 resamples of the 12 weeks): 90% interval for NEAR's take on confidential volume **10.8–14.5 bps**; on public volume −0.1 to 1.2 bps. The confidential coefficient is well identified; the public one is not (the two volumes move together, and public revenue is small).
+- **Daily fit** (90 days, noisier because buyback inflows are lumpy): 10.2 bps confidential, 1.3 bps public. Same conclusion.
+- Dune's own fee table gives 7.4 bps for confidential swaps over all time (all recipients). The gap with 10–14 bps can come from timing (fees accrue before they reach the wallets), from public revenue that rose at the same time and is attributed to confidential volume by the fit, or from fees on confidential swaps not recorded in that table. The range kept in the report is 7–12 bps; the fee NEAR charges is the first question for the NEAR team.
+- **New Monte Carlo scenario, "incentive winds down over 6 months"**: the take rate falls linearly from 5.41 bps to its May–Aug level (2.63) over 180 days, then stays there. 2027 offset: median **11%** of issuance (p10–p90 3–47%), 3% chance of a net deflationary 2027. Close to the "take back to May–Aug" case: by 2027 most of the wind-down has happened.
+- **Post-hoc kill criterion** (not pre-registered, reported separately): confidential share of volume below 15% for 30 days after the last NEAR@3.33 round. Today: 42% (week of 2026-10-19), rounds ongoing.
+- **Not done**: volume by asset for all of Intents (Dune query 5175131). The page's pagination did not give a consistent read (more rows collected than the 545 the table reports), so the figure is not used.

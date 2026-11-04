@@ -1031,6 +1031,10 @@ function killCriteria(D, L, live, failed) {
     killRow(host, "wait", s, "Revenue collapses", "30-day revenue below 50% of its trailing 180-day average.", "–", note);
     killRow(host, "wait", s, "Buybacks stop", "No inflow for more than 14 days while fees continue.", "–", note);
   }
+  const cw = D.confidential.weekly, lastW = cw[cw.length - 1];
+  killRow(host, "ok", "Not triggered", "Incentive volume fades (added after the fact)",
+    "Not pre-registered, so reported separately: confidential share of volume below 15% for 30 days after the last NEAR@3.33 round. Read from NEAR's Dune dashboard, updated by hand.",
+    `${fmtPct(lastW.confidential_share)} confidential`, `week of ${lastW.week.slice(0, 10)}; rounds still running`);
   const top = D.fee_shares_last30d.find((r) => r.referral !== "(none)");
   killRow(host, top.fee_share > 0.6 ? "bad" : "ok", top.fee_share > 0.6 ? "Triggered on 1Click" : "Not triggered", "One integrator dominates",
     `Top integrator above 60% of fees. On 1Click, ${top.referral} has held more than 60% of all app fees in every 30-day window since mid-September (60–81% in the Feb–Jul sample weeks). It brings ${fmtPct(top.near_revenue_share, 1)} of NEAR's own 1Click revenue: the criterion, as written, does not separate the fee pool from NEAR's revenue. All-Intents measure pending (Dune).`,
@@ -1084,7 +1088,7 @@ function simInit(D) {
 const SHORT = {
   "base: take now, 365d history": "Base", "take back to May–Aug level": "Incentive ends", "take now, zero volume drift": "No volume drift",
   "take now, price keeps its 365d drift": "Price drift", "base, buyback wallet only counted as retired": "Buyback wallet only",
-  "take doubles again (11 bps)": "Take doubles", "take now, 180d history (bull)": "180-day history", "take now, full history since Mar-2025 (hyper-growth)": "Full history",
+  "take doubles again (11 bps)": "Take doubles", "incentive winds down over 6 months": "Incentive winds down", "take now, 180d history (bull)": "180-day history", "take now, full history since Mar-2025 (hyper-growth)": "Full history",
 };
 let supplyKey = "all", currentScenario = "base: take now, 365d history";
 function renderSupply(D) {
@@ -1133,7 +1137,7 @@ function tables(D) {
   holderView(D);
   const cs2 = D.confidential.summary;
   const cst = $("confStats"); cst.replaceChildren();
-  [["NEAR's take on confidential", `${cs2.regression.bps_confidential.toFixed(0)} bps`, `vs ${cs2.regression.bps_public.toFixed(1)} on public (weekly fit, R² ${cs2.regression.r2.toFixed(2)})`],
+  [["NEAR's take on confidential", `${cs2.regression.bps_confidential.toFixed(0)} bps`, `90% CI ${D.confidential.summary.ci[0].toFixed(1)}–${D.confidential.summary.ci[1].toFixed(1)} bps; ${cs2.regression.bps_public.toFixed(1)} on public (weekly fit, R² ${cs2.regression.r2.toFixed(2)})`],
    ["Drop 1 cost", fmtUSD(cs2.incentive.drop1_usd_at_conversion), `333,333 NEAR, vs ${fmtUSD(cs2.incentive.confidential_volume_jun15_oct_usd * cs2.incentive.confidential_fee_bps_dune_alltime / 1e4)}–${fmtUSD(cs2.incentive.captured_from_confidential_usd_regression)} of revenue from the channel since June`],
    ["Confidential TVL", `${fmtUSD(cs2.h41.tvl_at_snapshot_usd)} → ${fmtUSD(cs2.h41.tvl_30d_after_usd)}`, "at the snapshot → 30 days later (H4.1 rejected)"]]
     .forEach(([l, v, c]) => { const d = el("div"); d.append(el("div", { class: "l" }, l), el("div", { class: "v num" }, v), el("div", { class: "l", style: "text-transform:none;margin-top:4px" }, c)); cst.appendChild(d); });
