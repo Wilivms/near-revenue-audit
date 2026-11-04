@@ -65,7 +65,7 @@ Hypotheses were written **before** the analysis ([`HYPOTHESES.md`](HYPOTHESES.md
 ## Hackathon disclosures
 
 - **Timeline**: first commit 2026-10-29, after the 2026-10-19 announcement (Q-001); everything here was built in the hackathon window.
-- **Second project by the same author** (Q-015): a cross-chain portfolio rebalancer under an on-chain risk mandate, independent of this repository. Its repository is linked here before submission.
+- **One project**: this is the author's only submission to NEAR HACKATHON.
 - **Libraries and tools** (Q-005): Python (requests, pandas, numpy, pytest), Playwright for dashboard screenshots, vanilla HTML/SVG for the dashboard, Vercel for hosting. Code written with the help of an AI assistant (Claude).
 - **Not investment advice.** Independent research, not affiliated with NEAR Foundation.
 
