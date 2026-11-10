@@ -13,11 +13,11 @@
 
 | | Finding | Evidence |
 | --- | --- | --- |
-| Real | Revenue rebuilt from the chain matches DefiLlama within 0.1% ($7.29M since the 2026-02-23 fee switch) | `make revenue`, log 2 |
-| Growing, partly bought | NEAR's take doubled from mid-September (≈2.2 → 5.4 bps of volume), mostly because confidential swaps went from 13% to 41% of volume; that growth follows the NEAR@3.33 airdrop, whose first drop (~$1.39M) about equals the revenue uplift it produced | `make confidential`, logs 24–25 |
+| Real | Revenue rebuilt from the chain matches DefiLlama within 0.6% ($7.90M since the 2026-02-23 fee switch); NEAR's own revenue dashboard, published later, agrees to 0.04% on the NEAR the three wallets received | `make revenue`, `make official`, logs 2, 29 |
+| Growing, partly bought | NEAR's take doubled from mid-September (≈2.2 → 5.4 bps of volume), mostly because confidential swaps went from 13% to 41% of volume; that growth follows the NEAR@3.33 airdrop, whose first drop (~$1.39M) about equals the revenue uplift it produced. First week of November: take back to 3.9 bps, and the fit fails out of sample | `make confidential`, `make official`, logs 24–25, 30 |
 | Not owned | On 1Click, integrators keep ~91% of the fee pool; SwapKit has 71% of app fees and sends NEAR ~1% of its revenue | `make swaps` outputs, logs 11, 18 |
-| Too small | Buybacks offset about **one fifth** of issuance; market cap ≈ 200x annual captured revenue (moves with price; live on the dashboard) vs 41x needed for supply to stop growing | `make supply`, `make montecarlo`, logs 5–6, 17 |
-| Still true in 2027 | Base case: 21% of 2027 issuance offset, 9% chance of a net deflationary 2027; a walk-forward test shows the engine leans optimistic | `make montecarlo`, `make backtest`, logs 17, 21 |
+| Too small | Buybacks offset about **one sixth** of issuance (14.8% Feb–Oct; NEAR's dashboard: 16.3%); market cap ≈ 200x annual captured revenue (moves with price; live on the dashboard) vs 41x needed for supply to stop growing (64x once the issuance cut approved on 2 Nov is phased in) | `make supply`, `make montecarlo`, logs 5–6, 17 |
+| Still true in 2027 | Base case: 17% of 2027 issuance offset (18% with the issuance cut), 5–6% chance of a net deflationary 2027; a walk-forward test shows the engine leans optimistic | `make montecarlo`, `make backtest`, logs 17, 21 |
 | Priced on something else | Peers whose holders share revenue trade at a median 22x; NEAR at 212x | `make comps`, log 22 |
 
 ## Try it (do X → see Y)
@@ -28,15 +28,16 @@ Everything below runs offline on the committed snapshots in `data/raw/`.
 git clone https://github.com/Wilivms/near-revenue-audit && cd near-revenue-audit
 python3 -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt
-make reproduce        # runs every offline step and the tests; ends with "5 passed"
+make reproduce        # runs every offline step and the tests; ends with "6 passed"
 ```
 
 | Command | You should see |
 | --- | --- |
-| `make revenue` | captured revenue rebuilt from 3 revenue wallets vs DefiLlama: ratio 0.999, each month within ±5% |
+| `make revenue` | captured revenue rebuilt from 3 revenue wallets vs DefiLlama: ratio 0.994, each month within ±5% |
+| `make official` | the same wallets, offset and take rate against NEAR's own dashboard (revenue.near.org snapshot): wallets 0.04% apart, take 3.9 bps in the first week of November |
 | `make supply` | Feb–Oct 2026: 23.9M NEAR issued, 3.53M captured (14.8%) |
 | `make confidential` | confidential share of volume by month (41% in Oct), weekly fit `0.65 bps × public + 12.2 bps × confidential`, H4.1 test (TVL $71M → $155M), airdrop counterfactual |
-| `make montecarlo` | 9 scenarios (including an incentive wind-down) to end-2027 and the volume × take-rate table (break-even ≈ $750M/day at 5.4 bps) |
+| `make montecarlo` | 11 scenarios (incentive wind-down, approved issuance cut) to end-2027 and the volume × take-rate table (break-even ≈ $620M/day at 5.0 bps) |
 | `make backtest` | calibration of past forecasts (share inside the 10–90% band, mean PIT) |
 | `make dashboard-serve` | the dashboard at http://localhost:8000 |
 | `make test` | model checks: seed reproducibility, deflation identity, no look-ahead in the backtest |
@@ -61,6 +62,7 @@ Hypotheses were written **before** the analysis ([`HYPOTHESES.md`](HYPOTHESES.md
 - **DefiLlama API** (fees, revenue, holders revenue, volume of NEAR Intents; NEAR and BTC prices; peers), **CoinGecko** (market caps), **NEAR RPC and archival RPC** (supply, protocol config, validators, contract views), **NearBlocks API** (wallet histories, `intents.near` admin calls).
 - **NEAR Intents Explorer API**: per-swap 1Click data; needs a partner key in `INTENTS_JWT` (git-ignored `.env`, never committed). The raw swaps are not committed; their aggregates in `data/processed/` are.
 - **NEAR's Dune dashboard** ([dune.com/near/near-intents](https://dune.com/near/near-intents)): Dune's API needs a paid plan, so the public result tables were read page by page in a browser and saved as text in `data/raw/dune/`, with each query id in the file header.
+- **NEAR's revenue dashboard** ([revenue.near.org](https://revenue.near.org/), published in November 2026): its series are embedded in the page; `make refresh` saves them to `data/raw/near_revenue/`.
 
 ## Hackathon disclosures
 

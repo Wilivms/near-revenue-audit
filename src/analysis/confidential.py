@@ -38,6 +38,40 @@ def daily_volume() -> pd.DataFrame:
     return pd.DataFrame(rows, columns=["date", "public_usd", "confidential_usd"]).set_index("date")
 
 
+def daily_volume_after() -> pd.DataFrame:
+    """Days read after the fit (2026-11-10 read). Out-of-sample only."""
+    rows = []
+    for t in _tokens(DUNE / "volume_daily_5179085_after.txt"):
+        d, v = t.split(":")
+        p, c = v.split("/")
+        rows.append((pd.Timestamp(f"2026-{d}"), float(p) * 1e6, float(c) * 1e6))
+    return pd.DataFrame(rows, columns=["date", "public_usd", "confidential_usd"]).set_index("date")
+
+
+def out_of_sample(reg: dict) -> dict:
+    """Does the weekly fit predict the first full week it has not seen (2026-11-02 to 11-08)?
+
+    It also compares Dune's "public" volume with the 1Click volume measured from the Explorer API on
+    2026-11-09 (12:38 to 24:00 UTC, successful swaps): 1Click is a subset of public volume, so it
+    cannot be larger unless the label changed.
+    """
+    v = pd.concat([daily_volume(), daily_volume_after()]).loc["2026-11-02":"2026-11-08"]
+    rev = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True)["rebuilt_total_usd"]
+    actual = float(rev.loc["2026-11-02":"2026-11-08"].sum())
+    c = reg["rebuilt_total_usd"]
+    pred = float(v["public_usd"].sum() * c["bps_public"] / 1e4 + v["confidential_usd"].sum() * c["bps_confidential"] / 1e4)
+    lo = float(v["confidential_usd"].sum() * reg["bootstrap_90ci"]["bps_confidential"][0] / 1e4)
+    total = float(v.sum().sum())
+    return {
+        "week": "2026-11-02", "public_usd": float(v["public_usd"].sum()), "confidential_usd": float(v["confidential_usd"].sum()),
+        "confidential_share": float(v["confidential_usd"].sum() / total),
+        "predicted_usd": pred, "predicted_low_usd": lo, "actual_usd": actual, "actual_over_predicted": actual / pred,
+        "actual_take_bps": actual / total * 1e4,
+        "label_check_2026_11_09": {"dune_public_full_day_usd": 3.45e6, "oneclick_explorer_11h_usd": 20.34e6,
+                                   "oneclick_swaps": 11790, "window_utc": "12:38-24:00"},
+    }
+
+
 def monthly_volume() -> pd.DataFrame:
     rows = []
     for t in _tokens(DUNE / "volume_monthly_5179085.txt"):
@@ -154,6 +188,7 @@ def main() -> None:
         "incentive": incentive_cost(monthly, reg["rebuilt_total_usd"]["bps_confidential"]),
         "turnover_daily": turnover(monthly, tvl),
         "counterfactual": counterfactual(monthly),
+        "out_of_sample": out_of_sample(reg),
         "monthly_confidential_share": {str(k.date())[:7]: (None if pd.isna(v) else round(float(v), 4)) for k, v in monthly["confidential_share"].items()},
     }
     OUT.mkdir(parents=True, exist_ok=True)

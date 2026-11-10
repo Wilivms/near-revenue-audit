@@ -1,0 +1,60 @@
+{
+ "snapshot": "2026-11-10",
+ "wallets": {
+  "fefundsadmin.sputnik-dao.near": {
+   "official_near": 1994013.6240257893,
+   "rebuilt_near": 1994812.1487154653,
+   "ratio": 1.0004004609998922
+  },
+  "buybacks.multisignature.near": {
+   "official_near": 1730368.02308756,
+   "rebuilt_near": 1731396.3589385322,
+   "ratio": 1.0005942873638738
+  },
+  "1csfundsadmin.sputnik-dao.near": {
+   "official_near": 555348.272928576,
+   "rebuilt_near": 555348.2729285762,
+   "ratio": 1.0000000000000004
+  }
+ },
+ "wallets_total": {
+  "official_near": 4279729.920041925,
+  "rebuilt_near": 4281556.780582573,
+  "ratio": 1.000426863511198
+ },
+ "offset_feb_to_last_full_month": {
+  "months": [
+   "2026-02",
+   "2026-10"
+  ],
+  "official": 0.16302597067224234,
+  "rebuilt": 0.14791142345452205,
+  "official_emissions_near": 24223836.82716798,
+  "rebuilt_issuance_near": 23858550.53956437,
+  "official_revenue_near": 3949114.512155071,
+  "rebuilt_captured_near": 3528952.171868621
+ },
+ "official_ytd": {
+  "date": "2026-11-09",
+  "emissions_near": 27749726.014915936,
+  "revenue_near": 4412668.851879642,
+  "offset": 0.1590166637864374
+ },
+ "take_october_weeks_bps": 5.252868476634675,
+ "capture_october_weeks": 0.336357762166696,
+ "last_week": {
+  "week": "2026-11-02",
+  "take_bps": 3.896384810340483,
+  "capture_of_fees": 0.2454362581132737,
+  "gross_fee_bps": 15.875343114717078,
+  "volume_usd": 912182474.0766605
+ },
+ "tvl": {
+  "last_usd": 139641812.77677876,
+  "last_date": "2026-11-09",
+  "peak_usd": 187260119.24206188,
+  "peak_date": "2026-09-27",
+  "change_from_peak": -0.2542896301573391,
+  "change_30d": -0.12530621461531766
+ }
+}

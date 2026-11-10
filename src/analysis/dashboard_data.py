@@ -49,6 +49,9 @@ def build() -> dict:
     conf_w = pd.read_csv(OUT / "confidential_weekly.csv")
     conf_tvl = pd.read_csv(OUT / "confidential_tvl.csv")
     conf_sum = json.loads((OUT / "confidential_summary.json").read_text())
+    off = json.loads((OUT / "official_crosscheck.json").read_text())
+    off_w = pd.read_csv(OUT / "official_weekly.csv")
+    off_tvl = pd.read_csv(OUT / "official_tvl.csv")
     by_asset = pd.read_csv(OUT / "revenue_by_asset_last30d.csv").rename(columns={"label": "asset"})
 
     sm = supply[supply["date"] >= "2026-02-01"]
@@ -78,7 +81,13 @@ def build() -> dict:
             "tvl": _records(conf_tvl.rename(columns={conf_tvl.columns[0]: "date"})),
             "monthly_share": conf_sum["monthly_confidential_share"],
             "summary": {"regression": conf_sum["regression"]["rebuilt_total_usd"], "h41": conf_sum["h41"], "incentive": conf_sum["incentive"],
-                        "ci": conf_sum["regression"]["bootstrap_90ci"]["bps_confidential"]},
+                        "ci": conf_sum["regression"]["bootstrap_90ci"]["bps_confidential"],
+                        "out_of_sample": conf_sum["out_of_sample"], "counterfactual": conf_sum["counterfactual"]},
+        },
+        "official": {
+            "summary": off,
+            "weekly": _records(off_w.rename(columns={off_w.columns[0]: "week"})[["week", "volume_usd", "gross_fee_bps", "take_bps", "capture_of_fees"]].tail(30)),
+            "tvl": _records(off_tvl.rename(columns={off_tvl.columns[0]: "date"})),
         },
         "comps": _records(comps[comps["mcap_to_holders_revenue"].notna()][["token", "market_cap_usd", "annualised_usd", "mcap_to_holders_revenue"]]),
         "crosschain_share": _records(share.filter(like="_share").reset_index().rename(columns={share.index.name or "index": "month"})),

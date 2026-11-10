@@ -30,6 +30,12 @@ risk:        ## holder's view: NEAR vs BTC risk, issuance, stake, buyback yield;
 confidential: ## confidential swaps from NEAR's Dune dashboard (data/raw/dune): volume share, take-rate regression, H4.1, incentive cost
 	python3 -m src.analysis.confidential
 
+official:    ## cross-check against NEAR's own dashboard (revenue.near.org snapshot in data/raw/near_revenue)
+	python3 -m src.analysis.official
+
+official-fetch: ## same, after fetching today's snapshot (network)
+	python3 -m src.analysis.official --refresh
+
 dashboard:   ## bundle committed outputs into dashboard/data.json
 	python3 -m src.analysis.dashboard_data
 
@@ -40,9 +46,9 @@ test:        ## model checks
 	python3 -m pytest -q tests
 
 reproduce:   ## every offline step on the committed snapshots, then the tests
-	$(MAKE) ledger revenue supply montecarlo backtest confidential dashboard test
+	$(MAKE) ledger revenue supply montecarlo backtest confidential official dashboard test
 
 refresh:     ## fetch fresh public snapshots (network), then re-run everything
-	$(MAKE) data comps risk reproduce
+	$(MAKE) data comps risk official-fetch reproduce
 
 all: reproduce

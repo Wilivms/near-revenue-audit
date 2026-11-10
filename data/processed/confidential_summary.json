@@ -72,6 +72,23 @@
   "sep_oct_at_may_aug_take_usd": 2091027.0411380413,
   "uplift_usd": 1866589.5924774497
  },
+ "out_of_sample": {
+  "week": "2026-11-02",
+  "public_usd": 104360000.0,
+  "confidential_usd": 807540000.0,
+  "confidential_share": 0.8855576269327777,
+  "predicted_usd": 900913.4985639174,
+  "predicted_low_usd": 785367.5963710148,
+  "actual_usd": 355421.3936251102,
+  "actual_over_predicted": 0.3945122302992045,
+  "actual_take_bps": 3.8975917713028863,
+  "label_check_2026_11_09": {
+   "dune_public_full_day_usd": 3450000.0,
+   "oneclick_explorer_11h_usd": 20340000.0,
+   "oneclick_swaps": 11790,
+   "window_utc": "12:38-24:00"
+  }
+ },
  "monthly_confidential_share": {
   "2024-10": null,
   "2024-11": null,

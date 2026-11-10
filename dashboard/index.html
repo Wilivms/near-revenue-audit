@@ -378,7 +378,7 @@ footer li + li { margin-top: 6px; }
     <div class="wrap">
       <div class="head">
         <div><p class="kicker">01 / Simulator</p><h2 id="h-sim">What would it take?</h2></div>
-        <p>Move the inputs and see how many NEAR the protocol buys back for every 100 issued. It starts from today's live values. The identity is exact: buybacks match issuance when market cap is below about 41 times annual captured revenue.</p>
+        <p>Move the inputs and see how many NEAR the protocol buys back for every 100 issued. It starts from today's live values. The identity is exact: buybacks match issuance when market cap is below about 41 times annual captured revenue. A governance vote on 2 November approved cutting issuance from 2.5% to 1.6% a year over 24 months: tick the box to see the fully phased-in case, where the threshold rises to about 64 times.</p>
       </div>
       <div class="sim">
         <div class="card">
@@ -390,7 +390,7 @@ footer li + li { margin-top: 6px; }
           <div class="ctrl">
             <label for="sTake">NEAR's take, bps of volume <b class="num" id="vTake"></b></label>
             <input type="range" id="sTake" min="10" max="250" step="1">
-            <div class="hint">2.6 bps in May–Aug, about 5.5 since mid-September</div>
+            <div class="hint">2.6 bps in May–Aug, about 5.3 in October, 3.9 in the first week of November</div>
           </div>
           <div class="ctrl">
             <label for="sPrice">NEAR price <b class="num" id="vPrice"></b></label>
@@ -398,6 +398,7 @@ footer li + li { margin-top: 6px; }
             <div class="hint">A higher price means fewer NEAR per dollar of revenue</div>
           </div>
           <label class="toggle"><input type="checkbox" id="sOnly"> <span>Count only the buyback wallet as retired (about 60% of what is captured). The front-end fund has no on-chain commitment not to sell.</span></label>
+          <label class="toggle" style="margin-top:12px"><input type="checkbox" id="sCut"> <span>Apply the approved issuance cut, fully phased in (HSP-029: maximum issuance 2.5% → 1.6% a year; not before 2029, start date not yet set).</span></label>
           <div class="presets" role="group" aria-label="Presets">
             <button class="chip" type="button" data-p="today">Today</button>
             <button class="chip" type="button" data-p="mayaug">Take back to May–Aug</button>
@@ -445,6 +446,12 @@ footer li + li { margin-top: 6px; }
         <div id="chSupply"></div>
         <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbSupply"></div></details>
       </div>
+      <div class="card reveal">
+        <h3>Checked against NEAR's own numbers</h3>
+        <p class="sub">NEAR published a revenue dashboard (<a href="https://revenue.near.org/">revenue.near.org</a>) in November. Its series are compared here with this audit's rebuild, which was made before it existed. Both say the same thing: about one NEAR bought back for every six issued.</p>
+        <div class="mcstats" id="offStats" style="margin-top:14px"></div>
+        <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbOff"></div></details>
+      </div>
     </div>
   </section>
 
@@ -452,7 +459,7 @@ footer li + li { margin-top: 6px; }
     <div class="wrap">
       <div class="head">
         <div><p class="kicker">04 / Pricing</p><h2 id="h-take">NEAR's cut doubled in September</h2></div>
-        <p>Captured revenue in basis points of volume. Volume did not drive the rise. Mostly, confidential swaps did: they went from 13% to 41% of volume between August and October and pay NEAR far more than public swaps. On 1Click, NEAR also repriced (a 20 bps Trust Wallet ZEC flow, higher fees on swaps without an integrator).</p>
+        <p>Captured revenue in basis points of volume. Volume did not drive the rise. It moved with confidential swaps, which went from 13% to 41% of volume between August and October. In the first week of November the take fell back to 3.9 bps while volume held. On 1Click, NEAR also repriced (a 20 bps Trust Wallet ZEC flow, higher fees on swaps without an integrator).</p>
       </div>
       <div class="grid2">
         <div class="card reveal">
@@ -472,10 +479,10 @@ footer li + li { margin-top: 6px; }
       </div>
       <div class="card reveal">
         <h3>Confidential swaps: where the jump came from, and what pays for it</h3>
-        <p class="sub" id="confSub">From NEAR's own Dune dashboard. Confidential swaps pay NEAR roughly 7–12 bps, against under 1 bp on public swaps; their growth follows the NEAR@3.33 airdrop, which rewards confidential balances and swaps. In Sep–Oct the extra revenue bought about 408k NEAR; Drop 1 released 333k NEAR: in supply terms, the two nearly cancel.</p>
+        <p class="sub" id="confSub">From NEAR's own Dune and revenue dashboards. Through October, a weekly fit gave NEAR about 11 bps on confidential volume against 1 bp on public volume, and that growth followed the NEAR@3.33 airdrop. The fit then failed its first unseen week (2–8 November): it predicted about $0.9M of revenue and $0.36M arrived. From 3 November the source labels almost all volume confidential, while 1Click swaps still visible in the public API ran above $20M in half a day. So the label is not a price list: what earned NEAR more was most likely its own front-end, where the confidential users were.</p>
         <div class="grid2" style="margin-top:8px">
-          <div><div class="legend"><span class="line" style="--c:var(--series-1)">Confidential share of volume, weekly</span></div><div id="chConfShare"></div></div>
-          <div><div class="legend"><span class="line" style="--c:var(--series-2)">Confidential TVL</span><span class="mark">NEAR@3.33 snapshot</span></div><div id="chConfTvl"></div></div>
+          <div><div class="legend"><span class="line" style="--c:var(--series-1)">Confidential share of volume, weekly, to 1 Nov (label comparable)</span></div><div id="chConfShare"></div></div>
+          <div><div class="legend"><span class="line" style="--c:var(--series-2)">Confidential TVL, daily</span><span class="mark">NEAR@3.33 snapshot</span></div><div id="chConfTvl"></div></div>
         </div>
         <div class="mcstats" id="confStats" style="margin-top:14px"></div>
         <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbConf"></div></details>
@@ -512,7 +519,7 @@ footer li + li { margin-top: 6px; }
     <div class="wrap">
       <div class="head">
         <div><p class="kicker">06 / Valuation</p><h2 id="h-mc">Where it goes by end-2027</h2></div>
-        <p>10,000 simulated paths per scenario. Volume and price are drawn together, in 30-day blocks, from history. Pick a scenario: the base case never reaches break-even; only several-fold volume growth does.</p>
+        <p>10,000 simulated paths per scenario. Volume and price are drawn together, in 30-day blocks, from history. Pick a scenario: the base case never reaches break-even; only several-fold volume growth does. The issuance cut approved on 2 November helps a little in 2027, because it phases in over 24 months.</p>
       </div>
       <div class="card reveal">
         <div class="seg" id="segMc" role="group" aria-label="Scenario" style="margin-bottom:16px"><span class="pill"></span></div>
@@ -579,7 +586,7 @@ footer li + li { margin-top: 6px; }
       <pre>pip install -r requirements.txt
 make revenue montecarlo test
 make dashboard dashboard-serve</pre>
-      <p>Live on every visit: DefiLlama (revenue, holders revenue and volume of NEAR Intents), DefiLlama coins (NEAR price), NEAR RPC (total supply). From the repository snapshot <span id="builtAt"></span>: monthly issuance (archival RPC), 1Click swaps (NEAR Intents Explorer API), Monte Carlo outputs.</p>
+      <p>Live on every visit: DefiLlama (revenue, holders revenue and volume of NEAR Intents), DefiLlama coins (NEAR price), NEAR RPC (total supply). From the repository snapshot <span id="builtAt"></span>: monthly issuance (archival RPC), 1Click swaps (NEAR Intents Explorer API), NEAR's revenue dashboard (volume, fees, confidential TVL), Monte Carlo outputs.</p>
     </div>
     <div>
       <h2>Read with care</h2>
@@ -1040,10 +1047,10 @@ function killCriteria(D, L, live, failed) {
     killRow(host, "wait", s, "Revenue collapses", "30-day revenue below 50% of its trailing 180-day average.", "–", note);
     killRow(host, "wait", s, "Buybacks stop", "No inflow for more than 14 days while fees continue.", "–", note);
   }
-  const cw = D.confidential.weekly, lastW = cw[cw.length - 1];
-  killRow(host, "ok", "Not triggered", "Incentive volume fades (added after the fact)",
-    "Not pre-registered, so reported separately: confidential share of volume below 15% for 30 days after the last NEAR@3.33 round. Read from NEAR's Dune dashboard, updated by hand.",
-    `${fmtPct(lastW.confidential_share)} confidential`, `week of ${lastW.week.slice(0, 10)}; rounds still running`);
+  const tv = D.official.summary.tvl, snapTvl = D.confidential.summary.h41.tvl_at_snapshot_usd, faded = tv.last_usd < snapTvl;
+  killRow(host, faded ? "bad" : "ok", faded ? "Triggered" : "Not triggered", "Incentive activity fades (added after the fact)",
+    `Not pre-registered, so reported separately: confidential TVL back below its level on the NEAR@3.33 snapshot day (${fmtUSD(snapTvl)}). The first version watched the confidential share of volume; that label changed at the source on 3 November and can no longer be compared. TVL is read daily from NEAR's own revenue dashboard.`,
+    `${fmtUSD(tv.last_usd)} confidential TVL`, `${fmtPct(tv.change_from_peak)} from the ${dayName(tv.peak_date)} peak, ${fmtPct(tv.change_30d)} in 30 days; as of ${tv.last_date}`);
   const top = D.fee_shares_last30d.find((r) => r.referral !== "(none)");
   killRow(host, top.fee_share > 0.6 ? "bad" : "ok", top.fee_share > 0.6 ? "Triggered on 1Click" : "Not triggered", "One integrator dominates",
     `Top integrator above 60% of fees. On 1Click, ${top.referral} has held more than 60% of all app fees in every 30-day window since mid-September (60–81% in the Feb–Jul sample weeks). It brings ${fmtPct(top.near_revenue_share, 1)} of NEAR's own 1Click revenue: the criterion, as written, does not separate the fee pool from NEAR's revenue. All-Intents measure pending (Dune).`,
@@ -1056,9 +1063,9 @@ const logTo = (v, r) => Math.round(1000 * Math.log(v / r.min) / Math.log(r.max /
 const logFrom = (s, r) => r.min * Math.pow(r.max / r.min, s / 1000);
 const setRange = (input, s) => { input.value = s; };
 function simInit(D) {
-  const sVol = $("sVol"), sTake = $("sTake"), sPrice = $("sPrice"), sOnly = $("sOnly");
+  const sVol = $("sVol"), sTake = $("sTake"), sPrice = $("sPrice"), sOnly = $("sOnly"), sCut = $("sCut");
   const read = () => ({ vol: logFrom(+sVol.value, VOL), take: +sTake.value / 10, price: logFrom(+sPrice.value, PX), share: sOnly.checked ? 0.6 : 1 });
-  const issuedDay = () => D.issuance_rate * LIVE.supply / 365;
+  const issuedDay = () => D.issuance_rate * LIVE.supply / 365 * (sCut.checked ? 1.6 / 2.5 : 1);
   const evenVol = (s) => issuedDay() * s.price / (s.take / 1e4) / s.share;
   const update = () => {
     [sVol, sTake, sPrice].forEach((i) => i.style.setProperty("--p", `${(i.value - i.min) / (i.max - i.min) * 100}%`));
@@ -1088,7 +1095,7 @@ function simInit(D) {
     setRange(sPrice, logTo(Math.min(PX.max, Math.max(PX.min, base.price)), PX));
     update();
   };
-  [sVol, sTake, sPrice, sOnly].forEach((i) => i.addEventListener("input", update));
+  [sVol, sTake, sPrice, sOnly, sCut].forEach((i) => i.addEventListener("input", update));
   document.querySelectorAll(".chip").forEach((b) => b.addEventListener("click", () => preset(b.dataset.p)));
   return () => preset("today");
 }
@@ -1097,7 +1104,7 @@ function simInit(D) {
 const SHORT = {
   "base: take now, 365d history": "Base", "take back to May–Aug level": "Incentive ends", "take now, zero volume drift": "No volume drift",
   "take now, price keeps its 365d drift": "Price drift", "base, buyback wallet only counted as retired": "Buyback wallet only",
-  "take doubles again (11 bps)": "Take doubles", "incentive winds down over 6 months": "Incentive winds down", "take now, 180d history (bull)": "180-day history", "take now, full history since Mar-2025 (hyper-growth)": "Full history",
+  "take doubles again (11 bps)": "Take doubles", "base + issuance cut (HSP-029 from Feb 2027)": "Issuance cut", "incentive winds down + issuance cut": "Wind-down + cut", "incentive winds down over 6 months": "Incentive winds down", "take now, 180d history (bull)": "180-day history", "take now, full history since Mar-2025 (hyper-growth)": "Full history",
 };
 let supplyKey = "all", currentScenario = "base: take now, 365d history";
 function renderSupply(D) {
@@ -1118,7 +1125,7 @@ function charts(D) {
   const cw = D.confidential.weekly;
   lineChart($("chConfShare"), cw.map((r) => r.week), cw.map((r) => r.confidential_share),
     { yMax: 0.5, ticks: [0, 0.1, 0.2, 0.3, 0.4, 0.5], fmt: (v) => fmtPct(v), label: monthName, longLabel: (d) => `Week of ${dayName(d)}`, title: "Confidential share", event: { at: SNAPSHOT, label: "Snapshot" } });
-  const ct = D.confidential.tvl.filter((r) => r.date >= "2026-05-01");
+  const ct = D.official.tvl.filter((r) => r.date >= "2026-05-01");
   lineChart($("chConfTvl"), ct.map((r) => r.date), ct.map((r) => r.confidential_tvl_usd / 1e6),
     { yMax: 200, ticks: [0, 50, 100, 150, 200], fmt: (v) => `$${v.toFixed(0)}M`, label: monthName, longLabel: dayName, title: "Confidential TVL", event: { at: SNAPSHOT, label: "Snapshot" }, color: "var(--series-2)" });
   pairedBars($("chWho"), who);
@@ -1144,11 +1151,18 @@ function tables(D) {
   table($("tbComps"), ["Token", "Market cap", "Holders revenue, annualised", "Multiple"], [...D.comps].sort((a, b) => a.mcap_to_holders_revenue - b.mcap_to_holders_revenue).map((r) => [r.token, fmtUSD(r.market_cap_usd), fmtUSD(r.annualised_usd), `${r.mcap_to_holders_revenue.toFixed(1)}×`]));
   table($("tbShare"), ["Month", "NEAR Intents", "THORChain", "Chainflip", "Maya"], D.crosschain_share.map((r) => [r.month.slice(0, 7), fmtPct(r["near-intents_share"]), fmtPct(r["thorchain-dex_share"]), fmtPct(r["chainflip-amm_share"]), fmtPct(r["maya-protocol_share"])]));
   holderView(D);
+  const of = D.official.summary, ost = $("offStats"); ost.replaceChildren();
+  [["NEAR in the 3 revenue wallets", `${fmtNear(of.wallets_total.rebuilt_near)} vs ${fmtNear(of.wallets_total.official_near)}`, `rebuilt here vs NEAR's dashboard: ${((of.wallets_total.ratio - 1) * 100).toFixed(2)}% apart, all-time`],
+   ["Buybacks / issuance, Feb–Oct", `${fmtPct(of.offset_feb_to_last_full_month.rebuilt, 1)} vs ${fmtPct(of.offset_feb_to_last_full_month.official, 1)}`, "this audit (NEAR received by the wallets, net issuance) vs NEAR's dashboard (its revenue and emissions series)"],
+   ["Take last full week", `${of.last_week.take_bps.toFixed(1)} bps`, `week of ${dayName(of.last_week.week)}, vs ${of.take_october_weeks_bps.toFixed(1)} bps in October; gross fees steady at ${of.last_week.gross_fee_bps.toFixed(0)} bps, NEAR keeps ${fmtPct(of.last_week.capture_of_fees)} of them (${fmtPct(of.capture_october_weeks)} in October)`]]
+    .forEach(([l, v, c]) => { const d = el("div"); d.append(el("div", { class: "l" }, l), el("div", { class: "v num" }, v), el("div", { class: "l", style: "text-transform:none;margin-top:4px" }, c)); ost.appendChild(d); });
+  table($("tbOff"), ["Week of", "Volume", "Gross fees, bps", "NEAR's take, bps", "NEAR's share of fees"], D.official.weekly.map((r) => [r.week, fmtUSD(r.volume_usd), r.gross_fee_bps.toFixed(1), r.take_bps.toFixed(2), fmtPct(r.capture_of_fees)]));
   const cs2 = D.confidential.summary;
   const cst = $("confStats"); cst.replaceChildren();
-  [["NEAR's take on confidential", `${cs2.regression.bps_confidential.toFixed(0)} bps`, `90% CI ${D.confidential.summary.ci[0].toFixed(1)}–${D.confidential.summary.ci[1].toFixed(1)} bps; ${cs2.regression.bps_public.toFixed(1)} on public (weekly fit, R² ${cs2.regression.r2.toFixed(2)})`],
-   ["Drop 1 cost", fmtUSD(cs2.incentive.drop1_usd_at_conversion), `333,333 NEAR, vs ${fmtUSD(cs2.incentive.confidential_volume_jun15_oct_usd * cs2.incentive.confidential_fee_bps_dune_alltime / 1e4)}–${fmtUSD(cs2.incentive.captured_from_confidential_usd_regression)} of revenue from the channel since June`],
-   ["Confidential TVL", `${fmtUSD(cs2.h41.tvl_at_snapshot_usd)} → ${fmtUSD(cs2.h41.tvl_30d_after_usd)}`, "at the snapshot → 30 days later (H4.1 rejected)"]]
+  [["Fit through October", `${cs2.regression.bps_confidential.toFixed(0)} bps`, `on confidential volume; 90% CI ${D.confidential.summary.ci[0].toFixed(1)}–${D.confidential.summary.ci[1].toFixed(1)} bps; ${cs2.regression.bps_public.toFixed(1)} on public (weekly fit, R² ${cs2.regression.r2.toFixed(2)})`],
+   ["First unseen week", `${fmtUSD(cs2.out_of_sample.actual_usd)} vs ${fmtUSD(cs2.out_of_sample.predicted_usd)}`, `actual vs predicted revenue, week of 2 Nov: the fit overshoots by ${(1 / cs2.out_of_sample.actual_over_predicted).toFixed(1)}×`],
+   ["Drop 1 cost", fmtUSD(cs2.incentive.drop1_usd_at_conversion), `333,333 NEAR, vs ${fmtUSD(cs2.counterfactual.uplift_usd)} of extra revenue in Sep–Oct over the May–Aug take rate`],
+   ["Confidential TVL", `${fmtUSD(cs2.h41.tvl_at_snapshot_usd)} → ${fmtUSD(D.official.summary.tvl.last_usd)}`, `snapshot day → ${D.official.summary.tvl.last_date}; peak ${fmtUSD(D.official.summary.tvl.peak_usd)} (H4.1 rejected)`]]
     .forEach(([l, v, c]) => { const d = el("div"); d.append(el("div", { class: "l" }, l), el("div", { class: "v num" }, v), el("div", { class: "l", style: "text-transform:none;margin-top:4px" }, c)); cst.appendChild(d); });
   table($("tbConf"), ["Week of", "Public volume", "Confidential volume", "Confidential share", "Captured, bps"], D.confidential.weekly.map((r) => [r.week, fmtUSD(r.public_usd), fmtUSD(r.confidential_usd), fmtPct(r.confidential_share), r.take_bps.toFixed(2)]));
   table($("tbWho"), ["Integrator (referral)", "Volume", "App fees", "NEAR's revenue"], D.fee_shares_last30d.map((r) => [r.referral, fmtPct(r.volume_share, 1), fmtPct(r.fee_share, 1), fmtPct(r.near_revenue_share, 1)]));
@@ -1163,7 +1177,7 @@ function tables(D) {
   }));
   t.addEventListener("pointerover", (e) => { const c = e.target.closest("td.cell"); cells.forEach((x) => x.classList.toggle("cross", !!c && (x.dataset.r === c.dataset.r || x.dataset.c === c.dataset.c))); });
   t.addEventListener("pointerleave", () => cells.forEach((x) => x.classList.remove("cross")));
-  scorecard();
+  scorecard(D);
 }
 function mcInit(D) {
   const host = $("segMc");
@@ -1177,19 +1191,20 @@ function mcInit(D) {
   seg(host, (k) => { currentScenario = k; stats(k); setFan($("chFan"), D.montecarlo.paths[k], true); });
   stats(currentScenario);
 }
-function scorecard() {
+function scorecard(D) {
+  const b = D.montecarlo.scenarios[0], of = D.official.summary;
   const score = [
     ["H1.1 Reported revenue reaches the revenue wallets", "ok", "Holds", "Rebuilt from the chain: $7.29M vs DefiLlama $7.30M since the fee switch (3 wallets, not 1)."],
     ["H1.2 Bought-back NEAR stays put", "ok", "Holds", "1.6% left the wallets, traced to corrections returned to the bridge operator."],
     ["H1.3 Buybacks executed at market", "ok", "Holds", "Front-end fund conversions: +0.04% vs market, volume-weighted."],
-    ["H2.1 Buybacks offset less than 20% of issuance", "ok", "Holds", "14.7% over Feb–Oct 2026."],
+    ["H2.1 Buybacks offset less than 20% of issuance", "ok", "Holds", `${fmtPct(of.offset_feb_to_last_full_month.rebuilt, 1)} over Feb–Oct 2026; NEAR's own dashboard gives ${fmtPct(of.offset_feb_to_last_full_month.official, 1)}.`],
     ["H2.2 Public ~$177M/day threshold right within 30%", "bad", "Rejected", "It assumes 100% of fees buy NEAR; with the captured share, the threshold is 3–6× higher."],
     ["H3.1 Top 3 integrators above 50%", "ok", "Holds on 1Click", "55% of volume, 68% of NEAR's 1Click revenue."],
     ["H3.2 ZEC above 20% of volume (90 days)", "bad", "Rejected on 1Click", "18.6% over 76 days, but about half of NEAR's 1Click revenue lately."],
-    ["H3.3 Take rate stable", "bad", "Rejected", "Doubled from mid-September, mostly from confidential swaps (41% of October volume, 7–12 bps to NEAR)."],
+    ["H3.3 Take rate stable", "bad", "Rejected", `Doubled from mid-September alongside confidential swaps, then fell back to ${of.last_week.take_bps.toFixed(1)} bps in the week of ${dayName(of.last_week.week)}.`],
     ["H3.4 Under 20% of senders active again at M+3", "ok", "Holds (address level)", "3–5% the same week three months later; at most 9–19%."],
-    ["H4.1 Confidential TVL left after the NEAR@3.33 snapshot", "bad", "Rejected", "Confidential TVL $71M at the snapshot, $155M thirty days later, $143M on 31 Oct (NEAR's Dune dashboard)."],
-    ["H5.1 NEAR stays net inflationary through 2027", "ok", "Holds", "Base case offsets ~21% of 2027 issuance; 9% chance of a deflationary 2027. A walk-forward check shows the engine leaned optimistic in 2026."],
+    ["H4.1 Confidential TVL left after the NEAR@3.33 snapshot", "bad", "Rejected", `Confidential TVL $71M at the snapshot, $155M thirty days later, ${fmtUSD(of.tvl.last_usd)} on ${of.tvl.last_date} (${fmtPct(of.tvl.change_from_peak)} from the peak).`],
+    ["H5.1 NEAR stays net inflationary through 2027", "ok", "Holds", `Base case offsets ${fmtPct(b.median_offset_2027)} of 2027 issuance; ${fmtPct(b.p_2027_net_deflationary)} chance of a deflationary 2027, also with the approved issuance cut. A walk-forward check shows the engine leaned optimistic in 2026.`],
   ];
   const st = table($("tbScore"), ["Hypothesis", "Evidence", "Status"], score.map(([h, , s, e]) => [h, e, s]));
   st.classList.add("score");

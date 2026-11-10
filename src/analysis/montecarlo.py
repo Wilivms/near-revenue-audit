@@ -7,6 +7,7 @@ Model, one path = one possible future from 2026-11-01 to 2027-12-31:
 - NEAR captured per day = volume × take rate / price. The take rate is a scenario input
   (captured revenue in bps of volume), because it moved by 2x in 2026 for reasons not yet confirmed.
 - Issuance = measured net issuance rate (archival-RPC supply, Feb–Oct 2026) × current supply.
+  Scenarios with `issuance_cut` apply the HSP-029 schedule (max issuance 2.5% -> 1.6% over 24 months).
 - A month is net deflationary when NEAR captured > NEAR issued that month.
 
 Identity used as a check: captured NEAR / issued NEAR = annual captured revenue / (rate × market cap).
@@ -32,6 +33,12 @@ END = pd.Timestamp("2027-12-31")
 BLOCK = 30
 N_PATHS = 10_000
 SEED = 20261101
+# HSP-029 (House of Stake, passed 2026-11-02): maximum issuance 2.5% -> 1.6% a year, linearly over
+# 24 months. It still needs Security Council ratification, a 90-day grace period and a protocol
+# upgrade adopted by validators, so the start date is an assumption: the earliest plausible one.
+CUT_START = pd.Timestamp("2027-02-01")
+CUT_DAYS = 730
+CUT_FACTOR_END = 1.6 / 2.5
 
 
 @dataclass
@@ -44,6 +51,15 @@ class Scenario:
     retired_share: float = 1.0   # share of captured NEAR counted as retired (buyback wallet ≈ 0.6)
     take_end_bps: float | None = None  # if set, the take rate moves linearly to this level...
     ramp_days: int = 180               # ...over this many days, then stays there (incentive wind-down)
+    issuance_cut: bool = False         # apply the HSP-029 schedule to the measured issuance rate
+
+
+def issuance_factor(dates: pd.DatetimeIndex, cut: bool) -> np.ndarray:
+    """Multiplier on today's issuance for each day: 1 before the cut, falling linearly to 0.64."""
+    if not cut:
+        return np.ones(len(dates))
+    progress = np.clip((dates - CUT_START).days / CUT_DAYS, 0, 1)
+    return 1 - (1 - CUT_FACTOR_END) * np.asarray(progress, dtype=float)
 
 
 def history() -> pd.DataFrame:
@@ -108,12 +124,13 @@ def simulate(sc: Scenario, cal: dict, n_paths: int = N_PATHS, seed: int = SEED) 
         ramp = np.clip(np.arange(n_days) / sc.ramp_days, 0, 1)
         take = sc.take_bps + (sc.take_end_bps - sc.take_bps) * ramp
     captured = vol * take / 1e4 / px * sc.retired_share   # NEAR per day
-    issued = cal["supply0"] * cal["issuance_rate"] / 365          # NEAR per day (supply drift < 0.3%/yr ignored)
+    # NEAR issued per day (supply drift < 0.3%/yr ignored)
+    issued = cal["supply0"] * cal["issuance_rate"] / 365 * issuance_factor(dates, sc.issuance_cut)
 
     month = dates.to_period("M")
     months = month.unique()
     cap_m = np.stack([captured[:, month == m].sum(axis=1) for m in months], axis=1)
-    iss_m = np.array([issued * (month == m).sum() for m in months])
+    iss_m = np.array([issued[month == m].sum() for m in months])
     ratio = cap_m / iss_m                                          # (paths, months)
     defl = ratio > 1
     y2027 = np.array([m.year == 2027 for m in months])
@@ -150,6 +167,8 @@ def scenarios(cal: dict) -> list[Scenario]:
         Scenario("base, buyback wallet only counted as retired", now, 365, retired_share=0.6),
         Scenario("take doubles again (11 bps)", round(2 * now, 2), 365),
         Scenario("incentive winds down over 6 months", now, 365, take_end_bps=low, ramp_days=180),
+        Scenario("base + issuance cut (HSP-029 from Feb 2027)", now, 365, issuance_cut=True),
+        Scenario("incentive winds down + issuance cut", now, 365, take_end_bps=low, ramp_days=180, issuance_cut=True),
     ]
 
 
@@ -167,6 +186,8 @@ def main() -> None:
     cal = calibration()
     print("calibration:", {k: (round(v, 4) if isinstance(v, float) else v) for k, v in cal.items()})
     print(f"identity check: deflation needs mcap / annual captured revenue < {1 / cal['issuance_rate']:.1f}x")
+    rate_after = cal["issuance_rate"] * CUT_FACTOR_END
+    print(f"after HSP-029 is fully phased in (issuance {rate_after:.2%} a year): < {1 / rate_after:.1f}x")
     rows, base, paths = [], None, []
     for sc in scenarios(cal):
         res = simulate(sc, cal)
