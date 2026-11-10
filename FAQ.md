@@ -5,6 +5,9 @@ Short answers to the questions a judge (human or AI) is likely to ask. Each poin
 **What is the thesis, in one line?**
 NEAR's protocol revenue is real (it reaches NEAR's wallets: 0.6% gap with DefiLlama, 0.04% with NEAR's own dashboard). It is growing, but the September doubling is mostly confidential swaps that an airdrop campaign (NEAR@3.33) is paying for. And at today's market cap it buys back only about a sixth of new NEAR, so it does not yet support the token. See [`REPORT.md`](REPORT.md).
 
+**NEAR now has its own revenue dashboard. Why does this project still matter?**
+Because it answers different questions. revenue.near.org reports revenue, buybacks and the share of emissions offset, and this audit agrees with it (wallets within 0.04%, log 29). It does not say who pays the revenue, what the growth cost, whether it holds, or what it implies for the token's value. Those are this thesis: integrator and asset concentration on 1Click, the NEAR@3.33 cost against its uplift, a failed out-of-sample week, and the 41× / 64× break-even identity against a ~210× market. The README table "What this adds to NEAR's own dashboard" lists it side by side.
+
 **Is this a bull or a bear case?**
 Neither by design. Hypotheses and kill criteria were written before the analysis ([`HYPOTHESES.md`](HYPOTHESES.md), untouched since). Two came out against the bull case: H4.1 (confidential TVL leaves after the snapshot) was rejected, and kill criterion 2 triggered on 1Click data. Both are reported as written. Conviction is "Medium-low" on durability (REPORT, "Conviction and limits").
 

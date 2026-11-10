@@ -20,6 +20,18 @@
 | Still true in 2027 | Base case: 17% of 2027 issuance offset (18% with the issuance cut), 5–6% chance of a net deflationary 2027; a walk-forward test shows the engine leans optimistic | `make montecarlo`, `make backtest`, logs 17, 21 |
 | Priced on something else | Peers whose holders share revenue trade at a median 22x; NEAR at 212x | `make comps`, log 22 |
 
+## What this adds to NEAR's own dashboard
+
+NEAR published [revenue.near.org](https://revenue.near.org/) in November 2026, after this rebuild. The two agree: the same three revenue wallets, the NEAR they received within 0.04%, and about one NEAR bought back for every six issued (`make official`). NEAR's page shows **how much** revenue there is. This audit asks what it is worth:
+
+| Question | revenue.near.org | This audit |
+| --- | --- | --- |
+| How much revenue, how many NEAR bought? | Yes | Rebuilt independently from the chain; matches |
+| Who pays it? | No | Per integrator and per asset on 2.4M 1Click swaps: SwapKit is 40% of volume and 1% of NEAR's revenue; users rarely return |
+| What did the growth cost? | No | NEAR@3.33's first drop ≈ the revenue uplift it produced; NEAR-for-NEAR, the two cancel |
+| Will it last? | No | Pre-registered hypotheses and kill criteria; the September premium fails its first out-of-sample week (3.9 bps in early November) |
+| What does it mean for the token? | Offset to date | The break-even identity (41×, 64× after HSP-029, vs ~210× today), 2027 Monte Carlo with a walk-forward backtest, peer multiples, holder risk and dilution |
+
 ## Try it (do X → see Y)
 
 Everything below runs offline on the committed snapshots in `data/raw/`.
