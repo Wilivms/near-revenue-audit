@@ -56,6 +56,8 @@ def out_of_sample(reg: dict) -> dict:
     cannot be larger unless the label changed.
     """
     v = pd.concat([daily_volume(), daily_volume_after()]).loc["2026-11-02":"2026-11-08"]
+    fd = reg["robustness"]["first_difference_bps"]
+    pred_fd = float(v["public_usd"].sum() * fd["public"] / 1e4 + v["confidential_usd"].sum() * fd["confidential"] / 1e4)
     rev = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True)["rebuilt_total_usd"]
     actual = float(rev.loc["2026-11-02":"2026-11-08"].sum())
     c = reg["rebuilt_total_usd"]
@@ -66,6 +68,7 @@ def out_of_sample(reg: dict) -> dict:
         "week": "2026-11-02", "public_usd": float(v["public_usd"].sum()), "confidential_usd": float(v["confidential_usd"].sum()),
         "confidential_share": float(v["confidential_usd"].sum() / total),
         "predicted_usd": pred, "predicted_low_usd": lo, "actual_usd": actual, "actual_over_predicted": actual / pred,
+        "predicted_first_difference_usd": pred_fd, "actual_over_predicted_first_difference": actual / pred_fd,
         "actual_take_bps": actual / total * 1e4,
         "label_check_2026_11_09": {"dune_public_full_day_usd": 3.45e6, "oneclick_explorer_11h_usd": 20.34e6,
                                    "oneclick_swaps": 11790, "window_utc": "12:38-24:00"},
@@ -120,6 +123,26 @@ def weekly_regression() -> tuple[pd.DataFrame, dict]:
     Xd = df[["public_usd", "confidential_usd"]].to_numpy()
     cd, *_ = np.linalg.lstsq(Xd, df["rebuilt_total_usd"].to_numpy(), rcond=None)
     out["daily_fit_bps"] = {"public": float(cd[0] * 1e4), "confidential": float(cd[1] * 1e4), "days": len(df)}
+    # Robustness. Both regressors trend up over the window, so a fit in levels can pick up a common
+    # trend. Three checks: week-on-week changes (first differences), leave-one-week-out, and an intercept.
+    dX, dy = np.diff(X, axis=0), np.diff(y)
+    cdiff, *_ = np.linalg.lstsq(dX, dy, rcond=None)
+    ddraws = []
+    for _ in range(5000):
+        i = rng.integers(0, len(dy), len(dy))
+        c, *_ = np.linalg.lstsq(dX[i], dy[i], rcond=None)
+        ddraws.append(c * 1e4)
+    ddraws = np.array(ddraws)
+    loo = [np.linalg.lstsq(np.delete(X, i, 0), np.delete(y, i), rcond=None)[0][1] * 1e4 for i in range(len(y))]
+    ci, *_ = np.linalg.lstsq(np.column_stack([np.ones(len(y)), X]), y, rcond=None)
+    out["robustness"] = {
+        "first_difference_bps": {"public": float(cdiff[0] * 1e4), "confidential": float(cdiff[1] * 1e4)},
+        "first_difference_90ci_confidential": [float(np.quantile(ddraws[:, 1], q)) for q in (0.05, 0.95)],
+        "first_difference_90ci_public": [float(np.quantile(ddraws[:, 0], q)) for q in (0.05, 0.95)],
+        "leave_one_out_confidential_bps": [float(min(loo)), float(max(loo))],
+        "with_intercept": {"const_usd": float(ci[0]), "bps_public": float(ci[1] * 1e4), "bps_confidential": float(ci[2] * 1e4)},
+        "corr_public_confidential_levels": float(np.corrcoef(X[:, 0], X[:, 1])[0, 1]),
+    }
     out["corr_confidential_vs_buyback_wallet"] = float(w["confidential_usd"].corr(w["rebuilt_buybacks_usd"]))
     out["corr_public_vs_buyback_wallet"] = float(w["public_usd"].corr(w["rebuilt_buybacks_usd"]))
     return w, out
@@ -178,6 +201,30 @@ def counterfactual(monthly: pd.DataFrame) -> dict:
             "uplift_usd": float(actual - sep_oct_vol * base_take)}
 
 
+def jump_explained(monthly: pd.DataFrame, reg: dict, fee_bps_dune: float) -> dict:
+    """Share of the Aug -> Oct rise in NEAR's take that the move to confidential swaps accounts for:
+    (change in confidential share) x (confidential premium over public), under three premiums."""
+    rev = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True)["rebuilt_total_usd"]
+    vol = monthly["public_usd"] + monthly["confidential_usd"]
+    take = {m: float(rev[m].sum() / vol[f"{m}-01"] * 1e4) for m in ("2026-08", "2026-10")}
+    d_share = float(monthly.loc["2026-10-01", "confidential_share"] - monthly.loc["2026-08-01", "confidential_share"])
+    rise = take["2026-10"] - take["2026-08"]
+    lv, fd = reg["rebuilt_total_usd"], reg["robustness"]["first_difference_bps"]
+    premiums = {"levels_fit": lv["bps_confidential"] - lv["bps_public"], "dune_fee_table": fee_bps_dune - lv["bps_public"],
+                "first_difference_fit": fd["confidential"] - fd["public"]}
+    return {"take_aug_bps": take["2026-08"], "take_oct_bps": take["2026-10"], "rise_bps": rise, "confidential_share_change": d_share,
+            "premium_bps": premiums, "share_of_rise_explained": {k: float(d_share * p / rise) for k, p in premiums.items()}}
+
+
+def near_terms(cf: dict) -> dict:
+    """The Sep-Oct uplift in NEAR bought, against the NEAR that Drop 1 released."""
+    rev = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True)["rebuilt_total_usd"].loc["2026-09-01":"2026-10-31"]
+    bought = float((rev / near_price().reindex(rev.index)).sum())
+    uplift_near = bought * cf["uplift_usd"] / cf["sep_oct_actual_usd"]
+    return {"near_bought_sep_oct": bought, "uplift_near": float(uplift_near), "drop1_near": DROP1_NEAR,
+            "net_near_removed": float(uplift_near - DROP1_NEAR)}
+
+
 def main() -> None:
     monthly = monthly_volume()
     tvl = confidential_tvl()
@@ -191,6 +238,8 @@ def main() -> None:
         "out_of_sample": out_of_sample(reg),
         "monthly_confidential_share": {str(k.date())[:7]: (None if pd.isna(v) else round(float(v), 4)) for k, v in monthly["confidential_share"].items()},
     }
+    summary["jump_explained"] = jump_explained(monthly, reg, summary["incentive"]["confidential_fee_bps_dune_alltime"])
+    summary["near_terms"] = near_terms(summary["counterfactual"])
     OUT.mkdir(parents=True, exist_ok=True)
     w.to_csv(OUT / "confidential_weekly.csv")
     tvl.to_csv(OUT / "confidential_tvl.csv")

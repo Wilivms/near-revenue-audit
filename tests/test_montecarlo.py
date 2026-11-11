@@ -23,8 +23,10 @@ def test_first_month_matches_identity():
     expected = cal["volume0"] * take / 1e4 / cal["price0"] / issued_per_day
     # Scale-free check through the table: offset is linear in volume and take.
     table = sensitivity(cal)
-    v135 = table.iloc[0, 1] / (135e6 * float(table.columns[1].split()[0]))
-    assert np.isclose(expected, v135 * cal["volume0"] * take, rtol=1e-9)
+    row_volume = float(table.index[0].strip("$").split("M")[0]) * 1e6  # first row: the starting volume, rounded
+    per_unit = table.iloc[0, 1] / (row_volume * float(table.columns[1].split()[0]))
+    assert np.isclose(expected, per_unit * cal["volume0"] * take, rtol=1e-9)
+    assert abs(row_volume - cal["volume0"]) <= 0.5e6
 
 
 def test_deflation_threshold_identity():

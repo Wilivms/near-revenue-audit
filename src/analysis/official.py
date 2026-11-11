@@ -8,6 +8,11 @@ data/raw/near_revenue/<date>.json; the analysis runs offline on the latest snaps
 3. Take rate: rebuilt revenue / official volume and / official gross fees, by month and by week.
    (Official daily volume equals Dune's all-time volume query, so it extends that series daily.)
 4. Confidential TVL, daily (the series behind H4.1), with its change since the peak.
+5. Two definitions of revenue. NEAR's page also carries a monthly revenue series and the share of
+   gross fees it captures by mechanism (front-end fees, B2B partners, quote improvement). That
+   series runs above the NEAR that reaches the three wallets (and above DefiLlama's holders
+   revenue, which tracks the wallets). The take rate is therefore reported on both definitions,
+   and conclusions about recent weeks say which one they use.
 
 Outputs: data/processed/official_monthly.csv, official_weekly.csv, official_tvl.csv,
 official_crosscheck.json.
@@ -25,6 +30,8 @@ from .ledger import OUT
 
 URL = "https://revenue.near.org/"
 KEYS = ("totalFeesSeries", "intentVolumeSeries", "tvlChartSeries", "absoluteRevEmissions", "emissionsMonthly", "rows")
+OPTIONAL_KEYS = ("revenueSeries",)  # monthly revenue as NEAR reports it (added to the snapshot on 2026-11-11)
+MECHANISMS = {"fe": "front_end_fees", "b2b": "b2b_partners", "qi": "quote_improvement"}
 FEE_SWITCH = "2026-02-23"
 
 
@@ -33,7 +40,7 @@ def fetch() -> dict:
     chunks = re.findall(r'self\.__next_f\.push\(\[1,"(.*?)"\]\)</script>', html, flags=re.S)
     text = "".join(json.loads('"' + c + '"') for c in chunks)
     dec, out = json.JSONDecoder(), {}
-    for key in KEYS:
+    for key in KEYS + OPTIONAL_KEYS:
         best = []
         for m in re.finditer(f'"{key}":' + r"\[\{", text):
             try:
@@ -42,9 +49,14 @@ def fetch() -> dict:
                 continue
             if len(v) > len(best):
                 best = v
-        if not best:
+        if not best and key in KEYS:
             raise RuntimeError(f"revenue.near.org: series {key} not found (page layout changed?)")
-        out[key] = best
+        if best:
+            out[key] = best
+    # Share of gross fees captured, by mechanism and window: one flat object on the page
+    m = re.search(r'\{"pp_fe_all_time":[^{}]*\}', text)
+    if m:
+        out["captureByMechanism"] = json.loads(m.group(0))
     folder = RAW / "near_revenue"
     folder.mkdir(parents=True, exist_ok=True)
     (folder / f"{_today()}.json").write_text(json.dumps(out))
@@ -71,7 +83,7 @@ def crosscheck() -> dict:
 
     # 1. Wallets
     flows = pd.read_csv(OUT / "revenue_wallet_flows.csv", parse_dates=["date"])
-    flows = flows[flows["date"] <= last_full + pd.Timedelta(days=1)]
+    flows = flows[flows["date"] <= pd.Timestamp(snap_date)]  # the page's wallet totals are live on the snapshot day
     mine = flows[(flows.dir == "in") & flows.is_near & ~flows.internal].groupby("wallet")["amount"].sum()
     wallets = {r["name"]: {"official_near": r["nearAmount"], "rebuilt_near": float(mine.get(r["name"], 0.0)),
                            "ratio": float(mine.get(r["name"], 0.0) / r["nearAmount"])} for r in snap["rows"]}
@@ -98,6 +110,40 @@ def crosscheck() -> dict:
         t["take_bps"] = t["rebuilt_total_usd"] / t["volume_usd"] * 1e4
         t["capture_of_fees"] = t["rebuilt_total_usd"] / t["fees_usd"]
     m = m.join(mon)
+
+    # 5. Revenue as NEAR reports it (monthly, in NEAR) against the NEAR reaching the wallets.
+    # The page books each month's revenue on the 1st and updates the current month daily, so only
+    # monthly totals can be compared. If the ratio of the two is stable, both show the same trend.
+    definitions = None
+    if "revenueSeries" in snap:
+        rs = pd.DataFrame(snap["revenueSeries"])
+        rs.index = pd.to_datetime(rs["period_month"])
+        m = m.join(rs[["revenue_usd", "revenue_near"]].rename(columns={"revenue_usd": "official_revenue_usd", "revenue_near": "official_revenue_near"}))
+        near_in = flows[(flows.dir == "in") & flows.is_near & ~flows.internal].set_index("date")["amount"]
+        near_in = near_in[near_in.index < pd.Timestamp(snap_date)]  # complete days only
+        wallets_m = near_in.resample("MS").sum()
+        m["wallets_near_in"] = wallets_m.reindex(m.index)
+        m["official_over_wallets_near"] = m["official_revenue_near"] / m["wallets_near_in"]
+        full = m.loc["2026-03-01":"2026-10-01"]  # complete months after the fee switch
+        cur = m.index[-1]
+        cur_days = df.loc[cur:]
+        definitions = {
+            "mar_oct_official_usd": float(full["official_revenue_usd"].sum()), "mar_oct_wallets_usd": float(full["rebuilt_total_usd"].sum()),
+            "mar_oct_official_over_wallets_usd": float(full["official_revenue_usd"].sum() / full["rebuilt_total_usd"].sum()),
+            "official_over_wallets_near": {str(k.date())[:7]: round(float(v), 3) for k, v in m["official_over_wallets_near"].loc["2026-07-01":].items()},
+            "oct_take_bps": {"official": float(m.loc["2026-10-01", "official_revenue_usd"] / m.loc["2026-10-01", "volume_usd"] * 1e4),
+                             "wallets": float(m.loc["2026-10-01", "take_bps"])},
+            "current_month": str(cur.date())[:7], "current_month_wallet_days": int(len(cur_days)),
+            "current_month_take_bps_wallets": float(cur_days["rebuilt_total_usd"].sum() / cur_days["volume_usd"].sum() * 1e4),
+            "current_month_take_bps_official_implied": float(cur_days["rebuilt_total_usd"].sum() / cur_days["volume_usd"].sum() * 1e4
+                                                             * m.loc[cur, "official_over_wallets_near"]),
+        }
+    mechanisms = None
+    if "captureByMechanism" in snap:
+        cb = snap["captureByMechanism"]
+        mechanisms = {w: {name: cb.get(f"pp_{k}_{w}") for k, name in MECHANISMS.items()} for w in ("d7", "d30", "ytd", "all_time")}
+        for w in mechanisms:
+            mechanisms[w]["total"] = float(sum(v for v in mechanisms[w].values() if v is not None))
 
     OUT.mkdir(parents=True, exist_ok=True)
     m.to_csv(OUT / "official_monthly.csv")
@@ -127,6 +173,10 @@ def crosscheck() -> dict:
                 "peak_date": str(tvl.idxmax().date()), "change_from_peak": float(tvl.iloc[-1] / tvl.max() - 1),
                 "change_30d": float(tvl.iloc[-1] / tvl.iloc[-31] - 1)},
     }
+    if definitions:
+        out["revenue_definitions"] = definitions
+    if mechanisms:
+        out["capture_by_mechanism"] = mechanisms
     (OUT / "official_crosscheck.json").write_text(json.dumps(out, indent=1))
     return out
 

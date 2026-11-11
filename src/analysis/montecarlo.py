@@ -165,7 +165,7 @@ def scenarios(cal: dict) -> list[Scenario]:
         Scenario("take now, full history since Mar-2025 (hyper-growth)", now, None),
         Scenario("take now, price keeps its 365d drift", now, 365, demean_price=False),
         Scenario("base, buyback wallet only counted as retired", now, 365, retired_share=0.6),
-        Scenario("take doubles again (11 bps)", round(2 * now, 2), 365),
+        Scenario("take doubles again", round(2 * now, 2), 365),
         Scenario("incentive winds down over 6 months", now, 365, take_end_bps=low, ramp_days=180),
         Scenario("base + issuance cut (HSP-029 from Feb 2027)", now, 365, issuance_cut=True),
         Scenario("incentive winds down + issuance cut", now, 365, take_end_bps=low, ramp_days=180, issuance_cut=True),
@@ -176,7 +176,7 @@ def sensitivity(cal: dict) -> pd.DataFrame:
     """Two-way table, no randomness: share of issuance offset at today's price,
     for a given daily volume and take rate (the identity behind the simulation)."""
     issued_per_day = cal["supply0"] * cal["issuance_rate"] / 365
-    vols = [135, 250, 500, 750, 1000, 1500]
+    vols = [int(round(cal["volume0"] / 1e6)), 250, 500, 750, 1000, 1500]  # first row: where the simulation starts
     takes = [round(cal["take_mayaug_bps"], 1), round(cal["take_last30_bps"], 1), 8.0, 11.0, 15.0]
     grid = {f"{t} bps": [v * 1e6 * t / 1e4 / cal["price0"] / issued_per_day for v in vols] for t in takes}
     return pd.DataFrame(grid, index=pd.Index([f"${v}M/day" for v in vols], name="volume"))
