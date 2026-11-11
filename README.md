@@ -10,6 +10,8 @@ NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys 
 - **Live dashboard:** https://near-revenue-audit.vercel.app. Headline figures and two kill criteria are recomputed in the browser from DefiLlama and the NEAR RPC on every visit; the rest refreshes daily.
 - **The thesis on one page** (claim, evidence for and against, what would change our mind, what could not be computed): [`THESIS.md`](THESIS.md). **In full:** [`REPORT.md`](REPORT.md). **Working notes, dead ends and corrections:** [`RESEARCH_LOG.md`](RESEARCH_LOG.md). **Hypotheses written before the tests:** [`HYPOTHESES.md`](HYPOTHESES.md). **Reviewer FAQ:** [`FAQ.md`](FAQ.md). **Dated predictions:** [`predictions/`](predictions/).
 
+[![The live dashboard: NEAR's captured revenue against issuance](docs/img/hero.jpg)](https://near-revenue-audit.vercel.app)
+
 ## The answer
 
 NEAR's revenue is **real**: rebuilt from the chain, it matches DefiLlama within 0.9% and NEAR's own dashboard within 0.14%. It is **too small** to support the token on supply: buybacks offset 14.8% of issuance, and market cap is 217x annual captured revenue against 41x needed for supply to stop growing (64x once the approved issuance cut is phased in). Many theses in this track reach those two results. What this one adds is the **why**:
@@ -41,6 +43,10 @@ NEAR's revenue is **real**: rebuilt from the chain, it matches DefiLlama within 
 | F13 | Usage does not lead NEAR's price (the track's hypothesis) | 0 of 24 lead-lag tests significant after Holm; best r = +0.15, p = 0.15 before correction (L1 transactions, 1-week lag) | weekly changes, NEAR price net of BTC, lags 1–4 weeks, Intents volume and L1 activity, both directions; holds if none is significant at 5% after Holm (`make leadlag`) | PASS |
 
 ## Try it (do X → see Y)
+
+| What would it take? (simulator) | Every finding as a live check |
+|---|---|
+| [![Simulator](docs/img/simulator.jpg)](https://near-revenue-audit.vercel.app/#simulator) | [![Checks](docs/img/checks.jpg)](https://near-revenue-audit.vercel.app/#checks) |
 
 Everything below runs offline on the committed snapshots in `data/raw/` (listed with their sha256 in `data/raw/MANIFEST.json`).
 
