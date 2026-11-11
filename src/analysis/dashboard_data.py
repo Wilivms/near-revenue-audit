@@ -8,7 +8,6 @@ headline figures and kill criteria 1 and 3. If the live fetch fails, it falls ba
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
 
 import numpy as np
 import pandas as pd
@@ -59,7 +58,7 @@ def build() -> dict:
         / chain["total_supply_near"]
     last30 = daily.tail(30)
     return {
-        "built_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
+        "built_at": daily["date"].iloc[-1],  # last day of data, not the wall clock: the rebuild is byte-identical
         "issuance_rate": issuance_rate,
         # last day of collected 1Click swaps: integrator and asset shares are "30 days to" this date
         "oneclick_as_of": str((pd.Timestamp(weekly["period_start"].iloc[-1]) + pd.Timedelta(days=int(weekly["days"].iloc[-1]) - 1)).date()),

@@ -1,4 +1,4 @@
-.PHONY: reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all
+.PHONY: reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -49,6 +49,13 @@ reproduce:   ## every offline step on the committed snapshots, then the tests
 	$(MAKE) ledger revenue supply montecarlo backtest confidential official dashboard test
 
 refresh:     ## fetch fresh public snapshots (network), then re-run everything
-	$(MAKE) data comps risk official-fetch reproduce
+	$(MAKE) data comps risk official-fetch manifest reproduce
+
+manifest:    ## sha256 of every raw snapshot -> data/raw/MANIFEST.json
+	python3 -m src.manifest
+
+check-clean: ## rebuild from the committed snapshots and fail if any committed output changes
+	$(MAKE) reproduce
+	git diff --exit-code --stat -- data/processed dashboard/data.json
 
 all: reproduce

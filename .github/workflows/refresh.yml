@@ -1,7 +1,8 @@
 name: daily refresh
-# Re-fetches the public sources, recomputes every offline step and commits the new
-# dashboard/data.json. The dashboard reads that file from GitHub, so it updates without a redeploy.
-# Raw snapshots stay frozen in the repository (they back REPORT.md); only the dashboard bundle moves.
+# Re-fetches the public sources, recomputes every offline step and commits the result as
+# dashboard/live.json. The dashboard reads that file from GitHub, so it updates without a redeploy.
+# Raw snapshots and dashboard/data.json stay frozen: they back REPORT.md, and `make check-clean`
+# rebuilds data.json byte for byte from them.
 on:
   schedule:
     - cron: "17 6 * * *"
@@ -20,13 +21,14 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Fetch fresh public data and recompute
         run: make refresh
-      - name: Commit the dashboard bundle only
+      - name: Commit the live bundle only
         run: |
-          git checkout -- data
+          cp dashboard/data.json dashboard/live.json
+          git checkout -- data dashboard/data.json
           git clean -fdq data
           git config user.name "near-revenue-audit bot"
           git config user.email "actions@users.noreply.github.com"
-          git add dashboard/data.json
-          git diff --cached --quiet || git commit -m "Daily refresh of dashboard data ($(date -u +%F))"
+          git add dashboard/live.json
+          git diff --cached --quiet || git commit -m "Daily refresh of the live dashboard bundle ($(date -u +%F))"
           git pull --rebase -X theirs origin main
           git push

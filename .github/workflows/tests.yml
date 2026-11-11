@@ -11,4 +11,5 @@ jobs:
         with:
           python-version: "3.13"
       - run: pip install -r requirements.txt
-      - run: make reproduce
+      - name: Rebuild from the committed snapshots; fail if any committed output changes
+        run: make check-clean

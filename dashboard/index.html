@@ -1137,7 +1137,7 @@ function charts(D) {
   setFan($("chFan"), D.montecarlo.paths[currentScenario], false);
 }
 function tables(D) {
-  $("builtAt").textContent = `(built ${D.built_at})`;
+  $("builtAt").textContent = `(data to ${D.built_at})`;
   const sm = D.supply_monthly;
   table($("tbSupply"), ["Month", "NEAR issued", "Bought back, 3 wallets", "of which buyback wallet", "Share"],
     sm.map((r) => [r.date.slice(0, 7), Math.round(r.net_issuance_near).toLocaleString("en"), Math.round(r.captured_near_3_wallets).toLocaleString("en"), Math.round(r.captured_near_buyback_wallet).toLocaleString("en"), fmtPct(r.captured_share_of_issuance, 1)]));
@@ -1244,7 +1244,8 @@ function navSpy() {
   navSpy();
   let D;
   // Newest bundle from the daily GitHub refresh first; the copy deployed with the page as fallback.
-  try { D = await getJSON("https://raw.githubusercontent.com/Wilivms/near-revenue-audit/main/dashboard/data.json"); }
+  // live.json: refreshed daily by the GitHub Action; data.json: rebuilt by `make reproduce` from the committed snapshots
+  try { D = await getJSON("https://raw.githubusercontent.com/Wilivms/near-revenue-audit/main/dashboard/live.json"); }
   catch (e) { D = null; }
   if (!D) try { D = await getJSON("data.json"); }
   catch (e) { $("statusLine").textContent = "Could not load data.json. Serve this folder over HTTP (make dashboard-serve)."; return; }
