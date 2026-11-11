@@ -1,4 +1,4 @@
-.PHONY: reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean
+.PHONY: reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -46,13 +46,19 @@ test:        ## model checks
 	python3 -m pytest -q tests
 
 reproduce:   ## every offline step on the committed snapshots, then the tests
-	$(MAKE) ledger revenue supply montecarlo backtest confidential official dashboard test
+	$(MAKE) ledger revenue supply governance montecarlo backtest confidential official dashboard test
 
 refresh:     ## fetch fresh public snapshots (network), then re-run everything
-	$(MAKE) data comps risk official-fetch manifest reproduce
+	$(MAKE) data comps risk official-fetch governance-fetch manifest reproduce
 
 manifest:    ## sha256 of every raw snapshot -> data/raw/MANIFEST.json
 	python3 -m src.manifest
+
+governance:  ## HSP-029 vote, timelock and earliest ramp start, from the vote.dao snapshot
+	python3 -m src.analysis.governance
+
+governance-fetch:
+	python3 -m src.analysis.governance --refresh
 
 check-clean: ## rebuild from the committed snapshots and fail if any committed output changes
 	$(MAKE) reproduce

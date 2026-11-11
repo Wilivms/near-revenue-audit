@@ -33,10 +33,18 @@ END = pd.Timestamp("2027-12-31")
 BLOCK = 30
 N_PATHS = 10_000
 SEED = 20261101
-# HSP-029 (House of Stake, passed 2026-11-02): maximum issuance 2.5% -> 1.6% a year, linearly over
-# 24 months. It still needs Security Council ratification, a 90-day grace period and a protocol
-# upgrade adopted by validators, so the start date is an assumption: the earliest plausible one.
-CUT_START = pd.Timestamp("2027-02-01")
+# HSP-029 (House of Stake vote closed 2026-11-02, 99.97% of veNEAR cast in favour): maximum issuance
+# 2.5% -> 1.6% a year, linearly over 24 months. After the 14-day timelock the proposal foresees a
+# 90-day grace period and a protocol upgrade adopted by validators, so the ramp starts at the
+# earliest at timelock end + 90 days, read on-chain by governance.py (2027-02-14); that is used here.
+def _cut_start() -> pd.Timestamp:
+    try:
+        return pd.Timestamp(json.loads((OUT / "governance_hsp029.json").read_text())["earliest_ramp_start"])
+    except (FileNotFoundError, KeyError):
+        return pd.Timestamp("2027-02-14")
+
+
+CUT_START = _cut_start()
 CUT_DAYS = 730
 CUT_FACTOR_END = 1.6 / 2.5
 
@@ -167,7 +175,7 @@ def scenarios(cal: dict) -> list[Scenario]:
         Scenario("base, buyback wallet only counted as retired", now, 365, retired_share=0.6),
         Scenario("take doubles again", round(2 * now, 2), 365),
         Scenario("incentive winds down over 6 months", now, 365, take_end_bps=low, ramp_days=180),
-        Scenario("base + issuance cut (HSP-029 from Feb 2027)", now, 365, issuance_cut=True),
+        Scenario("base + issuance cut (HSP-029, earliest start)", now, 365, issuance_cut=True),
         Scenario("incentive winds down + issuance cut", now, 365, take_end_bps=low, ramp_days=180, issuance_cut=True),
     ]
 

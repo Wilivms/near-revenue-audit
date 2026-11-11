@@ -1,0 +1,20 @@
+{
+ "proposal_id": 29,
+ "title": "Establish a 24-Month Issuance Ramp to a 1.6% Target Rate Of NEAR Token Emissions",
+ "status": "Timelock",
+ "read_at_block": 224019176,
+ "venear_for": 3287728.662259631,
+ "venear_against": 1.5456460682699998e-05,
+ "venear_abstain": 1070.572816045589,
+ "share_for_of_cast": 0.9996744791168524,
+ "voters": 36,
+ "venear_cast": 3288799.235091133,
+ "venear_snapshot_total": 5274745.1547832405,
+ "turnout": 0.6234991717294222,
+ "approval_threshold": 0.6667,
+ "quorum_threshold": 0.35,
+ "voting_started": "2026-10-19 16:48:08.461922091+00:00",
+ "voting_ended": "2026-11-02 16:48:08.461922091+00:00",
+ "timelock_ends": "2026-11-16 16:48:08.461922091+00:00",
+ "earliest_ramp_start": "2027-02-14"
+}

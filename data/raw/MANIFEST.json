@@ -96,6 +96,10 @@
    "bytes": 20364,
    "sha256": "ef3c3379add69871faea90f1bf194d699b1df052adb9ee1851ca1d80c37454c9"
   },
+  "governance/hsp029_2026-11-11.json": {
+   "bytes": 32810,
+   "sha256": "c393bfbdf79588d9703137f213e7486aeffebb86cb0c526284d64e6536553dbb"
+  },
   "llama_dailyFees/2026-10-29.json": {
    "bytes": 41513,
    "sha256": "d06972cc7526dd09ab90ce64a249f31ea2ac93d955466e65d64ed11b8a99f47a"
