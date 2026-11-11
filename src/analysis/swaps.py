@@ -14,6 +14,7 @@ Outputs (data/processed/):
 from __future__ import annotations
 
 import glob
+import json
 
 import numpy as np
 import pandas as pd
@@ -265,6 +266,44 @@ def revenue_by_asset(df: pd.DataFrame, days: int = 30) -> pd.DataFrame:
     return out
 
 
+def november(df: pd.DataFrame) -> dict:
+    """What changed on 1Click between the second half of October and the first ten days of November.
+
+    NEAR's take on 1Click by window, with and without Trust Wallet (whose 20 bps flow, mostly ZEC,
+    surged on 23-28 Oct), the part of NEAR's 1Click revenue from swaps without an integrator
+    (NEAR's own front-end and direct users), ZEC, and NEAR's share of the whole fee pool.
+    """
+    day = df["ts"].dt.tz_convert(None).dt.normalize()
+    ref = df["referral"].fillna("").str.lower()
+    trust = ref.str.startswith("trust")
+    out = {}
+    for name, a, b in (("oct16_29", "2026-10-16", "2026-10-29"), ("nov01_10", "2026-11-01", "2026-11-10")):
+        m = (day >= a) & (day <= b)
+        n = (pd.Timestamp(b) - pd.Timestamp(a)).days + 1
+        s, x = df[m], df[m & ~trust]
+        noref = s[ref[m] == ""]
+        out[name] = {
+            "days": n, "volume_usd_per_day": float(s["usd"].sum() / n), "near_usd_per_day": float(s["near_usd"].sum() / n),
+            "near_bps": float(s["near_usd"].sum() / s["usd"].sum() * 1e4),
+            "near_bps_ex_trust": float(x["near_usd"].sum() / x["usd"].sum() * 1e4),
+            "trust_near_share": float(s.loc[trust[m], "near_usd"].sum() / s["near_usd"].sum()),
+            "trust_volume_usd": float(s.loc[trust[m], "usd"].sum()),
+            "noref_near_usd_per_day": float(noref["near_usd"].sum() / n), "noref_near_bps": float(noref["near_usd"].sum() / noref["usd"].sum() * 1e4),
+            "noref_near_share": float(noref["near_usd"].sum() / s["near_usd"].sum()),
+            "zec_volume_share": float(s.loc[s["zec"], "usd"].sum() / s["usd"].sum()),
+            "zec_near_share": float(s.loc[s["zec"], "near_usd"].sum() / s["near_usd"].sum()),
+            "near_share_of_fee_pool": float(s["near_usd"].sum() / s["fee_usd"].sum()),
+        }
+    burst = df[trust & (day >= "2026-10-23") & (day <= "2026-10-28")]
+    out["trust_burst_oct23_28"] = {"volume_usd": float(burst["usd"].sum()), "near_usd": float(burst["near_usd"].sum()),
+                                   "zec_share": float(burst.loc[burst["zec"], "usd"].sum() / burst["usd"].sum())}
+    last30 = df[df["ts"] >= df["ts"].max() - pd.Timedelta(days=30)]
+    out["last30"] = {"from": str(last30["ts"].min().date()), "to": str(df["ts"].max().date()),
+                     "near_share_of_fee_pool": float(last30["near_usd"].sum() / last30["fee_usd"].sum()),
+                     "swaps": int(len(df))}
+    return out
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     df = load()
@@ -289,6 +328,9 @@ def main() -> None:
     print(w[cols].round(3).to_string(index=False))
     print(snap.drop(columns=["days"]).round(3).T.to_string())
     print(ret.round(3).to_string(index=False))
+    nov = november(df)
+    (OUT / "oneclick_november.json").write_text(json.dumps(nov, indent=1))
+    print(json.dumps(nov, indent=1))
     ent = snapshot_entrants(df)
     ent.to_csv(OUT / "snapshot_entrants.csv", index=False)
     print(ent.round(3).to_string(index=False))

@@ -219,6 +219,13 @@ def values() -> dict:
     tr = ll["tracks_captured_revenue_weekly_r"]
     v["ll_rev_vol"], v["ll_rev_txns"], v["ll_rev_active"], v["ll_rev_price"], v["ll_rev_weeks"] = tr["intents_volume"], tr["txns"], tr["active_accounts"], tr["near_vs_btc"], tr["weeks"]
     v["yoy_vol"], v["yoy_txns"], v["yoy_active"] = (ll["yoy_30d"][k] for k in ("intents_volume", "l1_txns", "l1_active_accounts"))
+    # 1Click (swap-level, last 30 days of the collection)
+    fs = pd.read_csv(OUT / "fee_shares_last30d.csv", index_col=0)
+    v["oc_fee_shares"] = fs
+    ra = pd.read_csv(OUT / "revenue_by_asset_last30d.csv", index_col=0)
+    v["oc_assets"] = ra
+    nov = _json("oneclick_november.json")
+    v["oc"] = nov
     v["data_to"] = str(complete.max().date())
     return v
 
@@ -288,6 +295,36 @@ def figures() -> dict[str, str]:
         "ll_rev_active": f"{v['ll_rev_active']:.2f}", "ll_rev_price": f"{v['ll_rev_price']:.2f}", "ll_rev_weeks": str(v["ll_rev_weeks"]),
         "yoy_vol": f"{v['yoy_vol'] * 100:+.0f}%", "yoy_txns": f"{v['yoy_txns'] * 100:+.0f}%", "yoy_active": f"{v['yoy_active'] * 100:+.0f}%",
     }
+    fs, ra, oc = v["oc_fee_shares"], v["oc_assets"], v["oc"]
+    sk = fs.loc["swapkit"]
+    o1, o2, tb = oc["oct16_29"], oc["nov01_10"], oc["trust_burst_oct23_28"]
+    f.update({
+        "oc_from": oc["last30"]["from"], "oc_to": oc["last30"]["to"], "oc_swaps": f"{oc['last30']['swaps'] / 1e6:.1f}M",
+        "oc_integrators_keep": pct(1 - oc["last30"]["near_share_of_fee_pool"]),
+        "sk_vol": pct(sk.volume_share), "sk_fees": pct(sk.fee_share),
+        "sk_near": "under 0.1%" if sk.near_revenue_share < 0.001 else pct(sk.near_revenue_share, 1),
+        "noref_vol": pct(fs.loc["(none)"].volume_share), "noref_near": pct(fs.loc["(none)"].near_revenue_share),
+        "asset_btc": pct(ra.loc["BTC", "near_revenue_share"]) if "BTC" in ra.index else "n/a",
+        "asset_zec": pct(ra.loc["ZEC", "near_revenue_share"]) if "ZEC" in ra.index else "n/a",
+        "asset_eth": pct(ra.loc["ETH", "near_revenue_share"]) if "ETH" in ra.index else "n/a",
+        "asset_stable_vol": pct(ra.loc["stable↔stable", "volume_share"]), "asset_stable_near": pct(ra.loc["stable↔stable", "near_revenue_share"]),
+        "asset_stable_bps": f"{ra.loc['stable↔stable', 'near_bps']:.1f}",
+        "oc_bps_oct": f"{o1['near_bps']:.1f}", "oc_bps_nov": f"{o2['near_bps']:.1f}",
+        "oc_bps_oct_ex": f"{o1['near_bps_ex_trust']:.1f}", "oc_bps_nov_ex": f"{o2['near_bps_ex_trust']:.1f}",
+        "trust_burst_vol": usd(tb["volume_usd"], 0), "trust_burst_near": usd(tb["near_usd"], 0), "trust_burst_zec": pct(tb["zec_share"]),
+        "trust_share_oct": pct(o1["trust_near_share"]),
+        "noref_day_oct": usd(o1["noref_near_usd_per_day"], 1), "noref_day_nov": usd(o2["noref_near_usd_per_day"], 1),
+        "noref_share_nov": pct(o2["noref_near_share"]),
+        "zec_vol_oct": pct(o1["zec_volume_share"]), "zec_vol_nov": pct(o2["zec_volume_share"]),
+        "zec_near_oct": pct(o1["zec_near_share"]), "zec_near_nov": pct(o2["zec_near_share"]),
+        "oc_vol_oct": usd(o1["volume_usd_per_day"], 0), "oc_vol_nov": usd(o2["volume_usd_per_day"], 0),
+    })
+    names = {"(none)": "No integrator (NEAR's front-end, direct users)", "swapkit": "SwapKit", "trustwallet": "Trust Wallet", "lifi": "LI.FI",
+             "rango": "Rango", "arbie": "Arbie", "zodl": "Zodl", "e1a72603-64b3-4be1-8265-8bae5970d396": "Anonymous referral `e1a72603…`"}
+    top = pd.concat([fs.loc[["swapkit"]], fs.drop(index="swapkit").sort_values("near_revenue_share", ascending=False).head(5)])
+    rows = ["| Integrator | Volume | App fees | NEAR's revenue |", "| --- | --- | --- | --- |"]
+    rows += [f"| {names.get(i, i)} | {pct(r.volume_share, 1)} | {pct(r.fee_share, 1)} | {pct(r.near_revenue_share, 1)} |" for i, r in top.iterrows()]
+    f["oc_table"] = "\n".join(rows)
     for k in ("base", "mayaug", "wind", "cut", "windcut", "bbonly", "double", "bull"):
         f[f"mc_{k}"] = pct(v[f"mc_{k}_med"])
         f[f"mc_{k}_band"] = f"{v[f'mc_{k}_p10'] * 100:.0f}–{v[f'mc_{k}_p90'] * 100:.0f}%"

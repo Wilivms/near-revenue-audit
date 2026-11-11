@@ -15,7 +15,7 @@ NEAR's revenue is **real**: rebuilt from the chain, it matches DefiLlama within 
 
 - **The doubling was partly bought.** NEAR's take went from {{take_aug}} to {{take_oct}} bps of volume between August and October. The largest identified driver is confidential swaps ({{conf_share_aug}} → {{conf_share_oct}} of volume), which pay NEAR {{premium_range}} bps against {{public_range}} on public swaps and explain {{jump_fd}} to {{jump_levels}} of the rise, depending on the method. They grew under an airdrop campaign (NEAR@3.33) whose first drop cost {{drop1_over_uplift}} of the revenue uplift.
 - **It is already easing, and the model said so by failing.** The weekly fit missed its first unseen week ({{oos_actual}} against {{oos_pred_fd}}–{{oos_pred}} predicted). In early November the take fell to {{take_last_week}} bps on three sources while confidential TVL fell {{tvl_from_peak}} from its peak.
-- **NEAR does not own the customer.** On 2.4M 1Click swaps, integrators keep about 91% of the fee pool; the largest (SwapKit) takes 71% of app fees and sends NEAR 1% of its revenue.
+- **NEAR does not own the customer.** On {{oc_swaps}} 1Click swaps, integrators keep about {{oc_integrators_keep}} of the fee pool; the largest (SwapKit) takes {{sk_fees}} of app fees and sends NEAR {{sk_near}} of its revenue. In November, NEAR's 1Click take fell from {{oc_bps_oct}} to {{oc_bps_nov}} bps, mostly because one integrator's burst (Trust Wallet, {{trust_burst_vol}} of ZEC at 20 bps in late October) stopped; NEAR's own front-end revenue held.
 - **NEAR's own revenue series runs {{series_over_wallets}} above what its three revenue wallets receive**, every month ({{series_ratio_min}}–{{series_ratio_max}}×), while the wallet totals agree within {{wallets_gap}}. The gap is not fees waiting to be swept; it is an open question put to NEAR.
 - **Usage does not lead the price.** The track's own hypothesis: {{ll_sig}} of {{ll_tests}} lead-lag tests are significant after Holm's correction, over {{ll_weeks}} weeks.
 
@@ -59,7 +59,7 @@ With network access, `make refresh` fetches fresh snapshots and re-runs everythi
 | --- | --- |
 | Runs as described | `make check-clean` (CI runs it on every push: badge above); `make verify`; `data/raw/MANIFEST.json` with a test that every snapshot matches its hash |
 | Evidence, not conviction | 13 findings with explicit pass conditions (above); hypotheses and kill criteria registered before the analysis ([`HYPOTHESES.md`](HYPOTHESES.md), unchanged since its first commit); results against expectations reported as written (H4.1 rejected, the fit's out-of-sample miss, a kill criterion triggered on 1Click) |
-| Technical implementation | revenue rebuilt from wallet histories ([`revenue_wallets.py`](src/analysis/revenue_wallets.py)); supply from archival-RPC headers ([`supply.py`](src/analysis/supply.py)); 2.4M swaps from the Intents Explorer API ([`intents_explorer.py`](src/ingest/intents_explorer.py), [`swaps.py`](src/analysis/swaps.py)); robustness of the channel fit ([`confidential.py`](src/analysis/confidential.py)); joint block bootstrap with a walk-forward backtest ([`montecarlo.py`](src/analysis/montecarlo.py), [`backtest_mc.py`](src/analysis/backtest_mc.py)); governance read on-chain ([`governance.py`](src/analysis/governance.py)) |
+| Technical implementation | revenue rebuilt from wallet histories ([`revenue_wallets.py`](src/analysis/revenue_wallets.py)); supply from archival-RPC headers ([`supply.py`](src/analysis/supply.py)); {{oc_swaps}} swaps from the Intents Explorer API ([`intents_explorer.py`](src/ingest/intents_explorer.py), [`swaps.py`](src/analysis/swaps.py)); robustness of the channel fit ([`confidential.py`](src/analysis/confidential.py)); joint block bootstrap with a walk-forward backtest ([`montecarlo.py`](src/analysis/montecarlo.py), [`backtest_mc.py`](src/analysis/backtest_mc.py)); governance read on-chain ([`governance.py`](src/analysis/governance.py)) |
 | Design | the dashboard: a what-if simulator on the break-even identity, live kill criteria, a scenario fan chart, a "show the numbers" table under each chart and the sources listed on the page; light theme, phone widths, reduced-motion support |
 | Impact | findings that change how NEAR's revenue should be read: the September jump decomposed and costed, the integrator economics of 1Click, a 20% gap inside NEAR's own revenue reporting, a public threshold ($177M/day) shown to be 3–6× too low |
 | Originality | swap-level data no other thesis uses; an incentive's cost set against the revenue it bought; a model whose own failure is published; NEAR's dashboard audited against the chain |
@@ -76,7 +76,7 @@ NEAR published [revenue.near.org](https://revenue.near.org/) in November 2026, a
 | Question | revenue.near.org | This audit |
 | --- | --- | --- |
 | How much revenue, how many NEAR bought? | Yes | Rebuilt independently from the chain; wallets agree within {{wallets_gap}}; its revenue series runs {{series_over_wallets}} above them |
-| Who pays it? | No | Per integrator and per asset on 2.4M 1Click swaps |
+| Who pays it? | No | Per integrator and per asset on {{oc_swaps}} 1Click swaps, to {{oc_to}} |
 | What did the growth cost? | No | Drop 1 of NEAR@3.33 cost {{drop1_over_uplift}} of the revenue uplift; net {{net_near}} NEAR removed |
 | Will it last? | No | Pre-registered kill criteria, a fit that failed out of sample, dated predictions |
 | What does it mean for the token? | Offset to date | The break-even identity ({{breakeven_now}}, {{breakeven_cut}} after HSP-029, vs {{near_captured_mult}} today), a 2027 Monte Carlo with a backtest, peers, holder risk and dilution |
@@ -87,7 +87,7 @@ NEAR published [revenue.near.org](https://revenue.near.org/) in November 2026, a
 | --- | --- | --- |
 | 1. Ledger | Does reported revenue reach NEAR's wallets, and does it stay there? | NearBlocks (3 revenue wallets), DefiLlama, revenue.near.org, DAO proposals read on-chain |
 | 2. Supply | Do buybacks offset issuance? | Archival RPC total supply, revenue wallets, HSP-029 on `vote.dao` |
-| 3. Quality of revenue | Who pays, through which channel, on which asset? | 2.4M 1Click swaps (NEAR Intents Explorer API), NEAR's Dune dashboard |
+| 3. Quality of revenue | Who pays, through which channel, on which asset? | {{oc_swaps}} 1Click swaps (NEAR Intents Explorer API), NEAR's Dune dashboard |
 | 4. Incentives | How much growth is bought (NEAR@3.33)? | NEAR's Dune dashboard and revenue.near.org (confidential volume and TVL) |
 | 5. Valuation | Where does it go by end-2027? | Monte Carlo (joint block bootstrap), walk-forward backtest |
 | 6. Context | Peers, competitors, usage vs price, the holder's view | DefiLlama, CoinGecko, NearBlocks charts, RPC validators |
@@ -99,7 +99,7 @@ A data project: NEAR is the subject and the main source. It reads mainnet throug
 ## Data sources and how they were obtained
 
 - **DefiLlama API** (fees, revenue, holders revenue, volume of NEAR Intents; NEAR and BTC prices; peers), **CoinGecko** (market caps), **NEAR RPC and archival RPC**, **NearBlocks API**.
-- **NEAR Intents Explorer API**: per-swap 1Click data; needs a partner key in `INTENTS_JWT` (git-ignored `.env`, never committed). The raw swaps are not committed; their aggregates in `data/processed/` are. Collected up to 2026-10-29.
+- **NEAR Intents Explorer API**: per-swap 1Click data; needs a partner key in `INTENTS_JWT` (git-ignored `.env`, never committed). The raw swaps are not committed; their aggregates in `data/processed/` are. Collected up to {{oc_to}}.
 - **NEAR's Dune dashboard** ([dune.com/near/near-intents](https://dune.com/near/near-intents)): Dune's API needs a paid plan, so the public result tables were read page by page in a browser and saved as text in `data/raw/dune/`, with each query id in the file header.
 - **NEAR's revenue dashboard** ([revenue.near.org](https://revenue.near.org/)): its series are embedded in the page; `make refresh` saves them to `data/raw/near_revenue/`.
 

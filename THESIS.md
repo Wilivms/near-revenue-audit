@@ -15,13 +15,14 @@ NEAR Intents' protocol revenue is real and has grown, but in its current form it
 - **2027 does not change it in the base case.** Median 17% of 2027 issuance offset (5–66%), 5% chance of a deflationary 2027; 18% with the issuance cut. The engine was too optimistic in its 2026 backtest. (`make montecarlo backtest`)
 - **The jump was partly bought.** NEAR's take went from 2.2 to 5.5 bps between August and October; confidential swaps, which grew under the NEAR@3.33 airdrop, explain 22% to 84% of it. Drop 1 cost $1.39M, 74% of the revenue uplift. (`make confidential`)
 - **It is easing.** The fit missed its first unseen week ($355k vs $475k–$901k); the take was 3.9 bps in the week of 2 November on three sources; confidential TVL is 25% below its peak. (`make confidential official`)
-- **NEAR does not own the customer.** On 1Click, integrators keep about 91% of the fee pool; SwapKit takes 71% of app fees and sends NEAR 1% of its revenue. (`make swaps` outputs)
+- **NEAR does not own the customer.** On 1Click, integrators keep about 92% of the fee pool; SwapKit takes 75% of app fees and sends NEAR under 0.1% of its revenue. (`make swaps` outputs, to 2026-11-10)
 - **The market agrees it is priced on something else.** Peers whose holders share revenue trade at a median 20x holders revenue; NEAR at 220x. Usage does not lead the price: 0 of 24 lead-lag tests significant after Holm. (`make comps leadlag`)
 
 ## Evidence against
 
 - **The take rate is a lever.** It more than doubled in two months; at 8–15 bps with 2–4× today's volume, buybacks would cover issuance (sensitivity table in `make montecarlo`).
 - **Confidential swaps do pay NEAR more**, in every method (5.5–11 bps against 1–3). If a part of that use outlives the airdrop, the take stays well above its May–Aug level (2.4 bps).
+- **The part NEAR controls held up in November.** On 1Click, NEAR's revenue from swaps without an integrator was $5.2k a day in late October and $5.4k in early November; the fall came from one integrator's burst ending (Trust Wallet). 
 - **NEAR's own front-end is growing its share.** NEAR's dashboard shows capture by front-end fees rising from 12% of gross fees all-time to 22% over the last 30 days: the flows NEAR controls are the ones that grew.
 - **NEAR's own revenue series is higher.** It runs 21% above the wallets; if that revenue is real and retired, the offset is 16.3% rather than 14.8%. It does not change the order of magnitude.
 - **Issuance is being cut.** HSP-029 passed with 99.97% of veNEAR cast; fully phased in, it lowers the break-even multiple's bar from 41x to 64x.

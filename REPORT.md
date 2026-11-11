@@ -15,7 +15,7 @@ NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys 
 
 - **Real.** Rebuilt from the chain, captured revenue matches DefiLlama within 0.9% ($7.94M since the fee switch), and NEAR's own revenue dashboard, published after this rebuild, agrees within 0.14% on the NEAR received by the three wallets. Almost nothing has left the wallets (57,037 NEAR, 1.3% of what they received, traced to corrections returned to the bridge operator).
 - **Growing, but partly bought.** NEAR's cut of volume more than doubled between August and October (2.2 to 5.5 bps). The largest identified driver is **confidential swaps**, which went from 13% of Intents volume to 41% and pay NEAR more than public swaps: about 5.5–11 bps against 1–3, depending on the method. That surge coincides with an airdrop campaign (NEAR@3.33) that rewards confidential balances and swaps; the timing fits, but the data cannot prove the campaign caused it. Its first drop cost about $1.39M in NEAR, a third to a half of the revenue the channel brought. In the first full week of November, with confidential TVL 25% below its peak, the take fell back to 3.9 bps.
-- **Not owned.** On 1Click, integrators keep about 91% of the fee pool. The largest one (SwapKit, 40% of volume, 71% of app fees) pays NEAR almost nothing. Half of NEAR's 1Click revenue comes from users without an integrator, and about half from one asset, ZEC.
+- **Not owned.** On 1Click, integrators keep about 92% of the fee pool. The largest one (SwapKit, 39% of volume, 75% of app fees) pays NEAR under 0.1% of its revenue. 40% of NEAR's 1Click revenue comes from users without an integrator.
 - **Too small for the supply story.** Buybacks offset about **one sixth** of issuance: 15 NEAR bought back for every 100 issued since February on this audit's count, 16 on NEAR's own. Market cap is **217x** annual captured revenue; break-even needs **41x**, or **64x** once the issuance cut approved on 2 November is fully phased in.
 - **Still true at end-2027 in the base case.** In 10,000 simulated paths, buybacks offset a median 17% of 2027 issuance (18% with the issuance cut); there is a 5% chance that 2027 is net deflationary (6% with the cut). Break-even needs about $626M of daily volume at today's take, against about $130M now.
 
@@ -74,14 +74,16 @@ Source: NEAR's own Dune dashboard (@near, "NEAR Intents"), read from its public 
 
 ### 3. NEAR does not own the customer
 
-1Click swaps, 30 days to 2026-10-29, the last day collected (log 11, 18):
+1Click swaps, 2026-10-11 to 2026-11-10, the last 30 days collected (2.6M swaps in all; log 11, 18, 34):
 
 | Integrator | Volume | App fees | NEAR's revenue |
 | --- | --- | --- | --- |
-| SwapKit | 40% | 71% | 1% |
-| No integrator | 20% | 6% | 46% |
-| Anonymous referral `e1a72603…` | 0.7% | 2% | 12% |
-| Trust Wallet | 2.5% | 1% | 11% |
+| SwapKit | 39.4% | 74.6% | 0.0% |
+| No integrator (NEAR's front-end, direct users) | 16.8% | 4.8% | 39.7% |
+| Trust Wallet | 2.5% | 1.1% | 13.5% |
+| LI.FI | 11.8% | 1.3% | 8.1% |
+| Arbie | 1.4% | 0.6% | 7.4% |
+| Anonymous referral `e1a72603…` | 0.4% | 1.2% | 7.1% |
 
 - NEAR keeps about 9% of the 1Click fee pool; integrators keep the rest.
 - **ZEC** is 18.6% of 1Click volume over 76 days but about half of NEAR's 1Click revenue in the last two weeks. (log 13)
@@ -133,7 +135,8 @@ What the simulation assumes, and what that does to the result:
 
 - **Risk** (daily prices, Nov 2024 to Nov 2026): NEAR's volatility is about **103% a year** against 44% for BTC; its worst drawdown was **-88%** (Dec 2024 to Feb 2026), with 703 days under water; beta to BTC about 1.3–1.5. Revenue has not dampened the token's swings.
 - **Dilution**: issuance adds 2.43% of supply a year; buybacks at the last 30 days' pace remove 0.4%. Supply still grows about **2.1% a year**. A holder who does not stake loses about 2% of their share of the network each year; stakers (44% of supply) earn about 5.5% gross, before validator commission. Today, staking, not buybacks, is what protects a holder from dilution.
-- **What NEAR earns on** (1Click, 30 days to 2026-10-29): swaps whose volatile leg is BTC bring 30% of NEAR's revenue, ZEC 23%, ETH 16%. Stablecoin-to-stablecoin swaps are 30% of volume but 9% of revenue, at 1.3 bps.
+- **What NEAR earns on** (1Click, 2026-10-11 to 2026-11-10): swaps whose volatile leg is BTC bring 37% of NEAR's revenue, ETH 14%, ZEC 13%. Stablecoin-to-stablecoin swaps are 30% of volume but 10% of revenue, at 1.3 bps.
+- **What changed in November** (1Click, 16–29 Oct against 1–10 Nov; log 34): NEAR's take fell from 4.6 to 2.9 bps while volume rose ($32M to $38M a day). Most of the gap is one flow: Trust Wallet routed $27M of swaps (99% ZEC) at 20 bps between 23 and 28 October, 26% of NEAR's 1Click revenue in the second half of October, then stopped. Without Trust Wallet the take went from 3.7 to 2.9 bps. ZEC fell from 28% to 11% of volume and from 48% to 10% of NEAR's revenue. What held: NEAR's revenue from swaps without an integrator, its own front-end and direct users ($5.2k then $5.4k a day), now 49% of NEAR's 1Click revenue. The fall in late-October pricing was one integrator's burst, not a broad repricing; the part NEAR controls did not fall.
 
 ### 8. The track's own hypothesis: does usage lead the price?
 
@@ -170,7 +173,7 @@ Kill criteria were registered before the analysis and are monitored live on the 
 | --- | --- |
 | 30-day revenue below 50% of its trailing 180-day average | Not triggered: 160% of the average |
 | Buyback inflows stop for more than 14 days while fees continue | Not triggered: inflow yesterday |
-| Top integrator above 60% of fees | **Triggered on 1Click** (SwapKit, 65–73% of app fees, all year), though SwapKit brings 1% of NEAR's revenue. The criterion did not say whose fees; we report it as written. All-Intents measure pending. |
+| Top integrator above 60% of fees | **Triggered on 1Click** (SwapKit, 65–75% of app fees, all year), though SwapKit brings NEAR under 0.1% of its 1Click revenue. The criterion did not say whose fees; we report it as written. All-Intents measure pending. |
 | *Added after the fact, reported separately:* confidential TVL back below its level on the NEAR@3.33 snapshot day ($71M) | Not triggered: $140M, but 25% below the peak |
 
 The third result is a lesson as much as a finding: a kill criterion should measure the quantity the thesis depends on, NEAR's captured revenue, not a proxy.

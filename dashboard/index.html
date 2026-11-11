@@ -487,7 +487,7 @@ footer li + li { margin-top: 6px; }
           <p class="sub">NEAR's take, bps of volume, weekly (Feb–Jul: sample weeks)</p>
           <div class="legend"><span class="line" style="--c:var(--series-1)">Take, bps</span><span class="mark">NEAR@3.33 snapshot</span></div>
           <div id="chOneClick"></div>
-          <p class="src">Source: 2.4M 1Click swaps from the NEAR Intents Explorer API: NEAR's fee ÷ volume, weekly. Rebuild: <code>make swaps</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/swaps.py">src/analysis/swaps.py</a></p>
+          <p class="src">Source: 2.6M 1Click swaps from the NEAR Intents Explorer API: NEAR's fee ÷ volume, weekly. Rebuild: <code>make swaps</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/swaps.py">src/analysis/swaps.py</a></p>
           <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbOne"></div></details>
         </div>
       </div>
@@ -510,24 +510,24 @@ footer li + li { margin-top: 6px; }
     <div class="wrap">
       <div class="head">
         <div><p class="kicker">05 / Distribution</p><h2 id="h-who">Who owns the customer</h2></div>
-        <p>On 1Click, distribution partners keep most of the fee pool. SwapKit takes 71% of all app fees but sends NEAR almost nothing; NEAR's own revenue comes mostly from users who arrive without an integrator. Re-sort to see who matters for whom.</p>
+        <p>On 1Click, distribution partners keep most of the fee pool. SwapKit takes 75% of all app fees but sends NEAR almost nothing; NEAR's own revenue comes mostly from users who arrive without an integrator. In November NEAR's 1Click take fell from 4.6 to 2.9 bps, mostly because one burst ended (Trust Wallet, $27M of ZEC at 20 bps on 23–28 Oct); revenue from users without an integrator held at about $5k a day. Re-sort to see who matters for whom.</p>
       </div>
       <div class="card reveal">
         <div class="cardbar">
-          <div><h3>Share of app fees vs share of NEAR's revenue</h3><p class="sub">1Click swaps, 30 days to 29 October 2026, the last day collected (1Click is about 28% of Intents volume)</p></div>
+          <div><h3>Share of app fees vs share of NEAR's revenue</h3><p class="sub">1Click swaps, the last 30 days collected (to 10 November 2026) (1Click is about 28% of Intents volume)</p></div>
           <div class="seg" id="segWho" role="group" aria-label="Sort by"><span class="pill"></span><button type="button" data-k="a" aria-pressed="true">By app fees</button><button type="button" data-k="b" aria-pressed="false">By NEAR's revenue</button><button type="button" data-k="vol" aria-pressed="false">By volume</button></div>
         </div>
         <div class="legend"><span style="--c:var(--series-1)">Share of all app fees</span><span style="--c:var(--series-2)">Share of NEAR's revenue</span></div>
         <div id="chWho"></div>
-          <p class="src">Source: 1Click swaps, 30 days to 29 Oct 2026: app fees and NEAR's fee by referral (integrator). Rebuild: <code>make swaps</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/swaps.py">src/analysis/swaps.py</a></p>
+          <p class="src">Source: 1Click swaps, 11 Oct–10 Nov 2026: app fees and NEAR's fee by referral (integrator). Rebuild: <code>make swaps</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/swaps.py">src/analysis/swaps.py</a></p>
         <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbWho"></div></details>
       </div>
       <div class="card reveal">
         <h3>What NEAR earns on, by asset</h3>
-        <p class="sub">1Click swaps, 30 days to 29 October 2026, labelled by the volatile leg (BTC→USDT counts as BTC). Stablecoin-to-stablecoin swaps are 30% of volume but pay NEAR 1.3 bps.</p>
+        <p class="sub">1Click swaps, 11 Oct–10 Nov 2026, labelled by the volatile leg (BTC→USDT counts as BTC). Stablecoin-to-stablecoin swaps are 30% of volume but pay NEAR 1.3 bps.</p>
         <div class="legend"><span style="--c:var(--series-1)">Share of volume</span><span style="--c:var(--series-2)">Share of NEAR's revenue</span></div>
         <div id="chAsset"></div>
-          <p class="src">Source: 1Click swaps, 30 days to 29 Oct 2026, labelled by the volatile leg. Rebuild: <code>make swaps</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/swaps.py">src/analysis/swaps.py</a></p>
+          <p class="src">Source: 1Click swaps, 11 Oct–10 Nov 2026, labelled by the volatile leg. Rebuild: <code>make swaps</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/swaps.py">src/analysis/swaps.py</a></p>
         <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbAsset"></div></details>
       </div>
     </div>
@@ -1091,7 +1091,7 @@ function killCriteria(D, L, live, failed) {
   const top = D.fee_shares_last30d.find((r) => r.referral !== "(none)");
   killRow(host, top.fee_share > 0.6 ? "bad" : "ok", top.fee_share > 0.6 ? "Triggered on 1Click" : "Not triggered", "One integrator dominates",
     `Top integrator above 60% of fees. On 1Click, ${top.referral} has held more than 60% of all app fees in every 30-day window since mid-September (60–81% in the Feb–Jul sample weeks). It brings ${fmtPct(top.near_revenue_share, 1)} of NEAR's own 1Click revenue: the criterion, as written, does not separate the fee pool from NEAR's revenue. All-Intents measure pending (Dune).`,
-    `${fmtPct(top.fee_share)} of app fees`, `1Click, 30 days to ${D.oneclick_as_of || "2026-10-29"}`);
+    `${fmtPct(top.fee_share)} of app fees`, `1Click, 30 days to ${D.oneclick_as_of || "2026-11-10"}`);
 }
 
 // ---------- simulator ----------

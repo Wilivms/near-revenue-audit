@@ -1,0 +1,43 @@
+{
+ "oct16_29": {
+  "days": 14,
+  "volume_usd_per_day": 32314021.569661077,
+  "near_usd_per_day": 15012.54284443901,
+  "near_bps": 4.6458293072794,
+  "near_bps_ex_trust": 3.653160934968591,
+  "trust_near_share": 0.26147869170875554,
+  "trust_volume_usd": 27506291.06506514,
+  "noref_near_usd_per_day": 5155.056580856221,
+  "noref_near_bps": 9.809688960581134,
+  "noref_near_share": 0.34338330516510546,
+  "zec_volume_share": 0.28044612205548536,
+  "zec_near_share": 0.4831903499463509,
+  "near_share_of_fee_pool": 0.10709468249208118
+ },
+ "nov01_10": {
+  "days": 10,
+  "volume_usd_per_day": 38454768.80893269,
+  "near_usd_per_day": 11029.553748889371,
+  "near_bps": 2.868188807398917,
+  "near_bps_ex_trust": 2.85365221588195,
+  "trust_near_share": 0.005940050307025986,
+  "trust_volume_usd": 336970.89902716485,
+  "noref_near_usd_per_day": 5415.701442762011,
+  "noref_near_bps": 8.353144374253715,
+  "noref_near_share": 0.49101727649746013,
+  "zec_volume_share": 0.10930618781666243,
+  "zec_near_share": 0.09740912347443476,
+  "near_share_of_fee_pool": 0.0593688118587156
+ },
+ "trust_burst_oct23_28": {
+  "volume_usd": 27120882.723061323,
+  "near_usd": 54241.23863296794,
+  "zec_share": 0.9929920898791577
+ },
+ "last30": {
+  "from": "2026-10-11",
+  "to": "2026-11-10",
+  "near_share_of_fee_pool": 0.08166361856677463,
+  "swaps": 2648615
+ }
+}
