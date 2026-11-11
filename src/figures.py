@@ -345,6 +345,38 @@ def claims(v: dict | None = None) -> list[dict]:
     return [{"id": i, "finding": a, "number": n, "check": c, "passed": bool(p), "command": cmd} for i, a, n, c, p, cmd in rows]
 
 
+def public_claims(v: dict | None = None) -> list[dict]:
+    """Claims made in public about NEAR's buybacks and issuance, checked against this audit's data."""
+    v = v or values()
+    f = figures()
+    supply = json.loads(sorted((RAW / "chain_state").glob("*.json"))[-1].read_text())["total_supply_near"]
+    # linear ramp of the cap from 2.5% to 1.6% over 2 years: the cut grows from 0 to 0.9 pp, so the
+    # NEAR not issued over the 2 years is supply x 0.9% x (average cut over 2 years = half) x 2 years
+    avoided_2y = supply * (0.025 - 0.016) * 0.5 * 2
+    return [
+        {"claim": "\"About $177M of daily volume makes NEAR deflationary\"", "source": "community DefiLlama Pro dashboard, widely quoted in 2026 (log 6)",
+         "data": f"assumes all gross fees buy NEAR; with the captured share, break-even is {f['be_vol_now']}/day at {f['take_now']} bps", "verdict": "Inflated"},
+        {"claim": "\"NEAR captures a growing share of fees\"", "source": "revenue.near.org, read 2026-11-11",
+         "data": f"{f['cap_total_all']} of gross fees all-time, {f['cap_total_d30']} over the last 30 days; take {f['take_aug']} → {f['take_oct']} bps Aug to Oct, {f['take_last_week']} in the week of 2 Nov",
+         "verdict": "Survives, but turned down in November"},
+        {"claim": "\"...feeding buybacks that permanently remove NEAR from circulation\"", "source": "revenue.near.org, read 2026-11-11",
+         "data": f"{f['fefunds_share']} of the NEAR captured sits in a DAO treasury with no on-chain commitment not to sell; nothing is burned; supply grows {f['net_growth']} a year net",
+         "verdict": "Not shown"},
+        {"claim": "Revenue as NEAR reports it", "source": "revenue.near.org monthly revenue series",
+         "data": f"{f['series_over_wallets']} above the NEAR its own three revenue wallets receive (Mar–Oct), while the wallet totals agree within {f['wallets_gap']}",
+         "verdict": "Unverified (gap unexplained)"},
+        {"claim": "\"HSP-029 avoids 11.8M NEAR of issuance over two years\"", "source": "HSP-029 text on vote.dao; Unchained, 2026-11-03",
+         "data": f"a linear ramp from 2.5% to 1.6% on today's supply avoids {avoided_2y / 1e6:.1f}M NEAR over two years; it cannot start before {f['hsp_earliest']}",
+         "verdict": "Survives"},
+    ]
+
+
+def public_claims_table(rows: list[dict]) -> str:
+    lines = ["| Claim | Source | What the data says | Verdict |", "| --- | --- | --- | --- |"]
+    lines += [f"| {r['claim']} | {r['source']} | {r['data']} | **{r['verdict']}** |" for r in rows]
+    return "\n".join(lines)
+
+
 def claims_table(rows: list[dict]) -> str:
     lines = ["| ID | Finding | Number | How it is checked | Result |", "| --- | --- | --- | --- | --- |"]
     for r in rows:
@@ -356,6 +388,7 @@ def render() -> dict[str, str]:
     f = figures()
     f["claims_table"] = claims_table(claims())
     f["claims_passed"] = f"{sum(r['passed'] for r in claims())}/{len(claims())}"
+    f["public_claims_table"] = public_claims_table(public_claims())
     out = {}
     for name in DOCS:
         t = (TEMPLATES / name).read_text()

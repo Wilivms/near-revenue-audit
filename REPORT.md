@@ -144,6 +144,18 @@ The track suggests testing whether cross-chain volume through NEAR Intents is a 
 - **What tracks NEAR's revenue.** Weekly changes in captured revenue since March correlate 0.45 with Intents volume, 0.52 with L1 transactions, -0.03 with active accounts and 0.11 with the BTC-adjusted price (36 weeks).
 - **Reading.** Intents volume is the better measure of what NEAR earns, but neither it nor L1 activity says anything about next month's price. That fits the valuation finding: the market does not price NEAR on this revenue.
 
+### 9. Public claims, checked
+
+Statements made in public about NEAR's buybacks and issuance, set against this audit's data (rendered by `make docs` from the same outputs):
+
+| Claim | Source | What the data says | Verdict |
+| --- | --- | --- | --- |
+| "About $177M of daily volume makes NEAR deflationary" | community DefiLlama Pro dashboard, widely quoted in 2026 (log 6) | assumes all gross fees buy NEAR; with the captured share, break-even is $626M/day at 5.0 bps | **Inflated** |
+| "NEAR captures a growing share of fees" | revenue.near.org, read 2026-11-11 | 19% of gross fees all-time, 37% over the last 30 days; take 2.2 → 5.5 bps Aug to Oct, 3.9 in the week of 2 Nov | **Survives, but turned down in November** |
+| "...feeding buybacks that permanently remove NEAR from circulation" | revenue.near.org, read 2026-11-11 | 47% of the NEAR captured sits in a DAO treasury with no on-chain commitment not to sell; nothing is burned; supply grows 2.1% a year net | **Not shown** |
+| Revenue as NEAR reports it | revenue.near.org monthly revenue series | 21% above the NEAR its own three revenue wallets receive (Mar–Oct), while the wallet totals agree within 0.14% | **Unverified (gap unexplained)** |
+| "HSP-029 avoids 11.8M NEAR of issuance over two years" | HSP-029 text on vote.dao; Unchained, 2026-11-03 | a linear ramp from 2.5% to 1.6% on today's supply avoids 11.8M NEAR over two years; it cannot start before 2027-02-14 | **Survives** |
+
 ## Bull case and bear case
 
 **Bull.** Confidential swaps are a product NEAR monetises better than public swaps (about 5.5–11 bps against 1–3), and they reached 41% of volume. If a part of that use outlives the airdrop, the take rate stays well above its old level. The take rate is a lever NEAR can still pull: it doubled in two months and the sensitivity table shows that 8–15 bps with 2–4x today's volume reaches break-even. A single deal with the largest integrator, which now pays NEAR almost nothing, would add more revenue than any volume growth. The revenue is clean, reconciles to the chain and is not being sold.

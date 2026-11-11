@@ -269,6 +269,15 @@ input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); }
 .sens td.cell.cross { box-shadow: inset 0 0 0 2px var(--series-2); }
 .score td:nth-child(2) { white-space: normal; text-align: left; color: var(--ink-2); }
 .score td:first-child { white-space: normal; max-width: 320px; font-weight: 500; }
+#checks .card { min-width: 0; }
+#checks td, #checks th { white-space: normal; text-align: left; }
+#checks td:first-child { max-width: none; }
+#checks td, #checks th { text-align: left !important; }
+#tbChecks td:nth-child(2) { width: 34%; color: var(--ink); }
+#tbChecks td:nth-child(3) { width: 50%; }
+#tbPublic td:nth-child(2) { width: 55%; }
+#tbPublic td:nth-child(3), #tbPred td:nth-child(4) { font-weight: 600; }
+#tbPred td:nth-child(3) { white-space: nowrap; }
 .score .tag { display: inline-flex; gap: 8px; align-items: center; font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: .03em; }
 .mcstats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin: 6px 0 14px; }
 .mcstats div { background: var(--card); padding: 12px 14px; }
@@ -332,7 +341,7 @@ footer li + li { margin-top: 6px; }
   <div class="wrap">
     <a class="brand" href="#top"><span>near-revenue-audit</span><span class="sep"></span><small>Investment thesis track</small></a>
     <nav class="nav" aria-label="Sections" id="nav">
-      <a href="#simulator">Simulator</a><a href="#kill-criteria">Kill criteria</a><a href="#buybacks">Buybacks</a><a href="#take-rate">Take rate</a><a href="#customer">Customer</a><a href="#forecast">2027</a><a href="#context">Context</a><a href="#hypotheses">Hypotheses</a>
+      <a href="#simulator">Simulator</a><a href="#kill-criteria">Kill criteria</a><a href="#buybacks">Buybacks</a><a href="#take-rate">Take rate</a><a href="#customer">Customer</a><a href="#forecast">2027</a><a href="#context">Context</a><a href="#checks">Checks</a>
     </nav>
     <div class="actions">
       <button class="btn dark" id="themeBtn" type="button" aria-label="Switch theme"></button>
@@ -577,6 +586,21 @@ footer li + li { margin-top: 6px; }
       <div class="card"><div class="tbl-wrap" id="tbScore"></div></div>
     </div>
   </section>
+
+  <section class="block" id="checks" aria-labelledby="h-checks">
+    <div class="wrap">
+      <div class="head">
+        <div><p class="kicker">09 / Checks</p><h2 id="h-checks">Every finding is a test</h2></div>
+        <p>Each headline finding has an explicit pass condition, re-checked by <code>make verify</code> on every build; the documents are rendered from the same numbers, so they cannot drift. Below: the findings, public claims about NEAR set against the data, and six predictions frozen on 11 Nov 2026 (sha256 committed, Bitcoin timestamp) that resolve from 15 Nov.</p>
+      </div>
+      <div class="card"><h3>Findings</h3><p class="sub" id="checksSub"></p><div class="tbl-wrap" id="tbChecks"></div></div>
+      <div class="grid2" style="margin-top:20px">
+        <div class="card"><h3>Public claims, checked</h3><p class="sub">What is said about NEAR's buybacks and issuance, against this audit's data</p><div class="tbl-wrap" id="tbPublic"></div></div>
+        <div class="card"><h3>Dated predictions</h3><p class="sub">Frozen 2026-11-11; status as of the data date</p><div class="tbl-wrap" id="tbPred"></div></div>
+      </div>
+      <div class="card" style="margin-top:20px"><h3>The track's own hypothesis</h3><p class="sub" id="leadlagSub"></p></div>
+    </div>
+  </section>
 </main>
 
 <footer>
@@ -584,8 +608,9 @@ footer li + li { margin-top: 6px; }
     <div>
       <h2>Re-run it</h2>
       <pre>pip install -r requirements.txt
-make revenue montecarlo test
-make dashboard dashboard-serve</pre>
+make check-clean
+make verify
+make dashboard-serve</pre>
       <p>Live on every visit: DefiLlama (revenue, holders revenue and volume of NEAR Intents), DefiLlama coins (NEAR price), NEAR RPC (total supply). From the repository snapshot <span id="builtAt"></span>: monthly issuance (archival RPC), 1Click swaps (NEAR Intents Explorer API), NEAR's revenue dashboard (volume, fees, confidential TVL), Monte Carlo outputs.</p>
     </div>
     <div>
@@ -1209,6 +1234,16 @@ function scorecard(D) {
   ];
   const st = table($("tbScore"), ["Hypothesis", "Evidence", "Status"], score.map(([h, , s, e]) => [h, e, s]));
   st.classList.add("score");
+  if (D.checks) {
+    const C = D.checks, passed = C.findings.filter((r) => r.passed).length;
+    $("checksSub").textContent = `${passed} of ${C.findings.length} hold on the committed data`;
+    const ct = table($("tbChecks"), ["ID", "Finding", "Number", "Result"], C.findings.map((r) => [r.id, r.finding, r.number, r.passed ? "Pass" : "Fail"]));
+    ct.classList.add("score");
+    table($("tbPublic"), ["Claim", "What the data says", "Verdict"], C.public_claims.map((r) => [r.claim, r.data, r.verdict])).classList.add("score");
+    table($("tbPred"), ["ID", "Prediction", "Resolves", "Status"], C.predictions.map((r) => [r.id, r.prediction, r.resolve_on, r.status])).classList.add("score");
+    const L = C.leadlag, pc = (x) => `${x >= 0 ? "+" : ""}${Math.round(x * 100)}%`;
+    $("leadlagSub").textContent = `Does usage lead NEAR's price? Over ${L.weeks} weeks, with the price taken net of BTC: ${L.significant_after_holm} of ${L.tests} lead-lag tests (Intents volume, L1 transactions and active accounts, lags of 1–4 weeks, both directions) are significant after Holm's correction. Usage has split in two: over the last 30 days against a year earlier, Intents volume is ${pc(L.yoy_30d.intents_volume)} while L1 transactions are ${pc(L.yoy_30d.l1_txns)}. Weekly changes in NEAR's captured revenue track Intents volume (r = ${L.tracks_captured_revenue_weekly_r.intents_volume.toFixed(2)}), not the price (r = ${L.tracks_captured_revenue_weekly_r.near_vs_btc.toFixed(2)}).`;
+  }
   [...st.tBodies[0].rows].forEach((row, i) => { const c = row.cells[2]; const txt = c.textContent; c.replaceChildren(); const sp = el("span", { class: "tag" }); sp.append(icon(score[i][1]), document.createTextNode(txt)); c.appendChild(sp); });
 }
 

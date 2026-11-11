@@ -143,6 +143,12 @@ The track suggests testing whether cross-chain volume through NEAR Intents is a 
 - **What tracks NEAR's revenue.** Weekly changes in captured revenue since March correlate {{ll_rev_vol}} with Intents volume, {{ll_rev_txns}} with L1 transactions, {{ll_rev_active}} with active accounts and {{ll_rev_price}} with the BTC-adjusted price ({{ll_rev_weeks}} weeks).
 - **Reading.** Intents volume is the better measure of what NEAR earns, but neither it nor L1 activity says anything about next month's price. That fits the valuation finding: the market does not price NEAR on this revenue.
 
+### 9. Public claims, checked
+
+Statements made in public about NEAR's buybacks and issuance, set against this audit's data (rendered by `make docs` from the same outputs):
+
+{{public_claims_table}}
+
 ## Bull case and bear case
 
 **Bull.** Confidential swaps are a product NEAR monetises better than public swaps (about {{premium_range}} bps against {{public_range}}), and they reached {{conf_share_oct}} of volume. If a part of that use outlives the airdrop, the take rate stays well above its old level. The take rate is a lever NEAR can still pull: it doubled in two months and the sensitivity table shows that 8–15 bps with 2–4x today's volume reaches break-even. A single deal with the largest integrator, which now pays NEAR almost nothing, would add more revenue than any volume growth. The revenue is clean, reconciles to the chain and is not being sold.

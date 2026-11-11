@@ -94,6 +94,7 @@ def build() -> dict:
         },
         # peers with material holders revenue only (at least $100k in 30 days): a token paying its holders
         # a few hundred dollars is not a comparable, and its multiple (18,000x for JTO) breaks the chart
+        "checks": _checks(),
         "comps": _records(comps[comps["mcap_to_holders_revenue"].notna() & (comps["holders_revenue_30d_usd"] >= 100_000)][["token", "market_cap_usd", "annualised_usd", "mcap_to_holders_revenue"]]),
         "crosschain_share": _records(share.filter(like="_share").reset_index().rename(columns={share.index.name or "index": "month"})),
         "token_risk": _records(risk),
@@ -107,6 +108,18 @@ def build() -> dict:
             "sensitivity": _records(sens),
         },
     }
+
+
+def _checks() -> dict:
+    """The README's findings, the public claims, the predictions and the lead-lag result, from one source."""
+    from ..figures import claims, public_claims, values
+    from ..predictions import resolve
+    v = values()
+    preds = resolve(pd.Timestamp(v["data_to"]))  # as of the data date, so the bundle stays reproducible
+    preds["value"] = preds["value"].astype(object).where(preds["value"].notna(), None)
+    ll = json.loads((OUT / "leadlag_summary.json").read_text())
+    return {"findings": claims(v), "public_claims": public_claims(v), "predictions": preds.to_dict("records"),
+            "leadlag": {k: ll[k] for k in ("weeks", "significant_after_holm", "tests", "yoy_30d", "tracks_captured_revenue_weekly_r")}}
 
 
 def main() -> None:
