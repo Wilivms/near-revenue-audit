@@ -1,0 +1,7 @@
+id,prediction,metric,metric_args,op,threshold,resolve_on,made_on,why
+P1,"NEAR's take over 1-14 Nov 2026 stays below 5.0 bps of Intents volume",take_bps,2026-11-01;2026-11-14,<,5.0,2026-11-15,2026-11-11,"October was 5.5; the first full week of November was 3.9 as confidential TVL fell. If the September premium is fading, the first half of November stays under 5."
+P2,"Confidential TVL on 14 Nov 2026 is below 140M USD",tvl_on,2026-11-14,<,140000000,2026-11-15,2026-11-11,"TVL fell 25% from its 27 Sep peak to 140M on 9 Nov with no new NEAR@3.33 drop announced."
+P3,"HSP-029 leaves its timelock without a veto",hsp029_status,,in,Approved|Executed|Succeeded,2026-11-17,2026-11-11,"99.97% of veNEAR cast voted for it; the timelock ends 2026-11-16 16:48 UTC."
+P4,"Buybacks offset less than 20% of NEAR issued in November 2026",month_offset,2026-11-01,<,0.20,2026-12-02,2026-11-11,"No month since the fee switch has reached 25%; October was 17% with a higher take than November so far."
+P5,"NEAR's take over Q4 2026 stays above its May-Aug level (2.4 bps)",take_bps,2026-10-01;2026-12-31,>,2.4,2027-01-02,2026-11-11,"Part of the rise came from repricing on public flows and NEAR's own front-end, not only from the incentive."
+P6,"NEAR's total supply on 1 Apr 2027 is higher than on 11 Nov 2026",supply_on_or_after,2027-04-01,>,0,2027-04-02,2026-11-11,"Issuance about 2.4% a year against buybacks about 0.4%; HSP-029 cannot start before 14 Feb 2027 and ramps slowly."

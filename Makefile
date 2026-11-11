@@ -1,4 +1,4 @@
-.PHONY: reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch
+.PHONY: reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -59,6 +59,9 @@ governance:  ## HSP-029 vote, timelock and earliest ramp start, from the vote.da
 
 governance-fetch:
 	python3 -m src.analysis.governance --refresh
+
+predictions: ## resolve the frozen predictions whose date has passed -> predictions/RESULTS.md
+	python3 -m src.predictions
 
 check-clean: ## rebuild from the committed snapshots and fail if any committed output changes
 	$(MAKE) reproduce
