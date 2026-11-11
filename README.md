@@ -13,12 +13,12 @@
 
 | | Finding | Evidence |
 | --- | --- | --- |
-| Real | Revenue rebuilt from the chain matches DefiLlama within 0.6% ($7.90M since the 2026-02-23 fee switch); NEAR's own revenue dashboard, published later, agrees to 0.04% on the NEAR the three wallets received | `make revenue`, `make official`, logs 2, 29 |
-| Growing, partly bought | NEAR's take doubled from mid-September (≈2.2 → 5.4 bps of volume), mostly because confidential swaps went from 13% to 41% of volume; that growth follows the NEAR@3.33 airdrop, whose first drop (~$1.39M) about equals the revenue uplift it produced. First week of November: take back to 3.9 bps, and the fit fails out of sample | `make confidential`, `make official`, logs 24–25, 30 |
-| Not owned | On 1Click, integrators keep ~91% of the fee pool; SwapKit has 71% of app fees and sends NEAR ~1% of its revenue | `make swaps` outputs, logs 11, 18 |
-| Too small | Buybacks offset about **one sixth** of issuance (14.8% Feb–Oct; NEAR's dashboard: 16.3%); market cap ≈ 200x annual captured revenue (moves with price; live on the dashboard) vs 41x needed for supply to stop growing (64x once the issuance cut approved on 2 Nov is phased in) | `make supply`, `make montecarlo`, logs 5–6, 17 |
+| Real | Revenue rebuilt from the chain matches DefiLlama within 0.6% ($7.96M since the 2026-02-23 fee switch); NEAR's own revenue dashboard, published later, agrees within 0.2% on the NEAR the three wallets received | `make revenue`, `make official`, logs 2, 29 |
+| Growing, partly bought | NEAR's take more than doubled between August and October (2.2 → 5.5 bps of volume). The largest identified driver is confidential swaps (13% → 41% of volume), which explain between a fifth and five sixths of the rise depending on the method. That growth coincides with the NEAR@3.33 airdrop, whose first drop (~$1.39M) cost about three quarters of the revenue uplift ($1.87M). First ten days of November: take back to 3.9 bps, and the fit misses its first unseen week | `make confidential`, `make official`, logs 24–25, 30, 32 |
+| Not owned | On 1Click (30 days to 29 Oct), integrators keep ~91% of the fee pool; SwapKit has 71% of app fees and sends NEAR ~1% of its revenue | `make swaps` outputs, logs 11, 18 |
+| Too small | Buybacks offset about **one sixth** of issuance (14.8% Feb–Oct; NEAR's dashboard: 16.3%); market cap ≈ 210x annual captured revenue (moves with price; live on the dashboard) vs 41x needed for supply to stop growing (64x once the issuance cut approved on 2 Nov is phased in) | `make supply`, `make montecarlo`, logs 5–6, 17 |
 | Still true in 2027 | Base case: 17% of 2027 issuance offset (18% with the issuance cut), 5–6% chance of a net deflationary 2027; a walk-forward test shows the engine leans optimistic | `make montecarlo`, `make backtest`, logs 17, 21 |
-| Priced on something else | Peers whose holders share revenue trade at a median 22x; NEAR at 212x | `make comps`, log 22 |
+| Priced on something else | Peers whose holders share revenue trade at a median 20x; NEAR at 220x | `make comps`, log 22 |
 
 ## What this adds to NEAR's own dashboard
 
@@ -28,8 +28,8 @@ NEAR published [revenue.near.org](https://revenue.near.org/) in November 2026, a
 | --- | --- | --- |
 | How much revenue, how many NEAR bought? | Yes | Rebuilt independently from the chain; matches |
 | Who pays it? | No | Per integrator and per asset on 2.4M 1Click swaps: SwapKit is 40% of volume and 1% of NEAR's revenue; users rarely return |
-| What did the growth cost? | No | NEAR@3.33's first drop ≈ the revenue uplift it produced; NEAR-for-NEAR, the two cancel |
-| Will it last? | No | Pre-registered hypotheses and kill criteria; the September premium fails its first out-of-sample week (3.9 bps in early November) |
+| What did the growth cost? | No | NEAR@3.33's first drop cost about three quarters of the revenue uplift; NEAR-for-NEAR, the net is 0.01% of supply |
+| Will it last? | No | Pre-registered hypotheses and kill criteria; the fit misses its first unseen week and the take is back to 3.9 bps in early November, on three sources |
 | What does it mean for the token? | Offset to date | The break-even identity (41×, 64× after HSP-029, vs ~210× today), 2027 Monte Carlo with a walk-forward backtest, peer multiples, holder risk and dilution |
 
 ## Try it (do X → see Y)
@@ -46,9 +46,9 @@ make reproduce        # runs every offline step and the tests; ends with "6 pass
 | Command | You should see |
 | --- | --- |
 | `make revenue` | captured revenue rebuilt from 3 revenue wallets vs DefiLlama: ratio 0.994, each month within ±5% |
-| `make official` | the same wallets, offset and take rate against NEAR's own dashboard (revenue.near.org snapshot): wallets 0.04% apart, take 3.9 bps in the first week of November |
+| `make official` | the same wallets, offset and take rate against NEAR's own dashboard (revenue.near.org snapshot): wallets within 0.2%, take 3.9 bps in the week of 2 November, NEAR's revenue series about 20% above the wallets |
 | `make supply` | Feb–Oct 2026: 23.9M NEAR issued, 3.53M captured (14.8%) |
-| `make confidential` | confidential share of volume by month (41% in Oct), weekly fit `0.65 bps × public + 12.2 bps × confidential`, H4.1 test (TVL $71M → $155M), airdrop counterfactual |
+| `make confidential` | confidential share of volume by month (41% in Oct), weekly fit `1.0 bps × public + 11.0 bps × confidential` with its robustness checks (5.5 bps on weekly changes), the out-of-sample week, H4.1 test (TVL $71M → $155M), airdrop counterfactual |
 | `make montecarlo` | 11 scenarios (incentive wind-down, approved issuance cut) to end-2027 and the volume × take-rate table (break-even ≈ $620M/day at 5.0 bps) |
 | `make backtest` | calibration of past forecasts (share inside the 10–90% band, mean PIT) |
 | `make dashboard-serve` | the dashboard at http://localhost:8000 |

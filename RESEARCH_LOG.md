@@ -380,3 +380,38 @@ Dune's free plan has no API and no trial for this account, so the data was read 
 - **Identity.** Fully phased in, the break-even multiple rises from 41× to **64×** annual captured revenue. NEAR trades at about **208×** (219× on holders revenue). The cut narrows the gap by a third; it does not close it.
 - **Monte Carlo.** Two scenarios added, with the earliest plausible start (2027-02-01): base + cut gives a median **18%** of 2027 issuance offset (base 17%), and a 6% chance of a deflationary 2027 (base 5%); wind-down + cut gives 11%. The cut matters after 2027, not in it. New test: the schedule is 1 before the start and 0.64 once phased in, and a cut can only raise the offset.
 - **Refresh, 2026-11-10.** Price $3.58. 30-day take 4.97 bps. Base case 2027: median 17% (p10–p90 5–66%), 5% chance of a deflationary 2027, down from 21% and 9% in the first run, mainly because the 30-day take fell from 5.41 to 4.97 bps and 30-day volume from $135M to $124M a day. Rebuilt revenue since the fee switch: $7.90M vs $7.95M on DefiLlama (0.994).
+
+### 32. Full review before submission (2026-11-11): what was wrong, what was too strong
+
+A second pass over every figure and every causal claim. Corrections, in order of weight.
+
+**The weekly fit is weaker than the report said.**
+- The fit in levels (11.0 bps on confidential volume, 13 weeks) survives leave-one-week-out (10.7–12.2) and an intercept (≈ $4k, i.e. zero). But both volumes trend over the window, and a fit in levels can pick up a shared trend. On **week-to-week changes** the same fit gives **5.5 bps** on confidential volume (90% interval 2.2–9.0) and 2.9 on public (−1.2 to 5.3).
+- Dune's fee table (7.4 bps, all-time) sits inside that interval. The earlier "7–12 bps against under 1 bp" becomes "about 5–11 bps against 1–3". The premium is real in every version; its size is not pinned down.
+- Share of the Aug → Oct rise in the take (+3.3 bps) that the move to confidential swaps accounts for: 84% (levels), 54% (Dune's fee), 22% (changes). The report said "most of the jump"; it now says "the largest identified driver, a fifth to five sixths".
+- Out of sample (week of 2026-11-02): $0.90M predicted in levels, $0.47M on changes, $0.36M actual. Still a miss in both, by 2.5× and 1.3×.
+
+**Causality.** "An airdrop is paying for it" was stated as fact. The evidence is timing: the campaign was announced 2026-06-15, the confidential share rose from 11% to 41%, and TVL crossed the Drop 1 threshold in mid-September. There is no control group, and near.com shipped other products over the same months. The documents now say "coincides with" and "grew under", and the FAQ says the cause is not proven.
+
+**"The two cancel" was wrong on the current data.** Sep–Oct uplift: $1.87M, about 479k NEAR at daily prices, against 333k NEAR released by Drop 1: a net 146k NEAR, 0.01% of supply. Drop 1 cost about three quarters of the uplift, not all of it. The comparison credits the whole uplift to the incentive and counts only Drop 1, so it is the favourable reading.
+
+**NEAR's dashboard has a second revenue number, about 20% above the wallets.**
+- The page's monthly revenue series (`revenueSeries`) adds up to 5.03M NEAR all-time; its own wallet breakdown, and this audit, give 4.30M. By month the ratio is 1.21 (Aug), 1.23 (Sep), 1.14 (Oct), 1.18 (Nov to date); in dollars 1.21 over Mar–Oct.
+- Not explained by fees waiting to be swept: the `fee_collector` account inside `intents.near` held about $400 of tokens on 2026-11-11 (243 tokens, 170 priced with the 1Click token list).
+- Because the ratio is stable, both definitions show the same trends. The offset of issuance would be 16–17% instead of 15% on NEAR's number; no conclusion changes. Where the difference sits is an open question, added to the list for NEAR.
+- `make official` now reports both definitions. Wallet totals are compared up to the snapshot day (the page is live): 4.304M vs 4.298M, 0.14% apart.
+
+**The November fall holds on three sources.** Take over 1–8 November: 3.9 bps on wallet inflows, 3.8 on DefiLlama holders revenue, and about 4.6 implied by NEAR's series (6.3 in October): a fall of about 30% each way. A trap avoided here: NEAR's month-to-date revenue runs to the day before the page was read while its volume and fee series stop one to two days earlier. Dividing one by the other gives 5.9 bps and a "7-day capture rate" of 42% on NEAR's page, both inflated by the missing days. Days must be aligned before comparing.
+
+**NEAR's capture by mechanism** (revenue.near.org, share of gross fees): front-end fees 12% all-time → 22% last 30 days; partner revenue-sharing 5% → 11%; quote improvement 2% → 4%. The rise is broad, led by NEAR's own front-end, which fits both readings (incentivised near.com users, or near.com simply growing).
+
+**Stale or inconsistent figures fixed.**
+- Report: regression still quoted from the 12-week run (0.7 / 12 bps, 10.8–14.5); revenue check quoted from October ($7.29M, 0.999); "one fifth" next to "16 per 100"; wind-down scenarios 10% / 11% in the text vs 9% / 10% in the table; uplift $1.72M vs $1.87M; peers $0.6B vs $5.6B at an old price; staking 45% / 5.3% vs 44% / 5.5%; 692 vs 703 days under water; cross-chain share "61–79% since May" when October was 58%.
+- Scenario "take doubles again (11 bps)" carried a hard-coded label while the take was 9.9 bps; the sensitivity table's first row was hard-coded at $135M/day. Both now follow the data.
+- Dashboard: integrator shares were labelled "last 30 days to 2026-11-09" while the 1Click collection stops on 2026-10-29; scorecard H1.1 still showed October's totals; "the base case never reaches break-even" (it does in 5% of paths); the peers chart included JTO at 18,000× on $825 of holders revenue, which ran off the screen on a phone. Peers are now those with at least $100k of holders revenue in 30 days (12 tokens, median 20×).
+- FAQ said H4.1's rejection "came out against the bull case". H4.1 was a bearish expectation (TVL would leave); its rejection favours NEAR. Fixed.
+- Kill criteria were presented as what "would change our mind", but each would make the picture worse, not better. The section now says so and points to the catalysts for the other direction.
+
+**New, flagged but not concluded.** DefiLlama shows THORChain volume above $180M a day from 2026-11-04, which puts NEAR Intents at 35% of cross-chain swap volume for November to date, against 58–79% from May to October. Eight days; it may be a reporting artefact.
+
+**Checked and unchanged.** Wallet rebuild vs DefiLlama (0.994; every complete month within ±5%). Issuance 2.43% a year and the 41× / 64× identity. Feb–Oct offset 14.8% (NEAR: 16.3%). Monte Carlo table in section 5. H4.1 on the registered date (17 Sep: $79M → $152M thirty days later; the code uses 16 Sep, same conclusion). SwapKit 40% / 71% / 1%. Asset split. Risk metrics. Nothing new on Drop 2, on HSP-029's ratification or start date, or on Intents fees as of 2026-11-11.
