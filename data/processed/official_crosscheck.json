@@ -1,15 +1,15 @@
 {
- "snapshot": "2026-11-10",
+ "snapshot": "2026-11-11",
  "wallets": {
   "fefundsadmin.sputnik-dao.near": {
-   "official_near": 1994013.6240257893,
-   "rebuilt_near": 1994812.1487154653,
-   "ratio": 1.0004004609998922
+   "official_near": 1999998.415405227,
+   "rebuilt_near": 2001548.6847802822,
+   "ratio": 1.0007751353016652
   },
   "buybacks.multisignature.near": {
-   "official_near": 1730368.02308756,
-   "rebuilt_near": 1731396.3589385322,
-   "ratio": 1.0005942873638738
+   "official_near": 1742346.2869744445,
+   "rebuilt_near": 1746733.554641317,
+   "ratio": 1.0025180227947057
   },
   "1csfundsadmin.sputnik-dao.near": {
    "official_near": 555348.272928576,
@@ -18,9 +18,9 @@
   }
  },
  "wallets_total": {
-  "official_near": 4279729.920041925,
-  "rebuilt_near": 4281556.780582573,
-  "ratio": 1.000426863511198
+  "official_near": 4297692.975308248,
+  "rebuilt_near": 4303630.5123501755,
+  "ratio": 1.0013815638008674
  },
  "offset_feb_to_last_full_month": {
   "months": [
@@ -35,10 +35,10 @@
   "rebuilt_captured_near": 3528952.171868621
  },
  "official_ytd": {
-  "date": "2026-11-09",
-  "emissions_near": 27749726.014915936,
-  "revenue_near": 4412668.851879642,
-  "offset": 0.1590166637864374
+  "date": "2026-11-10",
+  "emissions_near": 27839401.837605424,
+  "revenue_near": 4429053.729578721,
+  "offset": 0.15909299184711512
  },
  "take_october_weeks_bps": 5.252868476634675,
  "capture_october_weeks": 0.336357762166696,
@@ -56,5 +56,51 @@
   "peak_date": "2026-09-27",
   "change_from_peak": -0.2542896301573391,
   "change_30d": -0.12530621461531766
+ },
+ "revenue_definitions": {
+  "mar_oct_official_usd": 8787513.443292405,
+  "mar_oct_wallets_usd": 7236515.360286527,
+  "mar_oct_official_over_wallets_usd": 1.214329412125295,
+  "official_over_wallets_near": {
+   "2026-07": 1.328,
+   "2026-08": 1.212,
+   "2026-09": 1.229,
+   "2026-10": 1.136,
+   "2026-11": 1.176
+  },
+  "oct_take_bps": {
+   "official": 6.278712237662228,
+   "wallets": 5.533659597174598
+  },
+  "current_month": "2026-11",
+  "current_month_wallet_days": 8,
+  "current_month_take_bps_wallets": 3.875508399737648,
+  "current_month_take_bps_official_implied": 4.557259778007262
+ },
+ "capture_by_mechanism": {
+  "d7": {
+   "front_end_fees": 0.25312853286351655,
+   "b2b_partners": 0.12295708707641226,
+   "quote_improvement": 0.0481019316792959,
+   "total": 0.4241875516192247
+  },
+  "d30": {
+   "front_end_fees": 0.21923101522753846,
+   "b2b_partners": 0.11228108707754583,
+   "quote_improvement": 0.039071384907730496,
+   "total": 0.3705834872128148
+  },
+  "ytd": {
+   "front_end_fees": 0.1339372000100688,
+   "b2b_partners": 0.07146448930382347,
+   "quote_improvement": 0.026078540778419892,
+   "total": 0.23148023009231217
+  },
+  "all_time": {
+   "front_end_fees": 0.12026060737814082,
+   "b2b_partners": 0.05277271665838985,
+   "quote_improvement": 0.019257612511759562,
+   "total": 0.19229093654829021
+  }
  }
 }

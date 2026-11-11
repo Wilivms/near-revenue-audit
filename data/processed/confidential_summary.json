@@ -33,6 +33,30 @@
    "confidential": 9.230501970487024,
    "days": 94
   },
+  "robustness": {
+   "first_difference_bps": {
+    "public": 2.8669324192206385,
+    "confidential": 5.510654459364651
+   },
+   "first_difference_90ci_confidential": [
+    2.202476983198191,
+    9.035137935287834
+   ],
+   "first_difference_90ci_public": [
+    -1.2000389526621051,
+    5.326715375374392
+   ],
+   "leave_one_out_confidential_bps": [
+    10.676494578765555,
+    12.170498864424522
+   ],
+   "with_intercept": {
+    "const_usd": 3983.975410998145,
+    "bps_public": 0.9719062673557113,
+    "bps_confidential": 11.0022694609647
+   },
+   "corr_public_confidential_levels": 0.10886973400976716
+  },
   "corr_confidential_vs_buyback_wallet": 0.966728136100914,
   "corr_public_vs_buyback_wallet": 0.1878542067972767
  },
@@ -81,6 +105,8 @@
   "predicted_low_usd": 785367.5963710148,
   "actual_usd": 355421.3936251102,
   "actual_over_predicted": 0.3945122302992045,
+  "predicted_first_difference_usd": 474926.6969385196,
+  "actual_over_predicted_first_difference": 0.7483710558202635,
   "actual_take_bps": 3.8975917713028863,
   "label_check_2026_11_09": {
    "dune_public_full_day_usd": 3450000.0,
@@ -116,5 +142,27 @@
   "2026-09": 0.2817,
   "2026-10": 0.4098,
   "2026-11": 0.6076
+ },
+ "jump_explained": {
+  "take_aug_bps": 2.224192074598812,
+  "take_oct_bps": 5.534550537557369,
+  "rise_bps": 3.3103584629585567,
+  "confidential_share_change": 0.2770571560904924,
+  "premium_bps": {
+   "levels_fit": 10.003585403151611,
+   "dune_fee_table": 6.40541573925329,
+   "first_difference_fit": 2.6437220401440125
+  },
+  "share_of_rise_explained": {
+   "levels_fit": 0.8372401217324739,
+   "dune_fee_table": 0.536094893695811,
+   "first_difference_fit": 0.22126368432058974
+  }
+ },
+ "near_terms": {
+  "near_bought_sep_oct": 1015664.1020553925,
+  "uplift_near": 479032.76589415665,
+  "drop1_near": 333333,
+  "net_near_removed": 145699.76589415665
  }
 }
