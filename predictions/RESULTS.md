@@ -1,6 +1,6 @@
 # Predictions: results
 
-Frozen file: `predictions/PREDICTIONS.csv`, sha256 `e41b07a41a4bf91e698673e996cc7040a65476142c656887906ce6f19cc8e7b9` (also in the annotated tag `predictions-2026-11-11`). Resolved from the committed snapshots by `python3 -m src.predictions`.
+Frozen file: `predictions/PREDICTIONS.csv`, sha256 `e41b07a41a4bf91e698673e996cc7040a65476142c656887906ce6f19cc8e7b9` (timestamped in Bitcoin: `ots verify predictions/PREDICTIONS.csv.ots`). Resolved from the committed snapshots by `python3 -m src.predictions`.
 
 | ID | Prediction | Resolves on | Value | Status |
 | --- | --- | --- | --- | --- |

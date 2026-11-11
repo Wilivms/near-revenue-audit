@@ -1,7 +1,9 @@
 """Dated predictions, frozen before they can be checked.
 
-predictions/PREDICTIONS.csv was written on 2026-11-11. Its sha256 is in the annotated git tag
-`predictions-2026-11-11`, so any later edit shows. Each prediction names the number that decides
+predictions/PREDICTIONS.csv was written on 2026-11-11. Its sha256 is committed next to it
+(PREDICTIONS.sha256, checked by a test) and the file is timestamped in Bitcoin with OpenTimestamps
+(PREDICTIONS.csv.ots; check with `ots verify predictions/PREDICTIONS.csv.ots`), so any later edit
+shows. Each prediction names the number that decides
 it, the threshold and the date from which it can be resolved. Two resolve before judging starts
 (P1 and P2 on 2026-11-15) and one on its first day (P3, 2026-11-16).
 
@@ -110,7 +112,7 @@ def resolve(today: pd.Timestamp | None = None) -> pd.DataFrame:
 def main() -> None:
     r = resolve()
     lines = [f"# Predictions: results\n", f"Frozen file: `predictions/PREDICTIONS.csv`, sha256 `{sha256()}` "
-             "(also in the annotated tag `predictions-2026-11-11`). Resolved from the committed snapshots by "
+             "(timestamped in Bitcoin: `ots verify predictions/PREDICTIONS.csv.ots`). Resolved from the committed snapshots by "
              "`python3 -m src.predictions`.\n", "| ID | Prediction | Resolves on | Value | Status |", "| --- | --- | --- | --- | --- |"]
     for _, x in r.iterrows():
         val = "" if x.value is None or (isinstance(x.value, float) and x.value != x.value) else (f"{x.value:,.2f}" if isinstance(x.value, float) else str(x.value))
