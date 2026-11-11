@@ -212,6 +212,13 @@ def values() -> dict:
     btc_all = risk[(risk.asset == "BTC") & (risk.window == "since Nov 2024")].iloc[0]
     v["near_vol"], v["btc_vol"], v["near_maxdd"], v["near_underwater"] = near_all.annualised_vol, btc_all.annualised_vol, near_all.max_drawdown, near_all.longest_underwater_days
     v["kill1"] = hr.loc[:complete.max()].iloc[-30:].sum() / (hr.loc[:complete.max()].iloc[-180:].sum() / 6)
+    ll = _json("leadlag_summary.json")
+    v["ll_weeks"], v["ll_sig"], v["ll_tests"] = ll["weeks"], ll["significant_after_holm"], ll["tests"]
+    v["ll_best_r"], v["ll_best_p"], v["ll_best_series"], v["ll_best_lag"] = (ll["best_usage_leads_price"][k] for k in ("r", "p", "series", "lag_weeks"))
+    v["ll_beta"] = ll["beta_near_btc"]
+    tr = ll["tracks_captured_revenue_weekly_r"]
+    v["ll_rev_vol"], v["ll_rev_txns"], v["ll_rev_active"], v["ll_rev_price"], v["ll_rev_weeks"] = tr["intents_volume"], tr["txns"], tr["active_accounts"], tr["near_vs_btc"], tr["weeks"]
+    v["yoy_vol"], v["yoy_txns"], v["yoy_active"] = (ll["yoy_30d"][k] for k in ("intents_volume", "l1_txns", "l1_active_accounts"))
     v["data_to"] = str(complete.max().date())
     return v
 
@@ -275,6 +282,11 @@ def figures() -> dict[str, str]:
         "hsp_timelock_end": v["hsp_timelock_end"], "hsp_earliest": v["hsp_earliest"], "hsp_status": v["hsp_status"],
         "near_vol": pct(v["near_vol"]), "btc_vol": pct(v["btc_vol"]), "near_maxdd": pct(v["near_maxdd"]), "near_underwater": str(int(v["near_underwater"])),
         "kill1": pct(v["kill1"]),
+        "ll_weeks": str(v["ll_weeks"]), "ll_sig": str(v["ll_sig"]), "ll_tests": str(v["ll_tests"]),
+        "ll_best": f"r = {v['ll_best_r']:+.2f}, p = {v['ll_best_p']:.2f} before correction ({ {'txns': 'L1 transactions', 'intents_volume': 'Intents volume', 'active_accounts': 'L1 active accounts'}[v['ll_best_series']] }, {v['ll_best_lag']}-week lag)",
+        "ll_beta": f"{v['ll_beta']:.2f}", "ll_rev_vol": f"{v['ll_rev_vol']:.2f}", "ll_rev_txns": f"{v['ll_rev_txns']:.2f}",
+        "ll_rev_active": f"{v['ll_rev_active']:.2f}", "ll_rev_price": f"{v['ll_rev_price']:.2f}", "ll_rev_weeks": str(v["ll_rev_weeks"]),
+        "yoy_vol": f"{v['yoy_vol'] * 100:+.0f}%", "yoy_txns": f"{v['yoy_txns'] * 100:+.0f}%", "yoy_active": f"{v['yoy_active'] * 100:+.0f}%",
     }
     for k in ("base", "mayaug", "wind", "cut", "windcut", "bbonly", "double", "bull"):
         f[f"mc_{k}"] = pct(v[f"mc_{k}_med"])
@@ -326,6 +338,9 @@ def claims(v: dict | None = None) -> list[dict]:
         ("F12", "Peers are priced on their revenue, NEAR is not", f"{f['near_holders_mult']} vs peer median {f['peers_median']} ({f['peers_n']} peers)",
          "market cap / annualised holders revenue (DefiLlama, CoinGecko); holds if NEAR is above every peer's interquartile range",
          v["near_holders_mult"] > v["peers_q3"], "make comps"),
+        ("F13", "Usage does not lead NEAR's price (the track's hypothesis)", f"{f['ll_sig']} of {f['ll_tests']} lead-lag tests significant after Holm; best {f['ll_best']}",
+         "weekly changes, NEAR price net of BTC, lags 1–4 weeks, Intents volume and L1 activity, both directions; holds if none is significant at 5% after Holm",
+         v["ll_sig"] == 0, "make leadlag"),
     ]
     return [{"id": i, "finding": a, "number": n, "check": c, "passed": bool(p), "command": cmd} for i, a, n, c, p, cmd in rows]
 

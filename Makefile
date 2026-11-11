@@ -1,4 +1,4 @@
-.PHONY: reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions
+.PHONY: reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -46,10 +46,10 @@ test:        ## model checks
 	python3 -m pytest -q tests
 
 reproduce:   ## every offline step on the committed snapshots, then the tests
-	$(MAKE) ledger revenue supply governance montecarlo backtest confidential official dashboard test
+	$(MAKE) ledger revenue supply governance montecarlo backtest leadlag confidential official dashboard test
 
 refresh:     ## fetch fresh public snapshots (network), then re-run everything
-	$(MAKE) data comps risk official-fetch governance-fetch manifest reproduce
+	$(MAKE) data comps risk official-fetch governance-fetch leadlag-fetch manifest reproduce
 
 manifest:    ## sha256 of every raw snapshot -> data/raw/MANIFEST.json
 	python3 -m src.manifest
@@ -60,11 +60,24 @@ governance:  ## HSP-029 vote, timelock and earliest ramp start, from the vote.da
 governance-fetch:
 	python3 -m src.analysis.governance --refresh
 
+leadlag:     ## the track's hypothesis: does usage (Intents volume, L1 activity) lead NEAR's price? Holm-corrected
+	python3 -m src.analysis.leadlag
+
+leadlag-fetch:
+	python3 -m src.analysis.leadlag --refresh
+
 predictions: ## resolve the frozen predictions whose date has passed -> predictions/RESULTS.md
 	python3 -m src.predictions
+
+docs:        ## render README.md, REPORT.md and FAQ.md from docs/templates/ with the figures in data/processed/
+	python3 -m src.figures
+
+verify:      ## re-check the headline findings and fail if a committed document has drifted from the data
+	python3 -m src.figures --check
 
 check-clean: ## rebuild from the committed snapshots and fail if any committed output changes
 	$(MAKE) reproduce
 	python3 -m src.check_outputs
+	python3 -m src.figures --check
 
 all: reproduce

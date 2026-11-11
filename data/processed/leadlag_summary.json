@@ -1,0 +1,27 @@
+{
+ "weeks": 98,
+ "first_week": "2024-12-23",
+ "last_week": "2026-11-02",
+ "beta_near_btc": 1.451562760666672,
+ "significant_after_holm": 0,
+ "tests": 24,
+ "best_usage_leads_price": {
+  "series": "txns",
+  "lag_weeks": 1,
+  "r": 0.14720068552139562,
+  "p": 0.15020293169280685,
+  "p_holm": 1.0
+ },
+ "tracks_captured_revenue_weekly_r": {
+  "intents_volume": 0.4481778683467517,
+  "txns": 0.5233396237329279,
+  "active_accounts": -0.031374093486094164,
+  "near_vs_btc": 0.10979888922290494,
+  "weeks": 36
+ },
+ "yoy_30d": {
+  "intents_volume": 0.5943736372420039,
+  "l1_txns": -0.8514222143833281,
+  "l1_active_accounts": -0.7628304789580271
+ }
+}
