@@ -61,6 +61,8 @@ def build() -> dict:
     return {
         "built_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
         "issuance_rate": issuance_rate,
+        # last day of collected 1Click swaps: integrator and asset shares are "30 days to" this date
+        "oneclick_as_of": str((pd.Timestamp(weekly["period_start"].iloc[-1]) + pd.Timedelta(days=int(weekly["days"].iloc[-1]) - 1)).date()),
         "live_fallback": {
             "as_of": daily["date"].iloc[-1],
             "price": float(price.dropna().iloc[-1]),
@@ -82,6 +84,8 @@ def build() -> dict:
             "monthly_share": conf_sum["monthly_confidential_share"],
             "summary": {"regression": conf_sum["regression"]["rebuilt_total_usd"], "h41": conf_sum["h41"], "incentive": conf_sum["incentive"],
                         "ci": conf_sum["regression"]["bootstrap_90ci"]["bps_confidential"],
+                        "robustness": conf_sum["regression"]["robustness"], "jump_explained": conf_sum["jump_explained"],
+                        "near_terms": conf_sum["near_terms"],
                         "out_of_sample": conf_sum["out_of_sample"], "counterfactual": conf_sum["counterfactual"]},
         },
         "official": {
@@ -89,7 +93,9 @@ def build() -> dict:
             "weekly": _records(off_w.rename(columns={off_w.columns[0]: "week"})[["week", "volume_usd", "gross_fee_bps", "take_bps", "capture_of_fees"]].tail(30)),
             "tvl": _records(off_tvl.rename(columns={off_tvl.columns[0]: "date"})),
         },
-        "comps": _records(comps[comps["mcap_to_holders_revenue"].notna()][["token", "market_cap_usd", "annualised_usd", "mcap_to_holders_revenue"]]),
+        # peers with material holders revenue only (at least $100k in 30 days): a token paying its holders
+        # a few hundred dollars is not a comparable, and its multiple (18,000x for JTO) breaks the chart
+        "comps": _records(comps[comps["mcap_to_holders_revenue"].notna() & (comps["holders_revenue_30d_usd"] >= 100_000)][["token", "market_cap_usd", "annualised_usd", "mcap_to_holders_revenue"]]),
         "crosschain_share": _records(share.filter(like="_share").reset_index().rename(columns={share.index.name or "index": "month"})),
         "token_risk": _records(risk),
         "holder_yield": _records(hy),
