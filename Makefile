@@ -56,6 +56,6 @@ manifest:    ## sha256 of every raw snapshot -> data/raw/MANIFEST.json
 
 check-clean: ## rebuild from the committed snapshots and fail if any committed output changes
 	$(MAKE) reproduce
-	git diff --exit-code --stat -- data/processed dashboard/data.json
+	python3 -m src.check_outputs
 
 all: reproduce
