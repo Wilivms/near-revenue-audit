@@ -23,7 +23,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "data" / "processed"
 RAW = ROOT / "data" / "raw"
 TEMPLATES = ROOT / "docs" / "templates"
-DOCS = ("README.md", "REPORT.md", "FAQ.md")
+DOCS = ("README.md", "REPORT.md", "FAQ.md", "THESIS.md")
 FEE_SWITCH = "2026-02-23"
 
 

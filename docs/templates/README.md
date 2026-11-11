@@ -7,7 +7,7 @@
 NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys NEAR. Several public dashboards, NEAR's own included, now report how much. This project asks the questions they do not answer: **why** the revenue moved, **who** pays it, **what** the growth cost, whether it **lasts**, and what that means for the token. Every number below is computed from public data by code in this repository, and every document is rendered from those outputs.
 
 - **Live dashboard:** https://near-revenue-audit.vercel.app. Headline figures and two kill criteria are recomputed in the browser from DefiLlama and the NEAR RPC on every visit; the rest refreshes daily.
-- **The thesis:** [`REPORT.md`](REPORT.md). **Working notes, dead ends and corrections:** [`RESEARCH_LOG.md`](RESEARCH_LOG.md). **Hypotheses written before the tests:** [`HYPOTHESES.md`](HYPOTHESES.md). **Reviewer FAQ:** [`FAQ.md`](FAQ.md). **Dated predictions:** [`predictions/`](predictions/).
+- **The thesis on one page** (claim, evidence for and against, what would change our mind, what could not be computed): [`THESIS.md`](THESIS.md). **In full:** [`REPORT.md`](REPORT.md). **Working notes, dead ends and corrections:** [`RESEARCH_LOG.md`](RESEARCH_LOG.md). **Hypotheses written before the tests:** [`HYPOTHESES.md`](HYPOTHESES.md). **Reviewer FAQ:** [`FAQ.md`](FAQ.md). **Dated predictions:** [`predictions/`](predictions/).
 
 ## The answer
 
@@ -34,7 +34,7 @@ git clone https://github.com/Wilivms/near-revenue-audit && cd near-revenue-audit
 python3 -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt
 make check-clean      # rebuilds everything, runs the tests, then compares every output with the committed one
-make verify           # renders README/REPORT/FAQ from the outputs and re-checks the findings
+make verify           # renders README/REPORT/FAQ/THESIS from the outputs and re-checks the findings
 ```
 
 | Command | You should see |

@@ -269,6 +269,8 @@ input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); }
 .sens td.cell.cross { box-shadow: inset 0 0 0 2px var(--series-2); }
 .score td:nth-child(2) { white-space: normal; text-align: left; color: var(--ink-2); }
 .score td:first-child { white-space: normal; max-width: 320px; font-weight: 500; }
+.src { font-size: 11px; line-height: 1.5; color: var(--ink-3, var(--ink-2)); margin: 8px 0 0; }
+.src code { font-size: 11px; }
 #checks .card { min-width: 0; }
 #checks td, #checks th { white-space: normal; text-align: left; }
 #checks td:first-child { max-width: none; }
@@ -453,6 +455,7 @@ footer li + li { margin-top: 6px; }
           <div class="seg" id="segSupply" role="group" aria-label="Wallets counted"><span class="pill"></span><button type="button" data-k="all" aria-pressed="true">3 revenue wallets</button><button type="button" data-k="bb" aria-pressed="false">Buyback wallet only</button></div>
         </div>
         <div id="chSupply"></div>
+          <p class="src">Source: Archival RPC total supply (net issuance) and NEAR inflows to the 3 revenue wallets (NearBlocks). Rebuild: <code>make supply</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/supply.py">src/analysis/supply.py</a></p>
         <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbSupply"></div></details>
       </div>
       <div class="card reveal">
@@ -468,7 +471,7 @@ footer li + li { margin-top: 6px; }
     <div class="wrap">
       <div class="head">
         <div><p class="kicker">04 / Pricing</p><h2 id="h-take">NEAR's cut doubled in September</h2></div>
-        <p>Captured revenue in basis points of volume. Volume did not drive the rise. It moved with confidential swaps, which went from 13% to 41% of volume between August and October. In the first ten days of November the take fell back to about 3.9 bps while volume held, on the NEAR reaching the wallets, on DefiLlama and on NEAR's own revenue series. On 1Click, NEAR also repriced (a 20 bps Trust Wallet ZEC flow, higher fees on swaps without an integrator).</p>
+        <p>Captured revenue in basis points of volume. Volume did not drive the rise. It moved with confidential swaps, which went from 13% to 41% of volume between August and October. In the first full week of November the take fell back to 3.9 bps while volume held: on the NEAR reaching the wallets, on DefiLlama (3.8) and, by about 30%, on NEAR's own revenue series. On 1Click, NEAR also repriced (a 20 bps Trust Wallet ZEC flow, higher fees on swaps without an integrator).</p>
       </div>
       <div class="grid2">
         <div class="card reveal">
@@ -476,6 +479,7 @@ footer li + li { margin-top: 6px; }
           <p class="sub">Captured revenue, bps of volume, 14-day rolling</p>
           <div class="legend"><span class="line" style="--c:var(--series-1)">Take, bps</span><span class="mark">NEAR@3.33 snapshot</span></div>
           <div id="chTake"></div>
+          <p class="src">Source: Revenue reaching the 3 wallets ÷ NEAR Intents volume (DefiLlama), 14-day rolling. Rebuild: <code>make revenue</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/revenue_wallets.py">src/analysis/revenue_wallets.py</a></p>
           <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbTake"></div></details>
         </div>
         <div class="card reveal">
@@ -483,6 +487,7 @@ footer li + li { margin-top: 6px; }
           <p class="sub">NEAR's take, bps of volume, weekly (Feb–Jul: sample weeks)</p>
           <div class="legend"><span class="line" style="--c:var(--series-1)">Take, bps</span><span class="mark">NEAR@3.33 snapshot</span></div>
           <div id="chOneClick"></div>
+          <p class="src">Source: 2.4M 1Click swaps from the NEAR Intents Explorer API: NEAR's fee ÷ volume, weekly. Rebuild: <code>make swaps</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/swaps.py">src/analysis/swaps.py</a></p>
           <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbOne"></div></details>
         </div>
       </div>
@@ -490,8 +495,10 @@ footer li + li { margin-top: 6px; }
         <h3>Confidential swaps: where the jump came from, and what pays for it</h3>
         <p class="sub" id="confSub">From NEAR's own Dune and revenue dashboards. Through October, a weekly fit gave NEAR about 11 bps on confidential volume against 1 bp on public volume; the same fit on week-to-week changes gives about 5.5 bps, so the premium is real but its size is uncertain (Dune's fee table says 7.4). That growth followed the NEAR@3.33 airdrop; the timing fits, the cause is not proven. The fit then missed its first unseen week (2–8 November): it predicted $0.5–0.9M of revenue and $0.36M arrived. From 3 November the source labels almost all volume confidential, while 1Click swaps still visible in the public API ran above $20M in half a day. So the label is not a price list: what earned NEAR more was most likely its own front-end, where the confidential users were.</p>
         <div class="grid2" style="margin-top:8px">
-          <div><div class="legend"><span class="line" style="--c:var(--series-1)">Confidential share of volume, weekly, to 1 Nov (label comparable)</span></div><div id="chConfShare"></div></div>
-          <div><div class="legend"><span class="line" style="--c:var(--series-2)">Confidential TVL, daily</span><span class="mark">NEAR@3.33 snapshot</span></div><div id="chConfTvl"></div></div>
+          <div><div class="legend"><span class="line" style="--c:var(--series-1)">Confidential share of volume, weekly, to 1 Nov (label comparable)</span></div><div id="chConfShare"></div>
+          <p class="src">Source: NEAR's Dune dashboard, query 5179085 (public vs confidential volume), read as text into data/raw/dune/. Rebuild: <code>make confidential</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/confidential.py">src/analysis/confidential.py</a></p></div>
+          <div><div class="legend"><span class="line" style="--c:var(--series-2)">Confidential TVL, daily</span><span class="mark">NEAR@3.33 snapshot</span></div><div id="chConfTvl"></div>
+          <p class="src">Source: Dune query 8644298, then revenue.near.org's confidential TVL series. Rebuild: <code>make confidential official</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/official.py">src/analysis/official.py</a></p></div>
         </div>
         <div class="mcstats" id="confStats" style="margin-top:14px"></div>
         <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbConf"></div></details>
@@ -512,6 +519,7 @@ footer li + li { margin-top: 6px; }
         </div>
         <div class="legend"><span style="--c:var(--series-1)">Share of all app fees</span><span style="--c:var(--series-2)">Share of NEAR's revenue</span></div>
         <div id="chWho"></div>
+          <p class="src">Source: 1Click swaps, 30 days to 29 Oct 2026: app fees and NEAR's fee by referral (integrator). Rebuild: <code>make swaps</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/swaps.py">src/analysis/swaps.py</a></p>
         <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbWho"></div></details>
       </div>
       <div class="card reveal">
@@ -519,6 +527,7 @@ footer li + li { margin-top: 6px; }
         <p class="sub">1Click swaps, 30 days to 29 October 2026, labelled by the volatile leg (BTC→USDT counts as BTC). Stablecoin-to-stablecoin swaps are 30% of volume but pay NEAR 1.3 bps.</p>
         <div class="legend"><span style="--c:var(--series-1)">Share of volume</span><span style="--c:var(--series-2)">Share of NEAR's revenue</span></div>
         <div id="chAsset"></div>
+          <p class="src">Source: 1Click swaps, 30 days to 29 Oct 2026, labelled by the volatile leg. Rebuild: <code>make swaps</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/swaps.py">src/analysis/swaps.py</a></p>
         <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbAsset"></div></details>
       </div>
     </div>
@@ -539,6 +548,7 @@ footer li + li { margin-top: 6px; }
         </div>
         <div class="legend"><span class="line" style="--c:var(--series-1)">Median path</span><span class="band">10th–90th percentile</span></div>
         <div id="chFan"></div>
+          <p class="src">Source: Monte Carlo, 10,000 paths, volume and price drawn jointly in 30-day blocks from history. Rebuild: <code>make montecarlo</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/montecarlo.py">src/analysis/montecarlo.py</a></p>
         <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbFan"></div></details>
       </div>
       <div class="card">
@@ -560,12 +570,14 @@ footer li + li { margin-top: 6px; }
           <h3>Market cap / annualised holders revenue</h3>
           <p class="sub">Tokens whose holders receive protocol revenue (DefiLlama, CoinGecko). Log scale.</p>
           <div id="chComps"></div>
+          <p class="src">Source: DefiLlama holders revenue (30 days ×365/30) and CoinGecko market caps. Rebuild: <code>make comps</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/comps.py">src/analysis/comps.py</a></p>
           <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbComps"></div></details>
         </div>
         <div class="card reveal">
           <h3>NEAR Intents' share of cross-chain swap volume</h3>
           <p class="sub">Against THORChain, Chainflip and Maya, monthly (DefiLlama)</p>
           <div id="chShare"></div>
+          <p class="src">Source: DefiLlama cross-chain swap volume: NEAR Intents, THORChain, Chainflip, Maya. Rebuild: <code>make comps</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/comps.py">src/analysis/comps.py</a></p>
           <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbShare"></div></details>
         </div>
       </div>
@@ -1188,7 +1200,9 @@ function tables(D) {
   [["Fit through October", `${cs2.regression.bps_confidential.toFixed(0)} bps`, `on confidential volume; 90% CI ${D.confidential.summary.ci[0].toFixed(1)}–${D.confidential.summary.ci[1].toFixed(1)} bps; ${cs2.regression.bps_public.toFixed(1)} on public (weekly fit, R² ${cs2.regression.r2.toFixed(2)})` + (cs2.robustness ? `. On week-to-week changes: ${cs2.robustness.first_difference_bps.confidential.toFixed(1)} bps (90% CI ${cs2.robustness.first_difference_90ci_confidential[0].toFixed(1)}–${cs2.robustness.first_difference_90ci_confidential[1].toFixed(1)})` : "")],
    ["First unseen week", `${fmtUSD(cs2.out_of_sample.actual_usd)} vs ${fmtUSD(cs2.out_of_sample.predicted_first_difference_usd || cs2.out_of_sample.predicted_usd)}–${fmtUSD(cs2.out_of_sample.predicted_usd)}`, `actual vs predicted revenue, week of 2 Nov: the fit overshoots by ${(1 / (cs2.out_of_sample.actual_over_predicted_first_difference || cs2.out_of_sample.actual_over_predicted)).toFixed(1)}× (on weekly changes) to ${(1 / cs2.out_of_sample.actual_over_predicted).toFixed(1)}× (in levels)`],
    ["Drop 1 cost", fmtUSD(cs2.incentive.drop1_usd_at_conversion), `333,333 NEAR, vs ${fmtUSD(cs2.counterfactual.uplift_usd)} of extra revenue in Sep–Oct over the May–Aug take rate`],
-   ["Confidential TVL", `${fmtUSD(cs2.h41.tvl_at_snapshot_usd)} → ${fmtUSD(D.official.summary.tvl.last_usd)}`, `snapshot day → ${D.official.summary.tvl.last_date}; peak ${fmtUSD(D.official.summary.tvl.peak_usd)} (H4.1 rejected)`]]
+   ["Confidential TVL", `${fmtUSD(cs2.h41.tvl_at_snapshot_usd)} → ${fmtUSD(D.official.summary.tvl.last_usd)}`, `snapshot day → ${D.official.summary.tvl.last_date}; peak ${fmtUSD(D.official.summary.tvl.peak_usd)} (H4.1 rejected)`],
+   ...(cs2.jump_explained ? [["Share of the jump explained", `${fmtPct(cs2.jump_explained.share_of_rise_explained.first_difference_fit)}–${fmtPct(cs2.jump_explained.share_of_rise_explained.levels_fit)}`, `of the +${cs2.jump_explained.rise_bps.toFixed(1)} bps rise in NEAR's take, Aug → Oct, depending on the confidential premium (fit on changes, Dune's fee table, fit in levels)`]] : []),
+   ...(cs2.near_terms ? [["Net NEAR removed", `${fmtNear(cs2.near_terms.net_near_removed)}`, `the uplift bought ${fmtNear(cs2.near_terms.uplift_near)} NEAR, Drop 1 released ${fmtNear(cs2.near_terms.drop1_near)}: about 0.01% of supply`]] : [])]
     .forEach(([l, v, c]) => { const d = el("div"); d.append(el("div", { class: "l" }, l), el("div", { class: "v num" }, v), el("div", { class: "l", style: "text-transform:none;margin-top:4px" }, c)); cst.appendChild(d); });
   table($("tbConf"), ["Week of", "Public volume", "Confidential volume", "Confidential share", "Captured, bps"], D.confidential.weekly.map((r) => [r.week, fmtUSD(r.public_usd), fmtUSD(r.confidential_usd), fmtPct(r.confidential_share), r.take_bps.toFixed(2)]));
   table($("tbWho"), ["Integrator (referral)", "Volume", "App fees", "NEAR's revenue"], D.fee_shares_last30d.map((r) => [r.referral, fmtPct(r.volume_share, 1), fmtPct(r.fee_share, 1), fmtPct(r.near_revenue_share, 1)]));
