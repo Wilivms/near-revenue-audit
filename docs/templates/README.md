@@ -9,6 +9,12 @@ NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys 
 - **Live dashboard:** https://near-revenue-audit.vercel.app. Headline figures and two kill criteria are recomputed in the browser from DefiLlama and the NEAR RPC on every visit; the rest refreshes daily.
 - **The thesis on one page** (claim, evidence for and against, what would change our mind, what could not be computed): [`THESIS.md`](THESIS.md). **In full:** [`REPORT.md`](REPORT.md). **Working notes, dead ends and corrections:** [`RESEARCH_LOG.md`](RESEARCH_LOG.md). **Hypotheses written before the tests:** [`HYPOTHESES.md`](HYPOTHESES.md). **Reviewer FAQ:** [`FAQ.md`](FAQ.md). **Dated predictions:** [`predictions/`](predictions/).
 
+> **For the jury, in 60 seconds**
+> - **Verdict.** NEAR's protocol revenue is real (rebuilt from the chain: within {{rev_gap}} of DefiLlama, {{wallets_gap}} of NEAR's own dashboard), but buybacks offset only {{offset_rebuilt}} of new NEAR. Market cap is {{near_captured_mult}} annual captured revenue; supply stops growing below {{breakeven_now}}. NEAR is not yet a scarcity asset.
+> - **What only this thesis shows.** NEAR's take more than doubled (from {{take_aug}} to {{take_oct}} bps) partly because of an airdrop: confidential swaps under NEAR@3.33 explain {{jump_fd}}–{{jump_levels}} of the rise, and the first drop cost {{drop1_over_uplift}} of the uplift. On {{oc_swaps}} 1Click swaps from the partner API, integrators keep {{oc_integrators_keep}} of the fee pool, and November's drop came from one integrator's burst ending. NEAR's own revenue series runs {{series_over_wallets}} above what its wallets receive.
+> - **Held to account.** {{claims_passed}} findings re-checked in CI on every commit; hypotheses written before the data; a model that failed out of sample and says so; six predictions frozen on 2026-11-11 with a Bitcoin timestamp (P1 so far: {{p1_so_far}}, threshold 5.0).
+> - **Next:** the [live dashboard](https://near-revenue-audit.vercel.app) (try the simulator), then [`THESIS.md`](THESIS.md) on one page.
+
 [![The live dashboard: NEAR's captured revenue against issuance](docs/img/hero.jpg)](https://near-revenue-audit.vercel.app)
 
 ## The answer
@@ -74,6 +80,8 @@ With network access, `make refresh` fetches fresh snapshots and re-runs everythi
 ## Predictions
 
 Six predictions were frozen on 2026-11-11 in [`predictions/PREDICTIONS.csv`](predictions/PREDICTIONS.csv): sha256 committed next to it (checked by a test) and timestamped in Bitcoin with OpenTimestamps (`ots verify predictions/PREDICTIONS.csv.ots`). Two resolve before judging starts (P1, P2 on 2026-11-15), one on its second day (P3), the rest by April 2027. `make predictions` resolves those whose date has passed; results go to [`predictions/RESULTS.md`](predictions/RESULTS.md).
+
+Reading so far, on data to {{data_to}} (not a resolution): **P1** {{p1_so_far}} against a threshold of 5.0; **P2** {{p2_so_far}} against 140M; **P3** {{p3_so_far}}. The daily refresh updates these on the dashboard's Checks section.
 
 ## What NEAR's own dashboard shows, and what this adds
 

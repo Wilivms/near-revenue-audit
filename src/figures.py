@@ -331,6 +331,9 @@ def figures() -> dict[str, str]:
         f[f"mc_{k}_p"] = pct(v[f"mc_{k}_p"])
         f[f"mc_{k}_take"] = f"{v[f'mc_{k}_take']:.1f}"
     f["mc_bull_vol_mult"] = f"{v['mc_bull_vol_dec27'] / v['volume0']:.0f}x"
+    from .predictions import resolve
+    for _, r in resolve(pd.Timestamp(v["data_to"])).iterrows():
+        f[f"{r.id.lower()}_so_far"] = r.so_far or r.status
     return f
 
 

@@ -29,6 +29,6 @@ jobs:
           git config user.name "near-revenue-audit bot"
           git config user.email "actions@users.noreply.github.com"
           git add dashboard/live.json
-          git diff --cached --quiet || git commit -m "Daily refresh of the live dashboard bundle ($(date -u +%F))"
+          git diff --cached --quiet || git commit -m "Automated daily data refresh, $(date -u +%F): dashboard/live.json only" -m "Scheduled GitHub Action (.github/workflows/refresh.yml). Re-fetches the public sources and recomputes the dashboard bundle. It changes no code, no analysis and no document; the submitted thesis is unchanged. This is how the dated predictions resolve in public."
           git pull --rebase -X theirs origin main
           git push

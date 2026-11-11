@@ -608,7 +608,7 @@ footer li + li { margin-top: 6px; }
       <div class="card"><h3>Findings</h3><p class="sub" id="checksSub"></p><div class="tbl-wrap" id="tbChecks"></div></div>
       <div class="grid2" style="margin-top:20px">
         <div class="card"><h3>Public claims, checked</h3><p class="sub">What is said about NEAR's buybacks and issuance, against this audit's data</p><div class="tbl-wrap" id="tbPublic"></div></div>
-        <div class="card"><h3>Dated predictions</h3><p class="sub">Frozen 2026-11-11; status as of the data date</p><div class="tbl-wrap" id="tbPred"></div></div>
+        <div class="card"><h3>Dated predictions</h3><p class="sub">Frozen 2026-11-11; status as of the data date. "So far" is a reading on the data to date, not a resolution</p><div class="tbl-wrap" id="tbPred"></div></div>
       </div>
       <div class="card" style="margin-top:20px"><h3>The track's own hypothesis</h3><p class="sub" id="leadlagSub"></p></div>
     </div>
@@ -1254,7 +1254,7 @@ function scorecard(D) {
     const ct = table($("tbChecks"), ["ID", "Finding", "Number", "Result"], C.findings.map((r) => [r.id, r.finding, r.number, r.passed ? "Pass" : "Fail"]));
     ct.classList.add("score");
     table($("tbPublic"), ["Claim", "What the data says", "Verdict"], C.public_claims.map((r) => [r.claim, r.data, r.verdict])).classList.add("score");
-    table($("tbPred"), ["ID", "Prediction", "Resolves", "Status"], C.predictions.map((r) => [r.id, r.prediction, r.resolve_on, r.status])).classList.add("score");
+    table($("tbPred"), ["ID", "Prediction", "Resolves", "So far", "Status"], C.predictions.map((r) => [r.id, r.prediction, r.resolve_on, r.so_far || "", r.status])).classList.add("score");
     const L = C.leadlag, pc = (x) => `${x >= 0 ? "+" : ""}${Math.round(x * 100)}%`;
     $("leadlagSub").textContent = `Does usage lead NEAR's price? Over ${L.weeks} weeks, with the price taken net of BTC: ${L.significant_after_holm} of ${L.tests} lead-lag tests (Intents volume, L1 transactions and active accounts, lags of 1–4 weeks, both directions) are significant after Holm's correction. Usage has split in two: over the last 30 days against a year earlier, Intents volume is ${pc(L.yoy_30d.intents_volume)} while L1 transactions are ${pc(L.yoy_30d.l1_txns)}. Weekly changes in NEAR's captured revenue track Intents volume (r = ${L.tracks_captured_revenue_weekly_r.intents_volume.toFixed(2)}), not the price (r = ${L.tracks_captured_revenue_weekly_r.near_vs_btc.toFixed(2)}).`;
   }

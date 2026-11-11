@@ -77,6 +77,30 @@ METRICS = {
 }
 
 
+def so_far(metric: str, args: list[str]) -> str:
+    """A reading on the data available before the resolution date, for display only: it never resolves anything."""
+    try:
+        if metric == "take_bps":
+            vol, rev = _official()[0], _rev()
+            last = min(vol.index.max(), rev.index.max(), pd.Timestamp(args[1]))
+            if last < pd.Timestamp(args[0]):
+                return ""
+            r, v = rev.loc[args[0]:last], vol.loc[args[0]:last]
+            return f"{r.sum() / v.sum() * 1e4:.1f} bps, {args[0][5:]} to {last:%m-%d}"
+        if metric == "tvl_on":
+            tvl = _official()[1].dropna()
+            return f"{tvl.iloc[-1] / 1e6:.1f}M USD on {tvl.index[-1]:%Y-%m-%d}"
+        if metric == "hsp029_status":
+            files = sorted((RAW / "governance").glob("hsp029_*.json"))
+            return json.loads(files[-1].read_text())["status"] if files else ""
+        if metric == "month_offset":
+            sm = pd.read_csv(OUT / "supply_monthly.csv", index_col=0, parse_dates=True)
+            return f"last complete month {sm.index[-1]:%b}: {sm['captured_share_of_issuance'].iloc[-1]:.0%}"
+    except (FileNotFoundError, KeyError, IndexError):
+        return ""
+    return ""
+
+
 def _check(value, op: str, threshold: str) -> bool:
     if op == "in":
         return str(value) in threshold.split("|")
@@ -105,7 +129,8 @@ def resolve(today: pd.Timestamp | None = None) -> pd.DataFrame:
             status = "pending" if pd.Timestamp(p.resolve_on) > today else "awaiting data"
         else:
             status = "confirmed" if _check(value, p.op, p.threshold) else "refuted"
-        rows.append({"id": p.id, "prediction": p.prediction, "resolve_on": p.resolve_on, "value": value, "status": status})
+        rows.append({"id": p.id, "prediction": p.prediction, "resolve_on": p.resolve_on, "value": value, "status": status,
+                     "so_far": so_far(p.metric, [a for a in str(p.metric_args).split(";") if a and a != "nan"]) if status == "pending" else ""})
     return pd.DataFrame(rows)
 
 
@@ -113,10 +138,10 @@ def main() -> None:
     r = resolve()
     lines = [f"# Predictions: results\n", f"Frozen file: `predictions/PREDICTIONS.csv`, sha256 `{sha256()}` "
              "(timestamped in Bitcoin: `ots verify predictions/PREDICTIONS.csv.ots`). Resolved from the committed snapshots by "
-             "`python3 -m src.predictions`.\n", "| ID | Prediction | Resolves on | Value | Status |", "| --- | --- | --- | --- | --- |"]
+             "`python3 -m src.predictions`.\n", "| ID | Prediction | Resolves on | So far (not a resolution) | Value | Status |", "| --- | --- | --- | --- | --- | --- |"]
     for _, x in r.iterrows():
         val = "" if x.value is None or (isinstance(x.value, float) and x.value != x.value) else (f"{x.value:,.2f}" if isinstance(x.value, float) else str(x.value))
-        lines.append(f"| {x.id} | {x.prediction} | {x.resolve_on} | {val} | {x.status} |")
+        lines.append(f"| {x.id} | {x.prediction} | {x.resolve_on} | {x.so_far} | {val} | {x.status} |")
     RESULTS.write_text("\n".join(lines) + "\n")
     print("\n".join(lines))
 
