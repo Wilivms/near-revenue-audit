@@ -5,3 +5,5 @@ __pycache__/
 submission_payload.json
 data/intents/
 data/intents_v2/
+video/*.mp4
+video/voice.mp3
