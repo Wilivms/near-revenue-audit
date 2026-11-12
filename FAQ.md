@@ -32,6 +32,9 @@ No, and the log says so (entry 30). For the week of 2 November it predicted $901
 **The 11.0 bps fit is above the 7.4 bps fee Dune shows for confidential swaps. Which is right?**
 Probably neither exactly, and the log says so (entries 26, 32). The regression is a revenue *attribution*: in levels it can absorb a shared trend and correlated flows. On week-to-week changes it gives 5.5 bps (2.2–9.0), which contains Dune's 7.4. The conclusion that survives every version: confidential swaps pay NEAR more than public ones, and they explain a part of the jump, from 22% to 84%. The open question has been asked to the NEAR Intents team.
 
+**Other entries report a lower offset (about 11%). Why the difference?**
+Definitions. This audit counts all NEAR captured by the three revenue wallets NEAR lists (buyback multisig, front-end fund, 1Click fund): 14.8% of issuance over Feb–Oct, 16.3% on NEAR's own count. Counting only NEAR actually bought into the buyback multisig, over a recent 30 days, gives a lower figure, which is what some entries report. Both read the same chain; neither changes the conclusion that buybacks offset a small fraction of issuance. REPORT section 9 checks the "permanently remove" claim: nothing is burned, and part of the captured NEAR sits in a treasury with no commitment not to sell.
+
 **Is the volume real, or a few addresses trading with themselves?**
 Real and broad, on 1Click where it can be measured (REPORT section 3, log 36). Over the last 30 days: 231k sending addresses, 78% swapping once, the top 10 at 19% of volume. Round trips (A to B and back within a day by the same address) are 2.7% of volume and 1.1% of NEAR's revenue. Confidential swaps cannot be checked this way: the Explorer API does not show them.
 
