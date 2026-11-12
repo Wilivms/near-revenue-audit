@@ -74,7 +74,7 @@ Source: NEAR's own Dune dashboard (@near, "NEAR Intents"), read from its public 
 
 ### 3. NEAR does not own the customer
 
-1Click swaps, 2026-10-11 to 2026-11-10, the last 30 days collected (2.6M swaps in all; log 11, 18, 34):
+1Click swaps, 2026-10-11 to 2026-11-10, the last 30 days collected (504k swaps; 2.6M collected in all; log 11, 18, 34, 36):
 
 | Integrator | Volume | App fees | NEAR's revenue |
 | --- | --- | --- | --- |
@@ -85,9 +85,10 @@ Source: NEAR's own Dune dashboard (@near, "NEAR Intents"), read from its public 
 | Arbie | 1.4% | 0.6% | 7.4% |
 | Anonymous referral `e1a72603…` | 0.4% | 1.2% | 7.1% |
 
-- NEAR keeps about 9% of the 1Click fee pool; integrators keep the rest.
+- Integrators keep about 92% of the 1Click fee pool; NEAR keeps the rest.
 - **ZEC** is 18.6% of 1Click volume over 76 days but about half of NEAR's 1Click revenue in the last two weeks. (log 13)
 - **Users do not stay.** 3–5% of the addresses active in a given week come back in the same week three months later; at most 9–19% are seen again at any time over 2.5 months. These are lower bounds (a returning user with a new address counts as new). (log 14)
+- **The volume is broad, not wash-traded** (`oneclick_quality.json`, log 36). 231k sending addresses (85% of swaps carry one); 78% swapped once. The top 10 send 19% of volume and the top 100 35% (HHI 86). 98 addresses with 100 swaps or more, likely bots, market makers and integrator hot wallets, send 18% of volume and 14% of NEAR's revenue. Round trips, where an address swaps A into B and B back into A within 24 hours, are 2.7% of volume and 1.1% of NEAR's revenue, 77% of them through one integrator (LI.FI). Self-trading does not inflate the revenue. An independent entry (Toll Road) finds about 1% round trips outside market makers on a 1.2% sample of `intents.near`; the full 1Click record agrees.
 - Reading: NEAR's 1Click revenue rests on unattributed users, a few direct deals and one asset. Distribution partners own the flow, and could route it elsewhere.
 
 Coverage limit: 1Click is about 28% of Intents volume, and confidential swaps were not visible in the Explorer API over the period collected. These results describe 1Click, not all of Intents.

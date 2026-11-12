@@ -9,6 +9,7 @@ Outputs (data/processed/):
 - retention.csv        sender retention between sample weeks and into the continuous window
 - revenue_by_asset_last30d.csv volume and NEAR revenue by the volatile leg of each swap (last 30 days)
 - fee_shares_last30d.csv each referral's share of volume, app fees and NEAR revenue (last 30 days)
+- oneclick_quality.json  is the volume broad? sender concentration, heavy senders and round trips (last 30 days)
 - snapshot_entrants.csv retention of senders who arrived just before the snapshot vs a placebo cohort
 """
 from __future__ import annotations
@@ -300,8 +301,46 @@ def november(df: pd.DataFrame) -> dict:
     last30 = df[df["ts"] >= df["ts"].max() - pd.Timedelta(days=30)]
     out["last30"] = {"from": str(last30["ts"].min().date()), "to": str(df["ts"].max().date()),
                      "near_share_of_fee_pool": float(last30["near_usd"].sum() / last30["fee_usd"].sum()),
-                     "swaps": int(len(df))}
+                     "swaps": int(len(last30)), "swaps_collected": int(len(df))}
     return out
+
+
+def quality(df: pd.DataFrame, days: int = 30) -> dict:
+    """Is the 1Click volume broad, or a few addresses trading with themselves? (last `days` days)
+
+    Sender = hash of the first address of the deposit; one person can use several addresses, so
+    concentration is a lower bound and the share of one-swap senders an upper bound.
+    Round trip = a sender swaps asset family A into B, then B back into A within 24 hours.
+    """
+    g = df[df["ts"] >= df["ts"].max() - pd.Timedelta(days=days)]
+    s = _senders(g).join(g[["near_usd", "origin_asset", "destination_asset", "ref"]])
+    by = s.groupby("sender_hash").agg(n=("usd", "size"), usd=("usd", "sum"), near=("near_usd", "sum"))
+    vol, rev = by["usd"].sum(), by["near"].sum()
+    top = lambda col, k: float(by[col].nlargest(k).sum() / by[col].sum())  # noqa: E731
+    s = s.assign(o=s["origin_asset"].map(_family), d=s["destination_asset"].map(_family)).sort_values("ts")
+    rt = set()
+    for _, grp in s[s["sender_hash"].isin(by.index[by["n"] >= 2])].groupby("sender_hash"):
+        t, o, d, idx = grp["ts"].values, grp["o"].values, grp["d"].values, grp.index.values
+        for i in range(len(grp)):
+            j = i + 1
+            while j < len(grp) and t[j] - t[i] <= np.timedelta64(24, "h"):
+                if o[i] != d[i] and o[j] == d[i] and d[j] == o[i]:
+                    rt.update((idx[i], idx[j]))
+                    break
+                j += 1
+    r = s.loc[sorted(rt)]
+    by_ref = (r.groupby("ref")["usd"].sum() / r["usd"].sum()).sort_values(ascending=False)
+    heavy = by[by["n"] >= 100]
+    return {
+        "from": str(g["ts"].min().date()), "to": str(g["ts"].max().date()), "swaps": int(len(g)),
+        "swaps_with_sender": float(len(s) / len(g)), "senders": int(len(by)), "one_swap_senders": float((by["n"] == 1).mean()),
+        "top10_volume": top("usd", 10), "top100_volume": top("usd", 100), "top10_near_revenue": top("near", 10),
+        "top100_near_revenue": top("near", 100), "hhi_volume": float(((by["usd"] / vol) ** 2).sum() * 1e4),
+        "senders_100plus_swaps": int(len(heavy)), "senders_100plus_volume": float(heavy["usd"].sum() / vol),
+        "senders_100plus_near_revenue": float(heavy["near"].sum() / rev),
+        "round_trip_volume": float(r["usd"].sum() / s["usd"].sum()), "round_trip_near_revenue": float(r["near_usd"].sum() / s["near_usd"].sum()),
+        "round_trip_top_integrator": [str(by_ref.index[0]), float(by_ref.iloc[0])] if len(by_ref) else None,
+    }
 
 
 def main() -> None:
@@ -331,6 +370,9 @@ def main() -> None:
     nov = november(df)
     (OUT / "oneclick_november.json").write_text(json.dumps(nov, indent=1))
     print(json.dumps(nov, indent=1))
+    q = quality(df)
+    (OUT / "oneclick_quality.json").write_text(json.dumps(q, indent=1))
+    print(json.dumps(q, indent=1))
     ent = snapshot_entrants(df)
     ent.to_csv(OUT / "snapshot_entrants.csv", index=False)
     print(ent.round(3).to_string(index=False))

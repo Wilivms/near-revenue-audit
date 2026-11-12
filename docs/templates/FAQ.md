@@ -31,6 +31,9 @@ No, and the log says so (entry 30). For the week of 2 November it predicted {{oo
 **The {{fit_conf}} bps fit is above the {{dune_fee_bps}} bps fee Dune shows for confidential swaps. Which is right?**
 Probably neither exactly, and the log says so (entries 26, 32). The regression is a revenue *attribution*: in levels it can absorb a shared trend and correlated flows. On week-to-week changes it gives {{fd_conf}} bps ({{fd_ci}}), which contains Dune's {{dune_fee_bps}}. The conclusion that survives every version: confidential swaps pay NEAR more than public ones, and they explain a part of the jump, from {{jump_fd}} to {{jump_levels}}. The open question has been asked to the NEAR Intents team.
 
+**Is the volume real, or a few addresses trading with themselves?**
+Real and broad, on 1Click where it can be measured (REPORT section 3, log 36). Over the last 30 days: {{q_senders}} sending addresses, {{q_one_swap}} swapping once, the top 10 at {{q_top10}} of volume. Round trips (A to B and back within a day by the same address) are {{q_rt_vol}} of volume and {{q_rt_rev}} of NEAR's revenue. Confidential swaps cannot be checked this way: the Explorer API does not show them.
+
 **Why should I trust a Monte Carlo on a token this volatile?**
 You shouldn't trust it blindly. The point is the identity, not the forecast: supply stops growing only when market cap is below {{breakeven_now}} annual captured revenue ({{breakeven_cut}} once the issuance cut approved on 2 November is phased in), and today it is {{near_captured_mult}}.
 

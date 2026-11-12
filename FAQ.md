@@ -32,6 +32,9 @@ No, and the log says so (entry 30). For the week of 2 November it predicted $901
 **The 11.0 bps fit is above the 7.4 bps fee Dune shows for confidential swaps. Which is right?**
 Probably neither exactly, and the log says so (entries 26, 32). The regression is a revenue *attribution*: in levels it can absorb a shared trend and correlated flows. On week-to-week changes it gives 5.5 bps (2.2–9.0), which contains Dune's 7.4. The conclusion that survives every version: confidential swaps pay NEAR more than public ones, and they explain a part of the jump, from 22% to 84%. The open question has been asked to the NEAR Intents team.
 
+**Is the volume real, or a few addresses trading with themselves?**
+Real and broad, on 1Click where it can be measured (REPORT section 3, log 36). Over the last 30 days: 231k sending addresses, 78% swapping once, the top 10 at 19% of volume. Round trips (A to B and back within a day by the same address) are 2.7% of volume and 1.1% of NEAR's revenue. Confidential swaps cannot be checked this way: the Explorer API does not show them.
+
 **Why should I trust a Monte Carlo on a token this volatile?**
 You shouldn't trust it blindly. The point is the identity, not the forecast: supply stops growing only when market cap is below 41x annual captured revenue (64x once the issuance cut approved on 2 November is phased in), and today it is 217x.
 

@@ -1,0 +1,22 @@
+{
+ "from": "2026-10-11",
+ "to": "2026-11-10",
+ "swaps": 503788,
+ "swaps_with_sender": 0.8508479757358254,
+ "senders": 230560,
+ "one_swap_senders": 0.7762361207494796,
+ "top10_volume": 0.19465914320190347,
+ "top100_volume": 0.34557562613744525,
+ "top10_near_revenue": 0.16136887058382432,
+ "top100_near_revenue": 0.38239154097770617,
+ "hhi_volume": 86.41454601606026,
+ "senders_100plus_swaps": 98,
+ "senders_100plus_volume": 0.17722314380002918,
+ "senders_100plus_near_revenue": 0.13944477566887764,
+ "round_trip_volume": 0.026821120761369638,
+ "round_trip_near_revenue": 0.010742860022164711,
+ "round_trip_top_integrator": [
+  "lifi",
+  0.7673220184473348
+ ]
+}

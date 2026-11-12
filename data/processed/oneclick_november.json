@@ -38,6 +38,7 @@
   "from": "2026-10-11",
   "to": "2026-11-10",
   "near_share_of_fee_pool": 0.08166361856677463,
-  "swaps": 2648615
+  "swaps": 503788,
+  "swaps_collected": 2648615
  }
 }

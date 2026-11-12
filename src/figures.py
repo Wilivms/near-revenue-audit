@@ -299,7 +299,7 @@ def figures() -> dict[str, str]:
     sk = fs.loc["swapkit"]
     o1, o2, tb = oc["oct16_29"], oc["nov01_10"], oc["trust_burst_oct23_28"]
     f.update({
-        "oc_from": oc["last30"]["from"], "oc_to": oc["last30"]["to"], "oc_swaps": f"{oc['last30']['swaps'] / 1e6:.1f}M",
+        "oc_from": oc["last30"]["from"], "oc_to": oc["last30"]["to"], "oc_swaps": f"{oc['last30']['swaps_collected'] / 1e6:.1f}M", "oc_swaps_30": f"{oc['last30']['swaps'] / 1e3:.0f}k",
         "oc_integrators_keep": pct(1 - oc["last30"]["near_share_of_fee_pool"]),
         "sk_vol": pct(sk.volume_share), "sk_fees": pct(sk.fee_share),
         "sk_near": "under 0.1%" if sk.near_revenue_share < 0.001 else pct(sk.near_revenue_share, 1),
@@ -331,6 +331,12 @@ def figures() -> dict[str, str]:
         f[f"mc_{k}_p"] = pct(v[f"mc_{k}_p"])
         f[f"mc_{k}_take"] = f"{v[f'mc_{k}_take']:.1f}"
     f["mc_bull_vol_mult"] = f"{v['mc_bull_vol_dec27'] / v['volume0']:.0f}x"
+    q = _json("oneclick_quality.json")
+    f.update({"q_senders": f"{q['senders'] / 1e3:.0f}k", "q_one_swap": pct(q["one_swap_senders"]), "q_top10": pct(q["top10_volume"]),
+              "q_top100": pct(q["top100_volume"]), "q_heavy_n": str(q["senders_100plus_swaps"]), "q_heavy_vol": pct(q["senders_100plus_volume"]),
+              "q_heavy_rev": pct(q["senders_100plus_near_revenue"]), "q_rt_vol": pct(q["round_trip_volume"], 1),
+              "q_rt_rev": pct(q["round_trip_near_revenue"], 1), "q_rt_ref": pct(q["round_trip_top_integrator"][1]),
+              "q_hhi": f"{q['hhi_volume']:.0f}", "q_with_sender": pct(q["swaps_with_sender"])})
     from .predictions import resolve
     for _, r in resolve(pd.Timestamp(v["data_to"])).iterrows():
         f[f"{r.id.lower()}_so_far"] = r.so_far or r.status

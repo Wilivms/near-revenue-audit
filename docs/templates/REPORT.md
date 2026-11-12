@@ -73,13 +73,14 @@ Source: NEAR's own Dune dashboard (@near, "NEAR Intents"), read from its public 
 
 ### 3. NEAR does not own the customer
 
-1Click swaps, {{oc_from}} to {{oc_to}}, the last 30 days collected ({{oc_swaps}} swaps in all; log 11, 18, 34):
+1Click swaps, {{oc_from}} to {{oc_to}}, the last 30 days collected ({{oc_swaps_30}} swaps; {{oc_swaps}} collected in all; log 11, 18, 34, 36):
 
 {{oc_table}}
 
-- NEAR keeps about 9% of the 1Click fee pool; integrators keep the rest.
+- Integrators keep about {{oc_integrators_keep}} of the 1Click fee pool; NEAR keeps the rest.
 - **ZEC** is 18.6% of 1Click volume over 76 days but about half of NEAR's 1Click revenue in the last two weeks. (log 13)
 - **Users do not stay.** 3–5% of the addresses active in a given week come back in the same week three months later; at most 9–19% are seen again at any time over 2.5 months. These are lower bounds (a returning user with a new address counts as new). (log 14)
+- **The volume is broad, not wash-traded** (`oneclick_quality.json`, log 36). {{q_senders}} sending addresses ({{q_with_sender}} of swaps carry one); {{q_one_swap}} swapped once. The top 10 send {{q_top10}} of volume and the top 100 {{q_top100}} (HHI {{q_hhi}}). {{q_heavy_n}} addresses with 100 swaps or more, likely bots, market makers and integrator hot wallets, send {{q_heavy_vol}} of volume and {{q_heavy_rev}} of NEAR's revenue. Round trips, where an address swaps A into B and B back into A within 24 hours, are {{q_rt_vol}} of volume and {{q_rt_rev}} of NEAR's revenue, {{q_rt_ref}} of them through one integrator (LI.FI). Self-trading does not inflate the revenue. An independent entry (Toll Road) finds about 1% round trips outside market makers on a 1.2% sample of `intents.near`; the full 1Click record agrees.
 - Reading: NEAR's 1Click revenue rests on unattributed users, a few direct deals and one asset. Distribution partners own the flow, and could route it elsewhere.
 
 Coverage limit: 1Click is about 28% of Intents volume, and confidential swaps were not visible in the Explorer API over the period collected. These results describe 1Click, not all of Intents.
