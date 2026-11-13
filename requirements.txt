@@ -1,3 +1,4 @@
+# Python 3.12 or later (pandas 3, numpy 2.5); `make setup` fetches it with uv if needed. Everything offline needs only these four.
 requests==2.34.2
 pandas==3.1.0
 numpy==2.5.4

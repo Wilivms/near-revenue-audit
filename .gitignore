@@ -8,3 +8,4 @@ data/intents_v2/
 video/*.mp4
 video/voice.mp3
 anchor/node_modules/
+.check_baseline/

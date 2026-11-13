@@ -1,4 +1,4 @@
-.PHONY: anchor-check bigquery reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
+.PHONY: setup pycheck anchor-check bigquery reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -42,6 +42,12 @@ dashboard:   ## bundle committed outputs into dashboard/data.json
 dashboard-serve: ## open the dashboard at http://localhost:8000 (live figures load in the browser)
 	cd dashboard && python3 -m http.server 8000
 
+setup:       ## create .venv with Python 3.12+ and the pinned dependencies (uses uv if python3 is older)
+	bash scripts/setup.sh
+
+pycheck:
+	@python3 -c 'import sys; sys.exit(0 if sys.version_info >= (3, 12) else "Python 3.12 or later is needed (pandas 3, numpy 2.5): run  make setup  then  . .venv/bin/activate")'
+
 test:        ## model checks
 	python3 -m pytest -q tests
 
@@ -81,7 +87,8 @@ docs:        ## render README.md, REPORT.md and FAQ.md from docs/templates/ with
 verify:      ## re-check the headline findings and fail if a committed document has drifted from the data
 	python3 -m src.figures --check
 
-check-clean: ## rebuild from the committed snapshots and fail if any committed output changes
+check-clean: pycheck ## rebuild from the committed snapshots and fail if any committed output changes
+	python3 -m src.check_outputs --snapshot
 	$(MAKE) reproduce
 	python3 -m src.check_outputs
 	python3 -m src.figures --check

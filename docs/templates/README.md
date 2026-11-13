@@ -39,12 +39,11 @@ NEAR's revenue is **real**: rebuilt from the chain, it matches DefiLlama within 
 |---|---|
 | [![Simulator](docs/img/simulator.jpg)](https://near-revenue-audit.vercel.app/#simulator) | [![Checks](docs/img/checks.jpg)](https://near-revenue-audit.vercel.app/#checks) |
 
-Everything below runs offline on the committed snapshots in `data/raw/` (listed with their sha256 in `data/raw/MANIFEST.json`).
+Everything below runs offline on the committed snapshots in `data/raw/` (listed with their sha256 in `data/raw/MANIFEST.json`). Needs Python 3.12 or later (pandas 3, numpy 2.5; `make setup` gets it if yours is older) and `make`; no key, no account, no network. `make check-clean` takes about a minute; it also works on a ZIP download without git.
 
 ```bash
 git clone https://github.com/Wilivms/near-revenue-audit && cd near-revenue-audit
-python3 -m venv .venv && . .venv/bin/activate
-pip install -r requirements.txt
+make setup && . .venv/bin/activate   # Python 3.12+ and four pinned packages; fetches Python 3.12 with uv if yours is older
 make check-clean      # rebuilds everything, runs the tests, then compares every output with the committed one
 make verify           # renders README/REPORT/FAQ/THESIS from the outputs and re-checks the findings
 ```

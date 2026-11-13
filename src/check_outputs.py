@@ -20,9 +20,29 @@ ROOT = Path(__file__).resolve().parents[1]
 REL = 1e-9
 
 
+BASELINE = ROOT / ".check_baseline"  # copy of the outputs taken before the rebuild, for a checkout without git
+
+
+def _in_git() -> bool:
+    return subprocess.run(["git", "rev-parse", "--git-dir"], cwd=ROOT, capture_output=True).returncode == 0
+
+
 def _committed(path: str) -> bytes | None:
+    if not _in_git():  # downloaded as a ZIP: compare with the copy saved before the rebuild
+        f = BASELINE / path
+        return f.read_bytes() if f.exists() else None
     r = subprocess.run(["git", "show", f"HEAD:{path}"], cwd=ROOT, capture_output=True)
     return r.stdout if r.returncode == 0 else None
+
+
+def snapshot() -> None:
+    """Save the outputs as shipped, so a checkout without git (a ZIP) can still be compared after the rebuild."""
+    import shutil
+    shutil.rmtree(BASELINE, ignore_errors=True)
+    for f in sorted((ROOT / "data" / "processed").glob("*")) + [ROOT / "dashboard" / "data.json"]:
+        dst = BASELINE / f.relative_to(ROOT)
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(f, dst)
 
 
 def _close(a, b) -> bool:
@@ -80,4 +100,7 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    if "--snapshot" in sys.argv:
+        snapshot()
+        sys.exit(0)
     sys.exit(main())
