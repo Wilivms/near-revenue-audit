@@ -418,7 +418,7 @@ footer li + li { margin-top: 6px; }
         <a class="g" href="#customer"><div class="gk">Who pays</div><div class="gv">92%</div><div class="gt">of the 1Click fee pool goes to integrators. NEAR's published 20 bps applies to a small part of their volume.</div><div class="go">Customer →</div></a>
         <a class="g" href="#buybacks"><div class="gk">Too small for supply</div><div class="gv">below 41×</div><div class="gt">Supply stops growing only when market cap is below 41× annual captured revenue. The live multiple, above, is about five times that.</div><div class="go">Buybacks →</div></a>
         <a class="g" href="#forecast"><div class="gk">2027</div><div class="gv" id="g2027">18%</div><div class="gt">of 2027 issuance offset in the base case; supply keeps growing unless volume rises several times.</div><div class="go">2027 →</div></a>
-        <a class="g" href="#checks"><div class="gk">Held to account</div><div class="gv">15 + 30</div><div class="gt">15 findings re-checked on every commit; 30 public claims tested at their own dates; predictions anchored on NEAR.</div><div class="go">Checks →</div></a>
+        <a class="g" href="#checks"><div class="gk">Held to account</div><div class="gv" id="gHeld">15 + 33</div><div class="gt"><span id="gHeldF">15</span> findings re-checked on every commit; <span id="gHeldC">33</span> public claims tested at their own dates; predictions anchored on NEAR.</div><div class="go">Checks →</div></a>
       </div>
     </div>
   </section>
@@ -530,7 +530,7 @@ footer li + li { margin-top: 6px; }
       </div>
       <div class="card reveal">
         <h3>Confidential swaps: where the jump came from, and what pays for it</h3>
-        <p class="sub" id="confSub">From NEAR's own Dune and revenue dashboards. Through October, a weekly fit gave NEAR about 11 bps on confidential volume against 1 bp on public volume; the same fit on week-to-week changes gives about 5.5 bps, so the premium is real but its size is uncertain (Dune's fee table says 7.4). That growth followed the NEAR@3.33 airdrop; the timing fits, the cause is not proven. The fit then missed its first unseen week (2–8 November): it predicted $0.5–0.9M of revenue and $0.36M arrived. From 3 November the source labels almost all volume confidential, while 1Click swaps still visible in the public API ran above $20M in half a day. So the label is not a price list: what earned NEAR more was most likely its own front-end, where the confidential users were.</p>
+        <p class="sub" id="confSub">From NEAR's own Dune and revenue dashboards. Through October, a weekly fit gave NEAR about 11 bps on confidential volume against 1 bp on public volume; the same fit on week-to-week changes gives about 5.5 bps, so the premium is real but its size is uncertain (Dune's fee table says 7.4). Fitted wallet by wallet, the buyback multisig gets about 7.6 bps, close to Dune's figure (REPORT section 10). That growth followed the NEAR@3.33 airdrop; the timing fits, the cause is not proven. The fit then missed its first unseen week (2–8 November): it predicted $0.5–0.9M of revenue and $0.36M arrived. From 3 November the source labels almost all volume confidential, while 1Click swaps still visible in the public API ran above $20M in half a day. So the label is not a price list: what earned NEAR more was most likely its own front-end, where the confidential users were.</p>
         <div class="grid2" style="margin-top:8px">
           <div><div class="legend"><span class="line" style="--c:var(--series-1)">Confidential share of volume, weekly, to 1 Nov (label comparable)</span></div><div id="chConfShare"></div>
           <p class="src">Source: NEAR's Dune dashboard, query 5179085 (public vs confidential volume), read as text into data/raw/dune/. Rebuild: <code>make confidential</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/confidential.py">src/analysis/confidential.py</a></p></div>
@@ -1101,6 +1101,8 @@ function headline(D, L, live) {
   });
   const items = [`${per100} NEAR bought back per 100 issued`, `Take rate ${take.toFixed(1)} bps`, `Market cap ${Math.round(mcap / annual)}× annual revenue`,
     `Break-even below ${Math.round(1 / D.issuance_rate)}×`, `Revenue ${fmtUSD(L.holders30)} in 30 days`, `NEAR $${L.price.toFixed(2)}`, `Wallets match NEAR's dashboard within ${((D.checks.findings.find((f) => f.id === "F2") || {}).number || "").match(/[\d.]+%/)?.[0] || "0.2%"}`];
+  const nF = (D.checks.findings || []).length, nC = (D.checks.public_claims || []).length;
+  if (nF && nC && $("gHeld")) { $("gHeld").textContent = `${nF} + ${nC}`; $("gHeldF").textContent = nF; $("gHeldC").textContent = nC; }
   const base = (D.montecarlo.scenarios || [])[0]; if (base && $("g2027")) $("g2027").textContent = `${Math.round(base.median_offset_2027 * 100)}%`;
   const tk = $("ticker"); tk.replaceChildren();
   for (let rep = 0; rep < 2; rep++) items.forEach((t) => tk.append(el("span", {}, t), el("span", { class: "star" }, "✳")));

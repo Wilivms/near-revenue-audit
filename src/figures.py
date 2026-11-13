@@ -367,6 +367,8 @@ def figures() -> dict[str, str]:
               "bq_rev_to": bq["revenue"]["to"], "bq_supply_gap": pct(bq["supply"]["issued_gap"], 2), "bq_issued": f"{bq['supply']['issued_feb_oct_bigquery'] / 1e6:.2f}M",
               "bq_rpc_n": str(bq["supply"]["rpc_samples"]), "bq_days": str(bq["activity"]["days"]),
               "bq_intents_tx_25": pct(bq["activity"]["intents_share_of_txns_oct2025"], 1), "bq_intents_tx_26": pct(bq["activity"]["intents_share_of_txns_oct2026"], 1)})
+    rv = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True)["rebuilt_total_usd"]
+    f["rev_nov01_11"] = f"${float(rv.loc['2026-11-01':'2026-11-11'].sum()) / 1e6:.2f}M"
     si = bq["intents_signers"]
     f.update({"bq_is_tx": f"{si['txns_change'] * 100:+.0f}%", "bq_is_rev": f"{si['revenue_change'] * 100:+.0f}%",
               "bq_is_self_inc": pct(si["self_signed_share_of_increase"], 1), "bq_is_self_nov": pct(si["self_signed_share_nov"]),
@@ -490,6 +492,7 @@ def public_claims(v: dict | None = None) -> list[dict]:
     flows = pd.read_csv(OUT / "revenue_wallet_flows.csv", parse_dates=["date"])
     pre = flows[(flows["dir"] == "in") & flows["is_near"] & ~flows["internal"] & (flows["date"] < "2026-02-24")]
     fp = _json("oneclick_fee_policy.json")
+    bbw = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True)["rebuilt_buybacks_usd"]
     rows = [
         # --- what NEAR said it would do
         ("\"NEAR Intents has already directed revenue to over 1M in $NEAR buyback\"", "[Evolving NEAR Tokenomics, near.org, 2026-02-24](https://www.near.org/blog/evolving-near-tokenomics)",
@@ -539,6 +542,13 @@ def public_claims(v: dict | None = None) -> list[dict]:
          f"{pct(cum(rev, '2026-10-06') / win(fees, FEE_SWITCH, '2026-10-06'), 1)} of fees since the fee switch, {pct(cum(rev, '2026-10-06') / cum(fees, '2026-10-06'), 1)} of all fees since launch", "Close (definitions)"),
         ("Fee capture about 28.4% over the last 30 days (6 October)", "same",
          f"{pct(bb30 / win(fees, a30, b30), 1)} rebuilt, {pct(win(hr, a30, b30) / win(fees, a30, b30), 1)} on DefiLlama", "Close, a little high"),
+        # --- the latest press, 12 November (figures to 11 November, the day before publication)
+        ("About $2.7M of NEAR bought back from Intents revenue so far in Q4", "[AMBCrypto, 2026-11-12](https://ambcrypto.com/near-intents-fuels-2-7m-in-q4-buybacks-as-revenue-surges/), from BSC News",
+         f"{usd(win(rev, '2026-10-01', '2026-11-11'))} reached the three revenue wallets from 1 October to 11 November, but only {usd(win(bbw, '2026-10-01', '2026-11-11'))} the buyback multisig itself (the rest sits in the front-end fund)", "Survives, on all three wallets"),
+        ("$8.68M of fees since 1 October, of which NEAR Intents kept $2.82M", "same",
+         f"{usd(win(fees, '2026-10-01', '2026-11-11'))} of gross fees on DefiLlama to 11 November; {usd(win(rev, '2026-10-01', '2026-11-11'))} reached NEAR's wallets", "Survives"),
+        ("$3.07M of buybacks in Q3, per DefiLlama", "same",
+         f"DefiLlama's holders revenue is {usd(win(hr, '2026-07-01', '2026-09-30'))}; the wallets received {usd(win(rev, '2026-07-01', '2026-09-30'))}, of which {usd(win(bbw, '2026-07-01', '2026-09-30'))} into the buyback multisig", "Close (DefiLlama's definition)"),
         # --- volume, usage, TVL
         ("Q3 2026 Intents volume about $10.4B", "Nansen NEAR Q3 2026, via [Altcoin Buzz, 2026-11-02](https://www.altcoinbuzz.io/near-protocol-q3-2026-on-chain-activity-intents)",
          f"{usd(win(vol, '2026-07-01', '2026-09-30'))} on DefiLlama", "Close"),
