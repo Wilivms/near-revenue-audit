@@ -138,11 +138,11 @@ The track suggests testing whether cross-chain volume through NEAR Intents is a 
 - **Usage does not lead the price, and the price does not lead usage.** Intents volume, L1 transactions and L1 active accounts, lags of one to four weeks, both directions: {{ll_sig}} of {{ll_tests}} correlations are significant after Holm's correction. The strongest before correction is {{ll_best}}.
 - **The two kinds of usage have parted ways.** Over the last 30 days against the same window a year earlier, Intents volume is {{yoy_vol}} while L1 transactions are {{yoy_txns}} and L1 active accounts {{yoy_active}}. Counting transactions says NEAR is shrinking; counting settled volume says it is growing.
 - **What tracks NEAR's revenue.** Weekly changes in captured revenue since March correlate {{ll_rev_vol}} with Intents volume, {{ll_rev_txns}} with L1 transactions, {{ll_rev_active}} with active accounts and {{ll_rev_price}} with the BTC-adjusted price ({{ll_rev_weeks}} weeks).
-- **Reading.** Intents volume is the better measure of what NEAR earns, but neither it nor L1 activity says anything about next month's price. That fits the valuation finding: the market does not price NEAR on this revenue.
+- **Reading.** Week to week, NEAR's revenue moves with both Intents volume and L1 transactions (the two move together within a week), but over a year they part ways and only Intents volume grew with revenue. Neither says anything about next month's price. That fits the valuation finding: the market does not price NEAR on this revenue.
 
 ### 9. Public claims, checked
 
-Statements made in public about NEAR's buybacks and issuance, set against this audit's data (rendered by `make docs` from the same outputs):
+{{public_claims_n}} statements made in public about NEAR's revenue, buybacks, issuance and usage, by NEAR, analysts, treasury companies and the press, each tested on the committed snapshots at the claim's own date where it has one (rendered by `make docs` from the same outputs; `public_claims()` in `src/figures.py`). {{public_claims_survive}} survive, {{public_claims_close}} are close (within about 10%, or within definitions), {{public_claims_fail}} do not hold as stated. The pattern: volume and usage figures quoted in public are accurate; claims about value reaching holders (deflation, permanent removal, buyback totals on NEAR's own series, price reflexivity) are the ones that fail.
 
 {{public_claims_table}}
 

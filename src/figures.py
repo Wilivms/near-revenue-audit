@@ -395,30 +395,117 @@ def claims(v: dict | None = None) -> list[dict]:
     return [{"id": i, "finding": a, "number": n, "check": c, "passed": bool(p), "command": cmd} for i, a, n, c, p, cmd in rows]
 
 
+def _claims_data() -> dict:
+    """Series the public-claims ledger tests against: DefiLlama, the rebuilt revenue, NearBlocks, Dune, supply."""
+    from .analysis.leadlag import _chain
+    from .analysis.ledger import llama_daily, near_price
+    d = {"vol": llama_daily("llama_volume", "v"), "fees": llama_daily("llama_dailyFees", "f"),
+         "hr": llama_daily("llama_dailyHoldersRevenue", "h"), "px": near_price(), "chain": _chain()}
+    d["rev"] = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True)["rebuilt_total_usd"].loc[FEE_SWITCH:]
+    sm = pd.read_csv(OUT / "supply_monthly.csv", index_col=0, parse_dates=True)
+    days = pd.date_range(sm.index.min(), sm.index.max() + pd.offsets.MonthEnd(0))
+    d["issued"] = pd.Series([sm.loc[pd.Timestamp(x.year, x.month, 1), "net_issuance_near"] / x.days_in_month for x in days], index=days)
+    d["ctvl"] = pd.read_csv(OUT / "confidential_tvl.csv", index_col=0, parse_dates=True).iloc[:, 0]
+    d["share"] = pd.read_csv(OUT / "crosschain_share.csv", index_col=0, parse_dates=True)["near-intents_share"]
+    return d
+
+
 def public_claims(v: dict | None = None) -> list[dict]:
-    """Claims made in public about NEAR's buybacks and issuance, checked against this audit's data."""
+    """Claims made in public about NEAR's revenue, buybacks, issuance and usage, checked against this audit's data.
+
+    Each row quotes or paraphrases a dated public source and tests it on the committed snapshots, at the
+    claim's own date where it has one. Verdicts: Survives, Close (within about 10%, or within definitions),
+    Overstated, Inflated (off by a multiple), Not shown (the data does not support it), Unverified.
+    """
     v = v or values()
     f = figures()
+    d = _claims_data()
+    vol, fees, hr, px, rev, ch = d["vol"], d["fees"], d["hr"], d["px"], d["rev"], d["chain"]
     supply = json.loads(sorted((RAW / "chain_state").glob("*.json"))[-1].read_text())["total_supply_near"]
     # linear ramp of the cap from 2.5% to 1.6% over 2 years: the cut grows from 0 to 0.9 pp, so the
     # NEAR not issued over the 2 years is supply x 0.9% x (average cut over 2 years = half) x 2 years
     avoided_2y = supply * (0.025 - 0.016) * 0.5 * 2
-    return [
-        {"claim": "\"About $177M of daily volume makes NEAR deflationary\"", "source": "community DefiLlama Pro dashboard, widely quoted in 2026 (log 6)",
-         "data": f"assumes all gross fees buy NEAR; with the captured share, break-even is {f['be_vol_now']}/day at {f['take_now']} bps", "verdict": "Inflated"},
-        {"claim": "\"NEAR captures a growing share of fees\"", "source": "revenue.near.org, read 2026-11-11",
-         "data": f"{f['cap_total_all']} of gross fees all-time, {f['cap_total_d30']} over the last 30 days; take {f['take_aug']} → {f['take_oct']} bps Aug to Oct, {f['take_last_week']} in the week of 2 Nov",
-         "verdict": "Survives, but turned down in November"},
-        {"claim": "\"...feeding buybacks that permanently remove NEAR from circulation\"", "source": "revenue.near.org, read 2026-11-11",
-         "data": f"{f['fefunds_share']} of the NEAR captured sits in a DAO treasury with no on-chain commitment not to sell; nothing is burned; supply grows {f['net_growth']} a year net",
-         "verdict": "Not shown"},
-        {"claim": "Revenue as NEAR reports it", "source": "revenue.near.org monthly revenue series",
-         "data": f"{f['series_over_wallets']} above the NEAR its own three revenue wallets receive (Mar–Oct), while the wallet totals agree within {f['wallets_gap']}",
-         "verdict": "Unverified (gap unexplained)"},
-        {"claim": "\"HSP-029 avoids 11.8M NEAR of issuance over two years\"", "source": "HSP-029 text on vote.dao; Unchained, 2026-11-03",
-         "data": f"a linear ramp from 2.5% to 1.6% on today's supply avoids {avoided_2y / 1e6:.1f}M NEAR over two years; it cannot start before {f['hsp_earliest']}",
-         "verdict": "Survives"},
+    cum = lambda s, to: s.loc[:to].sum()  # noqa: E731
+    win = lambda s, a, b: s.loc[a:b].sum()  # noqa: E731
+    a30, b30 = "2026-09-07", "2026-10-06"  # the 30 days before 6 October (Bankless podcast, Nansen's capture figures)
+    iss30 = d["issued"].loc[a30:b30]
+    iss30_usd = float((iss30 * px.reindex(iss30.index)).sum())
+    bb30 = win(rev, a30, b30)
+    q3 = ch.loc["2026-07-01":"2026-09-30"]
+    peak = q3["txns"].idxmax()
+    crossed8 = rev.cumsum()
+    crossed8 = crossed8[crossed8 >= 8e6].index.min()
+    month_iss_16 = supply * 0.016 / 12 * float(px.dropna().iloc[-1])
+    last30_rev = float(rev.iloc[-30:].sum())
+    ct = d["ctvl"]
+    ct_sep, ct_jun = float(ct.asof(pd.Timestamp("2026-09-30"))), float(ct.asof(pd.Timestamp("2026-06-30")))
+    share = d["share"]
+    may_oct = share.loc["2026-05-01":"2026-10-01"]
+    take_jun = win(rev, "2026-05-04", "2026-06-03") / win(vol, "2026-05-04", "2026-06-03") * 1e4
+    rows = [
+        # --- revenue and buybacks
+        ("\"About $177M of daily volume makes NEAR deflationary\"", "community DefiLlama Pro dashboard, widely quoted in 2026 (log 6)",
+         f"assumes all gross fees buy NEAR; with the captured share, break-even is {f['be_vol_now']}/day at {f['take_now']} bps", "Inflated"),
+        ("\"NEAR captures a growing share of fees\"", "revenue.near.org, read 2026-11-11",
+         f"{f['cap_total_all']} of gross fees all-time, {f['cap_total_d30']} over the last 30 days; take {f['take_aug']} → {f['take_oct']} bps Aug to Oct, {f['take_last_week']} in the week of 2 Nov",
+         "Survives, but turned down in November"),
+        ("\"...feeding buybacks that permanently remove NEAR from circulation\"", "revenue.near.org, read 2026-11-11",
+         f"{f['fefunds_share']} of the NEAR captured sits in a DAO treasury with no on-chain commitment not to sell; nothing is burned; supply grows {f['net_growth']} a year net",
+         "Not shown"),
+        ("Revenue as NEAR reports it", "revenue.near.org monthly revenue series",
+         f"{f['series_over_wallets']} above the NEAR its own three revenue wallets receive (Mar–Oct), while the wallet totals agree within {f['wallets_gap']}",
+         "Unverified (gap unexplained)"),
+        ("Share of emissions offset, as NEAR reports it", "revenue.near.org, read 2026-11-11",
+         f"{f['offset_official']} on NEAR's count, {f['offset_rebuilt']} rebuilt from the wallets and archival supply, Feb–Oct", "Survives (definitions differ)"),
+        ("\"Buybacks are still real\": about $1.9M of Intents-funded purchases over 30 days", "Sal Ternullo (SVRN) on Bankless, via [Stocktwits, 2026-10-06](https://stocktwits.com/news-articles/markets/cryptocurrency/near-treasury-firm-ceo-says-buybacks-are-still-real-but-issuance-runs-six-times-higher/cZDteDIRBl3)",
+         f"{usd(bb30)} reached the three revenue wallets over the 30 days to 6 Oct", "Survives"),
+        ("Issuance runs about $13M over the same 30 days, \"more than six times\" buybacks", "same",
+         f"{iss30.sum() / 1e6:.2f}M NEAR issued, {usd(iss30_usd)} at daily prices: {iss30_usd / bb30:.1f}× the revenue captured", "Overstated (direction right)"),
+        ("Bought NEAR is not burned; it sits in a \"permanent capital vehicle\"", "same",
+         f"nothing is burned; {f['fefunds_share']} of captured NEAR is in the front-end fund's DAO treasury, the rest in the buyback wallet; no lock on either", "Survives"),
+        ("At 1.6% issuance NEAR still issues about $8M a month; buybacks cover under a quarter", "same",
+         f"{usd(month_iss_16)} a month at today's price on today's supply; the last 30 days of captured revenue ({usd(last30_rev)}) would cover {last30_rev / month_iss_16:.0%}", "Close (price-dependent)"),
+        ("Staking yield falls from about 5.4% to about 3.5% under HSP-029", "same",
+         f"staker reward {pct(v['staker_reward'], 1)} today; scaled by 1.6/2.5, {pct(v['staker_reward'] * 1.6 / 2.5, 1)}", "Survives"),
+        ("\"HSP-029 avoids 11.8M NEAR of issuance over two years\"", "HSP-029 text on vote.dao; Unchained, 2026-11-03",
+         f"a linear ramp from 2.5% to 1.6% on today's supply avoids {avoided_2y / 1e6:.1f}M NEAR over two years; it cannot start before {f['hsp_earliest']}",
+         "Survives"),
+        ("HSP-029 passed the House of Stake vote (closed 2026-11-02)", "vote.dao proposal 29; The Defiant",
+         f"{f['hsp_for']} of veNEAR cast in favour; in timelock until {f['hsp_timelock_end']}", "Survives"),
+        ("Cumulative fees above $52M; more than $8M captured for buybacks", "Nansen NEAR Q3 2026, via [Altcoin Buzz, 2026-10-28](https://www.altcoinbuzz.io/near-intents-fees-buybacks-52-million)",
+         f"fees {usd(cum(fees, '2026-10-28'))} to 28 Oct (DefiLlama); captured {usd(cum(rev, '2026-10-28'))} by then on the wallets, "
+         + (f"crossing $8M on {crossed8:%Y-%m-%d}" if pd.notna(crossed8) else f"{usd(rev.sum())} by {rev.index.max():%d %b}, still under $8M; NEAR's own revenue series, {f['series_over_wallets']} higher, would pass it"),
+         "Fees survive; $8M not on the wallets"),
+        ("$6.68M of NEAR bought back as of 19 October", "DefiLlama holders revenue, via Altcoin Buzz (2026-10-28)",
+         f"{usd(cum(hr, '2026-10-19'))} on DefiLlama, {usd(cum(rev, '2026-10-19'))} rebuilt from the wallets", "Survives"),
+        ("Lifetime fee capture about 16.4% (as of 6 October)", "Nansen NEAR Q3 2026, via Altcoin Buzz",
+         f"{pct(cum(rev, '2026-10-06') / win(fees, FEE_SWITCH, '2026-10-06'), 1)} of fees since the fee switch, {pct(cum(rev, '2026-10-06') / cum(fees, '2026-10-06'), 1)} of all fees since launch", "Close (definitions)"),
+        ("Fee capture about 28.4% over the last 30 days (6 October)", "same",
+         f"{pct(bb30 / win(fees, a30, b30), 1)} rebuilt, {pct(win(hr, a30, b30) / win(fees, a30, b30), 1)} on DefiLlama", "Close, a little high"),
+        # --- volume, usage, TVL
+        ("Q3 2026 Intents volume about $10.4B", "Nansen NEAR Q3 2026, via [Altcoin Buzz, 2026-11-02](https://www.altcoinbuzz.io/near-protocol-q3-2026-on-chain-activity-intents)",
+         f"{usd(win(vol, '2026-07-01', '2026-09-30'))} on DefiLlama", "Close"),
+        ("Q3: about 68M transactions, 739k a day, 79.3k daily active accounts, a peak of 1.21M on 27 September", "same",
+         f"NearBlocks: {q3['txns'].sum() / 1e6:.1f}M, {q3['txns'].mean() / 1e3:.0f}k a day, {q3['active_accounts'].mean() / 1e3:.1f}k active, peak {q3['txns'].max() / 1e6:.2f}M on {peak:%d %b}", "Survives"),
+        ("Confidential Intents TVL about $160M at end-September, up 463% on the quarter", "same",
+         f"Dune: {usd(ct_sep, 1)} on 30 Sep, {usd(ct_jun, 1)} on 30 Jun (+{ct_sep / ct_jun - 1:.0%})", "Survives"),
+        ("Intents volume above $32B", "Ternullo on Bankless, 2026-10-06",
+         f"{usd(cum(vol, '2026-10-06'))} cumulative on DefiLlama to 6 Oct", "Survives"),
+        ("Over $20B of cumulative volume (3 June); about $32M of fees, a 0.16% take", "[Crypto Briefing via KuCoin, 2026-06-03](https://www.kucoin.com/news/flash/near-intents-surpasses-20b-in-all-time-transaction-volume)",
+         f"{usd(cum(vol, '2026-06-03'))} and {usd(cum(fees, '2026-06-03'))} of gross fees on DefiLlama; NEAR itself kept {take_jun:.1f} bps of volume in the month to 3 June", "Survives (gross fees, not NEAR's take)"),
+        ("Over $18B of cumulative volume, about $5B of it since the end of February", "[Bankless, 2026-05-15](https://www.bankless.com/read/nears-intents-and-ai-bets-fuel-revival), citing Dune",
+         f"{usd(cum(vol, '2026-05-15'))} to 15 May, {usd(win(vol, '2026-03-01', '2026-05-15'))} since 1 March (DefiLlama)", "Survives"),
+        ("NEAR Intents is the largest cross-chain swap venue", "near.org and Intents team framing",
+         f"{pct(may_oct.min())}–{pct(may_oct.max())} of cross-chain swap volume each month May–Oct (DefiLlama); {pct(share.iloc[-1])} in November to date, behind THORChain", "Survives to October; not in November"),
+        ("Staking ratio holds at about 46%", "Bitwise Q3 2026 staking report, via Crypto Briefing",
+         f"{pct(v['staked'], 1)} of total supply staked (validators, NEAR RPC)", "Close"),
+        # --- value accrual
+        ("Intents volume spikes coincide with NEAR rallies; the Intents flywheel reprices NEAR", "Crypto Briefing (2026-06-03); Bankless, \"NEAR's Intents and AI bets fuel revival\"",
+         f"{f['ll_sig']} of {f['ll_tests']} weekly lead-lag tests significant after Holm, NEAR net of BTC (REPORT section 8)", "Not shown"),
+        ("Usage on NEAR is growing", "recurring ecosystem framing",
+         f"Intents volume {f['yoy_vol']} year on year over the last 30 days; L1 transactions {f['yoy_txns']}", "Intents yes, L1 no"),
     ]
+    return [{"claim": c, "source": s_, "data": dt, "verdict": vd} for c, s_, dt, vd in rows]
 
 
 def public_claims_table(rows: list[dict]) -> str:
@@ -438,7 +525,12 @@ def render() -> dict[str, str]:
     f = figures()
     f["claims_table"] = claims_table(claims())
     f["claims_passed"] = f"{sum(r['passed'] for r in claims())}/{len(claims())}"
-    f["public_claims_table"] = public_claims_table(public_claims())
+    pcs = public_claims()
+    f["public_claims_table"] = public_claims_table(pcs)
+    f["public_claims_n"] = str(len(pcs))
+    f["public_claims_survive"] = str(sum(r["verdict"].startswith("Survives") for r in pcs))
+    f["public_claims_close"] = str(sum(r["verdict"].startswith("Close") for r in pcs))
+    f["public_claims_fail"] = str(len(pcs) - int(f["public_claims_survive"]) - int(f["public_claims_close"]))
     out = {}
     for name in DOCS:
         t = (TEMPLATES / name).read_text()

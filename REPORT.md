@@ -146,11 +146,11 @@ The track suggests testing whether cross-chain volume through NEAR Intents is a 
 - **Usage does not lead the price, and the price does not lead usage.** Intents volume, L1 transactions and L1 active accounts, lags of one to four weeks, both directions: 0 of 24 correlations are significant after Holm's correction. The strongest before correction is r = +0.15, p = 0.15 before correction (L1 transactions, 1-week lag).
 - **The two kinds of usage have parted ways.** Over the last 30 days against the same window a year earlier, Intents volume is +59% while L1 transactions are -85% and L1 active accounts -76%. Counting transactions says NEAR is shrinking; counting settled volume says it is growing.
 - **What tracks NEAR's revenue.** Weekly changes in captured revenue since March correlate 0.45 with Intents volume, 0.52 with L1 transactions, -0.03 with active accounts and 0.11 with the BTC-adjusted price (36 weeks).
-- **Reading.** Intents volume is the better measure of what NEAR earns, but neither it nor L1 activity says anything about next month's price. That fits the valuation finding: the market does not price NEAR on this revenue.
+- **Reading.** Week to week, NEAR's revenue moves with both Intents volume and L1 transactions (the two move together within a week), but over a year they part ways and only Intents volume grew with revenue. Neither says anything about next month's price. That fits the valuation finding: the market does not price NEAR on this revenue.
 
 ### 9. Public claims, checked
 
-Statements made in public about NEAR's buybacks and issuance, set against this audit's data (rendered by `make docs` from the same outputs):
+26 statements made in public about NEAR's revenue, buybacks, issuance and usage, by NEAR, analysts, treasury companies and the press, each tested on the committed snapshots at the claim's own date where it has one (rendered by `make docs` from the same outputs; `public_claims()` in `src/figures.py`). 14 survive, 5 are close (within about 10%, or within definitions), 7 do not hold as stated. The pattern: volume and usage figures quoted in public are accurate; claims about value reaching holders (deflation, permanent removal, buyback totals on NEAR's own series, price reflexivity) are the ones that fail.
 
 | Claim | Source | What the data says | Verdict |
 | --- | --- | --- | --- |
@@ -158,7 +158,28 @@ Statements made in public about NEAR's buybacks and issuance, set against this a
 | "NEAR captures a growing share of fees" | revenue.near.org, read 2026-11-11 | 19% of gross fees all-time, 37% over the last 30 days; take 2.2 → 5.5 bps Aug to Oct, 3.9 in the week of 2 Nov | **Survives, but turned down in November** |
 | "...feeding buybacks that permanently remove NEAR from circulation" | revenue.near.org, read 2026-11-11 | 47% of the NEAR captured sits in a DAO treasury with no on-chain commitment not to sell; nothing is burned; supply grows 2.1% a year net | **Not shown** |
 | Revenue as NEAR reports it | revenue.near.org monthly revenue series | 21% above the NEAR its own three revenue wallets receive (Mar–Oct), while the wallet totals agree within 0.14% | **Unverified (gap unexplained)** |
+| Share of emissions offset, as NEAR reports it | revenue.near.org, read 2026-11-11 | 16.3% on NEAR's count, 14.8% rebuilt from the wallets and archival supply, Feb–Oct | **Survives (definitions differ)** |
+| "Buybacks are still real": about $1.9M of Intents-funded purchases over 30 days | Sal Ternullo (SVRN) on Bankless, via [Stocktwits, 2026-10-06](https://stocktwits.com/news-articles/markets/cryptocurrency/near-treasury-firm-ceo-says-buybacks-are-still-real-but-issuance-runs-six-times-higher/cZDteDIRBl3) | $1.86M reached the three revenue wallets over the 30 days to 6 Oct | **Survives** |
+| Issuance runs about $13M over the same 30 days, "more than six times" buybacks | same | 2.65M NEAR issued, $10.05M at daily prices: 5.4× the revenue captured | **Overstated (direction right)** |
+| Bought NEAR is not burned; it sits in a "permanent capital vehicle" | same | nothing is burned; 47% of captured NEAR is in the front-end fund's DAO treasury, the rest in the buyback wallet; no lock on either | **Survives** |
+| At 1.6% issuance NEAR still issues about $8M a month; buybacks cover under a quarter | same | $6.27M a month at today's price on today's supply; the last 30 days of captured revenue ($1.79M) would cover 29% | **Close (price-dependent)** |
+| Staking yield falls from about 5.4% to about 3.5% under HSP-029 | same | staker reward 5.5% today; scaled by 1.6/2.5, 3.5% | **Survives** |
 | "HSP-029 avoids 11.8M NEAR of issuance over two years" | HSP-029 text on vote.dao; Unchained, 2026-11-03 | a linear ramp from 2.5% to 1.6% on today's supply avoids 11.8M NEAR over two years; it cannot start before 2027-02-14 | **Survives** |
+| HSP-029 passed the House of Stake vote (closed 2026-11-02) | vote.dao proposal 29; The Defiant | 99.97% of veNEAR cast in favour; in timelock until 2026-11-16 | **Survives** |
+| Cumulative fees above $52M; more than $8M captured for buybacks | Nansen NEAR Q3 2026, via [Altcoin Buzz, 2026-10-28](https://www.altcoinbuzz.io/near-intents-fees-buybacks-52-million) | fees $57.38M to 28 Oct (DefiLlama); captured $7.21M by then on the wallets, $7.96M by 11 Nov, still under $8M; NEAR's own revenue series, 21% higher, would pass it | **Fees survive; $8M not on the wallets** |
+| $6.68M of NEAR bought back as of 19 October | DefiLlama holders revenue, via Altcoin Buzz (2026-10-28) | $6.74M on DefiLlama, $6.65M rebuilt from the wallets | **Survives** |
+| Lifetime fee capture about 16.4% (as of 6 October) | Nansen NEAR Q3 2026, via Altcoin Buzz | 19.1% of fees since the fee switch, 10.7% of all fees since launch | **Close (definitions)** |
+| Fee capture about 28.4% over the last 30 days (6 October) | same | 24.6% rebuilt, 25.4% on DefiLlama | **Close, a little high** |
+| Q3 2026 Intents volume about $10.4B | Nansen NEAR Q3 2026, via [Altcoin Buzz, 2026-11-02](https://www.altcoinbuzz.io/near-protocol-q3-2026-on-chain-activity-intents) | $9.79B on DefiLlama | **Close** |
+| Q3: about 68M transactions, 739k a day, 79.3k daily active accounts, a peak of 1.21M on 27 September | same | NearBlocks: 68.0M, 739k a day, 79.3k active, peak 1.22M on 27 Sep | **Survives** |
+| Confidential Intents TVL about $160M at end-September, up 463% on the quarter | same | Dune: $160.9M on 30 Sep, $28.6M on 30 Jun (+463%) | **Survives** |
+| Intents volume above $32B | Ternullo on Bankless, 2026-10-06 | $32.66B cumulative on DefiLlama to 6 Oct | **Survives** |
+| Over $20B of cumulative volume (3 June); about $32M of fees, a 0.16% take | [Crypto Briefing via KuCoin, 2026-06-03](https://www.kucoin.com/news/flash/near-intents-surpasses-20b-in-all-time-transaction-volume) | $20.16B and $34.58M of gross fees on DefiLlama; NEAR itself kept 3.1 bps of volume in the month to 3 June | **Survives (gross fees, not NEAR's take)** |
+| Over $18B of cumulative volume, about $5B of it since the end of February | [Bankless, 2026-05-15](https://www.bankless.com/read/nears-intents-and-ai-bets-fuel-revival), citing Dune | $18.71B to 15 May, $4.80B since 1 March (DefiLlama) | **Survives** |
+| NEAR Intents is the largest cross-chain swap venue | near.org and Intents team framing | 58%–79% of cross-chain swap volume each month May–Oct (DefiLlama); 35% in November to date, behind THORChain | **Survives to October; not in November** |
+| Staking ratio holds at about 46% | Bitwise Q3 2026 staking report, via Crypto Briefing | 44.4% of total supply staked (validators, NEAR RPC) | **Close** |
+| Intents volume spikes coincide with NEAR rallies; the Intents flywheel reprices NEAR | Crypto Briefing (2026-06-03); Bankless, "NEAR's Intents and AI bets fuel revival" | 0 of 24 weekly lead-lag tests significant after Holm, NEAR net of BTC (REPORT section 8) | **Not shown** |
+| Usage on NEAR is growing | recurring ecosystem framing | Intents volume +59% year on year over the last 30 days; L1 transactions -85% | **Intents yes, L1 no** |
 
 ## Bull case and bear case
 

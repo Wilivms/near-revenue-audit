@@ -47,7 +47,7 @@ The simulation draws volume and price together in 30-day blocks (joint block boo
 README.md, REPORT.md and this file are rendered from templates in `docs/templates/` by `make docs`, with every figure filled in from `data/processed/`. `make verify` renders them again, fails if a committed document differs, and re-checks the 13 findings in the README. `make check-clean` rebuilds every output from the committed snapshots and compares it with the committed one.
 
 **Did you test the track's suggested hypothesis?**
-Yes (REPORT section 8, `make leadlag`). Weekly, NEAR's price net of BTC, Intents volume and L1 activity, lags of one to four weeks, both directions: 0 of 24 tests are significant after Holm's correction. Intents volume tracks NEAR's revenue better than L1 activity does, but nothing here leads the price.
+Yes (REPORT section 8, `make leadlag`). Weekly, NEAR's price net of BTC, Intents volume and L1 activity, lags of one to four weeks, both directions: 0 of 24 tests are significant after Holm's correction. Week to week, revenue moves with both Intents volume and L1 transactions; over a year only Intents volume grew with it. Nothing here leads the price.
 
 **Can I hold you to anything?**
 Six dated predictions, frozen on 2026-11-11 with a committed sha256 and a Bitcoin timestamp (`predictions/`). Two resolve on 2026-11-15, before judging starts.
