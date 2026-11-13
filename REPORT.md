@@ -15,7 +15,7 @@ NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys 
 
 - **Real.** Rebuilt from the chain, captured revenue matches DefiLlama within 0.8% ($8.09M since the fee switch), and NEAR's own revenue dashboard, published after this rebuild, agrees within 0.16% on the NEAR received by the three wallets. Almost nothing has left the wallets (57,037 NEAR, 1.3% of what they received, traced to corrections returned to the bridge operator).
 - **Growing, but partly bought.** NEAR's cut of volume more than doubled between August and October (2.2 to 5.5 bps). The largest identified driver is **confidential swaps**, which went from 13% of Intents volume to 41% and pay NEAR more than public swaps: about 5.5–11 bps against 1–3, depending on the method. That surge coincides with an airdrop campaign (NEAR@3.33) that rewards confidential balances and swaps; the timing fits, but the data cannot prove the campaign caused it. Its first drop cost about $1.39M in NEAR, a third to a half of the revenue the channel brought. In the first full week of November, with confidential TVL 26% below its peak, the take fell back to 3.9 bps.
-- **Not owned.** On 1Click, integrators keep about 92% of the fee pool. The largest one (SwapKit, 39% of volume, 75% of app fees) pays NEAR under 0.1% of its revenue. 40% of NEAR's 1Click revenue comes from users without an integrator.
+- **Not owned.** On 1Click, integrators keep about 92% of the fee pool. The largest one (SwapKit, 39% of volume, 75% of app fees) pays NEAR under 0.1% of its revenue. 39% of NEAR's 1Click revenue comes from users without an integrator.
 - **Too small for the supply story.** Buybacks offset about **one sixth** of issuance: 15 NEAR bought back for every 100 issued since February on this audit's count, 16 on NEAR's own. Market cap is **205x** annual captured revenue; break-even needs **41x**, or **64x** once the issuance cut approved on 2 November is fully phased in.
 - **Still true at end-2027 in the base case.** In 10,000 simulated paths, buybacks offset a median 18% of 2027 issuance (20% with the issuance cut); there is a 7% chance that 2027 is net deflationary (7% with the cut). Break-even needs about $639M of daily volume at today's take, against about $127M now.
 
@@ -74,21 +74,21 @@ Source: NEAR's own Dune dashboard (@near, "NEAR Intents"), read from its public 
 
 ### 3. NEAR does not own the customer
 
-1Click swaps, 2026-10-11 to 2026-11-10, the last 30 days collected (504k swaps; 2.6M collected in all; log 11, 18, 34, 36):
+1Click swaps, 2026-10-14 to 2026-11-12, the last 30 days collected (512k swaps; 2.7M collected in all; log 11, 18, 34, 36):
 
 | Integrator | Volume | App fees | NEAR's revenue |
 | --- | --- | --- | --- |
-| SwapKit | 39.4% | 74.6% | 0.0% |
-| No integrator (NEAR's front-end, direct users) | 16.8% | 4.8% | 39.7% |
-| Trust Wallet | 2.5% | 1.1% | 13.5% |
-| LI.FI | 11.8% | 1.3% | 8.1% |
-| Arbie | 1.4% | 0.6% | 7.4% |
-| Anonymous referral `e1a72603…` | 0.4% | 1.2% | 7.1% |
+| SwapKit | 38.8% | 74.7% | 0.0% |
+| No integrator (NEAR's front-end, direct users) | 16.5% | 4.8% | 39.2% |
+| Trust Wallet | 2.5% | 1.1% | 13.4% |
+| LI.FI | 12.1% | 1.3% | 8.1% |
+| Arbie | 1.4% | 0.6% | 7.3% |
+| Anonymous referral `e1a72603…` | 0.4% | 1.2% | 7.2% |
 
 - Integrators keep about 92% of the 1Click fee pool; NEAR keeps the rest.
 - **ZEC** is 18.6% of 1Click volume over 76 days but about half of NEAR's 1Click revenue in the last two weeks. (log 13)
 - **Users do not stay.** 3–5% of the addresses active in a given week come back in the same week three months later; at most 9–19% are seen again at any time over 2.5 months. These are lower bounds (a returning user with a new address counts as new). (log 14)
-- **The volume is broad, not wash-traded** (`oneclick_quality.json`, log 36). 231k sending addresses (85% of swaps carry one); 78% swapped once. The top 10 send 19% of volume and the top 100 35% (HHI 86). 98 addresses with 100 swaps or more, likely bots, market makers and integrator hot wallets, send 18% of volume and 14% of NEAR's revenue. Round trips, where an address swaps A into B and B back into A within 24 hours, are 2.7% of volume and 1.1% of NEAR's revenue, 77% of them through one integrator (LI.FI). Self-trading does not inflate the revenue. An independent entry (Toll Road) finds about 1% round trips outside market makers on a 1.2% sample of `intents.near`; the full 1Click record agrees.
+- **The volume is broad, not wash-traded** (`oneclick_quality.json`, log 36). 235k sending addresses (86% of swaps carry one); 78% swapped once. The top 10 send 19% of volume and the top 100 34% (HHI 93). 140 addresses with 100 swaps or more, likely bots, market makers and integrator hot wallets, send 18% of volume and 14% of NEAR's revenue. Round trips, where an address swaps A into B and B back into A within 24 hours, are 2.9% of volume and 1.3% of NEAR's revenue, 79% of them through one integrator (LI.FI). Self-trading does not inflate the revenue. An independent entry (Toll Road) finds about 1% round trips outside market makers on a 1.2% sample of `intents.near`; the full 1Click record agrees.
 - Reading: NEAR's 1Click revenue rests on unattributed users, a few direct deals and one asset. Distribution partners own the flow, and could route it elsewhere.
 
 Coverage limit: 1Click is about 28% of Intents volume, and confidential swaps were not visible in the Explorer API over the period collected. These results describe 1Click, not all of Intents.
@@ -136,7 +136,7 @@ What the simulation assumes, and what that does to the result:
 
 - **Risk** (daily prices, Nov 2024 to Nov 2026): NEAR's volatility is about **103% a year** against 44% for BTC; its worst drawdown was **-88%** (Dec 2024 to Feb 2026), with 705 days under water; beta to BTC about 1.3–1.5. Revenue has not dampened the token's swings.
 - **Dilution**: issuance adds 2.43% of supply a year; buybacks at the last 30 days' pace remove 0.4%. Supply still grows about **2.1% a year**. A holder who does not stake loses about 2% of their share of the network each year; stakers (45% of supply) earn about 5.4% gross, before validator commission. Today, staking, not buybacks, is what protects a holder from dilution.
-- **What NEAR earns on** (1Click, 2026-10-11 to 2026-11-10): swaps whose volatile leg is BTC bring 37% of NEAR's revenue, ETH 14%, ZEC 13%. Stablecoin-to-stablecoin swaps are 30% of volume but 10% of revenue, at 1.3 bps.
+- **What NEAR earns on** (1Click, 2026-10-14 to 2026-11-12): swaps whose volatile leg is BTC bring 37% of NEAR's revenue, ETH 14%, ZEC 14%. Stablecoin-to-stablecoin swaps are 31% of volume but 11% of revenue, at 1.3 bps.
 - **What changed in November** (1Click, 16–29 Oct against 1–10 Nov; log 34): NEAR's take fell from 4.6 to 2.9 bps while volume rose ($32M to $38M a day). Most of the gap is one flow: Trust Wallet routed $27M of swaps (99% ZEC) at 20 bps between 23 and 28 October, 26% of NEAR's 1Click revenue in the second half of October, then stopped. Without Trust Wallet the take went from 3.7 to 2.9 bps. ZEC fell from 28% to 11% of volume and from 48% to 10% of NEAR's revenue. What held: NEAR's revenue from swaps without an integrator, its own front-end and direct users ($5.2k then $5.4k a day), now 49% of NEAR's 1Click revenue. The fall in late-October pricing was one integrator's burst, not a broad repricing; the part NEAR controls did not fall.
 
 ### 8. The track's own hypothesis: does usage lead the price?
@@ -156,8 +156,8 @@ The track suggests testing whether cross-chain volume through NEAR Intents is a 
 | --- | --- | --- | --- |
 | "NEAR Intents has already directed revenue to over 1M in $NEAR buyback" | [Evolving NEAR Tokenomics, near.org, 2026-02-24](https://www.near.org/blog/evolving-near-tokenomics) | 1.05M NEAR ($1.73M) had reached the revenue wallets before 24 February | **Survives** |
 | Acquired NEAR is "staked, locked, or otherwise removed from liquid circulation" | Evolving NEAR Tokenomics, near.org, 2026-02-24 | the three revenue wallets hold 4.29M NEAR, 0 of it staked or locked (NEAR RPC `view_account`, 2026-11-13); none is burned | **Not shown** |
-| 1Click with an API key and no app fee: 20 bps, 1 bp on stablecoin and same-asset routes | [NEAR Intents docs, fees](https://docs.near-intents.org/resources/fees) | swaps without an integrator, last 30 days: 66% of cross-asset volume pays NEAR's wallets 20 bps or more, 80% of same-asset volume pays 1 bp | **Survives for most volume** |
-| 1Click with app fees: a 50/50 split, at least 20 bps to 1Click (custom deals exist) | NEAR Intents docs, fees | swaps with an integrator, last 30 days: 13% of cross-asset volume pays NEAR 20 bps or more, 74% pays it nothing; average 3.4 bps | **The exception is the rule** |
+| 1Click with an API key and no app fee: 20 bps, 1 bp on stablecoin and same-asset routes | [NEAR Intents docs, fees](https://docs.near-intents.org/resources/fees) | swaps without an integrator, last 30 days: 69% of cross-asset volume pays NEAR's wallets 20 bps or more, 79% of same-asset volume pays 1 bp | **Survives for most volume** |
+| 1Click with app fees: a 50/50 split, at least 20 bps to 1Click (custom deals exist) | NEAR Intents docs, fees | swaps with an integrator, last 30 days: 13% of cross-asset volume pays NEAR 20 bps or more, 73% pays it nothing; average 3.5 bps | **The exception is the rule** |
 | "About $177M of daily volume makes NEAR deflationary" | community DefiLlama Pro dashboard, widely quoted in 2026 (log 6) | assumes all gross fees buy NEAR; with the captured share, break-even is $639M/day at 4.9 bps | **Inflated** |
 | "NEAR captures a growing share of fees" | revenue.near.org, read 2026-11-11 | 19% of gross fees all-time, 33% over the last 30 days; take 2.2 → 5.5 bps Aug to Oct, 3.9 in the week of 2 Nov | **Survives, but turned down in November** |
 | "...feeding buybacks that permanently remove NEAR from circulation" | revenue.near.org, read 2026-11-11 | 47% of the NEAR captured sits in a DAO treasury with no on-chain commitment not to sell; nothing is burned; supply grows 2.1% a year net | **Not shown** |

@@ -36,7 +36,10 @@ def _load() -> pd.DataFrame:
 
 def recompute(d: pd.DataFrame) -> dict:
     out = {}
-    last = d[d["day"] > d["day"].min()]  # the first day is partial in the published window
+    # the published window is the 30 days before the last swap, to the second; the daily file keeps every day
+    # since 11 October, so keep the 30 days after the one in which the window starts (that day is partial)
+    end = pd.Timestamp(d["day"].max())
+    last = d[pd.to_datetime(d["day"]) > end - pd.Timedelta(days=30)]
     out["integrators_keep_of_fee_pool"] = float(1 - last["near_usd"].sum() / last["fee_usd"].sum())
     by = last.groupby("ref")[["volume_usd", "fee_usd", "near_usd"]].sum()
     top = by["fee_usd"].idxmax()
