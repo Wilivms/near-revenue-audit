@@ -36,26 +36,26 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --page: #13120f; --card: #1c1a16; --surface: #24211b; --sunk: #2b2720;
-    --ink: #f2ecdf; --ink-2: #c7bfad; --muted: #958c7a;
-    --line: #3a352c; --grid: #2a2620; --axis: #514a3e;
-    --accent: #5aa9ff; --accent-ink: #0d0c09; --accent-soft: rgba(90,169,255,0.14);
-    --band-bg: #10243b; --band-ink: #f2ecdf; --band-dim: rgba(242,236,223,0.10); --band-line: rgba(242,236,223,0.18); --band-hi: #a6d2ff;
-    --series-1: #5aa9ff; --series-2: #f0954f; --band: rgba(90,169,255,0.20);
-    --critical: #ff8f86; --good: #7cc576; --good-text: #96d690; --critical-text: #ff9a91;
-    --seq-1: #1d2a38; --seq-2: #24456a; --seq-3: #2f69a6; --seq-4: #4f91d6; --seq-5: #9cc9f7;
+    --page: #0a0f17; --card: #0f1622; --surface: #142030; --sunk: #1a283a;
+    --ink: #e9eef5; --ink-2: #aab7c7; --muted: #7b8a9d;
+    --line: #22324a; --grid: #172334; --axis: #34465f;
+    --accent: #4ea2ff; --accent-ink: #07101c; --accent-soft: rgba(78,162,255,0.14);
+    --band-bg: #0f2c52; --band-ink: #eef3fa; --band-dim: rgba(238,243,250,0.10); --band-line: rgba(238,243,250,0.18); --band-hi: #8fc8ff;
+    --series-1: #4ea2ff; --series-2: #ffa25c; --band: rgba(78,162,255,0.20);
+    --critical: #ff7b72; --good: #4fd08a; --good-text: #6be0a0; --critical-text: #ff8c84;
+    --seq-1: #13233a; --seq-2: #1c3d66; --seq-3: #2a63a3; --seq-4: #4a8fdc; --seq-5: #9fcdff;
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --page: #13120f; --card: #1c1a16; --surface: #24211b; --sunk: #2b2720;
-  --ink: #f2ecdf; --ink-2: #c7bfad; --muted: #958c7a;
-  --line: #3a352c; --grid: #2a2620; --axis: #514a3e;
-  --accent: #5aa9ff; --accent-ink: #0d0c09; --accent-soft: rgba(90,169,255,0.14);
-  --band-bg: #10243b; --band-ink: #f2ecdf; --band-dim: rgba(242,236,223,0.10); --band-line: rgba(242,236,223,0.18); --band-hi: #a6d2ff;
-  --series-1: #5aa9ff; --series-2: #f0954f; --band: rgba(90,169,255,0.20);
-  --critical: #ff8f86; --good: #7cc576; --good-text: #96d690; --critical-text: #ff9a91;
-    --seq-1: #1d2a38; --seq-2: #24456a; --seq-3: #2f69a6; --seq-4: #4f91d6; --seq-5: #9cc9f7;
+  --page: #0a0f17; --card: #0f1622; --surface: #142030; --sunk: #1a283a;
+  --ink: #e9eef5; --ink-2: #aab7c7; --muted: #7b8a9d;
+  --line: #22324a; --grid: #172334; --axis: #34465f;
+  --accent: #4ea2ff; --accent-ink: #07101c; --accent-soft: rgba(78,162,255,0.14);
+  --band-bg: #0f2c52; --band-ink: #eef3fa; --band-dim: rgba(238,243,250,0.10); --band-line: rgba(238,243,250,0.18); --band-hi: #8fc8ff;
+  --series-1: #4ea2ff; --series-2: #ffa25c; --band: rgba(78,162,255,0.20);
+  --critical: #ff7b72; --good: #4fd08a; --good-text: #6be0a0; --critical-text: #ff8c84;
+    --seq-1: #13233a; --seq-2: #1c3d66; --seq-3: #2a63a3; --seq-4: #4a8fdc; --seq-5: #9fcdff;
 }
 * { box-sizing: border-box; }
 html { background: var(--page); }
@@ -403,7 +403,7 @@ footer li + li { margin-top: 6px; }
           <div class="ctrl">
             <label for="sTake">NEAR's take, bps of volume <b class="num" id="vTake"></b></label>
             <input type="range" id="sTake" min="10" max="250" step="1">
-            <div class="hint">2.6 bps in May–Aug, about 5.3 in October, 3.9 in the first week of November</div>
+            <div class="hint">2.4 bps in May–Aug, 5.5 in October, 3.9 in the first week of November (NEAR's volume, wallet revenue)</div>
           </div>
           <div class="ctrl">
             <label for="sPrice">NEAR price <b class="num" id="vPrice"></b></label>
