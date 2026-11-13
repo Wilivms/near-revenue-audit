@@ -28,6 +28,7 @@ from . import swaps
 from .ledger import OUT
 
 DAYS = 31
+COLLECT_MINUTES = 140  # a full 31-day collection took 96 min on 13 Nov 2026 (one request per 5.5 s)
 
 
 def main() -> int:
@@ -36,8 +37,12 @@ def main() -> int:
         return 0
     today = pd.Timestamp.now(tz="UTC").normalize()
     since = today - pd.Timedelta(days=DAYS)
-    r = subprocess.run([sys.executable, "-m", "src.ingest.intents_explorer", "--since", since.isoformat(),
-                        "--until", today.isoformat()], timeout=3 * 3600)
+    try:  # bounded, so a slow API day skips 1Click instead of killing the whole job (and the day's live.json)
+        r = subprocess.run([sys.executable, "-m", "src.ingest.intents_explorer", "--since", since.isoformat(),
+                            "--until", today.isoformat()], timeout=COLLECT_MINUTES * 60)
+    except subprocess.TimeoutExpired:
+        print(f"oneclick_live: collection took over {COLLECT_MINUTES} min; 1Click figures stay as committed.")
+        return 0
     if r.returncode != 0:
         print("oneclick_live: collection failed; 1Click figures stay as committed.")
         return 0
