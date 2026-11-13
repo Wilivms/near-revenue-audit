@@ -195,6 +195,9 @@ def values() -> dict:
     v["price_at_peer"] = v["price_now"] * v["near_value_at_peer"] / v["near_mcap"]
     r30 = rev["rebuilt_total_usd"].loc[:complete.max()].iloc[-30:].sum() * 365 / 30
     v["near_captured_mult"] = v["near_mcap"] / r30
+    v["r30_from"], v["r30_to"] = str(complete.max() - pd.Timedelta(days=29))[:10], str(complete.max())[:10]
+    v["r30_annual"] = r30
+    v["mcap_date"] = sorted((RAW / "comps").glob("*.json"))[-1].stem[:10]
     sc = pd.read_csv(OUT / "montecarlo_scenarios.csv").set_index("name")
     pick = {"base": "base: take now, 365d history", "mayaug": "take back to May–Aug level", "wind": "incentive winds down over 6 months",
             "cut": "base + issuance cut (HSP-029, earliest start)", "windcut": "incentive winds down + issuance cut",
@@ -289,6 +292,8 @@ def figures() -> dict[str, str]:
         "breakeven_now": mult(v["breakeven_now"]), "breakeven_cut": mult(v["breakeven_cut"]),
         "near_captured_mult": mult(v["near_captured_mult"]), "near_holders_mult": mult(v["near_holders_mult"]),
         "peers_n": str(v["peers_n"]), "peers_median": mult(v["peers_median"]), "peers_iqr": f"{v['peers_q1']:.0f}–{v['peers_q3']:.0f}x",
+        "offset_window": "{} to {}".format(*[pd.Timestamp(m + "-01").strftime("%B %Y") for m in v["offset_months"]]),
+        "r30_from": v["r30_from"], "r30_to": v["r30_to"], "r30_annual": usd(v["r30_annual"], 1), "mcap_date": v["mcap_date"],
         "near_mcap": usd(v["near_mcap"], 1), "near_value_at_peer": usd(v["near_value_at_peer"], 0), "share_not_revenue": pct(v["share_not_revenue"]), "price_now": f"${v['price_now']:.2f}", "price_at_peer": f"${v['price_at_peer']:.2f}",
         "take_now": f"{v['take_now']:.1f}", "volume0": f"${v['volume0']:.0f}M",
         "be_vol_now": f"${v['be_vol_now']:.0f}M", "be_vol_8": f"${v['be_vol_8']:.0f}M", "be_vol_15": f"${v['be_vol_15']:.0f}M",

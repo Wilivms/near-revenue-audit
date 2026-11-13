@@ -5,9 +5,22 @@
 
 *Investment Thesis track (`thesis`), NEAR HACKATHON 2026. Data to 2026-11-12.*
 
+**[Live dashboard](https://near-revenue-audit.vercel.app)** · **[One-page thesis](THESIS.md)** · **[Full report](REPORT.md)** · **[Headline numbers, exactly](#the-headline-numbers-exactly)** · **[Where we were wrong](#where-we-were-wrong-and-what-changed)** · rebuild everything: `make setup && . .venv/bin/activate && make check-clean`
+
 NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys NEAR. Several public dashboards, NEAR's own included, now report how much. This project asks the questions they do not answer: **why** the revenue moved, **who** pays it, **what** the growth cost, whether it **lasts**, and what that means for the token. Every number below is computed from public data by code in this repository, and every document is rendered from those outputs.
 
 **In one sentence:** NEAR's protocol revenue is real (rebuilt from the chain and matched by three independent sources) but too small to support the token through buybacks (14.8% of new NEAR offset; market cap 205x captured revenue against 41x for break-even), its recent doubling was partly bought with an airdrop, and NEAR does not own the customers who pay it.
+
+## The headline numbers, exactly
+
+Each number with its window, its source and the command that rebuilds it. None of these commands needs a key.
+
+| Number | What it is, exactly | Rebuild it |
+| --- | --- | --- |
+| **14.8%** of new NEAR offset | NEAR received by NEAR's three revenue wallets ÷ NEAR issued, February 2026 to October 2026 (whole months since the 2026-02-23 fee switch). NEAR's own dashboard gives 16.3% | `make supply official` |
+| **205x** market cap ÷ captured revenue | Market cap on 2026-11-13 ($4.6B, CoinGecko) ÷ revenue the wallets received from 2026-10-14 to 2026-11-12, annualised ×365/30 ($22.6M a year). Not the 208x on DefiLlama's holders revenue, which is used only to compare with peers on one definition | `make revenue comps` |
+| **41x** break-even multiple | Supply stops growing when buybacks equal issuance (2.43% of supply a year), so when market cap ÷ captured revenue falls to 1 ÷ 2.43%. At today's take that is about $639M of daily volume | `make supply montecarlo` |
+| **92%** of the 1Click fee pool kept by integrators | 1Click swaps from 2026-10-11 to 2026-11-10 (partner API); fee pool = integrators' app fees + NEAR's protocol fee | `make oneclick-offline` recomputes it from the committed daily aggregates |
 
 ## Start here
 
@@ -17,7 +30,7 @@ NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys 
 | 5 min | Read **[`THESIS.md`](THESIS.md)** | the claim, evidence for and against, what would change our mind, what could not be computed, on one page |
 | 2 min | Run `make setup && . .venv/bin/activate && make check-clean` | every output rebuilt from committed data and compared: `39/39 outputs match`, `15/15 findings hold` |
 | 3 min | Open **[REPORT section 9](REPORT.md#9-public-claims-checked)** | 30 public claims about NEAR tested at their own dates |
-| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (43 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
+| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (44 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
 
 ## Why this thesis is different
 
@@ -43,6 +56,18 @@ NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys 
 - The 1Click results, which come from a partner API, are recomputed from published daily aggregates without the key (`make oneclick-offline`, finding F15); see [1Click data](#1click-data-what-you-can-check-without-a-key).
 
 [![The live dashboard: NEAR's captured revenue against issuance](docs/img/hero.jpg)](https://near-revenue-audit.vercel.app)
+
+## Where we were wrong, and what changed
+
+Kept in the open because a thesis is only as good as its corrections. Each one is dated in [`RESEARCH_LOG.md`](RESEARCH_LOG.md).
+
+| What we said | What the data then showed | What changed | Log |
+| --- | --- | --- | --- |
+| A weekly fit explains NEAR's revenue from public and confidential volume | It missed its first unseen week: $355k actual against $475k–$901k predicted | The airdrop is now "the largest identified driver" of the jump, 22%–84% of it, not "most of it" | 30, 32 |
+| Confidential swaps pay NEAR about 11 bps | The 11 bps came from a trend in the front-end fund; fitted wallet by wallet, the buyback multisig gets 7.6 bps | Matches NEAR's own Dune fee table (7.4 bps) | 42 |
+| The airdrop's cost cancels the revenue it added | Drop 1 cost 74% of the uplift, not all of it | Reported as a net gain, small against supply | 32 |
+| The Monte Carlo engine sizes 2027 | In a walk-forward test it was too optimistic for 2026 | The 2027 figures are flagged as more likely too high than too low | 21 |
+| The 92% integrator share covered 2.6M swaps | 2.6M is every swap collected; the 30-day window holds 504k | Both counts published separately; the 92% itself was right | 36 |
 
 ## Findings, each one a check
 
