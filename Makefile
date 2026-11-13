@@ -57,7 +57,7 @@ reproduce:   ## every offline step on the committed snapshots, then the tests
 	$(MAKE) $(STEPS) test
 
 refresh:     ## fetch fresh public snapshots (network), re-run everything, re-render the documents, then the tests
-	$(MAKE) data comps risk official-fetch governance-fetch leadlag-fetch manifest $(STEPS) docs test
+	REFRESH=1 $(MAKE) data supply comps risk official-fetch governance-fetch leadlag-fetch manifest $(STEPS) docs test
 
 manifest:    ## sha256 of every raw snapshot -> data/raw/MANIFEST.json
 	python3 -m src.manifest

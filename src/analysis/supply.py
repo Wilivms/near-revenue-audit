@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 import time
 from pathlib import Path
 
@@ -35,9 +36,10 @@ def sample_supply(start: str = "2025-10-01", step_days: int = 7) -> pd.DataFrame
     """Total supply roughly every `step_days`, found by walking block heights back from now."""
     cache = json.loads(CACHE.read_text()) if CACHE.exists() else []
     if cache:
-        # Daily refresh: add the current final block when the cache is more than 3 days old
-        # (issuance is close to linear, so the gap is interpolated).
-        if time.time() - max(p["ts"] for p in cache) > 3 * 86400:
+        # Refresh only (`make refresh` sets REFRESH=1): add the current final block when the cache is more than
+        # 3 days old (issuance is close to linear, so the gap is interpolated). Offline runs never touch the
+        # network or the committed snapshot, whatever the date, so `make check-clean` gives the same result.
+        if os.environ.get("REFRESH") == "1" and time.time() - max(p["ts"] for p in cache) > 3 * 86400:
             try:
                 cache.append(_header("final"))
                 CACHE.write_text(json.dumps(cache))
