@@ -1,7 +1,7 @@
 name: daily refresh
 # Re-fetches the public sources, recomputes every offline step and commits the result as
 # dashboard/live.json. The dashboard reads that file from GitHub, so it updates without a redeploy.
-# Raw snapshots and dashboard/data.json stay frozen: they back REPORT.md, and `make check-clean`
+# Raw snapshots, dashboard/data.json and the documents stay frozen: they back REPORT.md, and `make check-clean`
 # rebuilds data.json byte for byte from them.
 on:
   schedule:
@@ -28,9 +28,10 @@ jobs:
         env:
           NEAR_TESTNET_KEY: ${{ secrets.NEAR_TESTNET_KEY }}
         run: |
-          cp dashboard/data.json dashboard/live.json
-          git checkout -- data dashboard/data.json
+          cp dashboard/data.json "$RUNNER_TEMP/live.json"
+          git checkout -- .
           git clean -fdq data
+          cp "$RUNNER_TEMP/live.json" dashboard/live.json
           git config user.name "near-revenue-audit bot"
           git config user.email "actions@users.noreply.github.com"
           git add dashboard/live.json
