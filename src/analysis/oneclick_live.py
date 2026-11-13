@@ -4,8 +4,8 @@ The per-swap 1Click data comes from the NEAR Intents Explorer API, which needs a
 terms do not allow archiving or redistributing it. So the daily refresh, when the repository secret
 INTENTS_JWT is set:
 
-1. collects the last 31 days of 1Click swaps into the runner's own disk (deleted when the job ends;
-   nothing per-swap is committed),
+1. keeps the last 31 days of 1Click swaps in GitHub's private Actions cache (rolling, never committed or
+   published) and collects only the days since the newest cached one,
 2. recomputes from them, with the same functions as `make swaps`, the outputs that only need recent
    swaps: the 30-day integrator shares, revenue by asset, fee-schedule test, sender quality, NEAR's share
    of the fee pool, the daily aggregates and the weekly series for weeks wholly inside the window,
@@ -37,8 +37,19 @@ def main() -> int:
         return 0
     today = pd.Timestamp.now(tz="UTC").normalize()
     since = today - pd.Timedelta(days=DAYS)
+    # Incremental: the workflow restores the last 31 days of swaps from GitHub's private Actions cache, so only the
+    # days since the newest cached file are collected (the newest day again, as it may be partial).
+    for f in swaps.DATA.glob("swaps_*.csv.gz"):  # keep a rolling 31-day window
+        if f.name[6:16] < str(since.date()):
+            f.unlink()
+    for f in swaps.DATA.glob("_checkpoint_*.json"):  # resume points of earlier days' runs
+        if f.name[12:22] < str(today.date()):
+            f.unlink()
+    cached = sorted(f.name[6:16] for f in swaps.DATA.glob("swaps_*.csv.gz"))
+    start = max(since, pd.Timestamp(cached[-1], tz="UTC")) if cached else since
+    print(f"oneclick_live: {len(cached)} cached days; collecting from {start.date()}")
     try:  # bounded, so a slow API day skips 1Click instead of killing the whole job (and the day's live.json)
-        r = subprocess.run([sys.executable, "-m", "src.ingest.intents_explorer", "--since", since.isoformat(),
+        r = subprocess.run([sys.executable, "-m", "src.ingest.intents_explorer", "--since", start.isoformat(),
                             "--until", today.isoformat()], timeout=COLLECT_MINUTES * 60)
     except subprocess.TimeoutExpired:
         print(f"oneclick_live: collection took over {COLLECT_MINUTES} min; 1Click figures stay as committed.")

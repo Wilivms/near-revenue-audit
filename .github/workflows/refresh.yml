@@ -1,8 +1,8 @@
 name: daily refresh
 # Re-fetches the public sources, recomputes every offline step and commits the result as
 # dashboard/live.json. The dashboard reads that file from GitHub, so it updates without a redeploy.
-# With the INTENTS_JWT secret, it also collects the last 31 days of 1Click swaps on the runner (never committed:
-# the Explorer API's terms forbid redistribution) and updates the 1Click figures of the live bundle.
+# With the INTENTS_JWT secret, it also updates the 1Click figures of the live bundle from a rolling 31-day window of
+# swaps kept in this repository's private Actions cache (collected incrementally; never committed or published).
 # Raw snapshots, dashboard/data.json and the documents stay frozen: they back REPORT.md, and `make check-clean`
 # rebuilds data.json byte for byte from them.
 on:
@@ -23,6 +23,12 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Fetch fresh public data and recompute
         run: make refresh
+      - name: Restore the rolling 31-day 1Click cache (private to this repository's Actions; never committed)
+        uses: actions/cache@v4
+        with:
+          path: data/intents_v2
+          key: oneclick-${{ github.run_id }}
+          restore-keys: oneclick-
       - name: 1Click, last 31 days (partner key; per-swap data stays on the runner, only the bundle is kept)
         env:
           INTENTS_JWT: ${{ secrets.INTENTS_JWT }}
