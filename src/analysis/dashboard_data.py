@@ -120,7 +120,10 @@ def _checks() -> dict:
     ll = json.loads((OUT / "leadlag_summary.json").read_text())
     return {"findings": claims(v), "public_claims": public_claims(v), "predictions": preds.to_dict("records"),
             "leadlag": {k: ll[k] for k in ("weeks", "significant_after_holm", "tests", "yoy_30d", "tracks_captured_revenue_weekly_r")},
-            "anchors": [json.loads(x) for x in (OUT.parents[1] / "anchor" / "anchors.jsonl").read_text().splitlines() if x.strip()]}
+            # release anchors only: the daily bot appends to anchors.jsonl every day, and this bundle must rebuild
+            # byte for byte; the page reads the full log from GitHub when it can
+            "anchors": [a for a in (json.loads(x) for x in (OUT.parents[1] / "anchor" / "anchors.jsonl").read_text().splitlines() if x.strip())
+                        if a["kind"] != "daily"]}
 
 
 def main() -> None:

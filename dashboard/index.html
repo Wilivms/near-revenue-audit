@@ -1293,9 +1293,17 @@ function scorecard(D) {
     table($("tbPublic"), ["Claim (source)", "What the data says", "Verdict"], C.public_claims.map((r) => [r.claim + " (" + r.source.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") + ")", r.data, r.verdict])).classList.add("score");
     table($("tbPred"), ["ID", "Prediction", "Resolves", "So far", "Status"], C.predictions.map((r) => [r.id, r.prediction, r.resolve_on, r.so_far || "", r.status])).classList.add("score");
     const L = C.leadlag, pc = (x) => `${x >= 0 ? "+" : ""}${Math.round(x * 100)}%`;
+    const drawAnchors = (list) => {
+      const rows = list.slice(-9).reverse();
+      const t = table($("tbAnchors"), ["Date", "What", "sha256", "Transaction"], rows.map((a) => [a.date, a.file, a.sha256.slice(0, 16) + "…", a.tx.slice(0, 10) + "…"]));
+      t.querySelectorAll("tbody tr").forEach((tr, i) => { const a = rows[i]; const td = tr.lastElementChild; td.textContent = ""; const l = document.createElement("a"); l.href = "https://testnet.nearblocks.io/txns/" + a.tx; l.target = "_blank"; l.rel = "noopener"; l.textContent = a.tx.slice(0, 10) + "…"; td.appendChild(l); });
+    };
     if (C.anchors) {
-      const t = table($("tbAnchors"), ["Date", "What", "sha256", "Transaction"], C.anchors.slice(-9).reverse().map((a) => [a.date, a.file, a.sha256.slice(0, 16) + "…", a.tx.slice(0, 10) + "…"]));
-      t.querySelectorAll("tbody tr").forEach((tr, i) => { const a = C.anchors.slice(-9).reverse()[i]; const td = tr.lastElementChild; td.textContent = ""; const l = document.createElement("a"); l.href = "https://testnet.nearblocks.io/txns/" + a.tx; l.target = "_blank"; l.rel = "noopener"; l.textContent = a.tx.slice(0, 10) + "…"; td.appendChild(l); });
+      drawAnchors(C.anchors);  // release anchors from the bundle, then the full log (with the daily ones) from GitHub
+      fetch("https://raw.githubusercontent.com/Wilivms/near-revenue-audit/main/anchor/anchors.jsonl", { cache: "no-store" })
+        .then((r) => (r.ok ? r.text() : Promise.reject(r.status)))
+        .then((txt) => { const all = txt.split("\n").filter((x) => x.trim()).map((x) => JSON.parse(x)); if (all.length) drawAnchors(all); })
+        .catch(() => {});
     }
     $("leadlagSub").textContent = `Does usage lead NEAR's price? Over ${L.weeks} weeks, with the price taken net of BTC: ${L.significant_after_holm} of ${L.tests} lead-lag tests (Intents volume, L1 transactions and active accounts, lags of 1–4 weeks, both directions) are significant after Holm's correction. Usage has split in two: over the last 30 days against a year earlier, Intents volume is ${pc(L.yoy_30d.intents_volume)} while L1 transactions are ${pc(L.yoy_30d.l1_txns)}. Weekly changes in NEAR's captured revenue track Intents volume (r = ${L.tracks_captured_revenue_weekly_r.intents_volume.toFixed(2)}), not the price (r = ${L.tracks_captured_revenue_weekly_r.near_vs_btc.toFixed(2)}).`;
   }
