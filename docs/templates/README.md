@@ -6,9 +6,54 @@
 
 **[Live dashboard](https://near-revenue-audit.vercel.app)** · **[One-page thesis](THESIS.md)** · **[Full report](REPORT.md)** · **[Headline numbers, exactly](#the-headline-numbers-exactly)** · **[Where we were wrong](#where-we-were-wrong-and-what-changed)** · rebuild everything: `make setup && . .venv/bin/activate && make check-clean`
 
-NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys NEAR. Several public dashboards, NEAR's own included, now report how much. This project asks the questions they do not answer: **why** the revenue moved, **who** pays it, **what** the growth cost, whether it **lasts**, and what that means for the token. Every number below is computed from public data by code in this repository, and every document is rendered from those outputs.
+[![The live dashboard: NEAR's captured revenue against issuance](docs/img/hero.jpg)](https://near-revenue-audit.vercel.app)
 
-**In one sentence:** NEAR's protocol revenue is real (rebuilt from the chain and matched by three independent sources) but too small to support the token through buybacks ({{offset_rebuilt}} of new NEAR offset; market cap {{near_captured_mult}} captured revenue against {{breakeven_now}} for break-even), its recent doubling was partly bought with an airdrop, and NEAR does not own the customers who pay it.
+**Is NEAR's protocol revenue real, durable, or bought?** Since 2026-02-23, NEAR Intents fees buy back NEAR. This project rebuilds that revenue from the chain and answers what the dashboards do not: why it moved, who pays it, what the growth cost, and what it means for the token.
+
+## For judges: the project in 3 minutes
+
+**1. The answer**
+- **Real.** Rebuilt from NEAR's three revenue wallets, it matches DefiLlama within {{rev_gap}}, NEAR's own dashboard within {{wallets_gap}} and NEAR's BigQuery dataset to the last digit.
+- **Too small for the token.** Buybacks offset {{offset_rebuilt}} of new NEAR ({{offset_window}}). Market cap is {{near_captured_mult}} captured revenue; supply stops growing only below {{breakeven_now}}.
+- **Partly bought.** NEAR's take doubled from {{take_aug}} to {{take_oct}} bps in two months, a fifth to most of it from confidential swaps during an airdrop whose first drop cost {{drop1_over_uplift}} of the revenue it added. It is already easing ({{take_last_week}} bps in early November).
+- **NEAR does not own the customer.** On 1Click, integrators keep {{oc_integrators_keep}} of the fee pool.
+
+**2. Follow $100** ({{f100_from}} to {{f100_to}}, {{f100_vol}} of Intents volume)
+
+| Of every $100 swapped through NEAR Intents | |
+| --- | --- |
+| Paid by users in fees (all parties) | {{f100_fees}} |
+| Reaches NEAR's three revenue wallets | **{{f100_near}}** (buyback multisig {{f100_bb}}, front-end fund {{f100_fe}}) |
+| New NEAR issued over the same days | **{{f100_issued}}** |
+| Revenue as a share of new issuance | **{{f100_cover}}** ({{offset_rebuilt}} over {{offset_window}}) |
+
+For supply to stop growing, the second bold line has to reach the third. On 1Click alone, a $100 swap pays {{f100_oc_pool}} in fees: {{f100_oc_int}} to integrators, {{f100_oc_near}} to NEAR.
+
+**3. See it live: [near-revenue-audit.vercel.app](https://near-revenue-audit.vercel.app)**
+- **Top of the page:** NEAR bought back per 100 issued, recomputed in your browser from live data.
+- **"What would it take?"**: drag daily volume and NEAR's take rate until supply stops growing.
+- **"Every finding is a test"**: the {{claims_n}} findings, {{public_claims_n}} public claims about NEAR, six dated predictions and their on-chain anchors, all updated daily.
+
+**4. Re-run it** (about 2 minutes, no key, no network after setup)
+
+```
+git clone https://github.com/Wilivms/near-revenue-audit && cd near-revenue-audit
+make setup && . .venv/bin/activate
+make check-clean     # → {{outputs_n}}/{{outputs_n}} outputs match the committed ones, {{claims_passed}} findings hold
+make verify          # → prints every finding and the headline numbers above
+```
+
+**5. What only this project brings**
+- **Revenue confirmed four independent ways**: DefiLlama, NEAR's dashboard, NEAR's BigQuery dataset, and the withdrawals from `intents.near` to the wallets (within 0.5%).
+- **The questions the dashboards skip, answered with data**: the airdrop's role, who pays, and why part of NEAR's revenue cannot be seen on the public chain (it settles in the confidential pool, about $136M; [REPORT section 10](REPORT.md#10-the-two-questions-near-did-not-answer-and-what-the-data-says)).
+- **Other people's claims tested**: {{public_claims_n}} statements by NEAR, Nansen, analysts and the press, each checked at its own date.
+- **Bets made in public**: hypotheses written before the tests, six predictions timestamped on Bitcoin and anchored on NEAR testnet, two resolving before judging.
+- **Honest about its misses**: [five corrections](#where-we-were-wrong-and-what-changed), each dated in the research log.
+- **Keeps itself current**: the dashboard refreshes every day, 1Click included, and each update is anchored on NEAR.
+
+**Want more?** [`THESIS.md`](THESIS.md) is the one-page thesis (5 min). [`REPORT.md`](REPORT.md) is the full argument. [`FAQ.md`](FAQ.md) answers reviewers' objections. Everything below is the detail, with every number traceable to a command.
+
+---
 
 ## The headline numbers, exactly
 
@@ -21,22 +66,7 @@ Each number with its window, its source and the command that rebuilds it. None o
 | **{{breakeven_now}}** break-even multiple | Supply stops growing when buybacks equal issuance ({{issuance}} of supply a year), so when market cap ÷ captured revenue falls to 1 ÷ {{issuance}}. At today's take that is about {{be_vol_now}} of daily volume | `make supply montecarlo` |
 | **{{oc_integrators_keep}}** of the 1Click fee pool kept by integrators | 1Click swaps from {{oc_from}} to {{oc_to}} (partner API); fee pool = integrators' app fees + NEAR's protocol fee | `make oneclick-offline` recomputes it from the committed daily aggregates |
 
-## Follow $100 through NEAR Intents
-
-The thesis in one table. Over {{f100_from}} to {{f100_to}}: {{f100_vol}} of Intents volume (DefiLlama), the revenue rebuilt from NEAR's wallets, and the NEAR issued over the same days at the same market cap.
-
-| Of every $100 swapped through NEAR Intents | |
-| --- | --- |
-| Paid by users in fees (gross, all parties) | {{f100_fees}} |
-| Reaches NEAR's three revenue wallets | **{{f100_near}}** |
-| &nbsp;&nbsp;of which the buyback multisig | {{f100_bb}} |
-| &nbsp;&nbsp;of which the front-end fund | {{f100_fe}} |
-| New NEAR issued over the same days, per $100 swapped | **{{f100_issued}}** |
-| Revenue as a share of new issuance | **{{f100_cover}}** |
-
-On 1Click alone (partner API, same days), a $100 swap pays {{f100_oc_pool}} in fees: integrators keep {{f100_oc_int}}, NEAR gets {{f100_oc_near}}. For supply to stop growing, the second bold line has to reach the third. (Over February–October the share was {{offset_rebuilt}}; the last 30 days, with the take rate still high, cover more.) `make verify` prints this table from the committed outputs.
-
-## Start here
+## Reading paths
 
 | Time | Do | You see |
 | --- | --- | --- |
@@ -69,8 +99,6 @@ On 1Click alone (partner API, same days), a $100 swap pays {{f100_oc_pool}} in f
 **Reproducible by anyone**
 - Offline from committed snapshots, one command, no key: `make check-clean`. Works with any Python (`make setup` fetches 3.12 if needed) and on a ZIP download.
 - The 1Click results, which come from a partner API, are recomputed from published daily aggregates without the key (`make oneclick-offline`, finding F15); see [1Click data](#1click-data-what-you-can-check-without-a-key).
-
-[![The live dashboard: NEAR's captured revenue against issuance](docs/img/hero.jpg)](https://near-revenue-audit.vercel.app)
 
 ## Where we were wrong, and what changed
 
