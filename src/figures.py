@@ -341,6 +341,11 @@ def figures() -> dict[str, str]:
               "q_rt_rev": pct(q["round_trip_near_revenue"], 1), "q_rt_ref": pct(q["round_trip_top_integrator"][1]),
               "q_hhi": f"{q['hhi_volume']:.0f}", "q_with_sender": pct(q["swaps_with_sender"])})
     f["outputs_n"] = str(len(list(OUT.glob("*"))) + 1)
+    bq = _json("bigquery_crosscheck.json")
+    f.update({"bq_rev_near": f"{bq['revenue']['near_bigquery'] / 1e6:.3f}M", "bq_rev_gap": "none" if bq['revenue']['max_monthly_gap'] < 1e-9 else pct(bq['revenue']['max_monthly_gap'], 3),
+              "bq_rev_to": bq["revenue"]["to"], "bq_supply_gap": pct(bq["supply"]["issued_gap"], 2), "bq_issued": f"{bq['supply']['issued_feb_oct_bigquery'] / 1e6:.2f}M",
+              "bq_rpc_n": str(bq["supply"]["rpc_samples"]), "bq_days": str(bq["activity"]["days"]),
+              "bq_intents_tx_25": pct(bq["activity"]["intents_share_of_txns_oct2025"], 1), "bq_intents_tx_26": pct(bq["activity"]["intents_share_of_txns_oct2026"], 1)})
     from .predictions import resolve
     for _, r in resolve(pd.Timestamp(v["data_to"])).iterrows():
         f[f"{r.id.lower()}_so_far"] = r.so_far or r.status
@@ -391,6 +396,9 @@ def claims(v: dict | None = None) -> list[dict]:
         ("F13", "Usage does not lead NEAR's price (the track's hypothesis)", f"{f['ll_sig']} of {f['ll_tests']} lead-lag tests significant after Holm; best {f['ll_best']}",
          "weekly changes, NEAR price net of BTC, lags 1–4 weeks, Intents volume and L1 activity, both directions; holds if none is significant at 5% after Holm",
          v["ll_sig"] == 0, "make leadlag"),
+        ("F14", "NEAR's BigQuery dataset agrees with the pipeline's sources", f"revenue wallets {f['bq_rev_near']} NEAR on both, max monthly gap {f['bq_rev_gap']}; net issuance Feb–Oct {f['bq_issued']} ({f['bq_supply_gap']} apart)",
+         "queries in sql/ run on NEAR's public BigQuery dataset vs NearBlocks wallet histories and archival-RPC supply; holds if every month is within 0.1% and issuance within 0.5%",
+         _json("bigquery_crosscheck.json")["revenue"]["max_monthly_gap"] < 1e-3 and abs(_json("bigquery_crosscheck.json")["supply"]["issued_gap"]) < 5e-3, "make bigquery"),
     ]
     return [{"id": i, "finding": a, "number": n, "check": c, "passed": bool(p), "command": cmd} for i, a, n, c, p, cmd in rows]
 
@@ -525,6 +533,7 @@ def render() -> dict[str, str]:
     f = figures()
     f["claims_table"] = claims_table(claims())
     f["claims_passed"] = f"{sum(r['passed'] for r in claims())}/{len(claims())}"
+    f["claims_n"] = str(len(claims()))
     pcs = public_claims()
     f["public_claims_table"] = public_claims_table(pcs)
     f["public_claims_n"] = str(len(pcs))

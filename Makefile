@@ -1,4 +1,4 @@
-.PHONY: reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
+.PHONY: bigquery reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -46,7 +46,7 @@ test:        ## model checks
 	python3 -m pytest -q tests
 
 reproduce:   ## every offline step on the committed snapshots, then the tests
-	$(MAKE) ledger revenue supply governance montecarlo backtest leadlag confidential official dashboard test
+	$(MAKE) ledger revenue supply governance montecarlo backtest leadlag bigquery confidential official dashboard test
 
 refresh:     ## fetch fresh public snapshots (network), then re-run everything
 	$(MAKE) data comps risk official-fetch governance-fetch leadlag-fetch manifest reproduce
@@ -59,6 +59,9 @@ governance:  ## HSP-029 vote, timelock and earliest ramp start, from the vote.da
 
 governance-fetch:
 	python3 -m src.analysis.governance --refresh
+
+bigquery:    ## third-source check on NEAR's BigQuery dataset (queries in sql/, results in data/raw/bigquery/)
+	python3 -m src.analysis.bigquery_check
 
 leadlag:     ## the track's hypothesis: does usage (Intents volume, L1 activity) lead NEAR's price? Holm-corrected
 	python3 -m src.analysis.leadlag

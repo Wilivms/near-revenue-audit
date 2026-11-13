@@ -1,5 +1,17 @@
 {
  "files": {
+  "bigquery/activity_daily_2026-11-13.csv": {
+   "bytes": 12800,
+   "sha256": "b772f7fa7d0549295dbed0d867d9c949f860805a0069f8c5d5a03b69b49df0fa"
+  },
+  "bigquery/supply_daily_2026-11-13.csv": {
+   "bytes": 16299,
+   "sha256": "bb96e3ca89894a25af49a65edc6feae616931f348823c7369289938f20d995f7"
+  },
+  "bigquery/wallet_transfers_2026-11-13.csv": {
+   "bytes": 43064,
+   "sha256": "cfa784a216aa3c8265a38c6e7943758c915f40587a5b8f728ecc70d2180cd85d"
+  },
   "btc_price/2026-10-31.json": {
    "bytes": 36401,
    "sha256": "dbcc38334ce501fba46024c5b23f642771bef64e1f4499338e5a94f292859459"

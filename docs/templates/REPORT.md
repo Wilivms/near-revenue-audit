@@ -192,7 +192,7 @@ Questions sent to the NEAR team (Discord ticket 2026-11-04, then near.com suppor
 ```bash
 pip install -r requirements.txt
 make check-clean   # every offline step on the committed snapshots, the tests, and a comparison of every output with the committed one
-make verify        # renders README/REPORT/FAQ from the outputs and re-checks the 13 findings
+make verify        # renders README/REPORT/FAQ from the outputs and re-checks the {{claims_n}} findings
 make refresh       # optional, with network: fresh snapshots, then everything again
 ```
 

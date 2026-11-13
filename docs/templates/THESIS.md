@@ -8,7 +8,7 @@ NEAR Intents' protocol revenue is real and has grown, but in its current form it
 
 ## Evidence for
 
-- **It is real.** Rebuilt from the chain, revenue matches DefiLlama within {{rev_gap}} ({{rev_rebuilt}} since the 2026-02-23 fee switch) and NEAR's own dashboard within {{wallets_gap}} on the NEAR its three revenue wallets received. ({{rev_rebuilt_exact}} vs {{rev_llama_exact}}; `make revenue`, `make official`)
+- **It is real.** Three independent indexers agree: NearBlocks, NEAR's BigQuery dataset (to the last digit on the NEAR the wallets received) and NEAR's own dashboard. Rebuilt from the chain, revenue matches DefiLlama within {{rev_gap}} ({{rev_rebuilt}} since the 2026-02-23 fee switch) and NEAR's own dashboard within {{wallets_gap}} on the NEAR its three revenue wallets received. ({{rev_rebuilt_exact}} vs {{rev_llama_exact}}; `make revenue`, `make official`)
 - **It is too small for the supply story.** Feb–Oct 2026: {{captured_feb_oct}} NEAR captured against {{issued_feb_oct}} issued, {{offset_rebuilt}} ({{offset_official}} on NEAR's own count). Supply still grows {{net_growth}} a year net. (`make supply`)
 - **The gap is structural.** Supply stops growing only when market cap is below {{breakeven_now}} annual captured revenue ({{breakeven_cut}} after the approved HSP-029 cut); it is {{near_captured_mult}}. Break-even needs about {{be_vol_now}} of daily volume at today's take, against about {{volume0}}. (`make montecarlo`)
 - **2027 does not change it in the base case.** Median {{mc_base}} of 2027 issuance offset ({{mc_base_band}}), {{mc_base_p}} chance of a deflationary 2027; {{mc_cut}} with the issuance cut. The engine was too optimistic in its 2026 backtest. (`make montecarlo backtest`)
@@ -38,5 +38,4 @@ NEAR Intents' protocol revenue is real and has grown, but in its current form it
 - **The fee on confidential swaps.** Not published; estimated at {{premium_range}} bps by three methods. Asked to NEAR (Discord ticket, then near.com support); no answer yet.
 - **Where NEAR's extra {{series_over_wallets}} of reported revenue goes.** Not visible in the three wallets NEAR lists, nor waiting in the fee collector. Asked to NEAR.
 - **Confidential swaps by integrator or asset.** The Explorer API shows only 1Click (public) swaps; Dune's asset tables could not be read consistently (log 26).
-- **The NEAR BigQuery dataset** suggested by the track was not used. L1 activity comes from NearBlocks' daily charts, supply from the archival RPC, revenue from the wallet histories and 1Click from the Explorer API, each re-runnable without a Google account; other entries use BigQuery for the same L1 series.
 - **Whether NEAR@3.33 caused the growth.** The timing fits; there is no control group, and near.com shipped other products over the same months.

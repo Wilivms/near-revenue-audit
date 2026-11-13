@@ -60,6 +60,7 @@ make verify           # renders README/REPORT/FAQ/THESIS from the outputs and re
 | `make montecarlo` | 11 scenarios to end-2027; base case {{mc_base}} of 2027 issuance offset; break-even at {{be_vol_now}}/day of volume at {{take_now}} bps |
 | `make governance` | HSP-029 read from `vote.dao`: {{hsp_for}} of veNEAR cast in favour, timelock ends {{hsp_timelock_end}} |
 | `make leadlag` | {{ll_tests}} lead-lag tests of usage against price, {{ll_sig}} significant after Holm |
+| `make bigquery` | NEAR's BigQuery dataset against the pipeline's sources: revenue wallets {{bq_rev_near}} NEAR on both, issuance within {{bq_supply_gap}}, daily activity identical on {{bq_days}} days |
 | `make swaps` | without a partner key: a message that the per-swap 1Click data is private and not committed; its aggregates in `data/processed/` are what the documents read. With `INTENTS_JWT` in `.env`: `python3 -m src.ingest.intents_explorer`, then `make swaps` |
 | `make predictions` | six frozen predictions, resolved as their dates pass |
 | `make dashboard-serve` | the dashboard at http://localhost:8000 |
@@ -71,7 +72,7 @@ With network access, `make refresh` fetches fresh snapshots and re-runs everythi
 | Criterion | Where to check it |
 | --- | --- |
 | Runs as described | `make check-clean` (CI runs it on every push: badge above); `make verify`; `data/raw/MANIFEST.json` with a test that every snapshot matches its hash |
-| Evidence, not conviction | 13 findings with explicit pass conditions (above); hypotheses and kill criteria registered before the analysis ([`HYPOTHESES.md`](HYPOTHESES.md), unchanged since its first commit); results against expectations reported as written (H4.1 rejected, the fit's out-of-sample miss, a kill criterion triggered on 1Click) |
+| Evidence, not conviction | {{claims_n}} findings with explicit pass conditions (above); hypotheses and kill criteria registered before the analysis ([`HYPOTHESES.md`](HYPOTHESES.md), unchanged since its first commit); results against expectations reported as written (H4.1 rejected, the fit's out-of-sample miss, a kill criterion triggered on 1Click) |
 | Technical implementation | revenue rebuilt from wallet histories ([`revenue_wallets.py`](src/analysis/revenue_wallets.py)); supply from archival-RPC headers ([`supply.py`](src/analysis/supply.py)); {{oc_swaps}} swaps from the Intents Explorer API ([`intents_explorer.py`](src/ingest/intents_explorer.py), [`swaps.py`](src/analysis/swaps.py)); robustness of the channel fit ([`confidential.py`](src/analysis/confidential.py)); joint block bootstrap with a walk-forward backtest ([`montecarlo.py`](src/analysis/montecarlo.py), [`backtest_mc.py`](src/analysis/backtest_mc.py)); governance read on-chain ([`governance.py`](src/analysis/governance.py)) |
 | Design | the dashboard: a what-if simulator on the break-even identity, live kill criteria, a scenario fan chart, a "show the numbers" table under each chart and the sources listed on the page; light theme, phone widths, reduced-motion support |
 | Impact | findings that change how NEAR's revenue should be read: the September jump decomposed and costed, the integrator economics of 1Click, a {{series_over_wallets}} gap inside NEAR's own revenue reporting, a public threshold ($177M/day) shown to be 3–6× too low |
@@ -109,7 +110,7 @@ NEAR published [revenue.near.org](https://revenue.near.org/) in November 2026, a
 
 ## NEAR integration
 
-A data project: NEAR is the subject and the main source. It reads mainnet through RPC and archival RPC (total supply at chosen blocks, validators, protocol config, `intents.near` views for the fee and fee collector, the House of Stake proposal on `vote.dao`), NearBlocks (wallet histories, `intents.near` admin calls, daily chain activity), the NEAR Intents Explorer API (per-swap 1Click data), and NEAR's own Dune and revenue dashboards. Nothing is written to the chain and no key is used, except the read-only Explorer API key, which stays in a git-ignored `.env`.
+A data project: NEAR is the subject and the main source. It reads mainnet through RPC and archival RPC (total supply at chosen blocks, validators, protocol config, `intents.near` views for the fee and fee collector, the House of Stake proposal on `vote.dao`), NearBlocks (wallet histories, `intents.near` admin calls, daily chain activity), NEAR's public BigQuery dataset (a third-source check, `sql/`), the NEAR Intents Explorer API (per-swap 1Click data), and NEAR's own Dune and revenue dashboards. Nothing is written to the chain and no key is used, except the read-only Explorer API key, which stays in a git-ignored `.env`.
 
 ## Data sources and how they were obtained
 
@@ -117,6 +118,7 @@ A data project: NEAR is the subject and the main source. It reads mainnet throug
 - **NEAR Intents Explorer API**: per-swap 1Click data; needs a partner key in `INTENTS_JWT` (git-ignored `.env`, never committed). The raw swaps are not committed; their aggregates in `data/processed/` are. Collected up to {{oc_to}}.
 - **NEAR's Dune dashboard** ([dune.com/near/near-intents](https://dune.com/near/near-intents)): Dune's API needs a paid plan, so the public result tables were read page by page in a browser and saved as text in `data/raw/dune/`, with each query id in the file header.
 - **NEAR's revenue dashboard** ([revenue.near.org](https://revenue.near.org/)): its series are embedded in the page; `make refresh` saves them to `data/raw/near_revenue/`.
+- **NEAR's public BigQuery dataset** (`bigquery-public-data.crypto_near_mainnet_us`): three queries in [`sql/`](sql/), run by hand in the free BigQuery sandbox on 2026-11-13, results in `data/raw/bigquery/`. `make bigquery` compares them with the pipeline's sources: the NEAR sent to the three revenue wallets is the same to the last digit as the NearBlocks histories ({{bq_rev_near}} NEAR to {{bq_rev_to}}), net issuance Feb–Oct is within {{bq_supply_gap}} of the archival-RPC series, and daily transactions and signers match NearBlocks' charts on all {{bq_days}} days (finding F14). The wallet query scans about 850 GB, most of the sandbox's free monthly terabyte.
 
 ## Hackathon disclosures
 
