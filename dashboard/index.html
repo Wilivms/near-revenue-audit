@@ -277,7 +277,7 @@ input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); }
 #checks td, #checks th { text-align: left !important; }
 #tbChecks td:nth-child(2) { width: 34%; color: var(--ink); }
 #tbChecks td:nth-child(3) { width: 50%; }
-#tbPublic td:nth-child(2) { width: 55%; }
+#tbPublic td:nth-child(1) { width: 34%; } #tbPublic td:nth-child(2) { width: 48%; }
 #tbPublic td:nth-child(3), #tbPred td:nth-child(4) { font-weight: 600; }
 #tbPred td:nth-child(3) { white-space: nowrap; }
 .score .tag { display: inline-flex; gap: 8px; align-items: center; font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: .03em; }
@@ -606,10 +606,8 @@ footer li + li { margin-top: 6px; }
         <p>Each headline finding has an explicit pass condition, re-checked by <code>make verify</code> on every build; the documents are rendered from the same numbers, so they cannot drift. Below: the findings, public claims about NEAR set against the data, and six predictions frozen on 11 Nov 2026 (sha256 committed, Bitcoin timestamp) that resolve from 15 Nov.</p>
       </div>
       <div class="card"><h3>Findings</h3><p class="sub" id="checksSub"></p><div class="tbl-wrap" id="tbChecks"></div></div>
-      <div class="grid2" style="margin-top:20px">
-        <div class="card"><h3>Public claims, checked</h3><p class="sub">What NEAR, analysts and the press say about revenue, buybacks, issuance and usage, tested on this audit's data at each claim's date</p><div class="tbl-wrap" id="tbPublic"></div></div>
-        <div class="card"><h3>Dated predictions</h3><p class="sub">Frozen 2026-11-11; status as of the data date. "So far" is a reading on the data to date, not a resolution</p><div class="tbl-wrap" id="tbPred"></div></div>
-      </div>
+      <div class="card" style="margin-top:20px"><h3>Dated predictions</h3><p class="sub">Frozen 2026-11-11; status as of the data date. "So far" is a reading on the data to date, not a resolution</p><div class="tbl-wrap" id="tbPred"></div></div>
+      <div class="card" style="margin-top:20px"><h3>Public claims, checked</h3><p class="sub">What NEAR, analysts and the press say about revenue, buybacks, issuance and usage, tested on this audit's data at each claim's date</p><div class="tbl-wrap" id="tbPublic"></div></div>
       <div class="card" style="margin-top:20px"><h3>The track's own hypothesis</h3><p class="sub" id="leadlagSub"></p></div>
     </div>
   </section>
