@@ -51,7 +51,7 @@ pycheck:
 test:        ## model checks
 	python3 -m pytest -q tests
 
-STEPS = ledger revenue supply governance montecarlo backtest leadlag bigquery oneclick-offline confidential official open-questions dashboard
+STEPS = ledger revenue supply governance montecarlo backtest leadlag bigquery oneclick-offline confidential official open-questions predictions dashboard
 
 reproduce:   ## every offline step on the committed snapshots, then the tests
 	$(MAKE) $(STEPS) test

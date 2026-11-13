@@ -1,15 +1,15 @@
 Is NEAR's protocol revenue real, durable, or bought? Since February, NEAR Intents fees buy back NEAR. This audit rebuilds that revenue from the chain, and asks the questions the dashboards don't. [pause]
 
-First: it is real. Rebuilt from NEAR's three revenue wallets, it matches DefiLlama within one percent, and NEAR's own new dashboard within zero point one four percent. But it is small. For every hundred NEAR issued, about nineteen are bought back. [pause]
+First: it is real. Rebuilt from NEAR's three revenue wallets, it matches DefiLlama within one percent, NEAR's own dashboard within a fifth of a percent, and NEAR's public BigQuery dataset to the last digit. But it is small. For every hundred NEAR issued since February, about fifteen were bought back. [pause]
 
-Here is why. Supply stops growing only when market cap is below about forty-one times annual captured revenue. Today it is above two hundred. Move the inputs, and break-even needs about five times today's volume, at today's take. [pause]
+Here is why. Supply stops growing only when market cap is below about forty-one times captured revenue. Today it is about two hundred times. Move the inputs, and break-even needs several times today's volume, at today's take. [pause]
 
 The take did more than double, from two point two to five point five basis points, between August and October. Confidential swaps explain between a fifth and most of that jump. They grew under an airdrop campaign, whose first drop cost three quarters of the revenue it added. [pause]
 
-And the model said so, by failing. It missed its first unseen week. In November, the take fell back to three point nine basis points, and confidential deposits fell a quarter from their peak. [pause]
+And the model said so, by failing. It missed its first unseen week. In November, the take fell back to about four basis points. Transactions to Intents nearly doubled, while revenue fell: the contract was signing its own transactions. [pause]
 
-Who pays? On two and a half million one-click swaps, integrators keep more than ninety percent of the fee pool. NEAR does not own the customer. [pause]
+Who pays? On half a million one-click swaps in thirty days, integrators keep about ninety percent of the fee pool. NEAR does not own the customer. [pause]
 
-Every finding is a check. Thirteen hold today, rebuilt from committed snapshots on every commit. Public claims are tested against the data. And six dated predictions were hashed and timestamped on Bitcoin, before judging. [pause]
+Every finding is a check. Fifteen hold today, rebuilt on every commit. Thirty public claims are tested at their own dates. Six predictions were timestamped on Bitcoin, and every release is anchored on NEAR testnet. [pause]
 
 The verdict: the revenue is real, but it is not yet a reason to hold NEAR for scarcity. NEAR Revenue Audit. Every number can be re-run.

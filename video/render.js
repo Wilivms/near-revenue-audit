@@ -3,21 +3,21 @@ const {chromium}=require('playwright');
 const fs=require('fs');
 const OUT=process.argv[2]; const ONLY=process.argv[3]?process.argv[3].split(',').map(Number):null; const PREVIEW=process.argv[4]; // preview: comma list of seconds
 const FPS=30;
-const B=[0,15.0,33.17,49.45,67.09,80.21,90.30,105.71,116.9];
+const B=[0,14.6,35.8,51.7,69.1,85.7,96.3,112.0,122.3];
 // per scene: keyframes [t_abs, y]; eased (cosine) between consecutive keyframes
 const S=[
- [[0,0],[15.0,0]],
- [[15.0,2823],[26.6,2823],[26.6,494],[33.17,494]],
- [[33.17,1090],[49.45,1090]],
- [[49.45,4245],[56.5,4245],[59.5,4745],[67.09,4745]],
- [[67.09,2007],[71,2007],[74.5,2150],[80.21,2150]],
- [[80.21,6229],[81.5,6229],[84,6479],[90.30,6479]],
- [[90.30,11531],[93.5,11531],[97.5,12031],[100,12031],[103.5,12631],[105.71,12631]],
- [[105.71,0],[116.9,0]],
+ [[0,0],[14.6,0]],
+ [[14.6,3240],[25.5,3240],[27.5,560],[35.8,560]],
+ [[35.8,1590],[51.7,1590]],
+ [[51.7,4740],[58.5,4740],[61.5,5480],[69.1,5480]],
+ [[69.1,2480],[74,2480],[76.5,2620],[85.7,2620]],
+ [[85.7,6800],[87.5,6800],[90,7050],[96.3,7050]],
+ [[96.3,12060],[99.5,12060],[102,12560],[104,12560],[106,13080],[107.5,13080],[109.5,15700],[112.0,15700]],
+ [[112.0,0],[122.3,0]],
 ];
 const ease=x=>0.5-0.5*Math.cos(Math.PI*x);
 function yAt(k,t){for(let i=k.length-1;i>=0;i--){if(t>=k[i][0]){const n=k[i+1];if(!n||n[0]===k[i][0])return k[i][1];return k[i][1]+(n[1]-k[i][1])*ease((t-k[i][0])/(n[0]-k[i][0]));}}return k[0][1];}
-const sliderAt=t=>t<43.3?224:t>46.5?617:224+(617-224)*ease((t-43.3)/3.2);
+const sliderAt=t=>t<45.9?224:t>49.1?617:224+(617-224)*ease((t-45.9)/3.2);
 (async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:1280,height:720},deviceScaleFactor:1.5});
  await p.goto('https://near-revenue-audit.vercel.app',{waitUntil:'networkidle'});await p.waitForTimeout(5000);
  await p.addStyleTag({content:`html{scroll-behavior:auto!important}
@@ -29,7 +29,7 @@ const sliderAt=t=>t<43.3?224:t>46.5?617:224+(617-224)*ease((t-43.3)/3.2);
  const setSlider=async v=>p.evaluate(v=>{const s=document.getElementById('sVol');if(+s.value!==v){s.value=v;s.dispatchEvent(new Event('input',{bubbles:true}));}},v);
  const shoot=async(t,path)=>{const sc=B.findIndex((x,i)=>t>=x&&t<B[i+1]);const s=Math.max(0,sc);
    await setSlider(Math.round(sliderAt(t)));
-   const end=t>=111.5?Math.min(1,(t-111.5)/0.8):0;
+   const end=t>=116.6?Math.min(1,(t-116.6)/0.8):0;
    await p.evaluate(([y,o])=>{window.scrollTo(0,y);document.getElementById('endcard').style.opacity=o;},[Math.round(yAt(S[s],t)),end]);
    await p.screenshot({path,type:'jpeg',quality:92});};
  if(PREVIEW){for(const t of PREVIEW.split(',').map(Number)){await shoot(t,`${OUT}/preview_${t}.jpg`);await p.waitForTimeout(400);await shoot(t,`${OUT}/preview_${t}.jpg`);}await b.close();return;}
