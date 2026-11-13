@@ -15,7 +15,7 @@ NEAR Intents' protocol revenue is real and has grown, but in its current form it
 - **The jump was partly bought.** NEAR's take went from {{take_aug}} to {{take_oct}} bps between August and October; confidential swaps, which grew under the NEAR@3.33 airdrop, explain {{jump_fd}} to {{jump_levels}} of it. Drop 1 cost {{drop1_usd}}, {{drop1_over_uplift}} of the revenue uplift. (`make confidential`)
 - **It is easing.** The fit missed its first unseen week ({{oos_actual}} vs {{oos_pred_fd}}–{{oos_pred}}); the take was {{take_last_week}} bps in the week of 2 November on three sources; confidential TVL is {{tvl_from_peak}} below its peak. (`make confidential official`)
 - **NEAR does not own the customer.** On 1Click, integrators keep about {{oc_integrators_keep}} of the fee pool; SwapKit takes {{sk_fees}} of app fees and sends NEAR {{sk_near}} of its revenue. (`make swaps` outputs, to {{oc_to}})
-- **The market agrees it is priced on something else.** Peers whose holders share revenue trade at a median {{peers_median}} holders revenue; NEAR at {{near_holders_mult}}. Usage does not lead the price: {{ll_sig}} of {{ll_tests}} lead-lag tests significant after Holm. (`make comps leadlag`)
+- **The market agrees it is priced on something else.** Peers whose holders share revenue trade at a median {{peers_median}} holders revenue; NEAR at {{near_holders_mult}}; at the peer median its revenue supports about {{price_at_peer}} a NEAR, against {{price_now}}. Usage does not lead the price: {{ll_sig}} of {{ll_tests}} lead-lag tests significant after Holm. (`make comps leadlag`)
 
 ## Evidence against
 
@@ -38,5 +38,5 @@ NEAR Intents' protocol revenue is real and has grown, but in its current form it
 - **The fee on confidential swaps.** Not published; estimated at {{premium_range}} bps by three methods. Asked to NEAR (Discord ticket, then near.com support); no answer yet.
 - **Where NEAR's extra {{series_over_wallets}} of reported revenue goes.** Not visible in the three wallets NEAR lists, nor waiting in the fee collector. Asked to NEAR.
 - **Confidential swaps by integrator or asset.** The Explorer API shows only 1Click (public) swaps; Dune's asset tables could not be read consistently (log 26).
-- **The NEAR BigQuery dataset** suggested by the track was not used: it needs a billed Google Cloud project. NearBlocks' daily charts and the archival RPC cover the same L1 activity and supply questions without one.
+- **The NEAR BigQuery dataset** suggested by the track was not used. L1 activity comes from NearBlocks' daily charts, supply from the archival RPC, revenue from the wallet histories and 1Click from the Explorer API, each re-runnable without a Google account; other entries use BigQuery for the same L1 series.
 - **Whether NEAR@3.33 caused the growth.** The timing fits; there is no control group, and near.com shipped other products over the same months.

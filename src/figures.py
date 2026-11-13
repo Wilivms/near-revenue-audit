@@ -186,6 +186,9 @@ def values() -> dict:
     v["near_mcap"] = near.market_cap_usd
     v["near_value_at_peer"] = near.annualised_usd * v["peers_median"]
     v["share_not_revenue"] = 1 - v["near_value_at_peer"] / v["near_mcap"]
+    from .analysis.ledger import near_price
+    v["price_now"] = float(near_price().dropna().iloc[-1])
+    v["price_at_peer"] = v["price_now"] * v["near_value_at_peer"] / v["near_mcap"]
     r30 = rev["rebuilt_total_usd"].loc[:complete.max()].iloc[-30:].sum() * 365 / 30
     v["near_captured_mult"] = v["near_mcap"] / r30
     sc = pd.read_csv(OUT / "montecarlo_scenarios.csv").set_index("name")
@@ -282,7 +285,7 @@ def figures() -> dict[str, str]:
         "breakeven_now": mult(v["breakeven_now"]), "breakeven_cut": mult(v["breakeven_cut"]),
         "near_captured_mult": mult(v["near_captured_mult"]), "near_holders_mult": mult(v["near_holders_mult"]),
         "peers_n": str(v["peers_n"]), "peers_median": mult(v["peers_median"]), "peers_iqr": f"{v['peers_q1']:.0f}–{v['peers_q3']:.0f}x",
-        "near_mcap": usd(v["near_mcap"], 1), "near_value_at_peer": usd(v["near_value_at_peer"], 0), "share_not_revenue": pct(v["share_not_revenue"]),
+        "near_mcap": usd(v["near_mcap"], 1), "near_value_at_peer": usd(v["near_value_at_peer"], 0), "share_not_revenue": pct(v["share_not_revenue"]), "price_now": f"${v['price_now']:.2f}", "price_at_peer": f"${v['price_at_peer']:.2f}",
         "take_now": f"{v['take_now']:.1f}", "volume0": f"${v['volume0']:.0f}M",
         "be_vol_now": f"${v['be_vol_now']:.0f}M", "be_vol_8": f"${v['be_vol_8']:.0f}M", "be_vol_15": f"${v['be_vol_15']:.0f}M",
         "hsp_for": pct(v["hsp_for"], 2), "hsp_turnout": pct(v["hsp_turnout"]), "hsp_voters": str(v["hsp_voters"]),
