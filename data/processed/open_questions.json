@@ -29,54 +29,54 @@
   }
  },
  "revenue_gap": {
-  "to": "2026-11-10",
+  "to": "2026-11-12",
   "d7": {
-   "from": "2026-11-04",
-   "fees_usd": 1178816.3076217985,
-   "front_end_usd": 298392.04246389365,
-   "b2b_usd": 144943.81938334825,
-   "quote_improvement_usd": 56703.34149166361,
-   "reported_usd": 500039.2033389055,
-   "wallets_usd": 391247.2943499384,
-   "reported_over_wallets": 1.2780643101180444,
-   "without_quote_improvement_over_wallets": 1.1331346395221704,
-   "quote_improvement_share_of_reported": 0.113397791839198
+   "from": "2026-11-06",
+   "fees_usd": 1687629.1375003243,
+   "front_end_usd": 270532.3343115096,
+   "b2b_usd": 132226.05137486005,
+   "quote_improvement_usd": 47920.42991682482,
+   "reported_usd": 450678.81560319447,
+   "wallets_usd": 426450.94707576215,
+   "reported_over_wallets": 1.0568127909987455,
+   "without_quote_improvement_over_wallets": 0.9444424697568246,
+   "quote_improvement_share_of_reported": 0.10632944850688729
   },
   "d30": {
-   "from": "2026-10-12",
-   "fees_usd": 5456635.57304252,
-   "front_end_usd": 1196263.756404813,
-   "b2b_usd": 612676.9739272214,
-   "quote_improvement_usd": 213198.30877555886,
-   "reported_usd": 2022139.0391075932,
-   "wallets_usd": 1838176.5671101129,
-   "reported_over_wallets": 1.1000787820327276,
-   "without_quote_improvement_over_wallets": 0.9840951966741467,
-   "quote_improvement_share_of_reported": 0.10543207200512145
+   "from": "2026-10-14",
+   "fees_usd": 6046609.871305367,
+   "front_end_usd": 1171504.126209459,
+   "b2b_usd": 630839.6562203749,
+   "quote_improvement_usd": 219749.3399620791,
+   "reported_usd": 2022093.122391913,
+   "wallets_usd": 1856681.6971810544,
+   "reported_over_wallets": 1.0890898130045652,
+   "without_quote_improvement_over_wallets": 0.9707338555479271,
+   "quote_improvement_share_of_reported": 0.10867419384827336
   },
   "ytd": {
    "from": "2026-01-01",
-   "fees_usd": 44634276.63254283,
-   "front_end_usd": 5978190.03663763,
-   "b2b_usd": 3189765.7849902553,
-   "quote_improvement_usd": 1163996.8032770425,
-   "reported_usd": 10331952.624904929,
-   "wallets_usd": 8770245.330664251,
-   "reported_over_wallets": 1.1780688265105117,
-   "without_quote_improvement_over_wallets": 1.0453477041939845,
-   "quote_improvement_share_of_reported": 0.11265990520235793
+   "fees_usd": 45627410.88046996,
+   "front_end_usd": 6080089.377330221,
+   "b2b_usd": 3238388.6624151855,
+   "quote_improvement_usd": 1180487.676172751,
+   "reported_usd": 10498965.715918157,
+   "wallets_usd": 8918475.340080546,
+   "reported_over_wallets": 1.177215310416874,
+   "without_quote_improvement_over_wallets": 1.044851018185497,
+   "quote_improvement_share_of_reported": 0.11243847328531968
   },
   "all_time": {
    "from": "2025-05-06",
-   "fees_usd": 60443463.72460522,
-   "front_end_usd": 7268967.659559645,
-   "b2b_usd": 3189765.784990256,
-   "quote_improvement_usd": 1163996.8032770427,
-   "reported_usd": 11622730.247826943,
-   "wallets_usd": 9659048.889376879,
-   "reported_over_wallets": 1.203299660343343,
-   "without_quote_improvement_over_wallets": 1.0827912317591146,
-   "quote_improvement_share_of_reported": 0.10014831097836678
+   "fees_usd": 61436597.97253233,
+   "front_end_usd": 7371047.169779812,
+   "b2b_usd": 3238636.443679712,
+   "quote_improvement_usd": 1180577.9997131445,
+   "reported_usd": 11790261.613172669,
+   "wallets_usd": 9807278.898793174,
+   "reported_over_wallets": 1.2021949956601632,
+   "without_quote_improvement_over_wallets": 1.0818172627644034,
+   "quote_improvement_share_of_reported": 0.10013162035303304
   }
  }
 }

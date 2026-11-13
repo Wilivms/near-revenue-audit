@@ -1,15 +1,15 @@
 {
- "snapshot": "2026-11-11",
+ "snapshot": "2026-11-13",
  "wallets": {
   "fefundsadmin.sputnik-dao.near": {
-   "official_near": 1999998.415405227,
-   "rebuilt_near": 2001548.6847802822,
-   "ratio": 1.0007751353016652
+   "official_near": 2011735.3417772015,
+   "rebuilt_near": 2014059.9242446788,
+   "ratio": 1.001155511075042
   },
   "buybacks.multisignature.near": {
-   "official_near": 1742346.2869744445,
-   "rebuilt_near": 1746733.554641317,
-   "ratio": 1.0025180227947057
+   "official_near": 1771956.791379682,
+   "rebuilt_near": 1776549.795978463,
+   "ratio": 1.0025920522560852
   },
   "1csfundsadmin.sputnik-dao.near": {
    "official_near": 555348.272928576,
@@ -18,9 +18,9 @@
   }
  },
  "wallets_total": {
-  "official_near": 4297692.975308248,
-  "rebuilt_near": 4303630.5123501755,
-  "ratio": 1.0013815638008674
+  "official_near": 4339040.4060854595,
+  "rebuilt_near": 4345957.993151718,
+  "ratio": 1.0015942665702207
  },
  "offset_feb_to_last_full_month": {
   "months": [
@@ -35,27 +35,27 @@
   "rebuilt_captured_near": 3528952.171868621
  },
  "official_ytd": {
-  "date": "2026-11-10",
-  "emissions_near": 27839401.837605424,
-  "revenue_near": 4429053.729578721,
-  "offset": 0.15909299184711512
+  "date": "2026-11-12",
+  "emissions_near": 28018772.506261177,
+  "revenue_near": 4476460.5824874295,
+  "offset": 0.1597664773318354
  },
  "take_october_weeks_bps": 5.252868476634675,
  "capture_october_weeks": 0.336357762166696,
  "last_week": {
   "week": "2026-11-02",
-  "take_bps": 3.896384810340483,
-  "capture_of_fees": 0.2454362581132737,
-  "gross_fee_bps": 15.875343114717078,
-  "volume_usd": 912182474.0766605
+  "take_bps": 3.8963848103404826,
+  "capture_of_fees": 0.24543611216252667,
+  "gross_fee_bps": 15.875352555129762,
+  "volume_usd": 912182474.0766606
  },
  "tvl": {
-  "last_usd": 139641812.77677876,
-  "last_date": "2026-11-09",
-  "peak_usd": 187260119.24206188,
+  "last_usd": 137865300.2989126,
+  "last_date": "2026-11-12",
+  "peak_usd": 187260119.24206185,
   "peak_date": "2026-09-27",
-  "change_from_peak": -0.2542896301573391,
-  "change_30d": -0.12530621461531766
+  "change_from_peak": -0.2637765005334586,
+  "change_30d": -0.13733330893744067
  },
  "revenue_definitions": {
   "mar_oct_official_usd": 8787513.443292405,
@@ -66,41 +66,41 @@
    "2026-08": 1.212,
    "2026-09": 1.229,
    "2026-10": 1.136,
-   "2026-11": 1.176
+   "2026-11": 1.172
   },
   "oct_take_bps": {
-   "official": 6.278712237662228,
-   "wallets": 5.533659597174598
+   "official": 6.27871223766223,
+   "wallets": 5.533659597174599
   },
   "current_month": "2026-11",
-  "current_month_wallet_days": 8,
-  "current_month_take_bps_wallets": 3.875508399737648,
-  "current_month_take_bps_official_implied": 4.557259778007262
+  "current_month_wallet_days": 11,
+  "current_month_take_bps_wallets": 3.8518499847487417,
+  "current_month_take_bps_official_implied": 4.516238359457703
  },
  "capture_by_mechanism": {
   "d7": {
-   "front_end_fees": 0.25312853286351655,
-   "b2b_partners": 0.12295708707641226,
-   "quote_improvement": 0.0481019316792959,
-   "total": 0.4241875516192247
+   "front_end_fees": 0.16030319001970753,
+   "b2b_partners": 0.0783501827722115,
+   "quote_improvement": 0.028395118839796406,
+   "total": 0.2670484916317154
   },
   "d30": {
-   "front_end_fees": 0.21923101522753846,
-   "b2b_partners": 0.11228108707754583,
-   "quote_improvement": 0.039071384907730496,
-   "total": 0.3705834872128148
+   "front_end_fees": 0.19374561136628282,
+   "b2b_partners": 0.10432947877356384,
+   "quote_improvement": 0.03634256957851966,
+   "total": 0.33441765971836634
   },
   "ytd": {
-   "front_end_fees": 0.1339372000100688,
-   "b2b_partners": 0.07146448930382347,
-   "quote_improvement": 0.026078540778419892,
-   "total": 0.23148023009231217
+   "front_end_fees": 0.13325519156145457,
+   "b2b_partners": 0.07097463125617155,
+   "quote_improvement": 0.025872335365801757,
+   "total": 0.23010215818342789
   },
   "all_time": {
-   "front_end_fees": 0.12026060737814082,
-   "b2b_partners": 0.05277271665838985,
-   "quote_improvement": 0.019257612511759562,
-   "total": 0.19229093654829021
+   "front_end_fees": 0.1199781142353509,
+   "b2b_partners": 0.052715100616861514,
+   "quote_improvement": 0.019216200744724972,
+   "total": 0.1919094155969374
   }
  }
 }

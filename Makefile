@@ -51,11 +51,13 @@ pycheck:
 test:        ## model checks
 	python3 -m pytest -q tests
 
-reproduce:   ## every offline step on the committed snapshots, then the tests
-	$(MAKE) ledger revenue supply governance montecarlo backtest leadlag bigquery oneclick-offline confidential official open-questions dashboard test
+STEPS = ledger revenue supply governance montecarlo backtest leadlag bigquery oneclick-offline confidential official open-questions dashboard
 
-refresh:     ## fetch fresh public snapshots (network), then re-run everything
-	$(MAKE) data comps risk official-fetch governance-fetch leadlag-fetch manifest reproduce
+reproduce:   ## every offline step on the committed snapshots, then the tests
+	$(MAKE) $(STEPS) test
+
+refresh:     ## fetch fresh public snapshots (network), re-run everything, re-render the documents, then the tests
+	$(MAKE) data comps risk official-fetch governance-fetch leadlag-fetch manifest $(STEPS) docs test
 
 manifest:    ## sha256 of every raw snapshot -> data/raw/MANIFEST.json
 	python3 -m src.manifest

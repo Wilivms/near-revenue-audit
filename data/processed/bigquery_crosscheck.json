@@ -1,9 +1,9 @@
 {
  "queries": "sql/*.sql, run on 2026-11-13",
  "revenue": {
-  "to": "2026-11-10",
-  "near_bigquery": 3250386.0736562354,
-  "near_nearblocks": 3250386.073656236,
+  "to": "2026-11-12",
+  "near_bigquery": 3291733.5044334475,
+  "near_nearblocks": 3291733.504433448,
   "max_monthly_gap": 1.1102230246251565e-16,
   "monthly": {
    "2026-02": [
@@ -43,8 +43,8 @@
     451483.51
    ],
    "2026-11": [
-    131568.951,
-    131568.951
+    172916.382,
+    172916.382
    ]
   },
   "from_intents_near": 0.8921835600314663
@@ -57,7 +57,7 @@
   "issued_gap": 0.0006386051540880899
  },
  "activity": {
-  "days": 406,
+  "days": 408,
   "txns_ratio_min": 1.0,
   "txns_ratio_max": 1.0,
   "signers_vs_active_median": 1.0,

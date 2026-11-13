@@ -3,11 +3,11 @@
 
 [![tests](https://github.com/Wilivms/near-revenue-audit/actions/workflows/tests.yml/badge.svg)](https://github.com/Wilivms/near-revenue-audit/actions/workflows/tests.yml)
 
-*Investment Thesis track (`thesis`), NEAR HACKATHON 2026. Data to 2026-11-10.*
+*Investment Thesis track (`thesis`), NEAR HACKATHON 2026. Data to 2026-11-12.*
 
 NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys NEAR. Several public dashboards, NEAR's own included, now report how much. This project asks the questions they do not answer: **why** the revenue moved, **who** pays it, **what** the growth cost, whether it **lasts**, and what that means for the token. Every number below is computed from public data by code in this repository, and every document is rendered from those outputs.
 
-**In one sentence:** NEAR's protocol revenue is real (rebuilt from the chain and matched by three independent sources) but too small to support the token through buybacks (14.8% of new NEAR offset; market cap 217x captured revenue against 41x for break-even), its recent doubling was partly bought with an airdrop, and NEAR does not own the customers who pay it.
+**In one sentence:** NEAR's protocol revenue is real (rebuilt from the chain and matched by three independent sources) but too small to support the token through buybacks (14.8% of new NEAR offset; market cap 205x captured revenue against 41x for break-even), its recent doubling was partly bought with an airdrop, and NEAR does not own the customers who pay it.
 
 ## Start here
 
@@ -17,26 +17,26 @@ NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys 
 | 5 min | Read **[`THESIS.md`](THESIS.md)** | the claim, evidence for and against, what would change our mind, what could not be computed, on one page |
 | 2 min | Run `make setup && . .venv/bin/activate && make check-clean` | every output rebuilt from committed data and compared: `39/39 outputs match`, `15/15 findings hold` |
 | 3 min | Open **[REPORT section 9](REPORT.md#9-public-claims-checked)** | 30 public claims about NEAR tested at their own dates |
-| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (42 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
+| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (43 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
 
 ## Why this thesis is different
 
 **Findings this thesis adds**
 - **The doubling was partly bought.** NEAR's take went from 2.2 to 5.5 bps between August and October; confidential swaps under the NEAR@3.33 airdrop explain 22%–84% of the rise, and the first drop cost 74% of the revenue it added.
 - **NEAR does not own the customer.** On 504k 1Click swaps from the partner API, integrators keep 92% of the fee pool; the 20 bps that NEAR's published fee schedule sets for integrator swaps is paid on a small part of their volume. November's drop came from one integrator's burst ending, while NEAR's own front-end revenue held.
-- **NEAR's own revenue series runs 21% above what its three revenue wallets receive**, every month, while the wallet totals agree within 0.14%.
-- **It is already easing, and the model said so by failing.** The weekly fit missed its first unseen week ($355k against $475k–$901k predicted). In early November the take fell to 3.9 bps on three sources while confidential TVL fell 25% from its peak.
+- **NEAR's own revenue series runs 21% above what its three revenue wallets receive**, every month, while the wallet totals agree within 0.16%.
+- **It is already easing, and the model said so by failing.** The weekly fit missed its first unseen week ($355k against $475k–$901k predicted). In early November the take fell to 3.9 bps on three sources while confidential TVL fell 26% from its peak.
 - **The two questions NEAR did not answer, narrowed to testable hypotheses:** confidential swaps pay about 7.6 bps into the buyback multisig (matching NEAR's Dune fee table), and most of the 21% gap is quote-improvement revenue that never reaches the wallets that buy NEAR (without it: 4.5% this year). [REPORT section 10](REPORT.md#10-the-two-questions-near-did-not-answer-and-what-the-data-says).
-- **Valuation:** valued like peers whose holders receive revenue, this revenue supports about $0.33 a NEAR, against $3.58.
+- **Valuation:** valued like peers whose holders receive revenue, this revenue supports about $0.33 a NEAR, against $3.42.
 
 **Every number checked against independent sources**
-- Revenue rebuilt from the chain matches DefiLlama within 0.9% and NEAR's own dashboard within 0.14%; NEAR's public BigQuery dataset matches the wallet histories **to the last digit** (3.250M NEAR) and issuance within 0.06%.
+- Revenue rebuilt from the chain matches DefiLlama within 0.8% and NEAR's own dashboard within 0.16%; NEAR's public BigQuery dataset matches the wallet histories **to the last digit** (3.292M NEAR) and issuance within 0.06%.
 
 **Held to account in public**
 - 15/15 findings with explicit pass conditions, re-checked in CI on every commit; documents rendered from the outputs, so no figure is typed by hand.
 - 30 claims by NEAR, Nansen, analysts and the press tested at their own dates: 16 survive, 5 are close, 9 do not hold.
 - Hypotheses and kill criteria written before the analysis; the weekly model missed its first unseen week and the report says so.
-- Six dated predictions, frozen on 2026-11-11, timestamped in Bitcoin and anchored on NEAR (testnet); two resolve before judging (P1 so far: 3.8 bps, 11-01 to 11-09, threshold 5.0).
+- Six dated predictions, frozen on 2026-11-11, timestamped in Bitcoin and anchored on NEAR (testnet); two resolve before judging (P1 so far: 4.1 bps, 11-01 to 11-12, threshold 5.0).
 
 **Reproducible by anyone**
 - Offline from committed snapshots, one command, no key: `make check-clean`. Works with any Python (`make setup` fetches 3.12 if needed) and on a ZIP download.
@@ -50,20 +50,20 @@ NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys 
 
 | ID | Finding | Number | How it is checked | Result |
 | --- | --- | --- | --- | --- |
-| F1 | Reported revenue reaches NEAR's wallets | $7.94M rebuilt vs $8.01M on DefiLlama (ratio 0.991) | NEAR inflows to the 3 revenue wallets (NearBlocks) at daily prices vs DefiLlama holders revenue, since the fee switch; holds if within ±2% (`make revenue`) | PASS |
-| F2 | NEAR's own dashboard agrees on the wallets | 4.304M vs 4.298M NEAR (0.14% apart) | all-time NEAR received by the same 3 wallets vs revenue.near.org's wallet table; holds if within ±1% (`make official`) | PASS |
+| F1 | Reported revenue reaches NEAR's wallets | $8.09M rebuilt vs $8.15M on DefiLlama (ratio 0.992) | NEAR inflows to the 3 revenue wallets (NearBlocks) at daily prices vs DefiLlama holders revenue, since the fee switch; holds if within ±2% (`make revenue`) | PASS |
+| F2 | NEAR's own dashboard agrees on the wallets | 4.346M vs 4.339M NEAR (0.16% apart) | all-time NEAR received by the same 3 wallets vs revenue.near.org's wallet table; holds if within ±1% (`make official`) | PASS |
 | F3 | Buybacks offset well under a fifth of issuance | 14.8% (NEAR's dashboard: 16.3%) | NEAR captured / net issuance from archival-RPC total supply, Feb–Oct 2026; holds if both definitions are below 20% (`make supply official`) | PASS |
-| F4 | Market cap is far above break-even | 217x annual captured revenue vs 41x (64x after HSP-029) | identity: supply stops growing iff market cap / annual captured revenue < 1 / issuance; holds if above the post-cut threshold (`make montecarlo`) | PASS |
+| F4 | Market cap is far above break-even | 205x annual captured revenue vs 41x (64x after HSP-029) | identity: supply stops growing iff market cap / annual captured revenue < 1 / issuance; holds if above the post-cut threshold (`make montecarlo`) | PASS |
 | F5 | NEAR's take more than doubled Aug to Oct | 2.2 → 5.5 bps of volume | wallet revenue / NEAR-reported Intents volume, by month; holds if October ≥ 2× August (`make official`) | PASS |
 | F6 | Confidential swaps pay NEAR more than public ones, in every method | 5.5–11 bps vs 1–3 (Dune fee table 7.4) | weekly fit in levels and in first differences, Aug–Oct; holds if the confidential coefficient exceeds the public one in both (`make confidential`) | PASS |
 | F7 | They explain part, not all, of the jump | 22% to 84% of the +3.3 bps | (change in confidential share) × (confidential premium) / rise in take, under three premiums; holds if the range spans below 100% (`make confidential`) | PASS |
 | F8 | Drop 1 of NEAR@3.33 cost less than the revenue uplift | $1.39M vs $1.87M (74%) | 333,333 NEAR at the conversion price vs Sep–Oct revenue above the May–Aug take rate; holds if cost < uplift (`make confidential`) | PASS |
 | F9 | The fit missed its first unseen week | $355k actual vs $475k–$901k predicted | week of 2026-11-02, never used in the fit; holds (as a reported failure) if actual < both predictions (`make confidential`) | PASS |
-| F10 | Confidential TVL did not leave after the snapshot (H4.1 rejected) | $71M → $155M 30 days later; $140M on 2026-11-09 | Dune confidential TVL around the NEAR@3.33 snapshot, then NEAR's dashboard; holds if TVL 30 days later > at the snapshot (`make confidential official`) | PASS |
-| F11 | Supply still grows through 2027 in the base case | median 17% of 2027 issuance offset (5% chance of a deflationary 2027) | Monte Carlo, 10,000 paths, joint block bootstrap of volume and price; holds if the median is below 100% with and without HSP-029 (`make montecarlo`) | PASS |
-| F12 | Peers are priced on their revenue, NEAR is not | 220x vs peer median 20x (12 peers) | market cap / annualised holders revenue (DefiLlama, CoinGecko); holds if NEAR is above every peer's interquartile range (`make comps`) | PASS |
+| F10 | Confidential TVL did not leave after the snapshot (H4.1 rejected) | $71M → $155M 30 days later; $138M on 2026-11-12 | Dune confidential TVL around the NEAR@3.33 snapshot, then NEAR's dashboard; holds if TVL 30 days later > at the snapshot (`make confidential official`) | PASS |
+| F11 | Supply still grows through 2027 in the base case | median 18% of 2027 issuance offset (7% chance of a deflationary 2027) | Monte Carlo, 10,000 paths, joint block bootstrap of volume and price; holds if the median is below 100% with and without HSP-029 (`make montecarlo`) | PASS |
+| F12 | Peers are priced on their revenue, NEAR is not | 208x vs peer median 20x (12 peers) | market cap / annualised holders revenue (DefiLlama, CoinGecko); holds if NEAR is above every peer's interquartile range (`make comps`) | PASS |
 | F13 | Usage does not lead NEAR's price (the track's hypothesis) | 0 of 24 lead-lag tests significant after Holm; best r = +0.15, p = 0.15 before correction (L1 transactions, 1-week lag) | weekly changes, NEAR price net of BTC, lags 1–4 weeks, Intents volume and L1 activity, both directions; holds if none is significant at 5% after Holm (`make leadlag`) | PASS |
-| F14 | NEAR's BigQuery dataset agrees with the pipeline's sources | revenue wallets 3.250M NEAR on both, max monthly gap none; net issuance Feb–Oct 23.87M (0.06% apart) | queries in sql/ run on NEAR's public BigQuery dataset vs NearBlocks wallet histories and archival-RPC supply; holds if every month is within 0.1% and issuance within 0.5% (`make bigquery`) | PASS |
+| F14 | NEAR's BigQuery dataset agrees with the pipeline's sources | revenue wallets 3.292M NEAR on both, max monthly gap none; net issuance Feb–Oct 23.87M (0.06% apart) | queries in sql/ run on NEAR's public BigQuery dataset vs NearBlocks wallet histories and archival-RPC supply; holds if every month is within 0.1% and issuance within 0.5% (`make bigquery`) | PASS |
 | F15 | The 1Click results recompute without the partner key | 30 figures (integrator shares, the November take, the fee-schedule test) recomputed from the published daily aggregates, all within 1.5% | data/processed/oneclick_daily.csv (daily sums by integrator, route type, NEAR fee tier, ZEC; no swap or address) recomputed and compared with the outputs of make swaps; holds if all agree within 1.5% (`make oneclick-offline`) | PASS |
 
 ## Try it (do X → see Y)
@@ -85,14 +85,14 @@ make verify           # renders README/REPORT/FAQ/THESIS from the outputs and re
 | --- | --- |
 | `make check-clean` | the tests pass, then `39/39 outputs match the committed ones` (text exactly, numbers to 1e-9) |
 | `make verify` | `15/15 findings hold` and no stale document |
-| `make revenue` | revenue rebuilt from the 3 revenue wallets vs DefiLlama: $7,939,319 vs $8,008,957 since the fee switch |
-| `make official` | the same wallets against NEAR's own dashboard (0.14% apart), the take rate on both revenue definitions, capture by mechanism |
+| `make revenue` | revenue rebuilt from the 3 revenue wallets vs DefiLlama: $8,087,549 vs $8,149,355 since the fee switch |
+| `make official` | the same wallets against NEAR's own dashboard (0.16% apart), the take rate on both revenue definitions, capture by mechanism |
 | `make confidential` | the weekly fit (1.0 bps public, 11.0 confidential; 5.5 on week-to-week changes), the share of the jump explained, the airdrop counterfactual, the out-of-sample week, H4.1 |
 | `make supply` | Feb–Oct 2026: 23.9M NEAR issued, 3.53M captured (14.8%) |
-| `make montecarlo` | 11 scenarios to end-2027; base case 17% of 2027 issuance offset; break-even at $626M/day of volume at 5.0 bps |
+| `make montecarlo` | 11 scenarios to end-2027; base case 18% of 2027 issuance offset; break-even at $639M/day of volume at 4.9 bps |
 | `make governance` | HSP-029 read from `vote.dao`: 99.97% of veNEAR cast in favour, timelock ends 2026-11-16 |
 | `make leadlag` | 24 lead-lag tests of usage against price, 0 significant after Holm |
-| `make bigquery` | NEAR's BigQuery dataset against the pipeline's sources: revenue wallets 3.250M NEAR on both, issuance within 0.06%, daily activity identical on 406 days |
+| `make bigquery` | NEAR's BigQuery dataset against the pipeline's sources: revenue wallets 3.292M NEAR on both, issuance within 0.06%, daily activity identical on 408 days |
 | `make anchor-check` | the hashes anchored on NEAR testnet read back with a view call and matched to the files: predictions, raw-snapshot manifest, daily bundle (`anchors: OK`; needs network) |
 | `make oneclick-offline` | the 1Click figures (integrator shares, the November take, the fee-schedule test) recomputed from `data/processed/oneclick_daily.csv`, the published daily aggregates, without the partner key: `all agree` (finding F15) |
 | `make swaps` | without a partner key: a message that the per-swap 1Click data is private and not committed; its aggregates in `data/processed/` are what the documents read. With `INTENTS_JWT` in `.env`: `python3 -m src.ingest.intents_explorer`, then `make swaps` |
@@ -130,7 +130,7 @@ The 1Click results come from the NEAR Intents Explorer API, which needs a partne
 
 Six predictions were frozen on 2026-11-11 in [`predictions/PREDICTIONS.csv`](predictions/PREDICTIONS.csv): sha256 committed next to it (checked by a test) and timestamped in Bitcoin with OpenTimestamps, confirmed in block 975,397 (`ots verify predictions/PREDICTIONS.csv.ots`), and anchored on NEAR: the same sha256 is stored in SocialDB on testnet under `near-revenue-audit.testnet/audit/predictions` (transaction [AWcwWsaf…](https://testnet.nearblocks.io/txns/AWcwWsafGXGUw9zh1rZsSwirScbaWDvo2Vct6ESWBB8t)). The raw-snapshot manifest ([68zRaJwF…](https://testnet.nearblocks.io/txns/68zRaJwFdfCjco1UHJxyA1MRdK61sXfG56wtYLWwEf1k)) and the dashboard bundle ([ASxmSMNY…](https://testnet.nearblocks.io/txns/ASxmSMNYuZxciwdyFkFAT3KoCvbJhvg3cJB3PzDCtst9)) are anchored the same way at each release (`node anchor/anchor.mjs`); the daily refresh also anchors its bundle when the `NEAR_TESTNET_KEY` repository secret is set. `make anchor-check` reads them back with a view call, no key needed. Two resolve before judging starts (P1, P2 on 2026-11-15), one on its second day (P3), the rest by April 2027. `make predictions` resolves those whose date has passed; results go to [`predictions/RESULTS.md`](predictions/RESULTS.md).
 
-Reading so far, on data to 2026-11-10 (not a resolution): **P1** 3.8 bps, 11-01 to 11-09 against a threshold of 5.0; **P2** 139.6M USD on 2026-11-09 against 140M; **P3** Timelock. The daily refresh updates these on the dashboard's Checks section.
+Reading so far, on data to 2026-11-12 (not a resolution): **P1** 4.1 bps, 11-01 to 11-12 against a threshold of 5.0; **P2** 137.9M USD on 2026-11-12 against 140M; **P3** Timelock. The daily refresh updates these on the dashboard's Checks section.
 
 ## What NEAR's own dashboard shows, and what this adds
 
@@ -138,11 +138,11 @@ NEAR published [revenue.near.org](https://revenue.near.org/) in November 2026, a
 
 | Question | revenue.near.org | This audit |
 | --- | --- | --- |
-| How much revenue, how many NEAR bought? | Yes | Rebuilt independently from the chain; wallets agree within 0.14%; its revenue series runs 21% above them |
+| How much revenue, how many NEAR bought? | Yes | Rebuilt independently from the chain; wallets agree within 0.16%; its revenue series runs 21% above them |
 | Who pays it? | No | Per integrator and per asset on 2.6M 1Click swaps, to 2026-11-10 |
 | What did the growth cost? | No | Drop 1 of NEAR@3.33 cost 74% of the revenue uplift; net 146k NEAR removed |
 | Will it last? | No | Pre-registered kill criteria, a fit that failed out of sample, dated predictions |
-| What does it mean for the token? | Offset to date | The break-even identity (41x, 64x after HSP-029, vs 217x today), a 2027 Monte Carlo with a backtest, peers, holder risk and dilution |
+| What does it mean for the token? | Offset to date | The break-even identity (41x, 64x after HSP-029, vs 205x today), a 2027 Monte Carlo with a backtest, peers, holder risk and dilution |
 
 ## Method
 
@@ -165,7 +165,7 @@ A data project: NEAR is the subject and the main source. It reads mainnet throug
 - **NEAR Intents Explorer API**: per-swap 1Click data; needs a partner key in `INTENTS_JWT` (git-ignored `.env`, never committed; a key is free at partners.near-intents.org). Its terms do not allow archiving or redistributing the swaps, so they are not committed. What is committed: `data/processed/oneclick_daily.csv`, daily sums by integrator, route type, NEAR fee tier and ZEC flag (no swap, sender or address), from which `make oneclick-offline` recomputes every 1Click figure the documents quote (finding F15); the collector (`python3 -m src.ingest.intents_explorer`) rebuilds the rest with your own key. Collected up to 2026-11-10.
 - **NEAR's Dune dashboard** ([dune.com/near/near-intents](https://dune.com/near/near-intents)): Dune's API needs a paid plan, so the public result tables were read page by page in a browser and saved as text in `data/raw/dune/`, with each query id in the file header.
 - **NEAR's revenue dashboard** ([revenue.near.org](https://revenue.near.org/)): its series are embedded in the page; `make refresh` saves them to `data/raw/near_revenue/`.
-- **NEAR's public BigQuery dataset** (`bigquery-public-data.crypto_near_mainnet_us`): three queries in [`sql/`](sql/), run by hand in the free BigQuery sandbox on 2026-11-13, results in `data/raw/bigquery/`. `make bigquery` compares them with the pipeline's sources: the NEAR sent to the three revenue wallets is the same to the last digit as the NearBlocks histories (3.250M NEAR to 2026-11-10), net issuance Feb–Oct is within 0.06% of the archival-RPC series, and daily transactions and signers match NearBlocks' charts on all 406 days (finding F14). The wallet query scans about 850 GB, most of the sandbox's free monthly terabyte.
+- **NEAR's public BigQuery dataset** (`bigquery-public-data.crypto_near_mainnet_us`): three queries in [`sql/`](sql/), run by hand in the free BigQuery sandbox on 2026-11-13, results in `data/raw/bigquery/`. `make bigquery` compares them with the pipeline's sources: the NEAR sent to the three revenue wallets is the same to the last digit as the NearBlocks histories (3.292M NEAR to 2026-11-12), net issuance Feb–Oct is within 0.06% of the archival-RPC series, and daily transactions and signers match NearBlocks' charts on all 408 days (finding F14). The wallet query scans about 850 GB, most of the sandbox's free monthly terabyte.
 
 ## Hackathon disclosures
 
