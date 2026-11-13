@@ -1,4 +1,4 @@
-.PHONY: oneclick-offline setup pycheck anchor-check bigquery reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
+.PHONY: open-questions oneclick-offline setup pycheck anchor-check bigquery reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -52,7 +52,7 @@ test:        ## model checks
 	python3 -m pytest -q tests
 
 reproduce:   ## every offline step on the committed snapshots, then the tests
-	$(MAKE) ledger revenue supply governance montecarlo backtest leadlag bigquery oneclick-offline confidential official dashboard test
+	$(MAKE) ledger revenue supply governance montecarlo backtest leadlag bigquery oneclick-offline confidential official open-questions dashboard test
 
 refresh:     ## fetch fresh public snapshots (network), then re-run everything
 	$(MAKE) data comps risk official-fetch governance-fetch leadlag-fetch manifest reproduce
@@ -68,6 +68,9 @@ governance-fetch:
 
 anchor-check: ## read the hashes anchored on NEAR testnet and compare them with the files (needs network)
 	python3 -m src.anchor_check
+
+open-questions: ## the two questions NEAR did not answer: the confidential fee per wallet, and what the revenue-series gap is made of
+	python3 -m src.analysis.open_questions
 
 oneclick-offline: ## recompute the 1Click tables from the published daily aggregates, no partner key needed
 	python3 -m src.analysis.oneclick_offline

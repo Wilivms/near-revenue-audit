@@ -36,26 +36,26 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --page: #0a0f17; --card: #0f1622; --surface: #142030; --sunk: #1a283a;
-    --ink: #e9eef5; --ink-2: #aab7c7; --muted: #7b8a9d;
-    --line: #22324a; --grid: #172334; --axis: #34465f;
-    --accent: #4ea2ff; --accent-ink: #07101c; --accent-soft: rgba(78,162,255,0.14);
-    --band-bg: #0f2c52; --band-ink: #eef3fa; --band-dim: rgba(238,243,250,0.10); --band-line: rgba(238,243,250,0.18); --band-hi: #8fc8ff;
-    --series-1: #4ea2ff; --series-2: #ffa25c; --band: rgba(78,162,255,0.20);
-    --critical: #ff7b72; --good: #4fd08a; --good-text: #6be0a0; --critical-text: #ff8c84;
-    --seq-1: #13233a; --seq-2: #1c3d66; --seq-3: #2a63a3; --seq-4: #4a8fdc; --seq-5: #9fcdff;
+    --page: #322e25; --card: #2a2821; --surface: #39362d; --sunk: #423e34;
+    --ink: #e9e1cd; --ink-2: #c6bda9; --muted: #9b927f;
+    --line: #615a4b; --grid: #403b31; --axis: #6f6858;
+    --accent: #83dcff; --accent-ink: #1d1b16; --accent-soft: rgba(131,220,255,0.14);
+    --band-bg: #15577b; --band-ink: #f1ead8; --band-dim: rgba(241,234,216,0.12); --band-line: rgba(241,234,216,0.22); --band-hi: #a9e6ff;
+    --series-1: #83dcff; --series-2: #f4a261; --band: rgba(131,220,255,0.20);
+    --critical: #ff8b84; --good: #8fd18a; --good-text: #a6dea1; --critical-text: #ff9a91;
+    --seq-1: #3a3a33; --seq-2: #2f5566; --seq-3: #3f7c96; --seq-4: #5fb0d1; --seq-5: #a9e6ff;
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --page: #0a0f17; --card: #0f1622; --surface: #142030; --sunk: #1a283a;
-  --ink: #e9eef5; --ink-2: #aab7c7; --muted: #7b8a9d;
-  --line: #22324a; --grid: #172334; --axis: #34465f;
-  --accent: #4ea2ff; --accent-ink: #07101c; --accent-soft: rgba(78,162,255,0.14);
-  --band-bg: #0f2c52; --band-ink: #eef3fa; --band-dim: rgba(238,243,250,0.10); --band-line: rgba(238,243,250,0.18); --band-hi: #8fc8ff;
-  --series-1: #4ea2ff; --series-2: #ffa25c; --band: rgba(78,162,255,0.20);
-  --critical: #ff7b72; --good: #4fd08a; --good-text: #6be0a0; --critical-text: #ff8c84;
-    --seq-1: #13233a; --seq-2: #1c3d66; --seq-3: #2a63a3; --seq-4: #4a8fdc; --seq-5: #9fcdff;
+  --page: #322e25; --card: #2a2821; --surface: #39362d; --sunk: #423e34;
+  --ink: #e9e1cd; --ink-2: #c6bda9; --muted: #9b927f;
+  --line: #615a4b; --grid: #403b31; --axis: #6f6858;
+  --accent: #83dcff; --accent-ink: #1d1b16; --accent-soft: rgba(131,220,255,0.14);
+  --band-bg: #15577b; --band-ink: #f1ead8; --band-dim: rgba(241,234,216,0.12); --band-line: rgba(241,234,216,0.22); --band-hi: #a9e6ff;
+  --series-1: #83dcff; --series-2: #f4a261; --band: rgba(131,220,255,0.20);
+  --critical: #ff8b84; --good: #8fd18a; --good-text: #a6dea1; --critical-text: #ff9a91;
+    --seq-1: #3a3a33; --seq-2: #2f5566; --seq-3: #3f7c96; --seq-4: #5fb0d1; --seq-5: #a9e6ff;
 }
 * { box-sizing: border-box; }
 html { background: var(--page); }
@@ -67,6 +67,13 @@ a { color: inherit; text-underline-offset: 3px; }
 
 
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* dark: the NEAR Hackathon site's directory palette, with its faint scanlines */
+:root[data-theme="dark"] body { background-image: repeating-linear-gradient(0deg, transparent 0 4px, rgba(233,225,205,0.025) 4px 5px); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body { background-image: repeating-linear-gradient(0deg, transparent 0 4px, rgba(233,225,205,0.025) 4px 5px); } }
+
+:root[data-theme="dark"] .hero h1 .w:last-child { color: var(--accent); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hero h1 .w:last-child { color: var(--accent); } }
 /* key findings guide */
 .guide { padding: 56px 0 8px; }
 .guide .cards { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }

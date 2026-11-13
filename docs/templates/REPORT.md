@@ -146,6 +146,27 @@ The track suggests testing whether cross-chain volume through NEAR Intents is a 
 
 {{public_claims_table}}
 
+### 10. The two questions NEAR did not answer, and what the data says
+
+Both were asked on three channels (Discord support ticket, near.com support, the NearBuilders Telegram) without an answer from the team by the deadline. The data narrows each to one testable hypothesis (`make open-questions`, `open_questions.json`, log 42).
+
+**H-A. Confidential swaps pay NEAR about {{oq_bb_conf}} bps, and it lands in the buyback multisig.** Run per wallet instead of on total revenue, the weekly fit splits cleanly ({{oq_weeks}} weeks, Aug–Oct):
+- the **buyback multisig** follows confidential volume (correlation {{oq_bb_corr}}, against {{oq_bb_corr_pub}} with public volume): **{{oq_bb_conf}} bps** on confidential volume (bootstrap 90% interval {{oq_bb_band}}, leaving out any one week {{oq_bb_loo}}, {{oq_bb_fd}} on week-to-week changes) and {{oq_bb_pub}} bps on public volume;
+- the **front-end fund** adds {{oq_fe_conf}} bps in levels but {{oq_fe_fd}} on week-to-week changes: a shared trend, not a fee on confidential swaps.
+
+So the 11 bps of the total-revenue fit was 7.6 bps of confidential fee plus a front-end trend, and the confidential rate sits where NEAR's Dune fee table puts it (7.4 bps). *What would confirm it:* NEAR publishing the confidential rate, or a confidential swap's fee transfer to `buybacks.multisignature.near` read on chain. *What would refute it:* a published rate outside 5–9 bps.
+
+**H-B. Most of the gap between NEAR's revenue series and its wallets is quote-improvement revenue that does not reach the three wallets.** NEAR's dashboard splits what it captures into front-end fees, B2B partner fees and quote improvement (its half of execution better than quoted), for four windows. Its revenue series is that capture times gross fees (they agree to the dollar over all time). Against what the three wallets received over the same windows:
+
+| Window | Reported over wallets | Without quote improvement |
+| --- | --- | --- |
+| last 7 days | +{{oq_gap_d7}} | +{{oq_gap_d7_ex}} |
+| last 30 days | +{{oq_gap_d30}} | {{oq_gap_d30_ex}} |
+| year to date | +{{oq_gap_ytd}} | +{{oq_gap_ytd_ex}} |
+| all time | +{{oq_gap_all}} | +{{oq_gap_all_ex}} |
+
+Quote improvement is {{oq_qi_share}} of NEAR's reported revenue ({{oq_qi_ytd_usd}} this year). Taking it out brings the series within a few percent of the wallets on every window longer than a week; what remains is timing (sweeps lag fees by days) and, all time, the 2025 USDC period. *Reading:* about a tenth of the revenue NEAR reports never reaches the wallets that buy NEAR; the offset that matters for supply is the wallet-based {{offset_rebuilt}}, not {{offset_official}}. *What would confirm it:* the account that receives the protocol's quote-improvement share, or NEAR stating that its revenue series counts it. *What would refute it:* quote-improvement fees arriving in one of the three wallets.
+
 ## Bull case and bear case
 
 **Bull.** Confidential swaps are a product NEAR monetises better than public swaps (about {{premium_range}} bps against {{public_range}}), and they reached {{conf_share_oct}} of volume. If a part of that use outlives the airdrop, the take rate stays well above its old level. The take rate is a lever NEAR can still pull: it doubled in two months and the sensitivity table shows that 8–15 bps with 2–4x today's volume reaches break-even. A single deal with the largest integrator, which now pays NEAR almost nothing, would add more revenue than any volume growth. The revenue is clean, reconciles to the chain and is not being sold.

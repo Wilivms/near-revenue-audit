@@ -25,6 +25,7 @@ NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys 
 - **NEAR does not own the customer.** On {{oc_swaps_30}} 1Click swaps from the partner API, integrators keep {{oc_integrators_keep}} of the fee pool; the 20 bps that NEAR's published fee schedule sets for integrator swaps is paid on a small part of their volume. November's drop came from one integrator's burst ending, while NEAR's own front-end revenue held.
 - **NEAR's own revenue series runs {{series_over_wallets}} above what its three revenue wallets receive**, every month, while the wallet totals agree within {{wallets_gap}}.
 - **It is already easing, and the model said so by failing.** The weekly fit missed its first unseen week ({{oos_actual}} against {{oos_pred_fd}}–{{oos_pred}} predicted). In early November the take fell to {{take_last_week}} bps on three sources while confidential TVL fell {{tvl_from_peak}} from its peak.
+- **The two questions NEAR did not answer, narrowed to testable hypotheses:** confidential swaps pay about {{oq_bb_conf}} bps into the buyback multisig (matching NEAR's Dune fee table), and most of the {{series_over_wallets}} gap is quote-improvement revenue that never reaches the wallets that buy NEAR (without it: {{oq_gap_ytd_ex}} this year). [REPORT section 10](REPORT.md#10-the-two-questions-near-did-not-answer-and-what-the-data-says).
 - **Valuation:** valued like peers whose holders receive revenue, this revenue supports about {{price_at_peer}} a NEAR, against {{price_now}}.
 
 **Every number checked against independent sources**

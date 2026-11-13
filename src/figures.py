@@ -345,6 +345,17 @@ def figures() -> dict[str, str]:
               "q_rt_rev": pct(q["round_trip_near_revenue"], 1), "q_rt_ref": pct(q["round_trip_top_integrator"][1]),
               "q_hhi": f"{q['hhi_volume']:.0f}", "q_with_sender": pct(q["swaps_with_sender"])})
     f["outputs_n"] = str(len(list(OUT.glob("*"))) + 1)
+    oq = _json("open_questions.json")
+    bb, fe, g = oq["confidential_fee"]["buyback multisig"], oq["confidential_fee"]["front-end fund"], oq["revenue_gap"]
+    f.update({"oq_bb_conf": f"{bb['confidential_bps']:.1f}", "oq_bb_band": f"{bb['boot_p5']:.1f}–{bb['boot_p95']:.1f}", "oq_bb_loo": f"{bb['loo_min']:.1f}–{bb['loo_max']:.1f}",
+              "oq_bb_fd": f"{bb['first_diff_confidential_bps']:.1f}", "oq_bb_pub": f"{bb['public_bps']:.1f}", "oq_bb_corr": f"{bb['corr_with_confidential']:.2f}",
+              "oq_bb_corr_pub": f"{bb['corr_with_public']:.2f}", "oq_fe_conf": f"{fe['confidential_bps']:.1f}", "oq_fe_fd": f"{fe['first_diff_confidential_bps']:.1f}",
+              "oq_weeks": str(oq["confidential_fee"]["weeks"]),
+              "oq_qi_share": pct(g["ytd"]["quote_improvement_share_of_reported"]), "oq_gap_ytd": pct(g["ytd"]["reported_over_wallets"] - 1),
+              "oq_gap_ytd_ex": pct(g["ytd"]["without_quote_improvement_over_wallets"] - 1, 1), "oq_gap_d30": pct(g["d30"]["reported_over_wallets"] - 1),
+              "oq_gap_d30_ex": pct(g["d30"]["without_quote_improvement_over_wallets"] - 1, 1), "oq_gap_all": pct(g["all_time"]["reported_over_wallets"] - 1),
+              "oq_gap_all_ex": pct(g["all_time"]["without_quote_improvement_over_wallets"] - 1, 1), "oq_gap_d7": pct(g["d7"]["reported_over_wallets"] - 1),
+              "oq_gap_d7_ex": pct(g["d7"]["without_quote_improvement_over_wallets"] - 1, 1), "oq_qi_ytd_usd": usd(g["ytd"]["quote_improvement_usd"])})
     f["log_n"] = str(len(re.findall(r"^### \d+\.", (ROOT / "RESEARCH_LOG.md").read_text(), re.M)))
     bq = _json("bigquery_crosscheck.json")
     f.update({"bq_rev_near": f"{bq['revenue']['near_bigquery'] / 1e6:.3f}M", "bq_rev_gap": "none" if bq['revenue']['max_monthly_gap'] < 1e-9 else pct(bq['revenue']['max_monthly_gap'], 3),

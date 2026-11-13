@@ -35,7 +35,7 @@ NEAR Intents' protocol revenue is real and has grown, but in its current form it
 
 ## What could not be computed, and why
 
-- **The fee on confidential swaps.** Not published; estimated at {{premium_range}} bps by three methods. Asked on three channels (NEAR Discord support ticket, near.com support, the NearBuilders Telegram), and checked against the published fee schedule, which has no confidential rate; no answer by the submission deadline.
-- **Where NEAR's extra {{series_over_wallets}} of reported revenue goes.** Not visible in the three wallets NEAR lists, nor waiting in the fee collector. Asked on the same three channels; the support assistant answered that its material has no rule for that series.
+- **The fee on confidential swaps.** Not published, and not answered on three channels (NEAR Discord support, near.com support, the NearBuilders Telegram). Our hypothesis from the data (REPORT section 10): about **{{oq_bb_conf}} bps**, landing in the buyback multisig (interval {{oq_bb_band}}; {{oq_bb_fd}} on week-to-week changes), in line with NEAR's Dune fee table (7.4).
+- **Where NEAR's extra {{series_over_wallets}} of reported revenue goes.** Not answered either. Our hypothesis (REPORT section 10): mostly **quote-improvement revenue** ({{oq_qi_share}} of what NEAR reports), which does not reach the three wallets; without it the series is within {{oq_gap_ytd_ex}} of the wallets this year and {{oq_gap_d30_ex}} over the last 30 days.
 - **Confidential swaps by integrator or asset.** The Explorer API shows only 1Click (public) swaps; Dune's asset tables could not be read consistently (log 26).
 - **Whether NEAR@3.33 caused the growth.** The timing fits; there is no control group, and near.com shipped other products over the same months.

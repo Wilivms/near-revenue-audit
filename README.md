@@ -15,9 +15,9 @@ NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys 
 | --- | --- | --- |
 | 2 min | Open the **[live dashboard](https://near-revenue-audit.vercel.app)** | the live reading (NEAR bought back per 100 issued, recomputed in your browser), then the simulator: move volume and take rate, see break-even |
 | 5 min | Read **[`THESIS.md`](THESIS.md)** | the claim, evidence for and against, what would change our mind, what could not be computed, on one page |
-| 2 min | Run `make setup && . .venv/bin/activate && make check-clean` | every output rebuilt from committed data and compared: `38/38 outputs match`, `15/15 findings hold` |
+| 2 min | Run `make setup && . .venv/bin/activate && make check-clean` | every output rebuilt from committed data and compared: `39/39 outputs match`, `15/15 findings hold` |
 | 3 min | Open **[REPORT section 9](REPORT.md#9-public-claims-checked)** | 30 public claims about NEAR tested at their own dates |
-| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (41 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
+| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (42 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
 
 ## Why this thesis is different
 
@@ -26,6 +26,7 @@ NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys 
 - **NEAR does not own the customer.** On 504k 1Click swaps from the partner API, integrators keep 92% of the fee pool; the 20 bps that NEAR's published fee schedule sets for integrator swaps is paid on a small part of their volume. November's drop came from one integrator's burst ending, while NEAR's own front-end revenue held.
 - **NEAR's own revenue series runs 21% above what its three revenue wallets receive**, every month, while the wallet totals agree within 0.14%.
 - **It is already easing, and the model said so by failing.** The weekly fit missed its first unseen week ($355k against $475k–$901k predicted). In early November the take fell to 3.9 bps on three sources while confidential TVL fell 25% from its peak.
+- **The two questions NEAR did not answer, narrowed to testable hypotheses:** confidential swaps pay about 7.6 bps into the buyback multisig (matching NEAR's Dune fee table), and most of the 21% gap is quote-improvement revenue that never reaches the wallets that buy NEAR (without it: 4.5% this year). [REPORT section 10](REPORT.md#10-the-two-questions-near-did-not-answer-and-what-the-data-says).
 - **Valuation:** valued like peers whose holders receive revenue, this revenue supports about $0.33 a NEAR, against $3.58.
 
 **Every number checked against independent sources**
@@ -82,7 +83,7 @@ make verify           # renders README/REPORT/FAQ/THESIS from the outputs and re
 
 | Command | You should see |
 | --- | --- |
-| `make check-clean` | the tests pass, then `38/38 outputs match the committed ones` (text exactly, numbers to 1e-9) |
+| `make check-clean` | the tests pass, then `39/39 outputs match the committed ones` (text exactly, numbers to 1e-9) |
 | `make verify` | `15/15 findings hold` and no stale document |
 | `make revenue` | revenue rebuilt from the 3 revenue wallets vs DefiLlama: $7,939,319 vs $8,008,957 since the fee switch |
 | `make official` | the same wallets against NEAR's own dashboard (0.14% apart), the take rate on both revenue definitions, capture by mechanism |
