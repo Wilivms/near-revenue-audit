@@ -343,6 +343,10 @@
   "wallet_fefundsadmin_txns/2026-11-11.json": {
    "bytes": 1658091,
    "sha256": "6683831c470921086a8497821f354c92c0a5386a1a0e8eb220c25ea64f8176fa"
+  },
+  "wallet_state/2026-11-13.json": {
+   "bytes": 350,
+   "sha256": "d0f78ea6dec4eb7e44fb045f1a70223d8ba0cb30d82fb0325d7baaa92b28121a"
   }
  }
 }

@@ -471,3 +471,9 @@ Three queries (`sql/`) run in the free BigQuery sandbox on `bigquery-public-data
 - Daily transactions and distinct signers: identical to NearBlocks' charts on all 406 days, so the lead-lag inputs are the dataset's own numbers. Transactions sent to `intents.near` went from 1.6% of all transactions in October 2025 to 8.9% in October 2026.
 
 The wallet query scans about 850 GB because of the `args` column, most of the sandbox's free monthly terabyte; it is documented as such.
+
+### 40. Four more public claims: NEAR's own words and fee schedule (2026-11-13)
+
+- **Evolving NEAR Tokenomics** (near.org, 24 Feb): "already directed revenue to over 1M in $NEAR buyback" survives (1.05M NEAR, $1.73M, had reached the wallets by then). "Staked, locked, or otherwise removed from liquid circulation" is not shown: `view_account` on the three revenue wallets (new snapshot `data/raw/wallet_state/`, now fetched by `make refresh`) gives 4.29M NEAR, none staked or locked.
+- **The published 1Click fee schedule** (docs.near-intents.org/resources/fees), tested on the last 30 days of swaps (`fee_policy()`, output `oneclick_fee_policy.json`): swaps without an integrator follow it (66% of cross-asset volume pays NEAR's wallets 20 bps or more; 80% of same-asset volume pays 1 bp). Swaps with an integrator do not: the "at least 20 bps to 1Click" applies to 13% of their cross-asset volume, and 74% pays NEAR nothing. The schedule's "custom agreements" are the norm, which is the integrator finding of section 3 seen from NEAR's own documentation.
+- The ledger now has 30 claims; repeated sources are written out in full so each row stands alone.

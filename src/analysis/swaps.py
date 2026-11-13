@@ -9,6 +9,7 @@ Outputs (data/processed/):
 - retention.csv        sender retention between sample weeks and into the continuous window
 - revenue_by_asset_last30d.csv volume and NEAR revenue by the volatile leg of each swap (last 30 days)
 - fee_shares_last30d.csv each referral's share of volume, app fees and NEAR revenue (last 30 days)
+- oneclick_fee_policy.json what NEAR receives per swap against the published 1Click fee schedule (last 30 days)
 - oneclick_quality.json  is the volume broad? sender concentration, heavy senders and round trips (last 30 days)
 - snapshot_entrants.csv retention of senders who arrived just before the snapshot vs a placebo cohort
 """
@@ -343,6 +344,28 @@ def quality(df: pd.DataFrame, days: int = 30) -> dict:
     }
 
 
+def fee_policy(df: pd.DataFrame, days: int = 30) -> dict:
+    """What NEAR's revenue wallets actually receive per swap, against the published 1Click fee schedule
+    (docs.near-intents.org/resources/fees: 20 bps with an API key and no app fee, 1 bp on stablecoin and
+    same-asset routes; with app fees, a 50/50 split with at least 20 bps to 1Click; custom deals exist).
+
+    Same-family swaps (stable to stable, or the same asset across chains) are the "1 bp" routes.
+    Weighted by volume, last `days` days.
+    """
+    g = df[df["ts"] >= df["ts"].max() - pd.Timedelta(days=days)]
+    same = g["origin_asset"].map(_family) == g["destination_asset"].map(_family)
+    ref = g["referral"].fillna("") != ""
+    out = {"from": str(g["ts"].min().date()), "to": str(g["ts"].max().date())}
+    for name, m in (("no_ref_cross", ~ref & ~same), ("no_ref_same", ~ref & same), ("ref_cross", ref & ~same), ("ref_same", ref & same)):
+        x = g[m]
+        w = x["usd"].sum()
+        out[name] = {"swaps": int(len(x)), "volume_usd": float(w), "near_bps": float((x["near_bps"] * x["usd"]).sum() / w),
+                     "share_at_20_or_more": float(x.loc[x["near_bps"] >= 20, "usd"].sum() / w),
+                     "share_at_1": float(x.loc[x["near_bps"] == 1, "usd"].sum() / w),
+                     "share_at_0": float(x.loc[x["near_bps"] == 0, "usd"].sum() / w)}
+    return out
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     if not glob.glob(str(DATA / "swaps_*.csv.gz")):
@@ -377,6 +400,9 @@ def main() -> None:
     nov = november(df)
     (OUT / "oneclick_november.json").write_text(json.dumps(nov, indent=1))
     print(json.dumps(nov, indent=1))
+    fp = fee_policy(df)
+    (OUT / "oneclick_fee_policy.json").write_text(json.dumps(fp, indent=1))
+    print(json.dumps(fp, indent=1))
     q = quality(df)
     (OUT / "oneclick_quality.json").write_text(json.dumps(q, indent=1))
     print(json.dumps(q, indent=1))

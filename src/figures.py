@@ -450,7 +450,21 @@ def public_claims(v: dict | None = None) -> list[dict]:
     share = d["share"]
     may_oct = share.loc["2026-05-01":"2026-10-01"]
     take_jun = win(rev, "2026-05-04", "2026-06-03") / win(vol, "2026-05-04", "2026-06-03") * 1e4
+    ws = json.loads(sorted((RAW / "wallet_state").glob("*.json"))[-1].read_text())
+    ws_liquid, ws_staked = sum(x["liquid_near"] for x in ws.values()), sum(x["staked_near"] for x in ws.values())
+    flows = pd.read_csv(OUT / "revenue_wallet_flows.csv", parse_dates=["date"])
+    pre = flows[(flows["dir"] == "in") & flows["is_near"] & ~flows["internal"] & (flows["date"] < "2026-02-24")]
+    fp = _json("oneclick_fee_policy.json")
     rows = [
+        # --- what NEAR said it would do
+        ("\"NEAR Intents has already directed revenue to over 1M in $NEAR buyback\"", "[Evolving NEAR Tokenomics, near.org, 2026-02-24](https://www.near.org/blog/evolving-near-tokenomics)",
+         f"{pre['amount'].sum() / 1e6:.2f}M NEAR ({usd(pre['usd'].sum())}) had reached the revenue wallets before 24 February", "Survives"),
+        ("Acquired NEAR is \"staked, locked, or otherwise removed from liquid circulation\"", "same",
+         f"the three revenue wallets hold {ws_liquid / 1e6:.2f}M NEAR, {ws_staked:,.0f} of it staked or locked (NEAR RPC `view_account`, {sorted((RAW / 'wallet_state').glob('*.json'))[-1].stem}); none is burned", "Not shown"),
+        ("1Click with an API key and no app fee: 20 bps, 1 bp on stablecoin and same-asset routes", "[NEAR Intents docs, fees](https://docs.near-intents.org/resources/fees)",
+         f"swaps without an integrator, last 30 days: {pct(fp['no_ref_cross']['share_at_20_or_more'])} of cross-asset volume pays NEAR's wallets 20 bps or more, {pct(fp['no_ref_same']['share_at_1'])} of same-asset volume pays 1 bp", "Survives for most volume"),
+        ("1Click with app fees: a 50/50 split, at least 20 bps to 1Click (custom deals exist)", "same",
+         f"swaps with an integrator, last 30 days: {pct(fp['ref_cross']['share_at_20_or_more'])} of cross-asset volume pays NEAR 20 bps or more, {pct(fp['ref_cross']['share_at_0'])} pays it nothing; average {fp['ref_cross']['near_bps']:.1f} bps", "The exception is the rule"),
         # --- revenue and buybacks
         ("\"About $177M of daily volume makes NEAR deflationary\"", "community DefiLlama Pro dashboard, widely quoted in 2026 (log 6)",
          f"assumes all gross fees buy NEAR; with the captured share, break-even is {f['be_vol_now']}/day at {f['take_now']} bps", "Inflated"),
@@ -513,7 +527,14 @@ def public_claims(v: dict | None = None) -> list[dict]:
         ("Usage on NEAR is growing", "recurring ecosystem framing",
          f"Intents volume {f['yoy_vol']} year on year over the last 30 days; L1 transactions {f['yoy_txns']}", "Intents yes, L1 no"),
     ]
-    return [{"claim": c, "source": s_, "data": dt, "verdict": vd} for c, s_, dt, vd in rows]
+    out, prev = [], ""
+    for c, s_, dt, vd in rows:
+        if s_ == "same":  # repeat the previous source, without its link, so each row stands alone when sorted
+            s_ = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", prev)
+        else:
+            prev = s_
+        out.append({"claim": c, "source": s_, "data": dt, "verdict": vd})
+    return out
 
 
 def public_claims_table(rows: list[dict]) -> str:

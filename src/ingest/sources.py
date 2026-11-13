@@ -136,6 +136,15 @@ def fetch_chain_state() -> Path:
     return _save("chain_state", payload)
 
 
+def fetch_wallet_state() -> Path:
+    """Balance and staked ("locked") NEAR of the three revenue wallets: is bought NEAR staked or locked?"""
+    rows = {}
+    for account in REVENUE_WALLETS:
+        a = _rpc("query", {"request_type": "view_account", "finality": "final", "account_id": account})
+        rows[account] = {"block_height": a["block_height"], "liquid_near": int(a["amount"]) / YOCTO, "staked_near": int(a["locked"]) / YOCTO}
+    return _save("wallet_state", rows)
+
+
 # --- NearBlocks ------------------------------------------------------------
 
 # NEAR's three revenue wallets, as listed by revenue.near.org and DefiLlama's adapter.
@@ -238,7 +247,7 @@ if __name__ == "__main__":
 
     failed = []
     for fetch in (fetch_llama_intents, fetch_near_prices, fetch_chain_state, fetch_buyback_txns,
-                  fetch_revenue_wallets, fetch_governance):
+                  fetch_revenue_wallets, fetch_governance, fetch_wallet_state):
         try:
             print(fetch.__name__, fetch())
         except Exception as e:  # noqa: BLE001

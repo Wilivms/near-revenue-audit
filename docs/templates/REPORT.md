@@ -142,7 +142,7 @@ The track suggests testing whether cross-chain volume through NEAR Intents is a 
 
 ### 9. Public claims, checked
 
-{{public_claims_n}} statements made in public about NEAR's revenue, buybacks, issuance and usage, by NEAR, analysts, treasury companies and the press, each tested on the committed snapshots at the claim's own date where it has one (rendered by `make docs` from the same outputs; `public_claims()` in `src/figures.py`). {{public_claims_survive}} survive, {{public_claims_close}} are close (within about 10%, or within definitions), {{public_claims_fail}} do not hold as stated. The pattern: volume and usage figures quoted in public are accurate; claims about value reaching holders (deflation, permanent removal, buyback totals on NEAR's own series, price reflexivity) are the ones that fail.
+{{public_claims_n}} statements made in public about NEAR's revenue, buybacks, issuance and usage, by NEAR, analysts, treasury companies and the press, each tested on the committed snapshots at the claim's own date where it has one (rendered by `make docs` from the same outputs; `public_claims()` in `src/figures.py`). {{public_claims_survive}} survive, {{public_claims_close}} are close (within about 10%, or within definitions), {{public_claims_fail}} do not hold as stated. The pattern: volume and usage figures quoted in public are accurate; claims about value reaching holders (deflation, NEAR staked or permanently removed, buyback totals on NEAR's own series, price reflexivity) are the ones that fail. NEAR's own fee schedule fails in the same place: the 20 bps that 1Click is meant to keep on integrator swaps is paid on a small part of that volume; custom deals are the norm.
 
 {{public_claims_table}}
 
