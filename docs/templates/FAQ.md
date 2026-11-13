@@ -31,6 +31,12 @@ No, and the log says so (entry 30). For the week of 2 November it predicted {{oo
 **The {{fit_conf}} bps fit is above the {{dune_fee_bps}} bps fee Dune shows for confidential swaps. Which is right?**
 Probably neither exactly, and the log says so (entries 26, 32). The regression is a revenue *attribution*: in levels it can absorb a shared trend and correlated flows. On week-to-week changes it gives {{fd_conf}} bps ({{fd_ci}}), which contains Dune's {{dune_fee_bps}}. The conclusion that survives every version: confidential swaps pay NEAR more than public ones, and they explain a part of the jump, from {{jump_fd}} to {{jump_levels}}. The open question has been asked to the NEAR Intents team.
 
+**I see several offsets and take rates. Which number is which?**
+They measure different windows, and each is labelled where it appears:
+- **Share of issuance bought back:** {{offset_rebuilt}} over Feb–Oct 2026 on the three wallets (the headline, finding F3); {{offset_official}} on NEAR's own count over the same months; about a fifth over the last 30 days on the dashboard's live reading, recomputed on each visit.
+- **NEAR's take, bps of Intents volume:** {{take_aug}} in August and {{take_oct}} in October (monthly, finding F5); {{take_last_week}} in the week of 2 November; the simulator starts from the last 30 days; the 2027 model uses {{take_now}}, its rounded starting point.
+- **Market cap against captured revenue:** {{near_captured_mult}} on the last 30 days annualised; break-even is {{breakeven_now}}.
+
 **Other entries report a lower offset (about 11%). Why the difference?**
 Definitions. This audit counts all NEAR captured by the three revenue wallets NEAR lists (buyback multisig, front-end fund, 1Click fund): {{offset_rebuilt}} of issuance over Feb–Oct, {{offset_official}} on NEAR's own count. Counting only NEAR actually bought into the buyback multisig, over a recent 30 days, gives a lower figure, which is what some entries report. Both read the same chain; neither changes the conclusion that buybacks offset a small fraction of issuance. REPORT section 9 checks the "permanently remove" claim: nothing is burned, and part of the captured NEAR sits in a treasury with no commitment not to sell.
 

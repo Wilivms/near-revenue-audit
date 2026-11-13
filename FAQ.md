@@ -32,6 +32,12 @@ No, and the log says so (entry 30). For the week of 2 November it predicted $901
 **The 11.0 bps fit is above the 7.4 bps fee Dune shows for confidential swaps. Which is right?**
 Probably neither exactly, and the log says so (entries 26, 32). The regression is a revenue *attribution*: in levels it can absorb a shared trend and correlated flows. On week-to-week changes it gives 5.5 bps (2.2–9.0), which contains Dune's 7.4. The conclusion that survives every version: confidential swaps pay NEAR more than public ones, and they explain a part of the jump, from 22% to 84%. The open question has been asked to the NEAR Intents team.
 
+**I see several offsets and take rates. Which number is which?**
+They measure different windows, and each is labelled where it appears:
+- **Share of issuance bought back:** 14.8% over Feb–Oct 2026 on the three wallets (the headline, finding F3); 16.3% on NEAR's own count over the same months; about a fifth over the last 30 days on the dashboard's live reading, recomputed on each visit.
+- **NEAR's take, bps of Intents volume:** 2.2 in August and 5.5 in October (monthly, finding F5); 3.9 in the week of 2 November; the simulator starts from the last 30 days; the 2027 model uses 5.0, its rounded starting point.
+- **Market cap against captured revenue:** 217x on the last 30 days annualised; break-even is 41x.
+
 **Other entries report a lower offset (about 11%). Why the difference?**
 Definitions. This audit counts all NEAR captured by the three revenue wallets NEAR lists (buyback multisig, front-end fund, 1Click fund): 14.8% of issuance over Feb–Oct, 16.3% on NEAR's own count. Counting only NEAR actually bought into the buyback multisig, over a recent 30 days, gives a lower figure, which is what some entries report. Both read the same chain; neither changes the conclusion that buybacks offset a small fraction of issuance. REPORT section 9 checks the "permanently remove" claim: nothing is burned, and part of the captured NEAR sits in a treasury with no commitment not to sell.
 
