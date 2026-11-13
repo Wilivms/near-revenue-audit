@@ -345,6 +345,7 @@ def figures() -> dict[str, str]:
               "q_rt_rev": pct(q["round_trip_near_revenue"], 1), "q_rt_ref": pct(q["round_trip_top_integrator"][1]),
               "q_hhi": f"{q['hhi_volume']:.0f}", "q_with_sender": pct(q["swaps_with_sender"])})
     f["outputs_n"] = str(len(list(OUT.glob("*"))) + 1)
+    f["log_n"] = str(len(re.findall(r"^### \d+\.", (ROOT / "RESEARCH_LOG.md").read_text(), re.M)))
     bq = _json("bigquery_crosscheck.json")
     f.update({"bq_rev_near": f"{bq['revenue']['near_bigquery'] / 1e6:.3f}M", "bq_rev_gap": "none" if bq['revenue']['max_monthly_gap'] < 1e-9 else pct(bq['revenue']['max_monthly_gap'], 3),
               "bq_rev_to": bq["revenue"]["to"], "bq_supply_gap": pct(bq["supply"]["issued_gap"], 2), "bq_issued": f"{bq['supply']['issued_feb_oct_bigquery'] / 1e6:.2f}M",

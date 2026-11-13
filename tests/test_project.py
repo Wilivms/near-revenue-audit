@@ -73,7 +73,7 @@ def test_public_claims_ledger_is_well_formed():
 
 def test_public_claims_counts_add_up(rendered):
     rows = figures.public_claims()
-    m = re.search(r"(\d+) public claims by NEAR.*?\((\d+) survive, (\d+) close, (\d+) do not hold", rendered["README.md"])
+    m = re.search(r"(\d+) claims by NEAR, Nansen, analysts and the press tested at their own dates: (\d+) survive, (\d+) are close, (\d+) do not hold", rendered["README.md"])
     assert m and int(m.group(1)) == len(rows) == sum(int(m.group(i)) for i in (2, 3, 4))
 
 

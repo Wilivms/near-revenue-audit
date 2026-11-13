@@ -6,26 +6,41 @@
 
 NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys NEAR. Several public dashboards, NEAR's own included, now report how much. This project asks the questions they do not answer: **why** the revenue moved, **who** pays it, **what** the growth cost, whether it **lasts**, and what that means for the token. Every number below is computed from public data by code in this repository, and every document is rendered from those outputs.
 
-- **Live dashboard:** https://near-revenue-audit.vercel.app. Headline figures and two kill criteria are recomputed in the browser from DefiLlama and the NEAR RPC on every visit; the rest refreshes daily.
-- **The thesis on one page** (claim, evidence for and against, what would change our mind, what could not be computed): [`THESIS.md`](THESIS.md). **In full:** [`REPORT.md`](REPORT.md). **Working notes, dead ends and corrections:** [`RESEARCH_LOG.md`](RESEARCH_LOG.md). **Hypotheses written before the tests:** [`HYPOTHESES.md`](HYPOTHESES.md). **Reviewer FAQ:** [`FAQ.md`](FAQ.md). **Dated predictions:** [`predictions/`](predictions/).
+**In one sentence:** NEAR's protocol revenue is real (rebuilt from the chain and matched by three independent sources) but too small to support the token through buybacks ({{offset_rebuilt}} of new NEAR offset; market cap {{near_captured_mult}} captured revenue against {{breakeven_now}} for break-even), its recent doubling was partly bought with an airdrop, and NEAR does not own the customers who pay it.
 
-> **For the jury, in 60 seconds**
-> - **Verdict.** NEAR's protocol revenue is real (rebuilt from the chain: within {{rev_gap}} of DefiLlama, {{wallets_gap}} of NEAR's own dashboard), but buybacks offset only {{offset_rebuilt}} of new NEAR. Market cap is {{near_captured_mult}} annual captured revenue; supply stops growing below {{breakeven_now}}. Valued like peers whose holders receive revenue, this revenue supports about {{price_at_peer}} a NEAR, against {{price_now}}. NEAR is not yet a scarcity asset.
-> - **What only this thesis shows.** NEAR's take more than doubled (from {{take_aug}} to {{take_oct}} bps) partly because of an airdrop: confidential swaps under NEAR@3.33 explain {{jump_fd}}–{{jump_levels}} of the rise, and the first drop cost {{drop1_over_uplift}} of the uplift. On the {{oc_swaps_30}} 1Click swaps of the last 30 days (partner API, {{oc_swaps}} collected), integrators keep {{oc_integrators_keep}} of the fee pool, and November's drop came from one integrator's burst ending. The volume is broad, not wash-traded: round trips are {{q_rt_vol}} of it. NEAR's own revenue series runs {{series_over_wallets}} above what its wallets receive.
-> - **Held to account.** {{claims_passed}} findings re-checked in CI on every commit; {{public_claims_n}} public claims by NEAR, analysts and the press tested at their own dates ({{public_claims_survive}} survive, {{public_claims_close}} close, {{public_claims_fail}} do not hold: [REPORT section 9](REPORT.md#9-public-claims-checked)); hypotheses written before the data; a model that failed out of sample and says so; six predictions frozen on 2026-11-11 with a Bitcoin timestamp and their sha256 anchored on NEAR testnet (P1 so far: {{p1_so_far}}, threshold 5.0).
-> - **Next:** the [live dashboard](https://near-revenue-audit.vercel.app) (try the simulator), then [`THESIS.md`](THESIS.md) on one page.
+## Start here
+
+| Time | Do | You see |
+| --- | --- | --- |
+| 2 min | Open the **[live dashboard](https://near-revenue-audit.vercel.app)** | the live reading (NEAR bought back per 100 issued, recomputed in your browser), then the simulator: move volume and take rate, see break-even |
+| 5 min | Read **[`THESIS.md`](THESIS.md)** | the claim, evidence for and against, what would change our mind, what could not be computed, on one page |
+| 2 min | Run `make setup && . .venv/bin/activate && make check-clean` | every output rebuilt from committed data and compared: `{{outputs_n}}/{{outputs_n}} outputs match`, `{{claims_passed}} findings hold` |
+| 3 min | Open **[REPORT section 9](REPORT.md#9-public-claims-checked)** | {{public_claims_n}} public claims about NEAR tested at their own dates |
+| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** ({{log_n}} dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
+
+## Why this thesis is different
+
+**Findings this thesis adds**
+- **The doubling was partly bought.** NEAR's take went from {{take_aug}} to {{take_oct}} bps between August and October; confidential swaps under the NEAR@3.33 airdrop explain {{jump_fd}}–{{jump_levels}} of the rise, and the first drop cost {{drop1_over_uplift}} of the revenue it added.
+- **NEAR does not own the customer.** On {{oc_swaps_30}} 1Click swaps from the partner API, integrators keep {{oc_integrators_keep}} of the fee pool; the 20 bps that NEAR's published fee schedule sets for integrator swaps is paid on a small part of their volume. November's drop came from one integrator's burst ending, while NEAR's own front-end revenue held.
+- **NEAR's own revenue series runs {{series_over_wallets}} above what its three revenue wallets receive**, every month, while the wallet totals agree within {{wallets_gap}}.
+- **It is already easing, and the model said so by failing.** The weekly fit missed its first unseen week ({{oos_actual}} against {{oos_pred_fd}}–{{oos_pred}} predicted). In early November the take fell to {{take_last_week}} bps on three sources while confidential TVL fell {{tvl_from_peak}} from its peak.
+- **Valuation:** valued like peers whose holders receive revenue, this revenue supports about {{price_at_peer}} a NEAR, against {{price_now}}.
+
+**Every number checked against independent sources**
+- Revenue rebuilt from the chain matches DefiLlama within {{rev_gap}} and NEAR's own dashboard within {{wallets_gap}}; NEAR's public BigQuery dataset matches the wallet histories **to the last digit** ({{bq_rev_near}} NEAR) and issuance within {{bq_supply_gap}}.
+
+**Held to account in public**
+- {{claims_passed}} findings with explicit pass conditions, re-checked in CI on every commit; documents rendered from the outputs, so no figure is typed by hand.
+- {{public_claims_n}} claims by NEAR, Nansen, analysts and the press tested at their own dates: {{public_claims_survive}} survive, {{public_claims_close}} are close, {{public_claims_fail}} do not hold.
+- Hypotheses and kill criteria written before the analysis; the weekly model missed its first unseen week and the report says so.
+- Six dated predictions, frozen on 2026-11-11, timestamped in Bitcoin and anchored on NEAR (testnet); two resolve before judging (P1 so far: {{p1_so_far}}, threshold 5.0).
+
+**Reproducible by anyone**
+- Offline from committed snapshots, one command, no key: `make check-clean`. Works with any Python (`make setup` fetches 3.12 if needed) and on a ZIP download.
+- The 1Click results, which come from a partner API, are recomputed from published daily aggregates without the key (`make oneclick-offline`, finding F15); see [1Click data](#1click-data-what-you-can-check-without-a-key).
 
 [![The live dashboard: NEAR's captured revenue against issuance](docs/img/hero.jpg)](https://near-revenue-audit.vercel.app)
-
-## The answer
-
-NEAR's revenue is **real**: rebuilt from the chain, it matches DefiLlama within {{rev_gap}} and NEAR's own dashboard within {{wallets_gap}}. It is **too small** to support the token on supply: buybacks offset {{offset_rebuilt}} of issuance, and market cap is {{near_captured_mult}} annual captured revenue against {{breakeven_now}} needed for supply to stop growing ({{breakeven_cut}} once the approved issuance cut is phased in). Many theses in this track reach those two results. What this one adds is the **why**:
-
-- **The doubling was partly bought.** NEAR's take went from {{take_aug}} to {{take_oct}} bps of volume between August and October. The largest identified driver is confidential swaps ({{conf_share_aug}} → {{conf_share_oct}} of volume), which pay NEAR {{premium_range}} bps against {{public_range}} on public swaps and explain {{jump_fd}} to {{jump_levels}} of the rise, depending on the method. They grew under an airdrop campaign (NEAR@3.33) whose first drop cost {{drop1_over_uplift}} of the revenue uplift.
-- **It is already easing, and the model said so by failing.** The weekly fit missed its first unseen week ({{oos_actual}} against {{oos_pred_fd}}–{{oos_pred}} predicted). In early November the take fell to {{take_last_week}} bps on three sources while confidential TVL fell {{tvl_from_peak}} from its peak.
-- **NEAR does not own the customer.** On the {{oc_swaps_30}} 1Click swaps of the last 30 days, integrators keep about {{oc_integrators_keep}} of the fee pool; the largest (SwapKit) takes {{sk_fees}} of app fees and sends NEAR {{sk_near}} of its revenue. In November, NEAR's 1Click take fell from {{oc_bps_oct}} to {{oc_bps_nov}} bps, mostly because one integrator's burst (Trust Wallet, {{trust_burst_vol}} of ZEC at 20 bps in late October) stopped; NEAR's own front-end revenue held. The volume itself is broad: {{q_senders}} sending addresses, {{q_one_swap}} of them swapping once; the top 10 send {{q_top10}} of volume, and round trips (A to B and back within a day by the same address) are {{q_rt_vol}} of volume and {{q_rt_rev}} of NEAR's revenue.
-- **NEAR's own revenue series runs {{series_over_wallets}} above what its three revenue wallets receive**, every month ({{series_ratio_min}}–{{series_ratio_max}}×), while the wallet totals agree within {{wallets_gap}}. The gap is not fees waiting to be swept; it is an open question put to NEAR.
-- **Usage does not lead the price.** The track's own hypothesis: {{ll_sig}} of {{ll_tests}} lead-lag tests are significant after Holm's correction, over {{ll_weeks}} weeks.
 
 ## Findings, each one a check
 
@@ -67,6 +82,19 @@ make verify           # renders README/REPORT/FAQ/THESIS from the outputs and re
 | `make dashboard-serve` | the dashboard at http://localhost:8000 |
 
 With network access, `make refresh` fetches fresh snapshots and re-runs everything. A daily GitHub Action does this and commits `dashboard/live.json`, which the hosted dashboard loads first; `dashboard/data.json` stays the reproducible one.
+
+## 1Click data: what you can check without a key
+
+The 1Click results come from the NEAR Intents Explorer API, which needs a partner key. Its terms do not allow archiving or redistributing the swaps, so they are not in the repository.
+
+| | Without a key | With a free partner key |
+| --- | --- | --- |
+| Integrators' share of the fee pool ({{oc_integrators_keep}}), each integrator's share of app fees and of NEAR's revenue | ✅ `make oneclick-offline` recomputes them from `data/processed/oneclick_daily.csv` (daily sums by integrator, route type, NEAR fee tier, ZEC; no swap or address) | rebuilt from the swaps |
+| November: NEAR's 1Click take with and without Trust Wallet, revenue without an integrator, ZEC | ✅ same | rebuilt from the swaps |
+| NEAR's fee schedule against what integrators pay | ✅ same | rebuilt from the swaps |
+| Sender concentration and round trips ({{q_rt_vol}} of volume), retention across sample weeks | committed results only (`oneclick_quality.json`, `retention.csv`) | ✅ rebuilt from the swaps |
+
+**Getting a key:** sign in at [partners.near-intents.org](https://partners.near-intents.org/home) and copy the JWT from the Partner Dashboard (the 1Click docs: [authentication](https://docs.near-intents.org/integration/distribution-channels/1click-api/authentication)). Put it in `.env` as `INTENTS_JWT=...`, then `python3 -m src.ingest.intents_explorer --since 2026-10-11T00:00:00Z --until 2026-11-11T00:00:00Z` (about 45 minutes: the API allows one request every 5 seconds) and `make swaps`.
 
 ## Judging map
 
