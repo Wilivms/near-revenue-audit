@@ -340,6 +340,7 @@ def figures() -> dict[str, str]:
               "q_heavy_rev": pct(q["senders_100plus_near_revenue"]), "q_rt_vol": pct(q["round_trip_volume"], 1),
               "q_rt_rev": pct(q["round_trip_near_revenue"], 1), "q_rt_ref": pct(q["round_trip_top_integrator"][1]),
               "q_hhi": f"{q['hhi_volume']:.0f}", "q_with_sender": pct(q["swaps_with_sender"])})
+    f["outputs_n"] = str(len(list(OUT.glob("*"))) + 1)
     from .predictions import resolve
     for _, r in resolve(pd.Timestamp(v["data_to"])).iterrows():
         f[f"{r.id.lower()}_so_far"] = r.so_far or r.status

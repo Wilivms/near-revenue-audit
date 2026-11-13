@@ -345,6 +345,13 @@ def quality(df: pd.DataFrame, days: int = 30) -> dict:
 
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
+    if not glob.glob(str(DATA / "swaps_*.csv.gz")):
+        print(f"No per-swap 1Click data in {DATA}: it comes from the NEAR Intents Explorer API, which needs a partner key\n"
+              "(INTENTS_JWT in a git-ignored .env), and it is not committed. Its aggregates are committed in data/processed/\n"
+              "(swaps_weekly.csv, fee_shares_last30d.csv, oneclick_november.json, oneclick_quality.json, ...), and every\n"
+              "document and check reads those. To rebuild them: put a key in .env, run `python3 -m src.ingest.intents_explorer`,\n"
+              "then `make swaps`. Nothing to do here; exiting.")
+        return
     df = load()
     print(f"{len(df):,} successful 1Click swaps, {df['ts'].min()} → {df['ts'].max()}")
     w = weekly(df)

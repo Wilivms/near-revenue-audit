@@ -66,7 +66,7 @@ make verify           # renders README/REPORT/FAQ/THESIS from the outputs and re
 
 | Command | You should see |
 | --- | --- |
-| `make check-clean` | the tests pass, then `29/29 outputs match the committed ones` (text exactly, numbers to 1e-9) |
+| `make check-clean` | the tests pass, then `34/34 outputs match the committed ones` (text exactly, numbers to 1e-9) |
 | `make verify` | `13/13 findings hold` and no stale document |
 | `make revenue` | revenue rebuilt from the 3 revenue wallets vs DefiLlama: $7,939,319 vs $8,008,957 since the fee switch |
 | `make official` | the same wallets against NEAR's own dashboard (0.14% apart), the take rate on both revenue definitions, capture by mechanism |
@@ -75,6 +75,7 @@ make verify           # renders README/REPORT/FAQ/THESIS from the outputs and re
 | `make montecarlo` | 11 scenarios to end-2027; base case 17% of 2027 issuance offset; break-even at $626M/day of volume at 5.0 bps |
 | `make governance` | HSP-029 read from `vote.dao`: 99.97% of veNEAR cast in favour, timelock ends 2026-11-16 |
 | `make leadlag` | 24 lead-lag tests of usage against price, 0 significant after Holm |
+| `make swaps` | without a partner key: a message that the per-swap 1Click data is private and not committed; its aggregates in `data/processed/` are what the documents read. With `INTENTS_JWT` in `.env`: `python3 -m src.ingest.intents_explorer`, then `make swaps` |
 | `make predictions` | six frozen predictions, resolved as their dates pass |
 | `make dashboard-serve` | the dashboard at http://localhost:8000 |
 
@@ -88,7 +89,7 @@ With network access, `make refresh` fetches fresh snapshots and re-runs everythi
 | Evidence, not conviction | 13 findings with explicit pass conditions (above); hypotheses and kill criteria registered before the analysis ([`HYPOTHESES.md`](HYPOTHESES.md), unchanged since its first commit); results against expectations reported as written (H4.1 rejected, the fit's out-of-sample miss, a kill criterion triggered on 1Click) |
 | Technical implementation | revenue rebuilt from wallet histories ([`revenue_wallets.py`](src/analysis/revenue_wallets.py)); supply from archival-RPC headers ([`supply.py`](src/analysis/supply.py)); 2.6M swaps from the Intents Explorer API ([`intents_explorer.py`](src/ingest/intents_explorer.py), [`swaps.py`](src/analysis/swaps.py)); robustness of the channel fit ([`confidential.py`](src/analysis/confidential.py)); joint block bootstrap with a walk-forward backtest ([`montecarlo.py`](src/analysis/montecarlo.py), [`backtest_mc.py`](src/analysis/backtest_mc.py)); governance read on-chain ([`governance.py`](src/analysis/governance.py)) |
 | Design | the dashboard: a what-if simulator on the break-even identity, live kill criteria, a scenario fan chart, a "show the numbers" table under each chart and the sources listed on the page; light theme, phone widths, reduced-motion support |
-| Impact | findings that change how NEAR's revenue should be read: the September jump decomposed and costed, the integrator economics of 1Click, a 20% gap inside NEAR's own revenue reporting, a public threshold ($177M/day) shown to be 3–6× too low |
+| Impact | findings that change how NEAR's revenue should be read: the September jump decomposed and costed, the integrator economics of 1Click, a 21% gap inside NEAR's own revenue reporting, a public threshold ($177M/day) shown to be 3–6× too low |
 | Originality | swap-level data no other thesis uses; an incentive's cost set against the revenue it bought; a model whose own failure is published; NEAR's dashboard audited against the chain |
 | Sustainability | `make refresh` and a daily Action; predictions that resolve from 2026-11-15 to 2027-04-02 with a resolver; MIT licence |
 

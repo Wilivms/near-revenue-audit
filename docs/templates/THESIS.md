@@ -30,7 +30,7 @@ NEAR Intents' protocol revenue is real and has grown, but in its current form it
 ## What would change our mind
 
 - **Toward the bull case:** the take holding above 5 bps through Q4 after the incentive (prediction P1 says it will not in early November; P5 says it stays above the May–Aug level); a revenue-sharing deal with SwapKit or another large integrator; an on-chain commitment by the front-end fund not to sell; daily volume several times higher at a stable take.
-- **Toward a worse picture** (the pre-registered kill criteria, live on the dashboard): 30-day revenue below half its 180-day average (now {{kill1}}); buyback inflows stopping for 14 days while fees continue; one integrator above 60% of fees (triggered on 1Click, where SwapKit brings NEAR 1% of its revenue).
+- **Toward a worse picture** (the pre-registered kill criteria, live on the dashboard): 30-day revenue below half its 180-day average (now {{kill1}}); buyback inflows stopping for 14 days while fees continue; one integrator above 60% of fees (triggered on 1Click, where SwapKit brings NEAR {{sk_near}} of its revenue).
 - **Dated predictions** frozen on 2026-11-11 (`predictions/`), two resolving before judging.
 
 ## What could not be computed, and why

@@ -199,7 +199,7 @@ Six predictions were frozen on 2026-11-11 in [`predictions/PREDICTIONS.csv`](pre
 - **Low** on end-2027 paths: the bootstrap can only replay the past, and the take rate is a policy choice.
 - A walk-forward check of the simulation engine (log 21) shows it **overestimated** buyback capacity in 2026: realised outcomes fell below the 10th percentile in a third of 90-day forecasts. If anything, the 17% base case is too generous, which makes "net inflationary through 2027" a conservative conclusion.
 
-Questions sent to the NEAR team (Discord ticket 2026-11-04, then near.com support, forwarded internally, no answer yet): the fee on confidential intents and who receives it, further NEAR@3.33 drops (answer: "tba"), and whether the front-end fund's NEAR is ever sold. One more is open since 2026-11-11: why NEAR's revenue series is about 20% above what the three wallets receive. Confidential TVL now has a public source (revenue.near.org).
+Questions sent to the NEAR team (Discord ticket 2026-11-04, then near.com support, forwarded internally, no answer yet): the fee on confidential intents and who receives it, further NEAR@3.33 drops (answer: "tba"), and whether the front-end fund's NEAR is ever sold. One more is open since 2026-11-11: why NEAR's revenue series is about 21% above what the three wallets receive. Confidential TVL now has a public source (revenue.near.org).
 
 ## Reproduce
 
