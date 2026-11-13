@@ -40,3 +40,24 @@ SELECT JSON_VALUE(d, '$.new_owner_id') AS destination, COUNT(*) AS n, COUNT(DIST
 FROM l, UNNEST(JSON_QUERY_ARRAY(SUBSTR(log, 12), '$.data')) d
 WHERE JSON_VALUE(d, '$.old_owner_id') = '51e8f94d77b5e90dc9852ca6113771e11e8382ce69473a75e313e41665de7cbe'
 GROUP BY 1 HAVING n >= 5 ORDER BY n DESC;
+
+-- 4) Of the NEAR withdrawn to the two wallets, how much came through accounts the confidential pool funded? 1 Oct - 12 Nov 2026.
+--    Result: buyback multisig 258,645 of 421,748 NEAR (734 accounts); front-end fund 200,869 of 202,120 (525): 74% overall.
+WITH l AS (
+  SELECT block_date, l.element AS log
+  FROM `bigquery-public-data.crypto_near_mainnet_us.execution_outcomes`, UNNEST(logs.list) l
+  WHERE block_date BETWEEN '2026-10-01' AND '2026-11-12' AND executor_account_id = 'intents.near'
+    AND (l.element LIKE '%native_withdraw%' OR l.element LIKE '%51e8f94d77b5e90dc9852ca6113771e11e8382ce69473a75e313e41665de7cbe%')
+), w AS (
+  SELECT JSON_VALUE(d, '$.account_id') AS acct, JSON_VALUE(d, '$.receiver_id') AS wallet, CAST(JSON_VALUE(d, '$.amount') AS BIGNUMERIC) / 1e24 AS near
+  FROM l, UNNEST(JSON_QUERY_ARRAY(SUBSTR(log, 12), '$.data')) d
+  WHERE JSON_VALUE(SUBSTR(log, 12), '$.event') = 'native_withdraw'
+    AND JSON_VALUE(d, '$.receiver_id') IN ('buybacks.multisignature.near', 'fefundsadmin.sputnik-dao.near')
+), fp AS (
+  SELECT DISTINCT JSON_VALUE(d, '$.new_owner_id') AS acct
+  FROM l, UNNEST(JSON_QUERY_ARRAY(SUBSTR(log, 12), '$.data')) d
+  WHERE JSON_VALUE(SUBSTR(log, 12), '$.event') = 'mt_transfer'
+    AND JSON_VALUE(d, '$.old_owner_id') = '51e8f94d77b5e90dc9852ca6113771e11e8382ce69473a75e313e41665de7cbe'
+)
+SELECT wallet, fp.acct IS NOT NULL AS funded_by_pool, COUNT(DISTINCT w.acct) AS accounts, COUNT(*) AS withdrawals, SUM(near) AS near
+FROM w LEFT JOIN fp USING (acct) GROUP BY 1, 2 ORDER BY 1, 2;
