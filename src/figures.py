@@ -369,6 +369,7 @@ def figures() -> dict[str, str]:
               "bq_rpc_n": str(bq["supply"]["rpc_samples"]), "bq_days": str(bq["activity"]["days"]),
               "bq_intents_tx_25": pct(bq["activity"]["intents_share_of_txns_oct2025"], 1), "bq_intents_tx_26": pct(bq["activity"]["intents_share_of_txns_oct2026"], 1)})
     rv = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True)["rebuilt_total_usd"]
+    f.update(follow_100(v))
     f["rev_nov01_11"] = f"${float(rv.loc['2026-11-01':'2026-11-11'].sum()) / 1e6:.2f}M"
     si = bq["intents_signers"]
     f.update({"bq_is_tx": f"{si['txns_change'] * 100:+.0f}%", "bq_is_rev": f"{si['revenue_change'] * 100:+.0f}%",
@@ -454,6 +455,26 @@ def _claims_data() -> dict:
     d["ctvl"] = pd.read_csv(OUT / "confidential_tvl.csv", index_col=0, parse_dates=True).iloc[:, 0]
     d["share"] = pd.read_csv(OUT / "crosschain_share.csv", index_col=0, parse_dates=True)["near-intents_share"]
     return d
+
+
+def follow_100(v: dict) -> dict:
+    """Where $100 of NEAR Intents volume goes, over the same 30 days as the headline multiple."""
+    d = _claims_data()
+    a, b = v["r30_from"], v["r30_to"]
+    rev = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True).loc[a:b]
+    vol, fees = float(d["vol"].loc[a:b].sum()), float(d["fees"].loc[a:b].sum())
+    captured = float(rev["rebuilt_total_usd"].sum())
+    bb = float(rev["rebuilt_buybacks_usd"].sum())
+    days = (pd.Timestamp(b) - pd.Timestamp(a)).days + 1
+    issued_usd = v["near_mcap"] * v["issuance"] / 365 * days  # new NEAR over the window, at the market cap's price
+    oc = pd.read_csv(OUT / "oneclick_daily.csv")
+    oc = oc[(oc["day"] >= a) & (oc["day"] <= b)]
+    per = lambda x: f"${100 * x / vol:.3f}"  # noqa: E731
+    return {"f100_from": a, "f100_to": b, "f100_fees": per(fees), "f100_near": per(captured), "f100_bb": per(bb),
+            "f100_fe": per(captured - bb), "f100_issued": per(issued_usd), "f100_cover": pct(captured / issued_usd),
+            "f100_vol": usd(vol, 2), "f100_oc_pool": f"${100 * oc['fee_usd'].sum() / oc['volume_usd'].sum():.3f}",
+            "f100_oc_near": f"${100 * oc['near_usd'].sum() / oc['volume_usd'].sum():.3f}",
+            "f100_oc_int": f"${100 * (oc['fee_usd'].sum() - oc['near_usd'].sum()) / oc['volume_usd'].sum():.3f}"}
 
 
 def public_claims(v: dict | None = None) -> list[dict]:
@@ -639,6 +660,8 @@ def main() -> int:
     print(f"  {f['near_captured_mult']} market cap ({f['mcap_date']}) / wallet revenue {f['r30_from']} to {f['r30_to']}, annualised")
     print(f"  {f['breakeven_now']} break-even multiple (1 / {f['issuance']}); about {f['be_vol_now']} of daily volume at today's take")
     print(f"  {f['oc_integrators_keep']} of the 1Click fee pool kept by integrators, {f['oc_from']} to {f['oc_to']}")
+    print(f"Follow $100 of Intents volume, {f['f100_from']} to {f['f100_to']}: fees {f['f100_fees']}, to NEAR's wallets {f['f100_near']} "
+          f"(buyback multisig {f['f100_bb']}), new NEAR issued {f['f100_issued']}: revenue covers {f['f100_cover']} of issuance")
     if check and stale:
         print(f"STALE: {', '.join(stale)} differ from the templates rendered on the committed data; run `make docs`")
     return 1 if (stale or not all(r["passed"] for r in rows)) else 0

@@ -22,6 +22,21 @@ Each number with its window, its source and the command that rebuilds it. None o
 | **41x** break-even multiple | Supply stops growing when buybacks equal issuance (2.43% of supply a year), so when market cap ÷ captured revenue falls to 1 ÷ 2.43%. At today's take that is about $639M of daily volume | `make supply montecarlo` |
 | **92%** of the 1Click fee pool kept by integrators | 1Click swaps from 2026-10-14 to 2026-11-12 (partner API); fee pool = integrators' app fees + NEAR's protocol fee | `make oneclick-offline` recomputes it from the committed daily aggregates |
 
+## Follow $100 through NEAR Intents
+
+The thesis in one table. Over 2026-10-14 to 2026-11-12: $3.77B of Intents volume (DefiLlama), the revenue rebuilt from NEAR's wallets, and the NEAR issued over the same days at the same market cap.
+
+| Of every $100 swapped through NEAR Intents | |
+| --- | --- |
+| Paid by users in fees (gross, all parties) | $0.154 |
+| Reaches NEAR's three revenue wallets | **$0.049** |
+| &nbsp;&nbsp;of which the buyback multisig | $0.035 |
+| &nbsp;&nbsp;of which the front-end fund | $0.014 |
+| New NEAR issued over the same days, per $100 swapped | **$0.246** |
+| Revenue as a share of new issuance | **20%** |
+
+On 1Click alone (partner API, same days), a $100 swap pays $0.469 in fees: integrators keep $0.431, NEAR gets $0.038. For supply to stop growing, the second bold line has to reach the third. (Over February–October the share was 14.8%; the last 30 days, with the take rate still high, cover more.) `make verify` prints this table from the committed outputs.
+
 ## Start here
 
 | Time | Do | You see |
@@ -30,7 +45,7 @@ Each number with its window, its source and the command that rebuilds it. None o
 | 5 min | Read **[`THESIS.md`](THESIS.md)** | the claim, evidence for and against, what would change our mind, what could not be computed, on one page |
 | 2 min | Run `make setup && . .venv/bin/activate && make check-clean` | every output rebuilt from committed data and compared: `39/39 outputs match`, `15/15 findings hold` |
 | 3 min | Open **[REPORT section 9](REPORT.md#9-public-claims-checked)** | 33 public claims about NEAR tested at their own dates |
-| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (49 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
+| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (50 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
 
 ## Why this thesis is different
 

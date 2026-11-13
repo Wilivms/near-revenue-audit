@@ -21,6 +21,21 @@ Each number with its window, its source and the command that rebuilds it. None o
 | **{{breakeven_now}}** break-even multiple | Supply stops growing when buybacks equal issuance ({{issuance}} of supply a year), so when market cap ÷ captured revenue falls to 1 ÷ {{issuance}}. At today's take that is about {{be_vol_now}} of daily volume | `make supply montecarlo` |
 | **{{oc_integrators_keep}}** of the 1Click fee pool kept by integrators | 1Click swaps from {{oc_from}} to {{oc_to}} (partner API); fee pool = integrators' app fees + NEAR's protocol fee | `make oneclick-offline` recomputes it from the committed daily aggregates |
 
+## Follow $100 through NEAR Intents
+
+The thesis in one table. Over {{f100_from}} to {{f100_to}}: {{f100_vol}} of Intents volume (DefiLlama), the revenue rebuilt from NEAR's wallets, and the NEAR issued over the same days at the same market cap.
+
+| Of every $100 swapped through NEAR Intents | |
+| --- | --- |
+| Paid by users in fees (gross, all parties) | {{f100_fees}} |
+| Reaches NEAR's three revenue wallets | **{{f100_near}}** |
+| &nbsp;&nbsp;of which the buyback multisig | {{f100_bb}} |
+| &nbsp;&nbsp;of which the front-end fund | {{f100_fe}} |
+| New NEAR issued over the same days, per $100 swapped | **{{f100_issued}}** |
+| Revenue as a share of new issuance | **{{f100_cover}}** |
+
+On 1Click alone (partner API, same days), a $100 swap pays {{f100_oc_pool}} in fees: integrators keep {{f100_oc_int}}, NEAR gets {{f100_oc_near}}. For supply to stop growing, the second bold line has to reach the third. (Over February–October the share was {{offset_rebuilt}}; the last 30 days, with the take rate still high, cover more.) `make verify` prints this table from the committed outputs.
+
 ## Start here
 
 | Time | Do | You see |

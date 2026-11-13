@@ -547,3 +547,7 @@ Aim: find where NEAR's half of quote improvement goes (hypothesis H-B, entry 42)
 - **No backlog.** The three collecting accounts held $9.8k, $3.5k and $0.4k of unconverted tokens on 13 November (RPC `mt_balance_of`, priced with the 1Click token list): under 1% of a month's revenue. Waiting fees do not explain why NEAR's revenue series runs above the wallets.
 - **Quote improvement not located.** In a 1Click swap the settlement account (`51e8f94d…`) receives the user's full input, passes the input net of app fees to the solver and the output to the user; its transfers on 12 November went only to solvers and user accounts (29,931 to implicit accounts, 20,000+ to `solver-*` accounts, none to fee recipients or NEAR's wallets). The documentation names no recipient for the protocol's half of quote improvement. H-B stays the best explanation of the gap, not a proof.
 - Cost: under 30 GB scanned, inside the free trial.
+
+### 50. "Follow $100", for a reader who has two minutes (2026-11-13)
+
+The README and THESIS.md now open with one table built from the committed outputs (`figures.follow_100`): of every $100 swapped through NEAR Intents over the same 30 days as the headline multiple, users paid $0.154 in fees, NEAR's wallets received $0.049 ($0.035 into the buyback multisig) and the network issued $0.246 of new NEAR, so revenue covered 20% of issuance (14.8% over February–October). On 1Click alone, a $100 swap pays $0.469 in fees, $0.431 to integrators and $0.038 to NEAR. `make verify` prints it.
