@@ -453,3 +453,21 @@ Prompted by a newer entry in the track (Toll Road), which measures volume qualit
 - **Not wash-traded.** Round trips (a sender swaps asset family A into B, then B back into A within 24 hours) are 2.7% of volume and 1.1% of NEAR's revenue; 77% of that round-trip volume goes through LI.FI, which looks like rebalancing rather than self-dealing. Toll Road's sample gives about 1% outside market makers; the two methods agree.
 - **Limits.** One person can use several addresses, so concentration is a lower bound and the one-swap share an upper bound. Confidential swaps are not in the Explorer API and cannot be checked this way.
 - **Correction.** `oneclick_november.json` labelled the number of swaps collected (2.65M, all periods) as the last-30-day count; the README's sentence on integrators keeping 92% of the fee pool therefore read as if it covered 2.6M swaps. It covers the last 30 days (504k swaps). Both counts are now separate (`swaps`, `swaps_collected`) and the documents say which is which. The 92% figure itself was computed on the right window and is unchanged.
+
+### 37. Screening pass from a fresh clone (2026-11-13)
+
+The README was followed literally in a clean clone and virtual environment, as the judges' automated screening will do. Every `make` target in the "do X → see Y" table ran. Two problems were fixed: `make swaps` crashed with a pandas traceback when the private per-swap data is absent (it now explains that the data needs a partner key and that its aggregates are committed), and the README quoted a stale output count (`29/29`, now rendered from the data). Four figures typed by hand in the templates (a 20% gap, a ~210× multiple, SwapKit's 1%) were replaced by rendered values, and the reading of the lead-lag section was reworded: on the current data L1 transactions correlate with weekly revenue as well as Intents volume does.
+
+### 38. Public claims ledger, 5 → 26 claims (2026-11-13)
+
+Every dated public figure found about NEAR's revenue, buybacks, issuance and usage (NEAR's revenue dashboard, Nansen's Q3 report as quoted by Altcoin Buzz, SVRN's CEO on Bankless, Bankless, Crypto Briefing, Bitwise, House of Stake), tested on the committed snapshots at the claim's own date (`public_claims()` in `src/figures.py`, REPORT section 9). 14 survive, 5 are close, 7 do not hold as stated. Usage and volume figures quoted in public are accurate (Nansen's Q3 transaction counts and confidential TVL match to the unit). The claims that fail are about value reaching holders: "$177M a day makes NEAR deflationary", "permanently remove", "more than $8M captured" (the wallets had $7.96M by 11 November; only NEAR's own, 21% higher series passes $8M), issuance "more than six times" buybacks (5.4×), and the Intents-flywheel price story (0 of 24 lead-lag tests).
+
+### 39. NEAR's BigQuery dataset as a third source (2026-11-13)
+
+Three queries (`sql/`) run in the free BigQuery sandbox on `bigquery-public-data.crypto_near_mainnet_us`, results in `data/raw/bigquery/`, compared by `make bigquery` (finding F14):
+
+- NEAR transferred into the three revenue wallets since the fee switch: 3,250,386 NEAR to 10 November, identical to the NearBlocks histories to the last digit, every month.
+- Total supply at each day's last block: the archival-RPC samples agree within 0.002%; net issuance Feb–Oct 23.87M NEAR against 23.86M in `supply_monthly.csv` (0.06%).
+- Daily transactions and distinct signers: identical to NearBlocks' charts on all 406 days, so the lead-lag inputs are the dataset's own numbers. Transactions sent to `intents.near` went from 1.6% of all transactions in October 2025 to 8.9% in October 2026.
+
+The wallet query scans about 850 GB because of the `args` column, most of the sandbox's free monthly terabyte; it is documented as such.
