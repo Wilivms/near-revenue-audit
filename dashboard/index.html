@@ -608,6 +608,7 @@ footer li + li { margin-top: 6px; }
       <div class="card"><h3>Findings</h3><p class="sub" id="checksSub"></p><div class="tbl-wrap" id="tbChecks"></div></div>
       <div class="card" style="margin-top:20px"><h3>Dated predictions</h3><p class="sub">Frozen 2026-11-11; status as of the data date. "So far" is a reading on the data to date, not a resolution</p><div class="tbl-wrap" id="tbPred"></div></div>
       <div class="card" style="margin-top:20px"><h3>Public claims, checked</h3><p class="sub">What NEAR, analysts and the press say about revenue, buybacks, issuance and usage, tested on this audit's data at each claim's date</p><div class="tbl-wrap" id="tbPublic"></div></div>
+      <div class="card" style="margin-top:20px"><h3>Anchored on NEAR</h3><p class="sub">sha256 of the predictions, the raw-snapshot manifest and the dashboard bundle, written to SocialDB on NEAR testnet under <code>near-revenue-audit.testnet/audit</code>. Check with <code>make anchor-check</code> (a view call, no key)</p><div class="tbl-wrap" id="tbAnchors"></div></div>
       <div class="card" style="margin-top:20px"><h3>The track's own hypothesis</h3><p class="sub" id="leadlagSub"></p></div>
     </div>
   </section>
@@ -1254,6 +1255,10 @@ function scorecard(D) {
     table($("tbPublic"), ["Claim (source)", "What the data says", "Verdict"], C.public_claims.map((r) => [r.claim + " (" + r.source.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") + ")", r.data, r.verdict])).classList.add("score");
     table($("tbPred"), ["ID", "Prediction", "Resolves", "So far", "Status"], C.predictions.map((r) => [r.id, r.prediction, r.resolve_on, r.so_far || "", r.status])).classList.add("score");
     const L = C.leadlag, pc = (x) => `${x >= 0 ? "+" : ""}${Math.round(x * 100)}%`;
+    if (C.anchors) {
+      const t = table($("tbAnchors"), ["Date", "What", "sha256", "Transaction"], C.anchors.slice(-9).reverse().map((a) => [a.date, a.file, a.sha256.slice(0, 16) + "…", a.tx.slice(0, 10) + "…"]));
+      t.querySelectorAll("tbody tr").forEach((tr, i) => { const a = C.anchors.slice(-9).reverse()[i]; const td = tr.lastElementChild; td.textContent = ""; const l = document.createElement("a"); l.href = "https://testnet.nearblocks.io/txns/" + a.tx; l.target = "_blank"; l.rel = "noopener"; l.textContent = a.tx.slice(0, 10) + "…"; td.appendChild(l); });
+    }
     $("leadlagSub").textContent = `Does usage lead NEAR's price? Over ${L.weeks} weeks, with the price taken net of BTC: ${L.significant_after_holm} of ${L.tests} lead-lag tests (Intents volume, L1 transactions and active accounts, lags of 1–4 weeks, both directions) are significant after Holm's correction. Usage has split in two: over the last 30 days against a year earlier, Intents volume is ${pc(L.yoy_30d.intents_volume)} while L1 transactions are ${pc(L.yoy_30d.l1_txns)}. Weekly changes in NEAR's captured revenue track Intents volume (r = ${L.tracks_captured_revenue_weekly_r.intents_volume.toFixed(2)}), not the price (r = ${L.tracks_captured_revenue_weekly_r.near_vs_btc.toFixed(2)}).`;
   }
   [...st.tBodies[0].rows].forEach((row, i) => { const c = row.cells[2]; const txt = c.textContent; c.replaceChildren(); const sp = el("span", { class: "tag" }); sp.append(icon(score[i][1]), document.createTextNode(txt)); c.appendChild(sp); });

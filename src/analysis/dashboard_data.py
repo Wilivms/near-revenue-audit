@@ -119,7 +119,8 @@ def _checks() -> dict:
     preds["value"] = preds["value"].astype(object).where(preds["value"].notna(), None)
     ll = json.loads((OUT / "leadlag_summary.json").read_text())
     return {"findings": claims(v), "public_claims": public_claims(v), "predictions": preds.to_dict("records"),
-            "leadlag": {k: ll[k] for k in ("weeks", "significant_after_holm", "tests", "yoy_30d", "tracks_captured_revenue_weekly_r")}}
+            "leadlag": {k: ll[k] for k in ("weeks", "significant_after_holm", "tests", "yoy_30d", "tracks_captured_revenue_weekly_r")},
+            "anchors": [json.loads(x) for x in (OUT.parents[1] / "anchor" / "anchors.jsonl").read_text().splitlines() if x.strip()]}
 
 
 def main() -> None:

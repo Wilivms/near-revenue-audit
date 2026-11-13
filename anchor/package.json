@@ -1,0 +1,7 @@
+{
+  "name": "near-revenue-audit-anchor",
+  "private": true,
+  "type": "module",
+  "description": "Writes sha256 hashes of the audit's files to NEAR testnet (SocialDB), so anyone can check what was published and when.",
+  "dependencies": { "near-api-js": "4.0.4" }
+}

@@ -21,7 +21,12 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Fetch fresh public data and recompute
         run: make refresh
-      - name: Commit the live bundle only
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Commit the live bundle only, and anchor it on NEAR testnet
+        env:
+          NEAR_TESTNET_KEY: ${{ secrets.NEAR_TESTNET_KEY }}
         run: |
           cp dashboard/data.json dashboard/live.json
           git checkout -- data dashboard/data.json
@@ -29,6 +34,8 @@ jobs:
           git config user.name "near-revenue-audit bot"
           git config user.email "actions@users.noreply.github.com"
           git add dashboard/live.json
-          git diff --cached --quiet || git commit -m "Automated daily data refresh, $(date -u +%F): dashboard/live.json only" -m "Scheduled GitHub Action (.github/workflows/refresh.yml). Re-fetches the public sources and recomputes the dashboard bundle. It changes no code, no analysis and no document; the submitted thesis is unchanged. This is how the dated predictions resolve in public."
+          git diff --cached --quiet && exit 0
+          if [ -n "$NEAR_TESTNET_KEY" ]; then (cd anchor && npm ci --silent) && node anchor/anchor.mjs daily && git add anchor/anchors.jsonl || echo "anchor failed; the bundle is still committed"; fi
+          git commit -m "Automated daily data refresh, $(date -u +%F): dashboard/live.json and its NEAR testnet anchor only" -m "Scheduled GitHub Action (.github/workflows/refresh.yml). Re-fetches the public sources, recomputes the dashboard bundle and writes its sha256 to NEAR testnet (anchor/anchors.jsonl). It changes no code, no analysis and no document; the submitted thesis is unchanged. This is how the dated predictions resolve in public."
           git pull --rebase -X theirs origin main
           git push

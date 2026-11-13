@@ -1,4 +1,4 @@
-.PHONY: bigquery reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
+.PHONY: anchor-check bigquery reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -59,6 +59,9 @@ governance:  ## HSP-029 vote, timelock and earliest ramp start, from the vote.da
 
 governance-fetch:
 	python3 -m src.analysis.governance --refresh
+
+anchor-check: ## read the hashes anchored on NEAR testnet and compare them with the files (needs network)
+	python3 -m src.anchor_check
 
 bigquery:    ## third-source check on NEAR's BigQuery dataset (queries in sql/, results in data/raw/bigquery/)
 	python3 -m src.analysis.bigquery_check
