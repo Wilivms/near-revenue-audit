@@ -85,6 +85,12 @@ def test_bigquery_agrees_with_pipeline_sources():
     assert bq["activity"]["txns_ratio_min"] == bq["activity"]["txns_ratio_max"] == 1.0
 
 
+def test_november_transaction_jump_is_intents_near_itself():
+    si = json.loads((OUT / "bigquery_crosscheck.json").read_text())["intents_signers"]
+    assert si["txns_change"] > 0.5 and si["self_signed_share_of_increase"] > 0.9  # what README and FAQ say
+    assert si["revenue_change"] < 0
+
+
 def test_revenue_rebuild_monthly_within_five_percent():
     r = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True).loc[figures.FEE_SWITCH:]
     m = r.resample("MS").sum()

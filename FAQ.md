@@ -44,6 +44,12 @@ Definitions. This audit counts all NEAR captured by the three revenue wallets NE
 **Is the volume real, or a few addresses trading with themselves?**
 Real and broad, on 1Click where it can be measured (REPORT section 3, log 36). Over the last 30 days: 231k sending addresses, 78% swapping once, the top 10 at 19% of volume. Round trips (A to B and back within a day by the same address) are 2.7% of volume and 1.1% of NEAR's revenue. Confidential swaps cannot be checked this way: the Explorer API does not show them.
 
+**Did NEAR Intents usage jump in November?**
+Not in any sense that pays NEAR. Comparing 20–31 October with 1–12 November in NEAR's BigQuery dataset, transactions to `intents.near` changed +85%, but 99.9% of the increase is `intents.near` signing its own transactions (85% of all of them in November). Transactions from other accounts changed +9% and the number of those accounts +5%. NEAR's captured revenue over the same days changed -18%. (`make bigquery`; query in `sql/intents_signers.sql`)
+
+**Confidential swaps run in a private shard. Does that hide NEAR's revenue from this audit?**
+No. What the private shard hides is the individual swap; the fee still reaches NEAR as NEAR or wNEAR arriving in its three revenue wallets on mainnet, which is what this audit rebuilds. Those inflows continue through 2026-11-12 and still match NEAR's own dashboard within 0.16%. Per-swap analysis is where confidential flow is out of sight, which is why the confidential fee is estimated from the wallets (REPORT section 10) and not from swaps.
+
 **Why should I trust a Monte Carlo on a token this volatile?**
 You shouldn't trust it blindly. The point is the identity, not the forecast: supply stops growing only when market cap is below 41x annual captured revenue (64x once the issuance cut approved on 2 November is phased in), and today it is 205x.
 

@@ -367,6 +367,10 @@ def figures() -> dict[str, str]:
               "bq_rev_to": bq["revenue"]["to"], "bq_supply_gap": pct(bq["supply"]["issued_gap"], 2), "bq_issued": f"{bq['supply']['issued_feb_oct_bigquery'] / 1e6:.2f}M",
               "bq_rpc_n": str(bq["supply"]["rpc_samples"]), "bq_days": str(bq["activity"]["days"]),
               "bq_intents_tx_25": pct(bq["activity"]["intents_share_of_txns_oct2025"], 1), "bq_intents_tx_26": pct(bq["activity"]["intents_share_of_txns_oct2026"], 1)})
+    si = bq["intents_signers"]
+    f.update({"bq_is_tx": f"{si['txns_change'] * 100:+.0f}%", "bq_is_rev": f"{si['revenue_change'] * 100:+.0f}%",
+              "bq_is_self_inc": pct(si["self_signed_share_of_increase"], 1), "bq_is_self_nov": pct(si["self_signed_share_nov"]),
+              "bq_is_others": f"{si['by_others_change'] * 100:+.0f}%", "bq_is_other_signers": f"{si['other_signers_change'] * 100:+.0f}%"})
     anchors = [json.loads(x) for x in (ROOT / "anchor" / "anchors.jsonl").read_text().splitlines() if x.strip()]
     last = {a["kind"]: a for a in anchors}
     link = lambda a: f"[{a['tx'][:8]}…](https://testnet.nearblocks.io/txns/{a['tx']})"  # noqa: E731

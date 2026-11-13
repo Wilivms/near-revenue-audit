@@ -43,6 +43,12 @@ Definitions. This audit counts all NEAR captured by the three revenue wallets NE
 **Is the volume real, or a few addresses trading with themselves?**
 Real and broad, on 1Click where it can be measured (REPORT section 3, log 36). Over the last 30 days: {{q_senders}} sending addresses, {{q_one_swap}} swapping once, the top 10 at {{q_top10}} of volume. Round trips (A to B and back within a day by the same address) are {{q_rt_vol}} of volume and {{q_rt_rev}} of NEAR's revenue. Confidential swaps cannot be checked this way: the Explorer API does not show them.
 
+**Did NEAR Intents usage jump in November?**
+Not in any sense that pays NEAR. Comparing 20–31 October with 1–12 November in NEAR's BigQuery dataset, transactions to `intents.near` changed {{bq_is_tx}}, but {{bq_is_self_inc}} of the increase is `intents.near` signing its own transactions ({{bq_is_self_nov}} of all of them in November). Transactions from other accounts changed {{bq_is_others}} and the number of those accounts {{bq_is_other_signers}}. NEAR's captured revenue over the same days changed {{bq_is_rev}}. (`make bigquery`; query in `sql/intents_signers.sql`)
+
+**Confidential swaps run in a private shard. Does that hide NEAR's revenue from this audit?**
+No. What the private shard hides is the individual swap; the fee still reaches NEAR as NEAR or wNEAR arriving in its three revenue wallets on mainnet, which is what this audit rebuilds. Those inflows continue through {{data_to}} and still match NEAR's own dashboard within {{wallets_gap}}. Per-swap analysis is where confidential flow is out of sight, which is why the confidential fee is estimated from the wallets (REPORT section 10) and not from swaps.
+
 **Why should I trust a Monte Carlo on a token this volatile?**
 You shouldn't trust it blindly. The point is the identity, not the forecast: supply stops growing only when market cap is below {{breakeven_now}} annual captured revenue ({{breakeven_cut}} once the issuance cut approved on 2 November is phased in), and today it is {{near_captured_mult}}.
 

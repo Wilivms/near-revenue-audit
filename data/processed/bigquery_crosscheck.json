@@ -63,5 +63,16 @@
   "signers_vs_active_median": 1.0,
   "intents_share_of_txns_oct2025": 0.016463444498623782,
   "intents_share_of_txns_oct2026": 0.08899707374976992
+ },
+ "intents_signers": {
+  "windows": "2026-10-20..31 vs 2026-11-01..12",
+  "txns_change": 0.853884921459936,
+  "self_signed_share_nov": 0.8498946445376283,
+  "self_signed_share_of_increase": 0.99863739235913,
+  "other_signers_change": 0.0502586844050259,
+  "by_others_change": 0.08852140077821002,
+  "revenue_change": -0.17704885192776865,
+  "revenue_oct20_31_usd": 789582.0440615483,
+  "revenue_nov01_12_usd": 649787.4496576703
  }
 }

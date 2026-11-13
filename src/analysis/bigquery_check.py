@@ -70,8 +70,23 @@ def activity() -> dict:
             "intents_share_of_txns_oct2026": float(oct26["tx_to_intents"].sum() / oct26["transactions"].sum())}
 
 
+def intents_signers() -> dict:
+    """Late October against early November, 12 days each: transactions to intents.near, who signs them,
+    and NEAR's captured revenue over the same days."""
+    s = pd.read_csv(sorted(BQ.glob("intents_signers_*.csv"))[-1]).set_index("period")
+    rev = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True)["rebuilt_total_usd"]
+    a, b = s.loc["oct20_31"], s.loc["nov01_12"]
+    ra, rb = float(rev.loc["2026-10-20":"2026-10-31"].sum()), float(rev.loc["2026-11-01":"2026-11-12"].sum())
+    return {"windows": "2026-10-20..31 vs 2026-11-01..12", "txns_change": float(b.txns / a.txns - 1),
+            "self_signed_share_nov": float(b.by_intents_near / b.txns),
+            "self_signed_share_of_increase": float((b.by_intents_near - a.by_intents_near) / (b.txns - a.txns)),
+            "other_signers_change": float(b.other_signers / a.other_signers - 1), "by_others_change": float(b.by_others / a.by_others - 1),
+            "revenue_change": rb / ra - 1, "revenue_oct20_31_usd": ra, "revenue_nov01_12_usd": rb}
+
+
 def main() -> None:
-    out = {"queries": "sql/*.sql, run on 2026-11-13", "revenue": revenue(), "supply": supply(), "activity": activity()}
+    out = {"queries": "sql/*.sql, run on 2026-11-13", "revenue": revenue(), "supply": supply(), "activity": activity(),
+           "intents_signers": intents_signers()}
     (OUT / "bigquery_crosscheck.json").write_text(json.dumps(out, indent=1))
     print(json.dumps(out, indent=1))
 
