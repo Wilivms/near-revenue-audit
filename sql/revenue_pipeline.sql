@@ -61,3 +61,25 @@ WITH l AS (
 )
 SELECT wallet, fp.acct IS NOT NULL AS funded_by_pool, COUNT(DISTINCT w.acct) AS accounts, COUNT(*) AS withdrawals, SUM(near) AS near
 FROM w LEFT JOIN fp USING (acct) GROUP BY 1, 2 ORDER BY 1, 2;
+
+-- 5) The same, weekly, 1 Jun - 12 Nov 2026 (saved as data/raw/bigquery/pool_revenue_weekly_2026-11-13.csv; read by make bigquery).
+WITH l AS (
+  SELECT block_date, l.element AS log
+  FROM `bigquery-public-data.crypto_near_mainnet_us.execution_outcomes`, UNNEST(logs.list) l
+  WHERE block_date BETWEEN '2026-06-01' AND '2026-11-12' AND executor_account_id = 'intents.near'
+    AND (l.element LIKE '%native_withdraw%' OR l.element LIKE '%51e8f94d77b5e90dc9852ca6113771e11e8382ce69473a75e313e41665de7cbe%')
+), w AS (
+  SELECT block_date, JSON_VALUE(d, '$.account_id') AS acct, JSON_VALUE(d, '$.receiver_id') AS wallet,
+         CAST(JSON_VALUE(d, '$.amount') AS BIGNUMERIC) / 1e24 AS near
+  FROM l, UNNEST(JSON_QUERY_ARRAY(SUBSTR(log, 12), '$.data')) d
+  WHERE JSON_VALUE(SUBSTR(log, 12), '$.event') = 'native_withdraw'
+    AND JSON_VALUE(d, '$.receiver_id') IN ('buybacks.multisignature.near', 'fefundsadmin.sputnik-dao.near')
+), fp AS (
+  SELECT DISTINCT JSON_VALUE(d, '$.new_owner_id') AS acct
+  FROM l, UNNEST(JSON_QUERY_ARRAY(SUBSTR(log, 12), '$.data')) d
+  WHERE JSON_VALUE(SUBSTR(log, 12), '$.event') = 'mt_transfer'
+    AND JSON_VALUE(d, '$.old_owner_id') = '51e8f94d77b5e90dc9852ca6113771e11e8382ce69473a75e313e41665de7cbe'
+)
+SELECT DATE_TRUNC(block_date, WEEK(MONDAY)) AS week, wallet, SUM(near) AS near,
+       SUM(IF(fp.acct IS NOT NULL, near, 0)) AS near_from_pool, COUNT(*) AS withdrawals
+FROM w LEFT JOIN fp USING (acct) GROUP BY 1, 2 ORDER BY 1, 2;

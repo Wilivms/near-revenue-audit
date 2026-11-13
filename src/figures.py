@@ -371,6 +371,10 @@ def figures() -> dict[str, str]:
     rv = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True)["rebuilt_total_usd"]
     f.update(follow_100(v))
     f["rev_nov01_11"] = f"${float(rv.loc['2026-11-01':'2026-11-11'].sum()) / 1e6:.2f}M"
+    pr = bq["pool_revenue"]
+    f.update({"pool_share_jun": pct(pr["monthly_share"]["2026-06"]), "pool_share_aug": pct(pr["monthly_share"]["2026-08"]),
+              "pool_share_oct": pct(pr["monthly_share"]["2026-10"]), "pool_share_late": pct(pr["share_since_sep28"]),
+              "pool_bps": f"{pr['pool_bps_on_confidential']:.1f}", "pool_rest_bps": f"{pr['rest_bps_on_public']:.1f}"})
     si = bq["intents_signers"]
     f.update({"bq_is_tx": f"{si['txns_change'] * 100:+.0f}%", "bq_is_rev": f"{si['revenue_change'] * 100:+.0f}%",
               "bq_is_self_inc": pct(si["self_signed_share_of_increase"], 1), "bq_is_self_nov": pct(si["self_signed_share_nov"]),

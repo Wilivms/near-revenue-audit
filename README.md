@@ -46,7 +46,7 @@ make verify          # → prints every finding and the headline numbers above
 
 **5. What only this project brings**
 - **Revenue confirmed four independent ways**: DefiLlama, NEAR's dashboard, NEAR's BigQuery dataset, and the withdrawals from `intents.near` to the wallets (within 0.5%).
-- **The questions the dashboards skip, answered with data**: the airdrop's role, who pays, and why part of NEAR's revenue cannot be seen on the public chain (it settles in the confidential pool, about $136M; [REPORT section 10](REPORT.md#10-the-two-questions-near-did-not-answer-and-what-the-data-says)).
+- **The questions the dashboards skip, answered with data**: the airdrop's role, who pays, and where the revenue now comes from: 73% of what reaches the wallets since late September is paid out of the confidential pool (about $136M), worth 8.8 bps of confidential volume against 2.0 on public ([REPORT section 10](REPORT.md#10-the-two-questions-near-did-not-answer-and-what-the-data-says)).
 - **Other people's claims tested**: 33 statements by NEAR, Nansen, analysts and the press, each checked at its own date.
 - **Bets made in public**: hypotheses written before the tests, six predictions timestamped on Bitcoin and anchored on NEAR testnet, two resolving before judging.
 - **Honest about its misses**: [five corrections](#where-we-were-wrong-and-what-changed), each dated in the research log.
@@ -75,7 +75,7 @@ Each number with its window, its source and the command that rebuilds it. None o
 | 5 min | Read **[`THESIS.md`](THESIS.md)** | the claim, evidence for and against, what would change our mind, what could not be computed, on one page |
 | 2 min | Run `make setup && . .venv/bin/activate && make check-clean` | every output rebuilt from committed data and compared: `39/39 outputs match`, `15/15 findings hold` |
 | 3 min | Open **[REPORT section 9](REPORT.md#9-public-claims-checked)** | 33 public claims about NEAR tested at their own dates |
-| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (54 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
+| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (55 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
 
 ## Why this thesis is different
 
@@ -85,6 +85,7 @@ Each number with its window, its source and the command that rebuilds it. None o
 - **NEAR's own revenue series runs 21% above what its three revenue wallets receive**, every month, while the wallet totals agree within 0.16%.
 - **It is already easing, and the model said so by failing.** The weekly fit missed its first unseen week ($355k against $475k–$901k predicted). In early November the take fell to 3.9 bps on three sources while confidential TVL fell 26% from its peak.
 - **The two questions NEAR did not answer, narrowed to testable hypotheses:** confidential swaps pay about 7.6 bps into the buyback multisig (matching NEAR's Dune fee table), and most of the 21% gap is quote-improvement revenue that never reaches the wallets that buy NEAR (without it: 4.5% this year). [REPORT section 10](REPORT.md#10-the-two-questions-near-did-not-answer-and-what-the-data-says).
+- **Most of NEAR's revenue now comes out of the confidential pool.** On the public chain, the share of the NEAR reaching the buyback multisig and the front-end fund that passes through accounts funded by the confidential pool (about $136M, the size of NEAR's confidential TVL) rose from 0% in June to 70% in October (73% since late September). Per dollar of confidential volume it is worth 8.8 bps, against 2.0 bps for the rest on public volume: the confidential premium, measured from the payouts. (`make bigquery`)
 - **Transaction counts mislead.** Over two 12-day windows (20–31 October, 1–12 November), transactions to `intents.near` changed +85% while NEAR's captured revenue changed -18%. NEAR's BigQuery dataset shows why: 99.9% of the increase is `intents.near` signing its own transactions; transactions from everyone else changed +9%. A dashboard that counts transactions reads November as a boom. (`make bigquery`)
 - **Valuation:** valued like peers whose holders receive revenue, this revenue supports about $0.33 a NEAR, against $3.42 (daily close, 2026-11-13).
 

@@ -84,9 +84,29 @@ def intents_signers() -> dict:
             "revenue_change": rb / ra - 1, "revenue_oct20_31_usd": ra, "revenue_nov01_12_usd": rb}
 
 
+def pool_revenue() -> dict:
+    """How much of the NEAR withdrawn to the two revenue wallets came through accounts that the confidential pool
+    (51e8f94d..., about $136M, the size of NEAR's confidential TVL) had funded; and what that NEAR is worth per dollar
+    of confidential volume (NEAR's Dune dashboard), against the rest per dollar of public volume."""
+    from .revenue_wallets import near_price
+    w = pd.read_csv(sorted(BQ.glob("pool_revenue_weekly_*.csv"))[-1], parse_dates=["week"]).groupby("week")[["near", "near_from_pool"]].sum()
+    month = w.groupby(w.index.to_period("M")).sum()
+    px = near_price()
+    px.index = pd.to_datetime(px.index).tz_localize(None)
+    wpx = px.resample("W-MON", label="left", closed="left").mean().reindex(w.index)
+    c = pd.read_csv(OUT / "confidential_weekly.csv", index_col=0, parse_dates=True)
+    j = w.assign(pool_usd=w["near_from_pool"] * wpx, rest_usd=(w["near"] - w["near_from_pool"]) * wpx).join(c[["confidential_usd", "public_usd"]], how="inner")
+    j = j.loc["2026-08-10":]  # the weeks of the take-rate fit (REPORT section 2)
+    return {"monthly_share": {str(k): float(v) for k, v in (month["near_from_pool"] / month["near"]).items()},
+            "share_since_sep28": float(w.loc["2026-09-28":, "near_from_pool"].sum() / w.loc["2026-09-28":, "near"].sum()),
+            "fit_weeks": f"{j.index.min().date()}..{j.index.max().date()}",
+            "pool_bps_on_confidential": float(j["pool_usd"].sum() / j["confidential_usd"].sum() * 1e4),
+            "rest_bps_on_public": float(j["rest_usd"].sum() / j["public_usd"].sum() * 1e4)}
+
+
 def main() -> None:
     out = {"queries": "sql/*.sql, run on 2026-11-13", "revenue": revenue(), "supply": supply(), "activity": activity(),
-           "intents_signers": intents_signers()}
+           "intents_signers": intents_signers(), "pool_revenue": pool_revenue()}
     (OUT / "bigquery_crosscheck.json").write_text(json.dumps(out, indent=1))
     print(json.dumps(out, indent=1))
 

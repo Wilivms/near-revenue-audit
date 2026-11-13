@@ -8,6 +8,10 @@
    "bytes": 213,
    "sha256": "9a629c4fdef9bdf9248ed06e1aa39c78a2f2f4cfc9d4435bf59a5c819d301c5a"
   },
+  "bigquery/pool_revenue_weekly_2026-11-13.csv": {
+   "bytes": 2677,
+   "sha256": "1087806c1dd57d650d1fa793050ccf471da1580328eeea69e0fbed15820e4e47"
+  },
   "bigquery/supply_daily_2026-11-13.csv": {
    "bytes": 16299,
    "sha256": "bb96e3ca89894a25af49a65edc6feae616931f348823c7369289938f20d995f7"

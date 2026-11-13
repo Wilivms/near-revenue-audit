@@ -91,6 +91,12 @@ def test_november_transaction_jump_is_intents_near_itself():
     assert si["revenue_change"] < 0
 
 
+def test_confidential_pool_pays_most_revenue_at_a_premium():
+    pr = json.loads((OUT / "bigquery_crosscheck.json").read_text())["pool_revenue"]
+    assert pr["monthly_share"]["2026-06"] == 0 and pr["share_since_sep28"] > 0.6  # what README and REPORT say
+    assert pr["pool_bps_on_confidential"] > 3 * pr["rest_bps_on_public"]
+
+
 def test_revenue_rebuild_monthly_within_five_percent():
     r = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True).loc[figures.FEE_SWITCH:]
     m = r.resample("MS").sum()
