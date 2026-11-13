@@ -528,3 +528,13 @@ An outside AI screening of the thesis track, run from a neutral prompt (same pro
 - **Context added to THESIS.md.** US spot NEAR ETFs had a net $80.5M of inflows by 5 November (SoSoValue via ChainCatcher), ten times the $8.09M captured since the fee switch, and lost a net $5.74M in November to 12 November (AMBCrypto), ten times the $0.55M captured from 1 to 11 November. Outside data, labelled as such; the point is the order of magnitude: the price is set by flows much larger than revenue.
 - **Checked, already covered:** whether bought NEAR is kept (98% of the NEAR captured since February is still in the wallets, liquid, none staked: REPORT section 1); whether gas burn changes the offset (issuance is measured as the change in total supply, which is net of burn).
 - **Dashboard.** The "held to account" card now reads its counts from the data; the confidential-swap note adds the per-wallet 7.6 bps.
+
+### 48. A README-only screening, and what it changed (2026-11-13)
+
+A separate agent was given only the public repository and its README, and followed every command as a judge would (fresh clone, Python 3.13). Separately, a fresh clone was run with Python 3.10 (`make setup` fetched 3.12 by itself) and 3.12: 39/39 outputs and 15/15 findings each time. What the README-only run found, and what was done:
+- *`make comps` fetched live prices and overwrote the committed snapshot, so `make verify` then failed.* `comps` now reads the committed snapshot; only `make refresh` fetches (same rule as `supply`, entry 46).
+- *`make revenue` printed a total through a partial last day ($8,111,202), not the README's $8,087,549 vs $8,149,355.* It now prints complete days only, matching the README.
+- *The commands next to the headline numbers do not print them.* `make verify` now prints the four headline numbers with their windows.
+- *`make check-clean` left last-digit float noise in 12 tracked files.* Outputs equal to the committed ones within tolerance are now put back byte for byte, so the checkout stays clean.
+- *Swap counts disagreed (2.6M vs 2.7M); the price had no date.* Counts now come from the data; the price states its date.
+- *Dashboard:* an empty cell beside the four checks against NEAR's own numbers (now two by two); the hypothesis table's status column was clipped on a phone (tables now scroll sideways); the "Re-run it" box now shows the README's commands; the note on NEAR's revenue series points to the quote-improvement hypothesis.

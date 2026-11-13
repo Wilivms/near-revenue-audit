@@ -83,7 +83,7 @@ def _diff_csv(old: bytes, new: bytes) -> list[str]:
 
 def main() -> int:
     files = sorted((ROOT / "data" / "processed").glob("*")) + [ROOT / "dashboard" / "data.json"]
-    problems = {}
+    problems, restored = {}, 0
     for f in files:
         rel = f.relative_to(ROOT).as_posix()
         old, new = _committed(rel), f.read_bytes()
@@ -93,9 +93,14 @@ def main() -> int:
             d = _diff_json(json.loads(old), json.loads(new)) if f.suffix == ".json" else _diff_csv(old, new) if f.suffix == ".csv" else ["differs"]
             if d:
                 problems[rel] = d
+            else:  # equal within tolerance (last-digit float noise from another CPU or BLAS): keep the committed bytes
+                f.write_bytes(old)
+                restored += 1
     for rel, d in problems.items():
         print(f"CHANGED {rel}: " + "; ".join(d[:3]))
     print(f"{len(files) - len(problems)}/{len(files)} outputs match the committed ones (text exactly, numbers to {REL:g} relative)")
+    if restored:
+        print(f"{restored} of them differed only in the last digits and were put back as committed, so the checkout stays clean")
     return 1 if problems else 0
 
 

@@ -107,9 +107,9 @@ if __name__ == "__main__":
           .sort_values("count", ascending=False).head(20).to_string())
 
     r = rebuild_revenue(df)
-    since = r.loc[BUYBACK_START:]
+    since = r.loc[BUYBACK_START:r.index.max() - pd.Timedelta(days=1)]  # the last day of the snapshot is partial
     rb, ll = since.rebuilt_total_usd.sum(), since.llama_holders_revenue_usd.sum()
-    print(f"\n=== Reconciliation since {BUYBACK_START} ===")
+    print(f"\n=== Reconciliation from {BUYBACK_START} to {since.index.max().date()} (complete days) ===")
     print(f"rebuilt from chain : ${rb:,.0f}")
     print(f"DefiLlama holders  : ${ll:,.0f}   (ratio {rb / ll:.3f})")
     by_wallet = since[[c for c in since.columns if c.startswith('rebuilt_') and c != 'rebuilt_total_usd']].sum()

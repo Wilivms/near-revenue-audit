@@ -12,7 +12,7 @@ NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys 
 
 ## The headline numbers, exactly
 
-Each number with its window, its source and the command that rebuilds it. None of these commands needs a key.
+Each number with its window, its source and the command that rebuilds it. None of these commands needs a key or the network, and `make verify` prints all four.
 
 | Number | What it is, exactly | Rebuild it |
 | --- | --- | --- |
@@ -40,7 +40,7 @@ Each number with its window, its source and the command that rebuilds it. None o
 - **It is already easing, and the model said so by failing.** The weekly fit missed its first unseen week ({{oos_actual}} against {{oos_pred_fd}}–{{oos_pred}} predicted). In early November the take fell to {{take_last_week}} bps on three sources while confidential TVL fell {{tvl_from_peak}} from its peak.
 - **The two questions NEAR did not answer, narrowed to testable hypotheses:** confidential swaps pay about {{oq_bb_conf}} bps into the buyback multisig (matching NEAR's Dune fee table), and most of the {{series_over_wallets}} gap is quote-improvement revenue that never reaches the wallets that buy NEAR (without it: {{oq_gap_ytd_ex}} this year). [REPORT section 10](REPORT.md#10-the-two-questions-near-did-not-answer-and-what-the-data-says).
 - **Transaction counts mislead.** Over two 12-day windows (20–31 October, 1–12 November), transactions to `intents.near` changed {{bq_is_tx}} while NEAR's captured revenue changed {{bq_is_rev}}. NEAR's BigQuery dataset shows why: {{bq_is_self_inc}} of the increase is `intents.near` signing its own transactions; transactions from everyone else changed {{bq_is_others}}. A dashboard that counts transactions reads November as a boom. (`make bigquery`)
-- **Valuation:** valued like peers whose holders receive revenue, this revenue supports about {{price_at_peer}} a NEAR, against {{price_now}}.
+- **Valuation:** valued like peers whose holders receive revenue, this revenue supports about {{price_at_peer}} a NEAR, against {{price_now}} (daily close, {{price_date}}).
 
 **Every number checked against independent sources**
 - Revenue rebuilt from the chain matches DefiLlama within {{rev_gap}} and NEAR's own dashboard within {{wallets_gap}}; NEAR's public BigQuery dataset matches the wallet histories **to the last digit** ({{bq_rev_near}} NEAR) and issuance within {{bq_supply_gap}}.
@@ -67,7 +67,7 @@ Kept in the open because a thesis is only as good as its corrections. Each one i
 | Confidential swaps pay NEAR about 11 bps | The 11 bps came from a trend in the front-end fund; fitted wallet by wallet, the buyback multisig gets {{oq_bb_conf}} bps | Matches NEAR's own Dune fee table (7.4 bps) | 42 |
 | The airdrop's cost cancels the revenue it added | Drop 1 cost {{drop1_over_uplift}} of the uplift, not all of it | Reported as a net gain, small against supply | 32 |
 | The Monte Carlo engine sizes 2027 | In a walk-forward test it was too optimistic for 2026 | The 2027 figures are flagged as more likely too high than too low | 21 |
-| The 92% integrator share covered 2.6M swaps | 2.6M is every swap collected; the 30-day window holds {{oc_swaps_30}} | Both counts published separately; the 92% itself was right | 36 |
+| The 92% integrator share covered 2.6M swaps | 2.6M was every swap collected at the time ({{oc_swaps}} now); the 30-day window holds {{oc_swaps_30}} | Both counts published separately; the 92% itself was right | 36 |
 
 ## Findings, each one a check
 

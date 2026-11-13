@@ -306,6 +306,7 @@ input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); }
 .score .tag { display: inline-flex; gap: 8px; align-items: center; font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: .03em; }
 .mcstats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin: 6px 0 14px; }
 .mcstats div { background: var(--card); padding: 12px 14px; }
+#offStats { grid-template-columns: repeat(2, 1fr); } /* four facts: two by two, no empty cell */
 .mcstats .l { font-size: 11px; color: var(--ink-2); text-transform: uppercase; letter-spacing: .04em; }
 .mcstats .v { font: 700 24px/1.2 var(--sans); letter-spacing: -0.02em; margin-top: 6px; }
 
@@ -326,6 +327,7 @@ input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); }
 footer { padding: 64px 0 56px; font-size: 13px; color: var(--ink-2); }
 footer .cols { display: grid; grid-template-columns: 1fr 1.15fr; gap: 56px; }
 footer h2 { font: 700 32px/1 var(--sans); letter-spacing: -0.035em; color: var(--ink); text-transform: uppercase; margin: 0 0 16px; }
+footer div { min-width: 0; }
 footer pre { background: var(--ink); color: var(--page); padding: 16px 18px; overflow-x: auto; font: 12px/1.7 var(--mono); margin: 0 0 16px; }
 footer ul { padding-left: 18px; margin: 0; }
 footer li + li { margin-top: 6px; }
@@ -354,7 +356,8 @@ footer li + li { margin-top: 6px; }
   .hero { padding-top: 52px; }
   .gtable th:last-child, .gtable td:last-child { display: none; }
   .gtable th:nth-child(2), .gtable td:nth-child(2) { text-align: right; }
-  .facts, .mcstats { grid-template-columns: 1fr; }
+  .facts, .mcstats, #offStats { grid-template-columns: 1fr; }
+  #tbScore table, #tbChecks table, #tbPublic table { min-width: 560px; } /* scroll sideways instead of clipping the status column */
   .seg button { padding: 7px 9px; }
 }
 </style>
@@ -524,7 +527,7 @@ footer li + li { margin-top: 6px; }
           <p class="sub">NEAR's take, bps of volume, weekly (Feb–Jul: sample weeks)</p>
           <div class="legend"><span class="line" style="--c:var(--series-1)">Take, bps</span><span class="mark">NEAR@3.33 snapshot</span></div>
           <div id="chOneClick"></div>
-          <p class="src">Source: 2.6M 1Click swaps from the NEAR Intents Explorer API: NEAR's fee ÷ volume, weekly. Rebuild: <code>make swaps</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/swaps.py">src/analysis/swaps.py</a></p>
+          <p class="src">Source: 1Click swaps from the NEAR Intents Explorer API (2.7M collected, partner key): NEAR's fee ÷ volume, weekly. Rebuild: <code>make swaps</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/swaps.py">src/analysis/swaps.py</a></p>
           <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbOne"></div></details>
         </div>
       </div>
@@ -655,7 +658,9 @@ footer li + li { margin-top: 6px; }
   <div class="wrap cols">
     <div>
       <h2>Re-run it</h2>
-      <pre>pip install -r requirements.txt
+      <pre>git clone https://github.com/Wilivms/near-revenue-audit
+cd near-revenue-audit
+make setup && . .venv/bin/activate
 make check-clean
 make verify
 make dashboard-serve</pre>
@@ -1230,7 +1235,7 @@ function tables(D) {
   [["NEAR in the 3 revenue wallets", `${fmtNear(of.wallets_total.rebuilt_near)} vs ${fmtNear(of.wallets_total.official_near)}`, `rebuilt here vs NEAR's dashboard: ${((of.wallets_total.ratio - 1) * 100).toFixed(2)}% apart, all-time`],
    ["Buybacks / issuance, Feb–Oct", `${fmtPct(of.offset_feb_to_last_full_month.rebuilt, 1)} vs ${fmtPct(of.offset_feb_to_last_full_month.official, 1)}`, "this audit (NEAR received by the wallets, net issuance) vs NEAR's dashboard (its revenue and emissions series)"],
    ["Take last full week", `${of.last_week.take_bps.toFixed(1)} bps`, `week of ${dayName(of.last_week.week)}, vs ${of.take_october_weeks_bps.toFixed(1)} bps in October; gross fees steady at ${of.last_week.gross_fee_bps.toFixed(0)} bps, NEAR keeps ${fmtPct(of.last_week.capture_of_fees)} of them (${fmtPct(of.capture_october_weeks)} in October)`],
-   ...(of.revenue_definitions ? [["NEAR's revenue series / wallets", `${Object.values(of.revenue_definitions.official_over_wallets_near).slice(-1)[0].toFixed(2)}×`, `NEAR reports about ${Math.round((of.revenue_definitions.mar_oct_official_over_wallets_usd - 1) * 100)}% more revenue than reaches the three wallets it lists (Mar–Oct); the ratio is stable month to month (${Object.values(of.revenue_definitions.official_over_wallets_near).slice(-3).map((v) => v.toFixed(2)).join(", ")}), so both show the same November fall. Where the difference goes is an open question.`]] : [])]
+   ...(of.revenue_definitions ? [["NEAR's revenue series / wallets", `${Object.values(of.revenue_definitions.official_over_wallets_near).slice(-1)[0].toFixed(2)}×`, `NEAR reports about ${Math.round((of.revenue_definitions.mar_oct_official_over_wallets_usd - 1) * 100)}% more revenue than reaches the three wallets it lists (Mar–Oct); the ratio is stable month to month (${Object.values(of.revenue_definitions.official_over_wallets_near).slice(-3).map((v) => v.toFixed(2)).join(", ")}), so both show the same November fall. Most of it is likely quote-improvement revenue, about a tenth of what NEAR reports, which never reaches these wallets (REPORT section 10).`]] : [])]
     .forEach(([l, v, c]) => { const d = el("div"); d.append(el("div", { class: "l" }, l), el("div", { class: "v num" }, v), el("div", { class: "l", style: "text-transform:none;margin-top:4px" }, c)); ost.appendChild(d); });
   table($("tbOff"), ["Week of", "Volume", "Gross fees, bps", "NEAR's take, bps", "NEAR's share of fees"], D.official.weekly.map((r) => [r.week, fmtUSD(r.volume_usd), r.gross_fee_bps.toFixed(1), r.take_bps.toFixed(2), fmtPct(r.capture_of_fees)]));
   const cs2 = D.confidential.summary;

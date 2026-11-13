@@ -192,6 +192,7 @@ def values() -> dict:
     v["share_not_revenue"] = 1 - v["near_value_at_peer"] / v["near_mcap"]
     from .analysis.ledger import near_price
     v["price_now"] = float(near_price().dropna().iloc[-1])
+    v["price_date"] = str(near_price().dropna().index[-1])[:10]
     v["price_at_peer"] = v["price_now"] * v["near_value_at_peer"] / v["near_mcap"]
     r30 = rev["rebuilt_total_usd"].loc[:complete.max()].iloc[-30:].sum() * 365 / 30
     v["near_captured_mult"] = v["near_mcap"] / r30
@@ -294,7 +295,7 @@ def figures() -> dict[str, str]:
         "peers_n": str(v["peers_n"]), "peers_median": mult(v["peers_median"]), "peers_iqr": f"{v['peers_q1']:.0f}–{v['peers_q3']:.0f}x",
         "offset_window": "{} to {}".format(*[pd.Timestamp(m + "-01").strftime("%B %Y") for m in v["offset_months"]]),
         "r30_from": v["r30_from"], "r30_to": v["r30_to"], "r30_annual": usd(v["r30_annual"], 1), "mcap_date": v["mcap_date"],
-        "near_mcap": usd(v["near_mcap"], 1), "near_value_at_peer": usd(v["near_value_at_peer"], 0), "share_not_revenue": pct(v["share_not_revenue"]), "price_now": f"${v['price_now']:.2f}", "price_at_peer": f"${v['price_at_peer']:.2f}",
+        "near_mcap": usd(v["near_mcap"], 1), "near_value_at_peer": usd(v["near_value_at_peer"], 0), "share_not_revenue": pct(v["share_not_revenue"]), "price_now": f"${v['price_now']:.2f}", "price_date": v["price_date"], "price_at_peer": f"${v['price_at_peer']:.2f}",
         "take_now": f"{v['take_now']:.1f}", "volume0": f"${v['volume0']:.0f}M",
         "be_vol_now": f"${v['be_vol_now']:.0f}M", "be_vol_8": f"${v['be_vol_8']:.0f}M", "be_vol_15": f"${v['be_vol_15']:.0f}M",
         "hsp_for": pct(v["hsp_for"], 2), "hsp_turnout": pct(v["hsp_turnout"]), "hsp_voters": str(v["hsp_voters"]),
@@ -632,6 +633,12 @@ def main() -> int:
     for r in rows:
         print(f"{'PASS' if r['passed'] else 'FAIL'}  {r['id']:<4} {r['finding']}: {r['number']}")
     print(f"{sum(r['passed'] for r in rows)}/{len(rows)} findings hold")
+    f = figures()  # the README's "headline numbers, exactly", as printed values
+    print("Headline numbers:")
+    print(f"  {f['offset_rebuilt']} of new NEAR offset by the 3 revenue wallets, {f['offset_window']}")
+    print(f"  {f['near_captured_mult']} market cap ({f['mcap_date']}) / wallet revenue {f['r30_from']} to {f['r30_to']}, annualised")
+    print(f"  {f['breakeven_now']} break-even multiple (1 / {f['issuance']}); about {f['be_vol_now']} of daily volume at today's take")
+    print(f"  {f['oc_integrators_keep']} of the 1Click fee pool kept by integrators, {f['oc_from']} to {f['oc_to']}")
     if check and stale:
         print(f"STALE: {', '.join(stale)} differ from the templates rendered on the committed data; run `make docs`")
     return 1 if (stale or not all(r["passed"] for r in rows)) else 0

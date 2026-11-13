@@ -12,6 +12,7 @@ Output: data/processed/comps.csv, data/processed/crosschain_share.csv.
 from __future__ import annotations
 
 import json
+import os
 import time
 
 import pandas as pd
@@ -112,7 +113,9 @@ def crosschain_share(payload: dict) -> pd.DataFrame:
     return pd.concat([m, share], axis=1)
 
 
-def main(refresh: bool = True) -> None:
+def main(refresh: bool | None = None) -> None:
+    # offline by default: `make comps` reads the committed snapshot; `make refresh` (REFRESH=1) fetches a new one
+    refresh = os.environ.get("REFRESH") == "1" if refresh is None else refresh
     try:
         payload = fetch() if refresh else latest()
     except Exception as e:  # noqa: BLE001

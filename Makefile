@@ -21,7 +21,7 @@ montecarlo:  ## H5.1: Monte Carlo of NEAR captured vs issued to end-2027, scenar
 backtest:    ## walk-forward check of the Monte Carlo engine (calibration of past forecasts)
 	python3 -m src.analysis.backtest_mc
 
-comps:       ## peers (market cap / holders revenue) and cross-chain swap market share; refreshes data/raw/comps
+comps:       ## peers (market cap / holders revenue) and cross-chain swap market share, from the committed snapshot (make refresh fetches a new one)
 	python3 -m src.analysis.comps
 
 risk:        ## holder's view: NEAR vs BTC risk, issuance, stake, buyback yield; refreshes BTC prices and stake

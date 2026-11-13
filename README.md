@@ -13,7 +13,7 @@ NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys 
 
 ## The headline numbers, exactly
 
-Each number with its window, its source and the command that rebuilds it. None of these commands needs a key.
+Each number with its window, its source and the command that rebuilds it. None of these commands needs a key or the network, and `make verify` prints all four.
 
 | Number | What it is, exactly | Rebuild it |
 | --- | --- | --- |
@@ -30,7 +30,7 @@ Each number with its window, its source and the command that rebuilds it. None o
 | 5 min | Read **[`THESIS.md`](THESIS.md)** | the claim, evidence for and against, what would change our mind, what could not be computed, on one page |
 | 2 min | Run `make setup && . .venv/bin/activate && make check-clean` | every output rebuilt from committed data and compared: `39/39 outputs match`, `15/15 findings hold` |
 | 3 min | Open **[REPORT section 9](REPORT.md#9-public-claims-checked)** | 33 public claims about NEAR tested at their own dates |
-| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (47 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
+| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (48 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
 
 ## Why this thesis is different
 
@@ -41,7 +41,7 @@ Each number with its window, its source and the command that rebuilds it. None o
 - **It is already easing, and the model said so by failing.** The weekly fit missed its first unseen week ($355k against $475k–$901k predicted). In early November the take fell to 3.9 bps on three sources while confidential TVL fell 26% from its peak.
 - **The two questions NEAR did not answer, narrowed to testable hypotheses:** confidential swaps pay about 7.6 bps into the buyback multisig (matching NEAR's Dune fee table), and most of the 21% gap is quote-improvement revenue that never reaches the wallets that buy NEAR (without it: 4.5% this year). [REPORT section 10](REPORT.md#10-the-two-questions-near-did-not-answer-and-what-the-data-says).
 - **Transaction counts mislead.** Over two 12-day windows (20–31 October, 1–12 November), transactions to `intents.near` changed +85% while NEAR's captured revenue changed -18%. NEAR's BigQuery dataset shows why: 99.9% of the increase is `intents.near` signing its own transactions; transactions from everyone else changed +9%. A dashboard that counts transactions reads November as a boom. (`make bigquery`)
-- **Valuation:** valued like peers whose holders receive revenue, this revenue supports about $0.33 a NEAR, against $3.42.
+- **Valuation:** valued like peers whose holders receive revenue, this revenue supports about $0.33 a NEAR, against $3.42 (daily close, 2026-11-13).
 
 **Every number checked against independent sources**
 - Revenue rebuilt from the chain matches DefiLlama within 0.8% and NEAR's own dashboard within 0.16%; NEAR's public BigQuery dataset matches the wallet histories **to the last digit** (3.292M NEAR) and issuance within 0.06%.
@@ -68,7 +68,7 @@ Kept in the open because a thesis is only as good as its corrections. Each one i
 | Confidential swaps pay NEAR about 11 bps | The 11 bps came from a trend in the front-end fund; fitted wallet by wallet, the buyback multisig gets 7.6 bps | Matches NEAR's own Dune fee table (7.4 bps) | 42 |
 | The airdrop's cost cancels the revenue it added | Drop 1 cost 74% of the uplift, not all of it | Reported as a net gain, small against supply | 32 |
 | The Monte Carlo engine sizes 2027 | In a walk-forward test it was too optimistic for 2026 | The 2027 figures are flagged as more likely too high than too low | 21 |
-| The 92% integrator share covered 2.6M swaps | 2.6M is every swap collected; the 30-day window holds 512k | Both counts published separately; the 92% itself was right | 36 |
+| The 92% integrator share covered 2.6M swaps | 2.6M was every swap collected at the time (2.7M now); the 30-day window holds 512k | Both counts published separately; the 92% itself was right | 36 |
 
 ## Findings, each one a check
 
