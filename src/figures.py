@@ -466,7 +466,8 @@ def follow_100(v: dict) -> dict:
     captured = float(rev["rebuilt_total_usd"].sum())
     bb = float(rev["rebuilt_buybacks_usd"].sum())
     days = (pd.Timestamp(b) - pd.Timestamp(a)).days + 1
-    issued_usd = v["near_mcap"] * v["issuance"] / 365 * days  # new NEAR over the window, at the market cap's price
+    lf = json.loads((ROOT / "dashboard" / "data.json").read_text())["live_fallback"]  # same inputs as the dashboard's card
+    issued_usd = lf["supply"] * v["issuance"] / 365 * days * lf["price"]  # new NEAR over the window, at the latest close
     oc = pd.read_csv(OUT / "oneclick_daily.csv")
     oc = oc[(oc["day"] >= a) & (oc["day"] <= b)]
     per = lambda x: f"${100 * x / vol:.3f}"  # noqa: E731

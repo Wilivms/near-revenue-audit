@@ -83,6 +83,8 @@ a { color: inherit; text-underline-offset: 3px; }
 .guide .gv { font: 700 26px/1.1 var(--sans); margin: 8px 0 6px; color: var(--ink); }
 .guide .gt { font-size: 13px; line-height: 1.45; color: var(--ink-2); }
 .guide .go { font-size: 12px; color: var(--accent); margin-top: 10px; }
+.guide .follow { margin: 14px 0 0; padding: 12px 16px; border: 1px solid var(--line); background: var(--card); font: 13px/1.6 var(--mono); color: var(--ink-2); }
+.guide .follow b { color: var(--ink); font-weight: 700; }
 @media (max-width: 980px) { .guide .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .guide .cards { grid-template-columns: 1fr; } }
 
@@ -423,6 +425,7 @@ footer li + li { margin-top: 6px; }
         <a class="g" href="#forecast"><div class="gk">2027</div><div class="gv" id="g2027">18%</div><div class="gt">of 2027 issuance offset in the base case; supply keeps growing unless volume rises several times.</div><div class="go">2027 →</div></a>
         <a class="g" href="#checks"><div class="gk">Held to account</div><div class="gv" id="gHeld">15 + 33</div><div class="gt"><span id="gHeldF">15</span> findings re-checked on every commit; <span id="gHeldC">33</span> public claims tested at their own dates; predictions anchored on NEAR.</div><div class="go">Checks →</div></a>
       </div>
+      <p class="follow" id="follow100">Follow $100 swapped through NEAR Intents over the last 30 days: <b id="f100near">$0.049</b> reaches NEAR's revenue wallets, while <b id="f100iss">$0.246</b> of new NEAR is issued over the same days. Revenue covers <b id="f100cov">20%</b> of issuance; supply stops growing at 100%.</p>
     </div>
   </section>
   <section class="block" id="simulator" aria-labelledby="h-sim">
@@ -1106,6 +1109,13 @@ function headline(D, L, live) {
   });
   const items = [`${per100} NEAR bought back per 100 issued`, `Take rate ${take.toFixed(1)} bps`, `Market cap ${Math.round(mcap / annual)}× annual revenue`,
     `Break-even below ${Math.round(1 / D.issuance_rate)}×`, `Revenue ${fmtUSD(L.holders30)} in 30 days`, `NEAR $${L.price.toFixed(2)}`, `Wallets match NEAR's dashboard within ${((D.checks.findings.find((f) => f.id === "F2") || {}).number || "").match(/[\d.]+%/)?.[0] || "0.2%"}`];
+  const lf = D.live_fallback;
+  if (lf && lf.volume_30d_usd && $("f100near")) {
+    const issued = lf.supply * D.issuance_rate / 365 * 30 * lf.price;  // new NEAR over 30 days, in USD
+    $("f100near").textContent = `$${(100 * lf.captured_30d_usd / lf.volume_30d_usd).toFixed(3)}`;
+    $("f100iss").textContent = `$${(100 * issued / lf.volume_30d_usd).toFixed(3)}`;
+    $("f100cov").textContent = `${Math.round(100 * lf.captured_30d_usd / issued)}%`;
+  }
   const nF = (D.checks.findings || []).length, nC = (D.checks.public_claims || []).length;
   if (nF && nC && $("gHeld")) { $("gHeld").textContent = `${nF} + ${nC}`; $("gHeldF").textContent = nF; $("gHeldC").textContent = nC; }
   const base = (D.montecarlo.scenarios || [])[0]; if (base && $("g2027")) $("g2027").textContent = `${Math.round(base.median_offset_2027 * 100)}%`;

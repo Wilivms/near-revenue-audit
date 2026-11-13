@@ -25,8 +25,8 @@
 | --- | --- |
 | Paid by users in fees (all parties) | $0.154 |
 | Reaches NEAR's three revenue wallets | **$0.049** (buyback multisig $0.035, front-end fund $0.014) |
-| New NEAR issued over the same days | **$0.246** |
-| Revenue as a share of new issuance | **20%** (14.8% over February 2026 to October 2026) |
+| New NEAR issued over the same days | **$0.238** |
+| Revenue as a share of new issuance | **21%** (14.8% over February 2026 to October 2026) |
 
 For supply to stop growing, the second bold line has to reach the third. On 1Click alone, a $100 swap pays $0.469 in fees: $0.431 to integrators, $0.038 to NEAR.
 
@@ -75,7 +75,7 @@ Each number with its window, its source and the command that rebuilds it. None o
 | 5 min | Read **[`THESIS.md`](THESIS.md)** | the claim, evidence for and against, what would change our mind, what could not be computed, on one page |
 | 2 min | Run `make setup && . .venv/bin/activate && make check-clean` | every output rebuilt from committed data and compared: `39/39 outputs match`, `15/15 findings hold` |
 | 3 min | Open **[REPORT section 9](REPORT.md#9-public-claims-checked)** | 33 public claims about NEAR tested at their own dates |
-| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (53 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
+| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (54 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
 
 ## Why this thesis is different
 
