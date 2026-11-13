@@ -1,6 +1,8 @@
 name: daily refresh
 # Re-fetches the public sources, recomputes every offline step and commits the result as
 # dashboard/live.json. The dashboard reads that file from GitHub, so it updates without a redeploy.
+# With the INTENTS_JWT secret, it also collects the last 31 days of 1Click swaps on the runner (never committed:
+# the Explorer API's terms forbid redistribution) and updates the 1Click figures of the live bundle.
 # Raw snapshots, dashboard/data.json and the documents stay frozen: they back REPORT.md, and `make check-clean`
 # rebuilds data.json byte for byte from them.
 on:
@@ -12,7 +14,7 @@ permissions:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 150
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -21,6 +23,12 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Fetch fresh public data and recompute
         run: make refresh
+      - name: 1Click, last 31 days (partner key; per-swap data stays on the runner, only the bundle is kept)
+        env:
+          INTENTS_JWT: ${{ secrets.INTENTS_JWT }}
+        run: |
+          python3 -m src.analysis.oneclick_live
+          make oneclick-offline dashboard
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
