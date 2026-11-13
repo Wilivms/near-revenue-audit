@@ -58,8 +58,8 @@ Yes (REPORT section 8, `make leadlag`). Weekly, NEAR's price net of BTC, Intents
 **Can I hold you to anything?**
 Six dated predictions, frozen on 2026-11-11 with a committed sha256 and a Bitcoin timestamp (`predictions/`). Two resolve on 2026-11-15, before judging starts.
 
-**Is the private 1Click data in the repo?**
-No. Per-swap data from the NEAR Intents Explorer API needs a partner key and is git-ignored; only aggregates are committed (`data/processed/`). No sender is identified; addresses are hashed.
+**Can I check the 1Click findings without a partner key?**
+Yes, the figures the documents quote. The per-swap data from the NEAR Intents Explorer API needs a partner key and its terms do not allow archiving or redistributing it, so it is not committed. Committed instead: `data/processed/oneclick_daily.csv`, daily sums by integrator, route type, NEAR fee tier and ZEC flag (no swap, sender or address). `make oneclick-offline` recomputes from it the integrators' share of the fee pool, each integrator's share of app fees and of NEAR's revenue, the November take with and without Trust Wallet, and the fee-schedule test, and checks them against the published outputs (finding F15). Two kinds of result need the swaps themselves: sender concentration and round trips (`oneclick_quality.json`), and retention across sample weeks. For those, a partner key is free at partners.near-intents.org and `python3 -m src.ingest.intents_explorer` then `make swaps` rebuild everything. The 1Click take also has public cross-checks: NEAR's dashboard reports capture by B2B partners, and the revenue wallets are on chain.
 
 **Why was Dune read through a browser?**
 Dune's API needs a paid plan. The result tables of NEAR's public dashboard were read page by page and saved as text in `data/raw/dune/`, with each query id in the file header, so anyone can compare them with the source.

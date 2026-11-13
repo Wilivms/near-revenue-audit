@@ -9,6 +9,7 @@ Outputs (data/processed/):
 - retention.csv        sender retention between sample weeks and into the continuous window
 - revenue_by_asset_last30d.csv volume and NEAR revenue by the volatile leg of each swap (last 30 days)
 - fee_shares_last30d.csv each referral's share of volume, app fees and NEAR revenue (last 30 days)
+- oneclick_daily.csv     daily sums by integrator, route type, NEAR fee tier and ZEC (no swap or address): the public input of `make oneclick-offline`
 - oneclick_fee_policy.json what NEAR receives per swap against the published 1Click fee schedule (last 30 days)
 - oneclick_quality.json  is the volume broad? sender concentration, heavy senders and round trips (last 30 days)
 - snapshot_entrants.csv retention of senders who arrived just before the snapshot vs a placebo cohort
@@ -344,6 +345,21 @@ def quality(df: pd.DataFrame, days: int = 30) -> dict:
     }
 
 
+def daily_aggregates(df: pd.DataFrame, start: str = "2026-10-11") -> pd.DataFrame:
+    """Daily sums by integrator, route type, NEAR fee tier and ZEC flag, from `start`: no swap, sender or
+    address, so it can be published. `make oneclick-offline` recomputes the 1Click tables from it."""
+    g = df[df["ts"].dt.tz_convert(None) >= pd.Timestamp(start)].copy()
+    g["day"] = g["ts"].dt.tz_convert(None).dt.strftime("%Y-%m-%d")
+    g["same_family"] = g["origin_asset"].map(_family) == g["destination_asset"].map(_family)
+    g["near_tier"] = pd.cut(g["near_bps"], [-1, 0, 1, 19, 10_000], labels=["0", "1", "2-19", "20+"]).astype(str)
+    out = (g.groupby(["day", "ref", "same_family", "near_tier", "zec"], observed=True)
+             .agg(swaps=("usd", "size"), volume_usd=("usd", "sum"), fee_usd=("fee_usd", "sum"), near_usd=("near_usd", "sum"))
+             .reset_index())
+    for c in ("volume_usd", "fee_usd", "near_usd"):
+        out[c] = out[c].round(4)
+    return out
+
+
 def fee_policy(df: pd.DataFrame, days: int = 30) -> dict:
     """What NEAR's revenue wallets actually receive per swap, against the published 1Click fee schedule
     (docs.near-intents.org/resources/fees: 20 bps with an API key and no app fee, 1 bp on stablecoin and
@@ -400,6 +416,7 @@ def main() -> None:
     nov = november(df)
     (OUT / "oneclick_november.json").write_text(json.dumps(nov, indent=1))
     print(json.dumps(nov, indent=1))
+    daily_aggregates(df).to_csv(OUT / "oneclick_daily.csv", index=False)
     fp = fee_policy(df)
     (OUT / "oneclick_fee_policy.json").write_text(json.dumps(fp, indent=1))
     print(json.dumps(fp, indent=1))

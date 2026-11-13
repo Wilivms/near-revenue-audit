@@ -56,6 +56,10 @@ def mult(x: float, d: int = 0) -> str:
 
 
 # ---------- inputs ----------
+def _leaves(d) -> int:
+    return sum(_leaves(v) for v in d.values()) if isinstance(d, dict) else 1
+
+
 def _json(name: str) -> dict:
     return json.loads((OUT / name).read_text())
 
@@ -404,6 +408,9 @@ def claims(v: dict | None = None) -> list[dict]:
         ("F14", "NEAR's BigQuery dataset agrees with the pipeline's sources", f"revenue wallets {f['bq_rev_near']} NEAR on both, max monthly gap {f['bq_rev_gap']}; net issuance Feb–Oct {f['bq_issued']} ({f['bq_supply_gap']} apart)",
          "queries in sql/ run on NEAR's public BigQuery dataset vs NearBlocks wallet histories and archival-RPC supply; holds if every month is within 0.1% and issuance within 0.5%",
          _json("bigquery_crosscheck.json")["revenue"]["max_monthly_gap"] < 1e-3 and abs(_json("bigquery_crosscheck.json")["supply"]["issued_gap"]) < 5e-3, "make bigquery"),
+        ("F15", "The 1Click results recompute without the partner key", f"{_leaves(_json('oneclick_offline_check.json')['published'])} figures (integrator shares, the November take, the fee-schedule test) recomputed from the published daily aggregates, all within 1.5%",
+         "data/processed/oneclick_daily.csv (daily sums by integrator, route type, NEAR fee tier, ZEC; no swap or address) recomputed and compared with the outputs of make swaps; holds if all agree within 1.5%",
+         _json("oneclick_offline_check.json")["agree"], "make oneclick-offline"),
     ]
     return [{"id": i, "finding": a, "number": n, "check": c, "passed": bool(p), "command": cmd} for i, a, n, c, p, cmd in rows]
 

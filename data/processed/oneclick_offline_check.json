@@ -1,0 +1,92 @@
+{
+ "recomputed": {
+  "integrators_keep_of_fee_pool": 0.9183363812088412,
+  "top_integrator": "swapkit",
+  "top_integrator_fee_share": 0.7459306822538738,
+  "top_integrator_near_share": 0.0,
+  "no_integrator_near_share": 0.3973121538888497,
+  "oct16_29": {
+   "near_bps": 4.645829331105401,
+   "near_bps_ex_trust": 3.6531609643548792,
+   "noref_near_usd_per_day": 5155.05655,
+   "zec_near_share": 0.48319034828557017
+  },
+  "nov01_10": {
+   "near_bps": 2.868188823292916,
+   "near_bps_ex_trust": 2.8536522276597673,
+   "noref_near_usd_per_day": 5415.70143,
+   "zec_near_share": 0.09740912628994192
+  },
+  "trust_burst_volume_usd": 27120882.723300003,
+  "no_ref_cross": {
+   "near_bps": 16.851990934307555,
+   "share_at_20_or_more": 0.6631647501289033,
+   "share_at_1": 0.1312217786112804,
+   "share_at_0": 0.2018956765800228
+  },
+  "no_ref_same": {
+   "near_bps": 1.5421854536034374,
+   "share_at_20_or_more": 0.014585382690467,
+   "share_at_1": 0.8008281126074744,
+   "share_at_0": 0.17955111531481383
+  },
+  "ref_cross": {
+   "near_bps": 3.4123597979146916,
+   "share_at_20_or_more": 0.12836230214904254,
+   "share_at_1": 0.045464230097370946,
+   "share_at_0": 0.7362428805388581
+  },
+  "ref_same": {
+   "near_bps": 1.1002042749530205,
+   "share_at_20_or_more": 0.006844419488866549,
+   "share_at_1": 0.5161438075739458,
+   "share_at_0": 0.4286855311847661
+  }
+ },
+ "published": {
+  "integrators_keep_of_fee_pool": 0.9183363814332254,
+  "top_integrator": "swapkit",
+  "top_integrator_fee_share": 0.7459306828991518,
+  "top_integrator_near_share": 0.0,
+  "no_integrator_near_share": 0.397312156855179,
+  "trust_burst_volume_usd": 27120882.723061323,
+  "oct16_29": {
+   "near_bps": 4.6458293072794,
+   "near_bps_ex_trust": 3.653160934968591,
+   "noref_near_usd_per_day": 5155.056580856221,
+   "zec_near_share": 0.4831903499463509
+  },
+  "nov01_10": {
+   "near_bps": 2.868188807398917,
+   "near_bps_ex_trust": 2.85365221588195,
+   "noref_near_usd_per_day": 5415.701442762011,
+   "zec_near_share": 0.09740912347443476
+  },
+  "no_ref_cross": {
+   "near_bps": 16.851990968089375,
+   "share_at_20_or_more": 0.6631647501257181,
+   "share_at_1": 0.13122177861419954,
+   "share_at_0": 0.20189567657993432
+  },
+  "no_ref_same": {
+   "near_bps": 1.5421855295499582,
+   "share_at_20_or_more": 0.014585382690904335,
+   "share_at_1": 0.8008281126076603,
+   "share_at_0": 0.1795511153142379
+  },
+  "ref_cross": {
+   "near_bps": 3.412359765702559,
+   "share_at_20_or_more": 0.1283623018901029,
+   "share_at_1": 0.045464230005411284,
+   "share_at_0": 0.736242881071883
+  },
+  "ref_same": {
+   "near_bps": 1.1002042785943857,
+   "share_at_20_or_more": 0.006844419488647529,
+   "share_at_1": 0.5161438075757145,
+   "share_at_0": 0.42868553118096336
+  }
+ },
+ "differences": [],
+ "agree": true
+}
