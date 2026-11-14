@@ -4,6 +4,7 @@ import { setupModal } from "@near-wallet-selector/modal-ui";
 import { setupMeteorWallet } from "@near-wallet-selector/meteor-wallet";
 import { setupIntearWallet } from "@near-wallet-selector/intear-wallet";
 import { actionCreators } from "@near-js/transactions";
+import { KeyPair } from "@near-js/crypto";
 
 const RAW = "https://raw.githubusercontent.com/Wilivms/near-revenue-audit/main/";
 const FILES = { predictions: "predictions/PREDICTIONS.csv", snapshot: "data/raw/MANIFEST.json" };  // each value also records the commit it was read at
@@ -61,4 +62,25 @@ async function main() {
     } catch (e) { log("Not signed: " + (e && e.message ? e.message : e)); }
   };
 }
-main().catch((e) => log("Error: " + e.message));
+// Authorise the daily bot: a new function-call key, created in this browser, that can only call `set` on social.near
+// (gas allowance 0.25 NEAR), plus 0.3 NEAR of SocialDB storage. The private key is shown once, to be pasted into the
+// repository's GitHub secret NEAR_MAINNET_KEY; it is not stored anywhere by this page.
+async function authorise() {
+  const acc = await refresh();
+  if (!acc) return;
+  const kp = KeyPair.fromRandom("ed25519");
+  const pub = kp.getPublicKey();
+  log(`\nAsking your wallet to sign two transactions:\n 1. add a key to ${acc.accountId} that can only call set on social.near (gas allowance 0.25 NEAR)\n 2. social.near storage_deposit, 0.3 NEAR (stays in your storage balance)`);
+  try {
+    const wallet = await selector.wallet();
+    await wallet.signAndSendTransactions({ transactions: [
+      { signerId: acc.accountId, receiverId: acc.accountId, actions: [actionCreators.addKey(pub, actionCreators.functionCallAccessKey("social.near", ["set"], 250000000000000000000000n))] },
+      { signerId: acc.accountId, receiverId: "social.near", actions: [actionCreators.functionCall("storage_deposit", { account_id: acc.accountId }, 30000000000000n, 300000000000000000000000n)] },
+    ] });
+    $("secret").textContent = kp.toString();
+    $("secretBox").hidden = false;
+    log(`Done. Public key ${pub.toString()} added. Copy the private key shown below into the GitHub secret NEAR_MAINNET_KEY, then close this page.`);
+  } catch (e) { log("Not signed: " + (e && e.message ? e.message : e)); }
+}
+
+main().then(() => { $("auth").onclick = authorise; $("auth").disabled = false; }).catch((e) => log("Error: " + e.message));

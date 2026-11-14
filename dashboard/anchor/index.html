@@ -20,6 +20,10 @@ pre{white-space:pre-wrap;word-break:break-all;border:1px solid var(--mut);paddin
 <p>Account: <b id="acct">not connected</b></p>
 <button id="connect">Connect a NEAR wallet</button><button id="sign" disabled>Sign the anchor</button>
 <p>Transaction: <b id="tx">–</b></p>
+<h2 style="font:600 18px/1.3 system-ui,sans-serif;margin-top:28px">Daily anchors on mainnet (owner only)</h2>
+<p>Creates, in this browser, a key that can only call <code>set</code> on <code>social.near</code> (0.25 NEAR gas allowance; it cannot transfer NEAR), adds it to your account and deposits 0.3 NEAR of SocialDB storage: two transactions you approve in your wallet. Paste the private key it shows into the repository secret <code>NEAR_MAINNET_KEY</code>; the daily refresh then anchors each day's bundle on mainnet too.</p>
+<button id="auth" disabled>Authorise the daily bot</button>
+<div id="secretBox" hidden><p><b>Private key, shown once</b> (paste it at github.com/Wilivms/near-revenue-audit/settings/secrets/actions as <code>NEAR_MAINNET_KEY</code>, then close this page):</p><pre id="secret"></pre></div>
 <pre id="log"></pre>
 </main>
 <script type="module" src="anchor.bundle.js"></script>
