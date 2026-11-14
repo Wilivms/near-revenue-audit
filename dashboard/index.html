@@ -116,7 +116,10 @@ a { color: inherit; text-underline-offset: 3px; }
 .bar { border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 15; background: color-mix(in srgb, var(--page) 88%, transparent); backdrop-filter: blur(8px); }
 .bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 60px; }
 .brand { display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 14px; text-decoration: none; white-space: nowrap; }
-@media (max-width: 1340px) { .brand small, .brand .sep { display: none; } }
+@media (max-width: 1600px) { .brand small, .brand .sep { display: none; } }
+@media (max-width: 1500px) { .nav { gap: 0; font-size: 12.5px; } .nav a { padding: 6px 6px; } }
+@media (max-width: 1180px) { .nav a[href="#simulator"], .nav a[href="#context"], .nav a[href="#kill-criteria"] { display: none; } }
+html { overflow-x: clip; }
 .brand .sep { width: 1px; height: 20px; background: var(--line); }
 .brand small { font-weight: 400; color: var(--ink-2); font-size: 13px; }
 .nav { display: flex; gap: 4px; font-size: 13px; }
@@ -395,7 +398,7 @@ footer li + li { margin-top: 6px; }
   <div class="wrap">
     <a class="brand" href="#top"><span>near-revenue-audit</span><span class="sep"></span><small>Investment thesis track</small></a>
     <nav class="nav" aria-label="Sections" id="nav">
-      <a href="#simulator">Simulator</a><a href="#kill-criteria">Kill criteria</a><a href="#buybacks">Buybacks</a><a href="#take-rate">Take rate</a><a href="#customer">Customer</a><a href="#forecast">2027</a><a href="#context">Context</a><a href="#checks">Checks</a><a href="#verifyCard">Verify</a><a href="#rerun">Re-run it</a>
+      <a href="#simulator">Simulator</a><a href="#kill-criteria">Kill criteria</a><a href="#buybacks">Buybacks</a><a href="#take-rate">Take rate</a><a href="#customer">Customer</a><a href="#forecast">2027</a><a href="#context">Context</a><a href="#checks">Checks</a><a href="#rerun">Re-run it</a>
     </nav>
     <div class="actions">
       <button class="btn dark" id="themeBtn" type="button" aria-label="Switch theme"></button>
