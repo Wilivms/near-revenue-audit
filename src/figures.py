@@ -369,7 +369,7 @@ def figures() -> dict[str, str]:
               "oq_gap_d7_ex": pct(g["d7"]["without_quote_improvement_over_wallets"] - 1, 1), "oq_qi_ytd_usd": usd(g["ytd"]["quote_improvement_usd"])})
     f["log_n"] = str(len(re.findall(r"^### \d+\.", (ROOT / "RESEARCH_LOG.md").read_text(), re.M)))
     bq = _json("bigquery_crosscheck.json")
-    f.update({"bq_rev_near": f"{bq['revenue']['near_bigquery'] / 1e6:.3f}M", "bq_rev_gap": "none" if bq['revenue']['max_monthly_gap'] < 1e-9 else pct(bq['revenue']['max_monthly_gap'], 3),
+    f.update({"bq_rev_near": f"{bq['revenue']['near_bigquery'] / 1e6:.3f}M", "bq_rev_gap": "0 (identical to the last digit)" if bq['revenue']['max_monthly_gap'] < 1e-9 else pct(bq['revenue']['max_monthly_gap'], 3),
               "bq_rev_to": bq["revenue"]["to"], "bq_supply_gap": pct(bq["supply"]["issued_gap"], 2), "bq_issued": f"{bq['supply']['issued_feb_oct_bigquery'] / 1e6:.2f}M",
               "bq_rpc_n": str(bq["supply"]["rpc_samples"]), "bq_days": str(bq["activity"]["days"]),
               "bq_intents_tx_25": pct(bq["activity"]["intents_share_of_txns_oct2025"], 1), "bq_intents_tx_26": pct(bq["activity"]["intents_share_of_txns_oct2026"], 1)})
