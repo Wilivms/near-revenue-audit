@@ -8,8 +8,8 @@ Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTM
 | Key | Value | Printed in | Computed at |
 | --- | --- | --- | --- |
 | `anchor_daily_tx` | [ASxmSMNY…](https://testnet.nearblocks.io/txns/ASxmSMNYuZxciwdyFkFA… | README.md | [figures.py#L617](src/figures.py#L617) |
-| `anchor_pred_tx` | [AWcwWsaf…](https://testnet.nearblocks.io/txns/AWcwWsafGXGUw9zh1rZs… | README.md | [figures.py#L617](src/figures.py#L617) |
-| `anchor_snap_tx` | [92akEf38…](https://testnet.nearblocks.io/txns/92akEf38ouQ4D6JpHd9L… | README.md | [figures.py#L617](src/figures.py#L617) |
+| `anchor_pred_tx` | [8Wt4twDz…](https://testnet.nearblocks.io/txns/8Wt4twDzdZHn2YsBrnMf… | README.md | [figures.py#L617](src/figures.py#L617) |
+| `anchor_snap_tx` | [8Wt4twDz…](https://testnet.nearblocks.io/txns/8Wt4twDzdZHn2YsBrnMf… | README.md | [figures.py#L617](src/figures.py#L617) |
 | `asset_btc` | 37% | REPORT.md | [figures.py#L326](src/figures.py#L326) |
 | `asset_eth` | 14% | REPORT.md | [figures.py#L328](src/figures.py#L328) |
 | `asset_stable_bps` | 1.3 | REPORT.md | [figures.py#L330](src/figures.py#L330) |
@@ -238,7 +238,7 @@ Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTM
 | `ll_sig` | 0 | FAQ.md, README.md, REPORT.md, THESIS.md | [figures.py#L311](src/figures.py#L311) |
 | `ll_tests` | 24 | FAQ.md, README.md, REPORT.md, THESIS.md | [figures.py#L311](src/figures.py#L311) |
 | `ll_weeks` | 98 | REPORT.md | [figures.py#L311](src/figures.py#L311) |
-| `log_n` | 68 | README.md | src/figures.py |
+| `log_n` | 69 | README.md | src/figures.py |
 | `loo` | 10.7–12.2 | REPORT.md | [figures.py#L283](src/figures.py#L283) |
 | `mc_base` | 18% | FAQ.md, README.md, REPORT.md, THESIS.md, dashboard (no-JS values) | src/figures.py |
 | `mc_base_band` | 5–75% | REPORT.md, THESIS.md | src/figures.py |

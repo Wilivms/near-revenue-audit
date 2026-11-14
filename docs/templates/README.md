@@ -56,7 +56,7 @@ For supply to stop growing, the second bold line has to reach the third. On 1Cli
 **3. See it live: [near-revenue-audit.vercel.app](https://near-revenue-audit.vercel.app)**
 - **Top of the page:** NEAR bought back per 100 issued, recomputed in your browser from live data.
 - **"What would it take?"**: drag daily volume and NEAR's take rate until supply stops growing.
-- **"Verify it in your browser"** (Checks section): one click reads the hash anchored on NEAR testnet, hashes the raw files, rebuilds the revenue from the raw receipts and compares it with this audit and NEAR's own dashboard. No key, no install.
+- **"Verify it in your browser"** (Checks section): one click reads the hashes anchored on NEAR mainnet and testnet, hashes the raw files, rebuilds the revenue from the raw receipts and compares it with this audit and NEAR's own dashboard. No key, no install.
 - **"Every finding is a test"**: the {{claims_n}} findings, {{public_claims_n}} public claims about NEAR, six dated predictions and their on-chain anchors, all updated daily.
 
 **4. Re-run it** (about 2 minutes, **no key, no account, no network after setup**: the private 1Click data enters only as committed daily aggregates, so `make oneclick-offline` rebuilds every 1Click table from them)
@@ -75,7 +75,7 @@ make verify          # → prints every finding and the headline numbers above
 - **Events tested against a placebo, not narrated**: the October exploit and six other NEAR events (halving, fee switch, airdrop, HSP-029…), each compared with the same before/after split at every ordinary date of the year (F17, REPORT section 11).
 - **Every printed number traced**: [`NUMBERS.md`](NUMBERS.md) lists each of the {{numbers_n}} values in the documents and the dashboard with the line of code that computes it; tests re-render everything and include checks that must fail (a planted false finding, a tampered output).
 - **Held to account**: every finding re-run in CI and stress-tested under {{rob_variants}} alternative choices (the one fragile finding says so); {{public_claims_n}} public claims tested at their own dates; six predictions timestamped on Bitcoin; [five corrections](#where-we-were-wrong-and-what-changed) dated in the research log.
-- **Keeps itself current**: the dashboard refreshes every day, 1Click included, and each update is anchored on NEAR (testnet).
+- **Keeps itself current**: the dashboard refreshes every day, 1Click included, and each update is anchored on NEAR testnet; release snapshots are also anchored on NEAR mainnet.
 
 **Want more?** [`THESIS.md`](THESIS.md) is the one-page thesis (5 min). [`REPORT.md`](REPORT.md) is the full argument. [`FAQ.md`](FAQ.md) answers reviewers' objections. Everything below is the detail, with every number traceable to a command.
 
@@ -121,7 +121,7 @@ Each number with its window, its source and the command that rebuilds it. None o
 - {{claims_passed}} findings with explicit pass conditions, re-checked in CI on every commit; documents rendered from the outputs, so no figure is typed by hand.
 - {{public_claims_n}} claims by NEAR, Nansen, analysts and the press tested at their own dates: {{public_claims_survive}} survive, {{public_claims_close}} are close, {{public_claims_fail}} do not hold.
 - Hypotheses and kill criteria written before the analysis; the weekly model missed its first unseen week and the report says so.
-- Six dated predictions, frozen on 2026-11-11, timestamped in Bitcoin and anchored on NEAR (testnet); two resolve before judging (P1 so far: {{p1_so_far}}, threshold 5.0).
+- Six dated predictions, frozen on 2026-11-11, timestamped in Bitcoin and anchored on NEAR mainnet and testnet; two resolve before judging (P1 so far: {{p1_so_far}}, threshold 5.0).
 
 **Reproducible by anyone**
 - Offline from committed snapshots, one command, no key: `make check-clean`. Works with any Python (`make setup` fetches 3.12 if needed) and on a ZIP download.
@@ -200,7 +200,7 @@ make verify           # renders README/REPORT/FAQ/THESIS from the outputs and re
 | `make governance` | HSP-029 read from `vote.dao`: {{hsp_for}} of veNEAR cast in favour, timelock ends {{hsp_timelock_end}} |
 | `make leadlag` | {{ll_tests}} lead-lag tests of usage against price, {{ll_sig}} significant after Holm |
 | `make bigquery` | NEAR's BigQuery dataset against the pipeline's sources: revenue wallets {{bq_rev_near}} NEAR on both, issuance within {{bq_supply_gap}}, daily activity identical on {{bq_days}} days |
-| `make anchor-check` | the hashes anchored on NEAR testnet read back with a view call and matched to the files: predictions, raw-snapshot manifest, daily bundle (`anchors: OK`; needs network) |
+| `make anchor-check` | the hashes anchored on NEAR mainnet (`near-revenue-audit.near`) and testnet read back with view calls and matched to the files: predictions, raw-snapshot manifest, daily bundle (`anchors: OK`; needs network) |
 | `make oneclick-offline` | the 1Click figures (integrator shares, the November take, the fee-schedule test) recomputed from `data/processed/oneclick_daily.csv`, the published daily aggregates, without the partner key: `all agree` (finding F15) |
 | `make swaps` | without a partner key: a message that the per-swap 1Click data is private and not committed; its aggregates in `data/processed/` are what the documents read. With `INTENTS_JWT` in `.env`: `python3 -m src.ingest.intents_explorer`, then `make swaps` |
 | `make predictions` | six frozen predictions, resolved as their dates pass |
@@ -246,7 +246,7 @@ Reading so far, on data to {{data_to}} (not a resolution): **P1** {{p1_so_far}} 
 | Hypotheses H1.1–H5.1 and what would prove each wrong | 2026-10-29 ([`HYPOTHESES.md`](HYPOTHESES.md), unchanged since) | before the analysis (after a one-day data probe, noted in the file) | REPORT, each against its hypothesis |
 | Kill criteria (three tripwires) | 2026-10-29 | before | the dashboard, live; one triggered and is reported as written |
 | Confidential TVL tripwire | about 2026-11-10 (log 29) | after: marked "added after the fact" | reported separately |
-| Predictions P1–P6 | 2026-11-11 (Bitcoin timestamp, NEAR testnet anchor) | before each outcome | `make predictions`; results written on testnet the day they resolve |
+| Predictions P1–P6 | 2026-11-11 (Bitcoin timestamp; NEAR testnet anchor; mainnet anchor 2026-11-14) | before each outcome | `make predictions`; results written on testnet the day they resolve |
 | The verdict's rule (two of three conditions for a quarter) and what would refute "partly bought" | 2026-11-14 | after the analysis; recomputed daily from then, so it cannot be tuned to future data | `make verdict`, dashboard banner |
 
 **What would prove our main reading wrong.** If NEAR's take holds at 5 bps or more for 60 days (about nine weeks), the "partly bought" reading is wrong and the September jump was durable repricing. Tracked weekly: the current streak is {{vd_refute_streak}} week(s).
@@ -283,7 +283,7 @@ NEAR published [revenue.near.org](https://revenue.near.org/) in November 2026, a
 
 ## NEAR integration
 
-A data project: NEAR is the subject and the main source. It reads mainnet through RPC and archival RPC (total supply at chosen blocks, validators, protocol config, `intents.near` views for the fee and fee collector, the House of Stake proposal on `vote.dao`), NearBlocks (wallet histories, `intents.near` admin calls, daily chain activity), NEAR's public BigQuery dataset (a third-source check, `sql/`), the NEAR Intents Explorer API (per-swap 1Click data), and NEAR's own Dune and revenue dashboards. It also writes to NEAR, on testnet: the sha256 of the frozen predictions, of the raw-snapshot manifest and of each day's dashboard bundle go to SocialDB under `near-revenue-audit.testnet` (`anchor/anchor.mjs`, near-api-js), so anyone can check with a view call that what is published is what was anchored, and when. No mainnet transaction, no real money; the testnet key and the read-only Explorer API key stay in a git-ignored `.env`.
+A data project: NEAR is the subject and the main source. It reads mainnet through RPC and archival RPC (total supply at chosen blocks, validators, protocol config, `intents.near` views for the fee and fee collector, the House of Stake proposal on `vote.dao`), NearBlocks (wallet histories, `intents.near` admin calls, daily chain activity), NEAR's public BigQuery dataset (a third-source check, `sql/`), the NEAR Intents Explorer API (per-swap 1Click data), and NEAR's own Dune and revenue dashboards. It also writes to NEAR. On mainnet, the account `near-revenue-audit.near` holds the sha256 of the frozen predictions and of the raw-snapshot manifest on SocialDB (`social.near`), signed by its owner from the dashboard's [`/anchor/`](https://near-revenue-audit.vercel.app/anchor/) page ([transaction](https://nearblocks.io/txns/8Wt4twDzdZHn2YsBrnMfrbXTDqQam5vFcPDAyNsNLyM6)). On testnet: the sha256 of the frozen predictions, of each raw-snapshot manifest and of every day's dashboard bundle go to SocialDB under `near-revenue-audit.testnet` (`anchor/anchor.mjs`, near-api-js), so anyone can check with a view call that what is published is what was anchored, and when. The mainnet key never left the owner's wallet; the testnet key and the read-only Explorer API key stay in a git-ignored `.env`.
 
 ## Data sources and how they were obtained
 
@@ -309,11 +309,12 @@ A data project: NEAR is the subject and the main source. It reads mainnet throug
   | uv | any | Apache-2.0 / MIT | `make setup` fetches Python if missing (optional) |
   | Node.js | 22 | MIT | writing anchors only |
   | near-api-js | 4.0.4 | MIT and Apache-2.0 | signing the testnet anchors |
+  | NEAR Wallet Selector | 10.1.4 | Apache-2.0 / MIT | the mainnet anchor page (the owner signs in their wallet) |
   | opentimestamps-client | any | LGPL-3.0 | Bitcoin timestamp of the predictions (optional, to verify) |
   | Playwright | as installed | Apache-2.0 | screenshots of the dashboard (not needed to rebuild) |
 
   The dashboard is vanilla HTML, CSS and SVG with no library; it is hosted on Vercel. Exact Python versions are pinned in `requirements.txt`; CI rebuilds everything on a fresh checkout at every push ([tests](https://github.com/Wilivms/near-revenue-audit/actions/workflows/tests.yml)), and `scripts/fresh_clone_check.sh` does the same on your machine.
-- **Not investment advice.** Independent research, not affiliated with NEAR Foundation.
+- **Not investment advice.** Independent research, not affiliated with NEAR Foundation, its teams or any integrator. The author holds about 1.7 NEAR, bought on 2026-11-14 only to pay for the mainnet anchor.
 - **Code frozen at the deadline.** The tag [`hackathon-submission`](https://github.com/Wilivms/near-revenue-audit/tree/hackathon-submission) marks the last human commit before 2026-11-14 23:59 UTC. Every later commit is the daily refresh workflow (data snapshots, `live.json`, the anchors log), committed as `near-revenue-audit bot`; no code changes after the tag.
 
 ## License

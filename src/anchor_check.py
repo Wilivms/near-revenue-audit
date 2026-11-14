@@ -24,7 +24,11 @@ ACCOUNT, SOCIAL, RPC = "near-revenue-audit.testnet", "v1.social08.testnet", "htt
 FILES = {"predictions": "predictions/PREDICTIONS.csv", "snapshot": "data/raw/MANIFEST.json", "daily": "dashboard/live.json"}
 
 
-def anchored() -> dict:
+MAINNET = ("near-revenue-audit.near", "social.near", "https://rpc.mainnet.near.org")
+
+
+def anchored(account: str = ACCOUNT, social: str = SOCIAL, rpc: str = RPC) -> dict:
+    ACCOUNT, SOCIAL, RPC = account, social, rpc  # noqa: N806
     args = base64.b64encode(json.dumps({"keys": [f"{ACCOUNT}/audit/**"]}).encode()).decode()
     r = requests.post(RPC, json={"jsonrpc": "2.0", "id": 1, "method": "query", "params": {
         "request_type": "call_function", "finality": "final", "account_id": SOCIAL, "method_name": "get", "args_base64": args}}, timeout=30)
@@ -68,6 +72,14 @@ def main() -> int:
             ok &= same
     for d, e in sorted(a.get("results", {}).items()):  # resolved predictions, written in full on the day they resolve
         print(f"{'results':12s} {d}  " + ", ".join(f"{p['id']} {p['status']}" for p in e.get("resolved", [])))
+    m = anchored(*MAINNET)  # release anchors written by the account owner on mainnet (no daily bot there)
+    for kind in ("predictions", "snapshot"):
+        path = FILES[kind]
+        known = _committed_shas(path) | {_sha((ROOT / path).read_bytes())}
+        for d, e in sorted(m.get(kind, {}).items()):
+            match = e["sha256"] in known
+            print(f"{'mainnet ' + kind:20s} {d}  {e['sha256'][:16]}…  {'matches a committed ' + path if match else 'NO MATCH'}")
+            ok &= match
     print("anchors: OK" if ok else "anchors: MISMATCH")
     return 0 if ok else 1
 

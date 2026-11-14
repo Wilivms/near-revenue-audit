@@ -772,3 +772,7 @@ From two independent reviews and a re-read of the other theses: the ideas that f
   - guesses about other parties' payments say "would fit" instead of "most likely".
 
   Its other points were checked and are differences of definition, now labelled where they appear.
+
+### 69. Anchored on NEAR mainnet (2026-11-14)
+
+The account owner created `near-revenue-audit.near` and signed one SocialDB write from his own wallet, using the dashboard's `/anchor/` page (wallet selector; the page hashes the files in the browser and holds no key). Written under `near-revenue-audit.near/audit/` on `social.near`: the sha256 of `predictions/PREDICTIONS.csv` and of `data/raw/MANIFEST.json` at commit 17c0c76 (transaction 8Wt4twDz…; signed a second time by mistake, identical, AEdZLFPC…). `make anchor-check` and the dashboard's browser check now read mainnet and testnet. The daily bot stays on testnet, so no key sits in CI. The author holds about 1.7 NEAR, bought only for this; stated in the README's disclosures.

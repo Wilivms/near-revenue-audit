@@ -111,7 +111,7 @@ def test_anchor_log_is_consistent():
     kinds = {r["kind"] for r in rows}
     assert {"predictions", "snapshot", "daily"} <= kinds
     for r in rows:
-        assert re.fullmatch(r"[0-9a-f]{64}", r["sha256"]) and r["account"] == "near-revenue-audit.testnet"
+        assert re.fullmatch(r"[0-9a-f]{64}", r["sha256"]) and r["account"] == ("near-revenue-audit.near" if r.get("network") == "mainnet" else "near-revenue-audit.testnet")
     pred = [r for r in rows if r["kind"] == "predictions"][-1]
     assert pred["sha256"] == (ROOT / "predictions" / "PREDICTIONS.sha256").read_text().strip()
 

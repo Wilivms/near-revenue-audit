@@ -1491,8 +1491,8 @@ function scorecard(D) {
     const L = C.leadlag, pc = (x) => `${x >= 0 ? "+" : ""}${Math.round(x * 100)}%`;
     const drawAnchors = (list) => {
       const rows = list.slice(-9).reverse();
-      const t = table($("tbAnchors"), ["Date", "What", "sha256", "Transaction"], rows.map((a) => [a.date, a.file, a.sha256.slice(0, 16) + "…", a.tx.slice(0, 10) + "…"]));
-      t.querySelectorAll("tbody tr").forEach((tr, i) => { const a = rows[i]; const td = tr.lastElementChild; td.textContent = ""; const l = document.createElement("a"); l.href = "https://testnet.nearblocks.io/txns/" + a.tx; l.target = "_blank"; l.rel = "noopener"; l.textContent = a.tx.slice(0, 10) + "…"; td.appendChild(l); });
+      const t = table($("tbAnchors"), ["Date", "What", "sha256", "Transaction"], rows.map((a) => [a.date + (a.network === "mainnet" ? " · mainnet" : ""), a.file, a.sha256.slice(0, 16) + "…", a.tx.slice(0, 10) + "…"]));
+      t.querySelectorAll("tbody tr").forEach((tr, i) => { const a = rows[i]; const td = tr.lastElementChild; td.textContent = ""; const l = document.createElement("a"); l.href = (a.network === "mainnet" ? "https://nearblocks.io/txns/" : "https://testnet.nearblocks.io/txns/") + a.tx; l.target = "_blank"; l.rel = "noopener"; l.textContent = a.tx.slice(0, 10) + "…"; td.appendChild(l); });
     };
     if (C.anchors) {
       drawAnchors(C.anchors);  // release anchors from the bundle, then the full log (with the daily ones) from GitHub
@@ -1513,14 +1513,23 @@ const WSHORT = { "buybacks.multisignature.near": "buybacks", "fefundsadmin.sputn
 const hex = (buf) => [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
 const sha256 = async (bytes) => hex(await crypto.subtle.digest("SHA-256", bytes));
 async function anchoredSnapshots() {
-  const args = btoa(JSON.stringify({ keys: ["near-revenue-audit.testnet/audit/snapshot/*"] }));
-  const r = await fetch("https://rpc.testnet.near.org", { method: "POST", headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "query", params: { request_type: "call_function", finality: "final", account_id: "v1.social08.testnet", method_name: "get", args_base64: args } }) });
-  const j = await r.json();
-  if (!j.result) throw new Error("NEAR RPC: " + JSON.stringify(j.error || j).slice(0, 120));
-  const raw = JSON.parse(new TextDecoder().decode(new Uint8Array(j.result.result)));
-  const by = ((raw["near-revenue-audit.testnet"] || {}).audit || {}).snapshot || {};
-  return Object.entries(by).map(([date, v]) => ({ date, ...JSON.parse(v) }));
+  // the manifest hashes anchored on NEAR mainnet (social.near, written by the account owner) and on testnet (the daily bot)
+  const nets = [["https://rpc.mainnet.near.org", "social.near", "near-revenue-audit.near", "mainnet"], ["https://rpc.testnet.near.org", "v1.social08.testnet", "near-revenue-audit.testnet", "testnet"]];
+  const out = [];
+  for (const [rpc, contract, account, network] of nets) {
+    try {
+      const args = btoa(JSON.stringify({ keys: [`${account}/audit/snapshot/*`] }));
+      const r = await fetch(rpc, { method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "query", params: { request_type: "call_function", finality: "final", account_id: contract, method_name: "get", args_base64: args } }) });
+      const j = await r.json();
+      if (!j.result) continue;
+      const raw = JSON.parse(new TextDecoder().decode(new Uint8Array(j.result.result)));
+      const by = ((raw[account] || {}).audit || {}).snapshot || {};
+      for (const [date, v] of Object.entries(by)) out.push({ date, network, ...JSON.parse(v) });
+    } catch (e) { /* one network down: the other still answers */ }
+  }
+  if (!out.length) throw new Error("no anchor could be read from NEAR mainnet or testnet");
+  return out;
 }
 // the same rules as src/analysis/revenue_wallets.py: each receipt once, no `system` refunds, no failed receipts,
 // NEAR and wNEAR received from outside the three wallets
@@ -1549,14 +1558,15 @@ async function runVerify() {
   let allOk = true;
   const check = (s, ok, more) => { s.done(ok, more); allOk = allOk && ok; };
   try {
-    let s = step("Read the manifest hashes anchored on NEAR testnet (SocialDB, a view call)…");
+    let s = step("Read the manifest hashes anchored on NEAR mainnet and testnet (SocialDB, view calls)…");
     const anchors = await anchoredSnapshots();
-    check(s, anchors.length > 0, `${anchors.length} dated ${anchors.length === 1 ? "anchor" : "anchors"} under near-revenue-audit.testnet/audit/snapshot.`);
+    const nm = anchors.filter((a) => a.network === "mainnet").length;
+    check(s, anchors.length > 0, `${nm} on mainnet (near-revenue-audit.near) and ${anchors.length - nm} on testnet (near-revenue-audit.testnet).`);
     s = step("Download data/raw/MANIFEST.json from GitHub and hash it…");
     const manBytes = await (await fetch(REPO_RAW + "data/raw/MANIFEST.json", { cache: "no-store" })).arrayBuffer();
     const manSha = await sha256(manBytes);
     const hit = anchors.filter((a) => a.sha256 === manSha).sort((a, b) => (a.date < b.date ? 1 : -1))[0];
-    check(s, !!hit, hit ? `sha256 ${manSha.slice(0, 12)}… is the one anchored on ${hit.date}.` : `sha256 ${manSha.slice(0, 12)}… is not among the anchored hashes.`);
+    check(s, !!hit, hit ? `sha256 ${manSha.slice(0, 12)}… is the one anchored on ${hit.date} (${anchors.filter((a) => a.sha256 === manSha).map((a) => a.network).filter((v, i, x) => x.indexOf(v) === i).join(" and ")}).` : `sha256 ${manSha.slice(0, 12)}… is not among the anchored hashes.`);
     const man = JSON.parse(new TextDecoder().decode(manBytes)).files;
     const latest = (prefix) => Object.keys(man).filter((k) => k.startsWith(prefix + "/")).sort().pop();
     const want = [...WALLETS.flatMap((w) => [`wallet_${WSHORT[w]}_txns`, `wallet_${WSHORT[w]}_ft`]), "near_revenue"].map(latest);
