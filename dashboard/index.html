@@ -574,6 +574,14 @@ footer li + li { margin-top: 6px; }
         <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbWho"></div></details>
       </div>
       <div class="card reveal">
+        <h3>What a 1Click swap costs the user, by size, and who gets it</h3>
+        <p class="sub" id="costSub">Basis points of what the user sends that is gone on delivery, 1Click swaps of the last 30 days, by swap size.</p>
+        <div class="legend"><span style="--c:var(--series-1)">Integrators' app fees</span><span style="--c:var(--series-2)">NEAR</span><span style="--c:var(--muted)">Solvers and networks (spread, gas, by difference)</span></div>
+        <div id="chCost"></div>
+        <p class="src">Falls with size to about $3k (fixed network costs), flat to $100k, then rises as the solvers' spread widens, while NEAR's slice shrinks. Source: dollar value sent and delivered per 1Click swap (Explorer API), split by the fees in each record; daily sums committed. Rebuild: <code>make swap-cost</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/swap_cost.py">src/analysis/swap_cost.py</a></p>
+        <details class="numbers"><summary>Show the numbers</summary><div class="tbl-wrap" id="tbCost"></div></details>
+      </div>
+      <div class="card reveal">
         <h3>What NEAR earns on, by asset</h3>
         <p class="sub">1Click swaps, 11 Oct–10 Nov 2026, labelled by the volatile leg (BTC→USDT counts as BTC). Stablecoin-to-stablecoin swaps are 30% of volume but pay NEAR 1.3 bps.</p>
         <div class="legend"><span style="--c:var(--series-1)">Share of volume</span><span style="--c:var(--series-2)">Share of NEAR's revenue</span></div>
@@ -867,6 +875,35 @@ function columnChart(host, data, { yMax, ticks, fmt, ref, refLabel, tipRows, col
   });
   const last = data[n - 1];
   svgText(svg, PAD.l + band * (n - 0.5), y(last.v) - 9, fmt(last.v), { "text-anchor": "middle", class: "end-label soft" });
+}
+
+function costChart(host, rows) {
+  const { svg, y, h } = frame(host, 300, 240, [0, 50, 100, 150, 200], (t) => `${t}`);
+  svgText(svg, PAD.l - 8, PAD.t - 6, "bps", { "text-anchor": "end", class: "soft" });
+  const n = rows.length, band = (W - PAD.l - PAD.r) / n, bw = Math.min(30, band * 0.62);
+  const parts = [["integrators_bps", "var(--series-1)", "Integrators"], ["near_bps", "var(--series-2)", "NEAR"], ["solvers_networks_bps", "var(--muted)", "Solvers, networks"]];
+  const g = svgEl("g", { class: "bars" }); svg.appendChild(g);
+  const step = W < 520 ? 2 : 1;
+  rows.forEach((r, i) => {
+    const cx = PAD.l + band * (i + 0.5);
+    let acc = 0;
+    const wrapG = svgEl("g", { class: "bar-g", style: `transition-delay:${i * 40}ms` });
+    parts.forEach(([k, c]) => {
+      const v = Math.max(0, r[k]), top = y(acc + v), base = y(acc);
+      wrapG.appendChild(svgEl("rect", { x: cx - bw / 2, y: top, width: bw, height: Math.max(0, base - top), fill: c, class: "mark" }));
+      acc += v;
+    });
+    g.appendChild(wrapG);
+    if (r.cost_bps > 240) svgText(svg, cx, y(240) - 4, `${r.cost_bps.toFixed(0)} ↑`, { "text-anchor": "middle", class: "end-label soft" });
+    else svgText(svg, cx, y(r.cost_bps) - 5, r.cost_bps.toFixed(0), { "text-anchor": "middle", class: "end-label soft" });
+    const hit = svgEl("rect", { x: cx - band / 2, y: PAD.t, width: band, height: h - PAD.t - PAD.b, class: "hit", tabindex: 0, "aria-label": `${r.label}: ${r.cost_bps.toFixed(0)} bps` });
+    const tipRows = [["User pays", `${r.cost_bps.toFixed(0)} bps`], ...parts.map(([k, , l]) => [l, `${r[k].toFixed(1)} bps`]), ["NEAR's share", fmtPct(r.near_bps / r.cost_bps)], ["Swaps", r.swaps.toLocaleString("en-US")]];
+    const on = (e) => { g.classList.add("hovering"); wrapG.classList.add("on"); showTip(e.clientX ? e : centerEvt(hit), r.label, tipRows); };
+    const off = () => { g.classList.remove("hovering"); wrapG.classList.remove("on"); hideTip(); };
+    hit.addEventListener("pointermove", on); hit.addEventListener("focus", on); hit.addEventListener("pointerleave", off); hit.addEventListener("blur", off);
+    svg.appendChild(hit);
+    if (i % step === 0) svgText(svg, cx, h - 8, r.short, { "text-anchor": "middle" });
+  });
 }
 
 function lineChart(host, xs, values, { yMax, ticks, fmt, label, longLabel, event, title, color = "var(--series-1)" }) {
@@ -1261,6 +1298,16 @@ function tables(D) {
   table($("tbAsset"), ["Asset (volatile leg)", "Volume", "NEAR's revenue", "NEAR bps", "All fees bps"], D.revenue_by_asset.map((r) => [r.asset, fmtPct(r.volume_share, 1), fmtPct(r.near_revenue_share, 1), r.near_bps.toFixed(1), r.all_fees_bps.toFixed(0)]));
   table($("tbComps"), ["Token", "Market cap", "Holders revenue, annualised", "Multiple"], [...D.comps].sort((a, b) => a.mcap_to_holders_revenue - b.mcap_to_holders_revenue).map((r) => [r.token, fmtUSD(r.market_cap_usd), fmtUSD(r.annualised_usd), `${r.mcap_to_holders_revenue.toFixed(1)}×`]));
   table($("tbShare"), ["Month", "NEAR Intents", "THORChain", "Chainflip", "Maya"], D.crosschain_share.map((r) => [r.month.slice(0, 7), fmtPct(r["near-intents_share"]), fmtPct(r["thorchain-dex_share"]), fmtPct(r["chainflip-amm_share"]), fmtPct(r["maya-protocol_share"])]));
+  if (D.swap_cost && $("chCost")) {
+    const short = { "under $10": "<$10", "$10-30": "$10", "$30-100": "$30", "$100-300": "$100", "$300-1k": "$300", "$1k-3k": "$1k", "$3k-10k": "$3k", "$10k-30k": "$10k", "$30k-100k": "$30k", "$100k-300k": "$100k", "$300k-1M": "$300k" };
+    const rows = Object.entries(D.swap_cost.by_size).filter(([b, x]) => short[b] && x.swaps >= 100).map(([b, x]) => ({ ...x, label: `Swaps of ${b}`, short: short[b] }));
+    const draw = () => costChart($("chCost"), rows);
+    draw(); window.addEventListener("resize", () => { clearTimeout(window.__costT); window.__costT = setTimeout(draw, 150); });
+    const c = D.swap_cost.last30;
+    $("costSub").textContent = `Basis points of what the user sends that is gone on delivery: ${D.swap_cost.from} to ${D.swap_cost.to}, ${c.swaps.toLocaleString("en-US")} 1Click swaps, by swap size (above $1M too few to show). On average ${c.cost_bps.toFixed(0)} bps, of which NEAR ${c.near_bps.toFixed(1)}.`;
+    table($("tbCost"), ["Swap size", "Swaps", "User pays (bps)", "Integrators", "NEAR", "Solvers, networks", "NEAR's share"],
+      Object.entries(D.swap_cost.by_size).map(([b, x]) => [b, x.swaps.toLocaleString("en-US"), x.cost_bps.toFixed(0), x.integrators_bps.toFixed(1), x.near_bps.toFixed(1), x.solvers_networks_bps.toFixed(1), fmtPct(x.near_bps / x.cost_bps)]));
+  }
   if (D.swap_cost && $("f100cost")) {
     const c = D.swap_cost.last30, d = (b) => `$${(b / 100).toFixed(2)}`;
     const bs = D.swap_cost.by_size, bands = [[10, "$10-30"], [100, "$100-300"], [1000, "$1k-3k"], [10000, "$10k-30k"], [100000, "$100k-300k"], [1000000, "$300k-1M"]];
