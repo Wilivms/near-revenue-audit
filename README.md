@@ -60,15 +60,11 @@ make verify          # → prints every finding and the headline numbers above
 ```
 
 **5. What only this project brings**
-- **Revenue confirmed four independent ways**: DefiLlama, NEAR's dashboard, NEAR's BigQuery dataset, and the withdrawals from `intents.near` to the wallets (within 0.5%).
-- **The questions the dashboards skip, answered with data**: the airdrop's role, who pays, and where the revenue now comes from: 73% of what reaches the wallets since late September is paid out of the confidential pool (about $136M), worth 8.8 bps of confidential volume against 2.0 on public ([REPORT section 10](REPORT.md#10-the-two-questions-near-did-not-answer-and-what-the-data-says)).
-- **Numbers that do not move after the fact**: 0 of 1,143 daily readings of the rebuilt revenue changed across 5 dated snapshots, while DefiLlama's and NEAR's own dashboard revised their latest day of gross fees by up to ×185 (finding F16, `make revisions`).
-- **What the price implies, run backwards**: at a 15% discount rate and 3% growth, NEAR's market cap needs 24x today's captured revenue (about $3.0B a day of Intents volume at today's take), or 83% a year of revenue growth for five years before trading at the peer multiple (REPORT section 4).
-- **Every finding stress-tested**: 49 variants (other windows, sources, denominators, prices) recomputed by `make robustness`; 37 of 38 reasonable alternatives hold, and the one finding that is fragile (F5) says so (REPORT section 12).
-- **Events tested against a placebo, not narrated**: the October exploit and six other NEAR events (halving, fee switch, airdrop, HSP-029…) are each compared with the same before/after split at every ordinary date of the year (F17, REPORT section 11).
-- **Other people's claims tested**: 33 statements by NEAR, Nansen, analysts and the press, each checked at its own date.
-- **Bets made in public**: hypotheses written before the tests, six predictions timestamped on Bitcoin and anchored on NEAR testnet, two resolving before judging.
-- **Honest about its misses**: [five corrections](#where-we-were-wrong-and-what-changed), each dated in the research log.
+- **Revenue confirmed four independent ways, and it never revises**: DefiLlama, NEAR's dashboard, NEAR's BigQuery dataset and the withdrawals from `intents.near` agree within 0.5%; 0 of 1,143 daily readings of the rebuilt revenue changed across 5 dated snapshots, while the aggregators revised their latest day of fees by up to ×185 (F16).
+- **The questions the dashboards skip, answered with data**: the airdrop's role, who pays, and where the revenue now comes from: 73% of what reaches the wallets since late September is paid out of the confidential pool (about $136M), worth 8.8 bps of confidential volume against 2.0 on public ([REPORT section 10](REPORT.md#10-the-two-questions-near-did-not-answer-and-what-the-data-says)). And the user's whole cost of a swap, $10 to $1M: NEAR keeps 6.4% of it (F18).
+- **What the price implies, run backwards**: at a 15% discount rate and 3% growth, NEAR's market cap needs 24x today's captured revenue, or 83% a year of growth for five years (REPORT section 4).
+- **Events tested against a placebo, not narrated**: the October exploit and six other NEAR events (halving, fee switch, airdrop, HSP-029…), each compared with the same before/after split at every ordinary date of the year (F17, REPORT section 11).
+- **Held to account**: every finding re-run in CI and stress-tested under 49 alternative choices (the one fragile finding says so); 33 public claims tested at their own dates; six predictions timestamped on Bitcoin; [five corrections](#where-we-were-wrong-and-what-changed) dated in the research log.
 - **Keeps itself current**: the dashboard refreshes every day, 1Click included, and each update is anchored on NEAR.
 
 **Want more?** [`THESIS.md`](THESIS.md) is the one-page thesis (5 min). [`REPORT.md`](REPORT.md) is the full argument. [`FAQ.md`](FAQ.md) answers reviewers' objections. Everything below is the detail, with every number traceable to a command.
