@@ -743,3 +743,22 @@ From two independent reviews and a re-read of the other theses: the ideas that f
 **Every printed number traced.** `NUMBERS.md` is generated with the documents: each value, where it is printed, the line of code that computes it.
 
 **Live versus snapshot.** The dashboard now labels its figures "live, refreshed daily, data to …" or "repository snapshot on GitHub, data to …". Sender concentration and round trips are now in the live bundle too.
+
+### 68. "Buyback" decomposed to the dollar, peers' buybacks, the path to yes (2026-11-14)
+
+- **"Buyback" is not what the buyback wallet gets.** DefiLlama shows $8.15M of holders revenue from the fee switch to 12 November, which reads as NEAR bought back. Decomposed:
+  - $61.8k (0.8%) is pricing and day boundaries;
+  - the front-end fund holds $2.59M (32%);
+  - the 1Click fund received $0.55M (7%) and forwarded it to the buyback multisig later;
+  - the buyback multisig received $4.95M (61%) directly, so 67% ends there in all.
+
+  A thesis in the track found 69% to 20 October; ours is to 12 November and closes step by step.
+- **Peers' buybacks: rule or choice?** Outside sources, linked in REPORT section 6:
+  - Hyperliquid buys with about 97% of fees through a standing buyer;
+  - Aave runs a programme voted by holders and made permanent at $50M a year;
+  - Jupiter locks what it buys, and a co-founder asked in January 2026 whether to pause.
+
+  NEAR's is the least bound of the four.
+- **The path to yes.** At today's price and take (4.9 bps), with the issuance cut's ramp, buybacks match issuance in December 2027 only if daily volume reaches $516.5M, 4.1 times today's. That is about 11% growth a month for 13 months (dashboard chart, `make deeper`).
+- **A bug caught before it shipped.** The first version of the path wrote NaN into `dashboard/data.json` for months without data. NaN is not valid JSON, so the page would not have loaded. `dashboard_data.py` now refuses NaN (`allow_nan=False`), so this cannot happen again.
+- **Dropped: a transaction verifier.** The idea was to paste a swap's hash and see what NEAR earned from it. But NEAR's revenue reaches its wallets in batches (`native_withdraw`), not swap by swap. A per-transaction figure would need the private Explorer API, or would be misleading. The in-browser rebuild ("Verify it in your browser") already lets anyone check the revenue without a key.

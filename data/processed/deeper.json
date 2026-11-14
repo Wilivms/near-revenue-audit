@@ -328,5 +328,170 @@
   "real_before_commission": 0.032841777906349456,
   "real_at_10pct_commission": 0.027540440307038505,
   "unstaked_real": -0.020171598086758502
+ },
+ "path_to_yes": {
+  "rows": [
+   {
+    "month": "2026-03",
+    "issuance_rate": 0.0243205203810314,
+    "volume_needed_now_take": 607407870.9601421,
+    "volume_needed_8bps": 373515243.57660365,
+    "volume_actual": 67086936.548387095
+   },
+   {
+    "month": "2026-04",
+    "issuance_rate": 0.0243205203810314,
+    "volume_needed_now_take": 607407870.9601421,
+    "volume_needed_8bps": 373515243.57660365,
+    "volume_actual": 63184683.4
+   },
+   {
+    "month": "2026-05",
+    "issuance_rate": 0.0243205203810314,
+    "volume_needed_now_take": 607407870.9601421,
+    "volume_needed_8bps": 373515243.57660365,
+    "volume_actual": 64377032.22580645
+   },
+   {
+    "month": "2026-06",
+    "issuance_rate": 0.0243205203810314,
+    "volume_needed_now_take": 607407870.9601421,
+    "volume_needed_8bps": 373515243.57660365,
+    "volume_actual": 78489733.8
+   },
+   {
+    "month": "2026-07",
+    "issuance_rate": 0.0243205203810314,
+    "volume_needed_now_take": 607407870.9601421,
+    "volume_needed_8bps": 373515243.57660365,
+    "volume_actual": 71147732.61290322
+   },
+   {
+    "month": "2026-08",
+    "issuance_rate": 0.0243205203810314,
+    "volume_needed_now_take": 607407870.9601421,
+    "volume_needed_8bps": 373515243.57660365,
+    "volume_actual": 89591201.70967741
+   },
+   {
+    "month": "2026-09",
+    "issuance_rate": 0.0243205203810314,
+    "volume_needed_now_take": 607407870.9601421,
+    "volume_needed_8bps": 373515243.57660365,
+    "volume_actual": 160103145.9
+   },
+   {
+    "month": "2026-10",
+    "issuance_rate": 0.0243205203810314,
+    "volume_needed_now_take": 607407870.9601421,
+    "volume_needed_8bps": 373515243.57660365,
+    "volume_actual": 128569083.90322581
+   },
+   {
+    "month": "2026-11",
+    "issuance_rate": 0.0243205203810314,
+    "volume_needed_now_take": 607407870.9601421,
+    "volume_needed_8bps": 373515243.57660365,
+    "volume_actual": 133555387.66666667
+   },
+   {
+    "month": "2026-12",
+    "issuance_rate": 0.0243205203810314,
+    "volume_needed_now_take": 607407870.9601421,
+    "volume_needed_8bps": 373515243.57660365,
+    "volume_actual": null
+   },
+   {
+    "month": "2027-01",
+    "issuance_rate": 0.0243205203810314,
+    "volume_needed_now_take": 607407870.9601421,
+    "volume_needed_8bps": 373515243.57660365,
+    "volume_actual": null
+   },
+   {
+    "month": "2027-02",
+    "issuance_rate": 0.02430854310697234,
+    "volume_needed_now_take": 607108737.1249225,
+    "volume_needed_8bps": 373331296.2610256,
+    "volume_actual": null
+   },
+   {
+    "month": "2027-03",
+    "issuance_rate": 0.023973179433318722,
+    "volume_needed_now_take": 598732989.7387689,
+    "volume_needed_8bps": 368180771.4248393,
+    "volume_actual": null
+   },
+   {
+    "month": "2027-04",
+    "issuance_rate": 0.023601883937487925,
+    "volume_needed_now_take": 589459840.8469559,
+    "volume_needed_8bps": 362478404.6419187,
+    "volume_actual": null
+   },
+   {
+    "month": "2027-05",
+    "issuance_rate": 0.02324256571571619,
+    "volume_needed_now_take": 580485825.7903631,
+    "volume_needed_8bps": 356959985.1745764,
+    "volume_actual": null
+   },
+   {
+    "month": "2027-06",
+    "issuance_rate": 0.022871270219885397,
+    "volume_needed_now_take": 571212676.8985502,
+    "volume_needed_8bps": 351257618.39165586,
+    "volume_actual": null
+   },
+   {
+    "month": "2027-07",
+    "issuance_rate": 0.02251195199811366,
+    "volume_needed_now_take": 562238661.8419571,
+    "volume_needed_8bps": 345739198.9243134,
+    "volume_actual": null
+   },
+   {
+    "month": "2027-08",
+    "issuance_rate": 0.022140656502282866,
+    "volume_needed_now_take": 552965512.9501442,
+    "volume_needed_8bps": 340036832.1413929,
+    "volume_actual": null
+   },
+   {
+    "month": "2027-09",
+    "issuance_rate": 0.021769361006452072,
+    "volume_needed_now_take": 543692364.0583315,
+    "volume_needed_8bps": 334334465.3584724,
+    "volume_actual": null
+   },
+   {
+    "month": "2027-10",
+    "issuance_rate": 0.02141004278468034,
+    "volume_needed_now_take": 534718349.0017383,
+    "volume_needed_8bps": 328816045.89113,
+    "volume_actual": null
+   },
+   {
+    "month": "2027-11",
+    "issuance_rate": 0.02103874728884954,
+    "volume_needed_now_take": 525445200.1099255,
+    "volume_needed_8bps": 323113679.10820943,
+    "volume_actual": null
+   },
+   {
+    "month": "2027-12",
+    "issuance_rate": 0.020679429067077804,
+    "volume_needed_now_take": 516471185.0533323,
+    "volume_needed_8bps": 317595259.64086694,
+    "volume_actual": null
+   }
+  ],
+  "volume_now": 125805115.06666666,
+  "take_bps": 4.919465307371541,
+  "price": 3.419140192761485,
+  "needed_dec_2027": 516471185.0533323,
+  "multiple_needed": 4.105327392925509,
+  "monthly_growth_needed": 0.11475800526840607,
+  "months_left": 13
  }
 }

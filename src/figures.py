@@ -440,9 +440,18 @@ def figures() -> dict[str, str]:
               "ct_fee_pips": str(ct["intents_protocol_fee_pips"]), "ct_held": f"{ct['held_near'] / 1e6:.2f}M",
               "ct_one_signer": pct(ct["held_where_one_signer_can_change_the_rules"]),
               "ct_block": f"{min(b for b in ct['block_heights'].values() if b):,}", "ct_payments_table": control_table(ct)})
+    wf = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True).loc[FEE_SWITCH:v["r30_to"]].sum()
+    f.update({"wf_to": v["r30_to"], "wf_llama": usd(wf["llama_holders_revenue_usd"], 2), "wf_gap": usd(wf["llama_holders_revenue_usd"] - wf["rebuilt_total_usd"], 1),
+              "wf_three": usd(wf["rebuilt_total_usd"], 2), "wf_fe": usd(wf["rebuilt_fefundsadmin_usd"], 2), "wf_1cs": usd(wf["rebuilt_1csfundsadmin_usd"], 2),
+              "wf_bb": usd(wf["rebuilt_buybacks_usd"], 2), "wf_bb_share": pct(wf["rebuilt_buybacks_usd"] / wf["llama_holders_revenue_usd"]),
+              "wf_fe_share": pct(wf["rebuilt_fefundsadmin_usd"] / wf["llama_holders_revenue_usd"]),
+              "wf_1cs_share": pct(wf["rebuilt_1csfundsadmin_usd"] / wf["llama_holders_revenue_usd"]),
+              "wf_bb_all": usd(wf["rebuilt_buybacks_usd"] + wf["rebuilt_1csfundsadmin_usd"], 2),
+              "wf_bb_all_share": pct((wf["rebuilt_buybacks_usd"] + wf["rebuilt_1csfundsadmin_usd"]) / wf["llama_holders_revenue_usd"]),
+              "wf_gap_share": pct((wf["llama_holders_revenue_usd"] - wf["rebuilt_total_usd"]) / wf["llama_holders_revenue_usd"], 1)})
     rc = ct["reconcile"]
     f.update({"rc_rebuilt": f"{rc['rebuilt_near']:,.2f}", "rc_onchain": f"{rc['onchain_near']:,.2f}", "rc_gap": f"{rc['gap_near']:+.2f}".replace("-", "−"),
-              "rc_block": f"{rc['block']:,}", "rc_receipts": f"{rc['receipts']:,}", "rc_calls": str(rc["own_calls"]),
+              "rc_block": f"{rc['block']:,}", "rc_abs": f"{abs(rc['gap_near']):.2f}", "rc_receipts": f"{rc['receipts']:,}", "rc_calls": str(rc["own_calls"]),
               "rc_ppm": f"{abs(rc['gap_near']) / rc['onchain_near'] * 1e6:.2f}"})
     vd = _json("verdict.json")
     f.update({"vd_verdict": vd["verdict"], "vd_rule": vd["rule"], "vd_met": str(vd["met_for_a_quarter"]),
@@ -462,6 +471,9 @@ def figures() -> dict[str, str]:
     lv = dp["levers"]
     il = dp["integrators_leave"]
     st = dp["staker"]
+    py = dp["path_to_yes"]
+    f.update({"py_mult": f"{py['multiple_needed']:.1f}x", "py_growth": f"{py['monthly_growth_needed']:.0%}", "py_need": usd(py["needed_dec_2027"], 1),
+              "py_now": usd(py["volume_now"], 0), "py_take": f"{py['take_bps']:.1f}", "py_months": str(py["months_left"])})
     f.update({"dp_break": day(b1["break_weeks_ending"][0]), "dp_break_lo": day(b1["ci90"][0][0]), "dp_break_hi": day(b1["ci90"][0][1]),
               "dp_break_before": f"{b1['levels_bps'][0]:.1f}", "dp_break_after": f"{b1['levels_bps'][1]:.1f}",
               "dp_b2_1": day(b2["break_weeks_ending"][0]), "dp_b2_2": day(b2["break_weeks_ending"][1]),

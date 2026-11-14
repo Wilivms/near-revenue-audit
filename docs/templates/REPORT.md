@@ -35,6 +35,21 @@ Two caveats. First, NEAR's dashboard also publishes a monthly revenue series, an
 
 Second, the reading of "buyback". The front-end fund holds about {{fefunds_near}} NEAR ({{fefunds_share}} of all NEAR captured to date). It is a Sputnik DAO whose members' account names point to Aurora. It has not sold, but nothing on-chain commits it not to. It has paid {{ct_fe_stable}} in stablecoins to three `aurora…` accounts ({{ct_fe_liq}} to `auroraliqsupport.near`, four 50,000 USDC invoices to `aurora…` DAO accounts), {{ct_fe_stable_since}} of it after the buyback programme began; most likely payments to an operating partner, and the proposals give no further detail (Rule or choice, below; every payment in the appendix). **Bought is not retired.**
 
+**Why the buyback wallet gets only {{wf_bb_all_share}} of what is called "buyback".** DefiLlama reports {{wf_llama}} of holders revenue from the fee switch to {{wf_to}}, which reads as NEAR bought back. Decomposed to the dollar:
+
+| Step | Amount | Share of DefiLlama's figure |
+| --- | --- | --- |
+| DefiLlama holders revenue | {{wf_llama}} | 100% |
+| − pricing and day boundaries (DefiLlama's prices against daily prices on the rebuilt flows) | {{wf_gap}} | {{wf_gap_share}} |
+| = NEAR received by the three revenue wallets | {{wf_three}} | |
+| − front-end fund (a DAO treasury, not a buyback wallet) | {{wf_fe}} | {{wf_fe_share}} |
+| − 1Click fund (counted where it first arrives) | {{wf_1cs}} | {{wf_1cs_share}} |
+| = paid straight into the **buyback multisig** | **{{wf_bb}}** | **{{wf_bb_share}}** |
+| + the 1Click fund's NEAR, forwarded to the multisig later (Rule or choice, below) | {{wf_1cs}} | {{wf_1cs_share}} |
+| = **ends in the buyback multisig** | **{{wf_bb_all}}** | **{{wf_bb_all_share}}** |
+
+The gap is not missing money: about a third sits in the front-end fund, which is not a buyback wallet, and under 1% is pricing. "Buyback" in the dashboards means "revenue"; only part of it reaches the wallet that holds bought NEAR.
+
 **To a fraction of a NEAR** (F19, `make control`). The buyback multisig's {{rc_receipts}} receipts since its creation (every NEAR in, minus every NEAR out) rebuild a balance of {{rc_rebuilt}} NEAR; the archival RPC reads {{rc_onchain}} at block {{rc_block}}, just after the last receipt. The {{rc_gap}} NEAR left is about what the wallet's own {{rc_calls}} multisig calls cost in gas, which the receipt list does not itemise.
 
 ### 2. The revenue grew, with confidential swaps as the largest identified driver, under an incentive
@@ -165,6 +180,17 @@ What the simulation assumes, and what that does to the result:
 
   LI.FI's public quote includes its default 0.25% fee; without it, LI.FI would beat everyone (1Click {{qr_ex_lifi_median}}), so the result depends on which front-end a user comes through. Quotes are not fills and leave out the origin-chain gas each route needs. Read with the 1Click data: NEAR keeps a few basis points inside a price that is level with the market, so its take is not what loses 1Click a swap; where 1Click loses (Ethereum to L2, Solana), the gap is a few basis points, about the size of the take itself. More rounds are added at each refresh.
 - **Protocol fee.** The `intents.near` fee itself is 1 pip (about 0.01 bps), unchanged since March 2025: NEAR's revenue comes from app fees, not from the protocol fee.
+
+- **How peers' buybacks are bound: rule or choice?** (outside sources, not rebuilt here; log 68)
+
+  | Protocol | What buys the token | What happens to it | Can it stop without a vote? |
+  | --- | --- | --- | --- |
+  | Hyperliquid | about 97% of fees, through the Assistance Fund, a standing buyer ([DL News, 2025-06-11](https://www.dlnews.com/articles/defi/hyperliquid-hype-token-buyback-1bn-but-is-it-sustainable)) | held; burning discussed | no purchase-by-purchase decision |
+  | Aave | a programme voted by token holders: up to $1M a week from April 2025 ([Cointelegraph](https://cointelegraph.com/news/aave-buyback-proposal-passes-among-holders)), made permanent at $50M a year in November 2025 ([The Defiant](https://thedefiant.io/news/defi/aave-dao-makes-usd50-million-annual-token-buybacks-permanent)) | sent to the Ecosystem Reserve | needs a governance vote |
+  | Jupiter | up to 50% of fees, bought and locked for up to three years; in January 2026 a co-founder asked whether to pause after $70M spent in 2025 ([Asianet Newsable](https://newsable.asianetnews.com/amp/markets/jupiter-ticks-higher-as-ceo-weighs-pausing-buybacks-after-70m-spent-in-2025-articleshow-srg5klt)) | locked for a time | a team decision, put to the community |
+  | **NEAR** | fees reach three revenue wallets; NEAR arrives already bought | held in a 2-of-4 multisig and two DAOs; none burned or locked | yes: no rule commits the wallets (Rule or choice, below) |
+
+  Of the four, NEAR's is the least bound: nothing it holds is locked, and no vote or rule stands behind the purchases. Aave's needs a vote to stop, Jupiter's locks what it buys, Hyperliquid's buys by mechanism.
 
 ### 7. The holder's view
 

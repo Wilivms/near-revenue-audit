@@ -24,18 +24,16 @@
 - **Too small for the token.** Buybacks offset 14.8% of new NEAR (February 2026 to October 2026). Market cap is 205x captured revenue; supply stops growing only below 41x.
 - **Partly bought.** NEAR's take doubled from 2.2 to 5.5 bps in two months, a fifth to most of it from confidential swaps during an airdrop whose first drop cost 74% of the revenue it added. It is already easing (3.9 bps in early November).
 - **NEAR does not own the customer.** On 1Click, integrators keep 92% of the fee pool.
+- **A policy, not a rule.** Nothing bought is burned or locked; 47% of it sits in a fund whose policy one Admin vote can change ([Rule or choice](#rule-or-choice-who-controls-the-revenue)).
 - **Priced level with its rivals.** In 5 live quote rounds against Relay, Across and LI.FI, 1Click paid users the most in 52% of swaps, median +0.1 bps from the best: rivals are not undercutting NEAR Intents so far.
 
 **Also tested, and easy to miss**
-- **The track's own hypothesis, that usage leads price: no.** 0 of 24 lead-lag tests significant after Holm's correction, and 0 of 24 on human-scale signers (F13).
-- **It still works when swaps go dark.** Confidential swaps are invisible on the chain, but their fees land in public wallets: that is where revenue is measured here, and how confidential swaps are priced (8.8 bps against 2.0 on public).
-- **"Usage" can mislead.** From late October to early November, transactions to `intents.near` rose +85% while captured revenue moved -18%; 99.9% of the increase is the contract signing its own transactions.
-- **NEAR's own revenue series runs 21% above** what its three revenue wallets receive (REPORT section 10).
-- **Small swaps cost the most.** A $10 swap on 1Click gives up $0.14, more than twice the rate paid on $1,000 (table below): the small payments agents would make are the dearest.
-- **The buyback wallet is explained to a fraction of a NEAR.** Every receipt in minus every receipt out since its creation gives 2,274,593.09 NEAR; the chain says 2,274,592.78 at block 224,358,585: −0.31 NEAR apart (0.14 per million), about the gas its own 13 multisig calls cost (F19).
-- **The take's jump is found by the data, not by us.** A break search on the weekly take puts the regime change in the week ending 20 Sep 2026 (90%: 30 Aug 2026 to 27 Sep 2026), the week of the airdrop snapshot; 2.3 → 4.8 bps.
-- **NEAR's revenue does not hang on any integrator.** The one paying NEAR the most is 2.9% of captured revenue; the largest by volume (39% of 1Click) brings 0.0%.
-- **A kill criterion registered before the analysis triggered** (top integrator above 60% of 1Click app fees) and is reported as written. [`HYPOTHESES.md`](HYPOTHESES.md) is unchanged since [its first commit](https://github.com/Wilivms/near-revenue-audit/commit/8468ac7) on 2026-10-29.
+- **The track's own hypothesis (usage leads price): no.** 0 of 24 lead-lag tests significant after Holm, 0 of 24 on human-scale signers (F13).
+- **The jump is dated by the data.** A break search puts it in the week ending 20 Sep 2026 (90%: 30 Aug 2026 to 27 Sep 2026), the airdrop snapshot's week.
+- **"Buyback" is not what the buyback wallet gets:** 67% of DefiLlama's figure ends there; 32% sits in the front-end fund ([decomposed to the dollar](REPORT.md#1-the-revenue-is-real)).
+- **The buyback wallet, to a fraction of a NEAR:** 3,393 receipts rebuild its balance to within 0.31 NEAR of what the chain reads (F19).
+- **Still works when swaps go dark:** confidential swaps are invisible, but their fees land in public wallets, which is where revenue is measured.
+- **A pre-registered kill criterion triggered** and is reported as written; [`HYPOTHESES.md`](HYPOTHESES.md) is unchanged since [its first commit](https://github.com/Wilivms/near-revenue-audit/commit/8468ac7).
 
 **2. Follow $100** (2026-10-14 to 2026-11-12, $3.77B of Intents volume)
 
@@ -83,7 +81,7 @@ make verify          # → prints every finding and the headline numbers above
 - **The questions the dashboards skip, answered with data**: the airdrop's role, who pays, and where the revenue now comes from: 73% of what reaches the wallets since late September is paid out of the confidential pool (about $136M), worth 8.8 bps of confidential volume against 2.0 on public ([REPORT section 10](REPORT.md#10-the-two-questions-near-did-not-answer-and-what-the-data-says)). And the user's whole cost of a swap, $10 to $1M: NEAR keeps 6.4% of it (F18).
 - **What the price implies, run backwards**: at a 15% discount rate and 3% growth, NEAR's market cap needs 24x today's captured revenue, or 83% a year of growth for five years (REPORT section 4).
 - **Events tested against a placebo, not narrated**: the October exploit and six other NEAR events (halving, fee switch, airdrop, HSP-029…), each compared with the same before/after split at every ordinary date of the year (F17, REPORT section 11).
-- **Every printed number traced**: [`NUMBERS.md`](NUMBERS.md) lists each of the 535 values in the documents and the dashboard with the line of code that computes it; tests re-render everything and include checks that must fail (a planted false finding, a tampered output).
+- **Every printed number traced**: [`NUMBERS.md`](NUMBERS.md) lists each of the 552 values in the documents and the dashboard with the line of code that computes it; tests re-render everything and include checks that must fail (a planted false finding, a tampered output).
 - **Held to account**: every finding re-run in CI and stress-tested under 49 alternative choices (the one fragile finding says so); 33 public claims tested at their own dates; six predictions timestamped on Bitcoin; [five corrections](#where-we-were-wrong-and-what-changed) dated in the research log.
 - **Keeps itself current**: the dashboard refreshes every day, 1Click included, and each update is anchored on NEAR (testnet).
 
@@ -110,7 +108,7 @@ Each number with its window, its source and the command that rebuilds it. None o
 | 5 min | Read **[`THESIS.md`](THESIS.md)** | the claim, evidence for and against, what would change our mind, what could not be computed, on one page |
 | 2 min | Run `make setup && . .venv/bin/activate && make check-clean` | every output rebuilt from committed data and compared: `58/58 outputs match`, `19/19 findings hold` |
 | 3 min | Open **[REPORT section 9](REPORT.md#9-public-claims-checked)** | 33 public claims about NEAR tested at their own dates |
-| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (67 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
+| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (68 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
 
 ## Why this thesis is different
 

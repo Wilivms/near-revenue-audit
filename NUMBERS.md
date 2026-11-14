@@ -3,13 +3,13 @@
 
 Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTML comes from one key computed in [`src/figures.py`](src/figures.py) from the committed outputs in `data/processed/`. A test re-renders every document and fails if any printed value differs from the data. Tables rendered whole (findings, claims, payments) are listed once.
 
-535 keys.
+552 keys.
 
 | Key | Value | Printed in | Computed at |
 | --- | --- | --- | --- |
-| `anchor_daily_tx` | [ASxmSMNY…](https://testnet.nearblocks.io/txns/ASxmSMNYuZxciwdyFkFA… | README.md | [figures.py#L605](src/figures.py#L605) |
-| `anchor_pred_tx` | [AWcwWsaf…](https://testnet.nearblocks.io/txns/AWcwWsafGXGUw9zh1rZs… | README.md | [figures.py#L605](src/figures.py#L605) |
-| `anchor_snap_tx` | [92akEf38…](https://testnet.nearblocks.io/txns/92akEf38ouQ4D6JpHd9L… | README.md | [figures.py#L605](src/figures.py#L605) |
+| `anchor_daily_tx` | [ASxmSMNY…](https://testnet.nearblocks.io/txns/ASxmSMNYuZxciwdyFkFA… | README.md | [figures.py#L617](src/figures.py#L617) |
+| `anchor_pred_tx` | [AWcwWsaf…](https://testnet.nearblocks.io/txns/AWcwWsafGXGUw9zh1rZs… | README.md | [figures.py#L617](src/figures.py#L617) |
+| `anchor_snap_tx` | [92akEf38…](https://testnet.nearblocks.io/txns/92akEf38ouQ4D6JpHd9L… | README.md | [figures.py#L617](src/figures.py#L617) |
 | `asset_btc` | 37% | REPORT.md | [figures.py#L326](src/figures.py#L326) |
 | `asset_eth` | 14% | REPORT.md | [figures.py#L328](src/figures.py#L328) |
 | `asset_stable_bps` | 1.3 | REPORT.md | [figures.py#L330](src/figures.py#L330) |
@@ -20,12 +20,12 @@ Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTM
 | `be_vol_8` | $392M | REPORT.md | [figures.py#L306](src/figures.py#L306) |
 | `be_vol_now` | $639M | README.md, REPORT.md, THESIS.md | [figures.py#L306](src/figures.py#L306) |
 | `bq_days` | 408 | README.md | [figures.py#L375](src/figures.py#L375) |
-| `bq_is_other_signers` | +5% | FAQ.md | [figures.py#L599](src/figures.py#L599) |
-| `bq_is_others` | +9% | FAQ.md, README.md | [figures.py#L599](src/figures.py#L599) |
-| `bq_is_rev` | -18% | FAQ.md, README.md, THESIS.md | [figures.py#L597](src/figures.py#L597) |
-| `bq_is_self_inc` | 99.9% | FAQ.md, README.md, THESIS.md | [figures.py#L598](src/figures.py#L598) |
-| `bq_is_self_nov` | 85% | FAQ.md | [figures.py#L598](src/figures.py#L598) |
-| `bq_is_tx` | +85% | FAQ.md, README.md, THESIS.md | [figures.py#L597](src/figures.py#L597) |
+| `bq_is_other_signers` | +5% | FAQ.md | [figures.py#L611](src/figures.py#L611) |
+| `bq_is_others` | +9% | FAQ.md, README.md | [figures.py#L611](src/figures.py#L611) |
+| `bq_is_rev` | -18% | FAQ.md, README.md, THESIS.md | [figures.py#L609](src/figures.py#L609) |
+| `bq_is_self_inc` | 99.9% | FAQ.md, README.md, THESIS.md | [figures.py#L610](src/figures.py#L610) |
+| `bq_is_self_nov` | 85% | FAQ.md | [figures.py#L610](src/figures.py#L610) |
+| `bq_is_tx` | +85% | FAQ.md, README.md, THESIS.md | [figures.py#L609](src/figures.py#L609) |
 | `bq_rev_near` | 3.292M | README.md | [figures.py#L373](src/figures.py#L373) |
 | `bq_rev_to` | 2026-11-12 | README.md | [figures.py#L374](src/figures.py#L374) |
 | `bq_supply_gap` | 0.06% | README.md | [figures.py#L374](src/figures.py#L374) |
@@ -44,9 +44,9 @@ Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTM
 | `capture_last_week` | 25% | REPORT.md | [figures.py#L276](src/figures.py#L276) |
 | `capture_oct` | 35% | REPORT.md | [figures.py#L275](src/figures.py#L275) |
 | `captured_feb_oct` | 3.53M | README.md, REPORT.md, THESIS.md | [figures.py#L265](src/figures.py#L265) |
-| `claims_n` | 19 | README.md, REPORT.md, dashboard (no-JS values) | [figures.py#L869](src/figures.py#L869) |
-| `claims_passed` | 19/19 | README.md | [figures.py#L869](src/figures.py#L869) |
-| `claims_table` | (table) | README.md | [figures.py#L869](src/figures.py#L869) |
+| `claims_n` | 19 | README.md, REPORT.md, dashboard (no-JS values) | [figures.py#L881](src/figures.py#L881) |
+| `claims_passed` | 19/19 | README.md | [figures.py#L881](src/figures.py#L881) |
+| `claims_table` | (table) | README.md | [figures.py#L881](src/figures.py#L881) |
 | `conf_rev_range` | $2.8M–$4.1M | REPORT.md | [figures.py#L291](src/figures.py#L291) |
 | `conf_share_aug` | 13% | REPORT.md | [figures.py#L289](src/figures.py#L289) |
 | `conf_share_oct` | 41% | REPORT.md | [figures.py#L289](src/figures.py#L289) |
@@ -81,43 +81,43 @@ Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTM
 | `ct_payments_table` | (table) | REPORT.md | [figures.py#L442](src/figures.py#L442) |
 | `daily_fit_conf` | 9.2 | REPORT.md | [figures.py#L283](src/figures.py#L283) |
 | `data_to` | 2026-11-12 | FAQ.md, README.md, REPORT.md, THESIS.md, dashboard (no-JS values) | [figures.py#L254](src/figures.py#L254) |
-| `dp_b2_1` | 17 May 2026 | REPORT.md | [figures.py#L467](src/figures.py#L467) |
-| `dp_b2_2` | 27 Sep 2026 | REPORT.md | [figures.py#L467](src/figures.py#L467) |
-| `dp_b2_levels` | 1.9 → 2.5 → 5.0 | REPORT.md | [figures.py#L468](src/figures.py#L468) |
-| `dp_break` | 20 Sep 2026 | README.md, REPORT.md, THESIS.md, dashboard (no-JS values) | [figures.py#L465](src/figures.py#L465) |
-| `dp_break_after` | 4.8 | README.md, REPORT.md | [figures.py#L466](src/figures.py#L466) |
-| `dp_break_before` | 2.3 | README.md, REPORT.md | [figures.py#L466](src/figures.py#L466) |
-| `dp_break_hi` | 27 Sep 2026 | README.md, REPORT.md, THESIS.md | [figures.py#L465](src/figures.py#L465) |
-| `dp_break_lo` | 30 Aug 2026 | README.md, REPORT.md, THESIS.md | [figures.py#L465](src/figures.py#L465) |
-| `dp_cov_table` | (table) | REPORT.md | [figures.py#L471](src/figures.py#L471) |
-| `dp_gain20` | $1.53M | README.md | [figures.py#L481](src/figures.py#L481) |
-| `dp_int_bps` | 2.8 | README.md | [figures.py#L480](src/figures.py#L480) |
-| `dp_just_base` | 4.1% | README.md, REPORT.md | [figures.py#L477](src/figures.py#L477) |
-| `dp_just_bear` | 2.0% | README.md, REPORT.md, THESIS.md | [figures.py#L477](src/figures.py#L477) |
-| `dp_just_bull` | 16.2% | README.md, REPORT.md, THESIS.md | [figures.py#L477](src/figures.py#L477) |
-| `dp_lever_max` | 72% | README.md, THESIS.md | [figures.py#L480](src/figures.py#L480) |
-| `dp_lever_table` | (table) | README.md | [figures.py#L478](src/figures.py#L478) |
-| `dp_mde` | 0.48 | REPORT.md | [figures.py#L486](src/figures.py#L486) |
-| `dp_mde_n` | 32 | REPORT.md | [figures.py#L486](src/figures.py#L486) |
-| `dp_noref` | 39% | REPORT.md | [figures.py#L482](src/figures.py#L482) |
-| `dp_oc_share` | 22% | REPORT.md | [figures.py#L482](src/figures.py#L482) |
-| `dp_oct_cov` | 16.6% | REPORT.md | [figures.py#L476](src/figures.py#L476) |
-| `dp_oct_price` | +57% | REPORT.md | [figures.py#L474](src/figures.py#L474) |
-| `dp_oct_rev` | +26% | REPORT.md | [figures.py#L474](src/figures.py#L474) |
-| `dp_sep_cov` | 21.2% | REPORT.md | [figures.py#L476](src/figures.py#L476) |
-| `dp_sep_price` | +77% | REPORT.md | [figures.py#L475](src/figures.py#L475) |
-| `dp_sep_rev` | +146% | REPORT.md | [figures.py#L475](src/figures.py#L475) |
-| `dp_staker_real` | +3.3% | README.md, REPORT.md | [figures.py#L487](src/figures.py#L487) |
-| `dp_staker_real10` | +2.8% | REPORT.md | [figures.py#L487](src/figures.py#L487) |
-| `dp_take_table` | (table) | REPORT.md | [figures.py#L469](src/figures.py#L469) |
-| `dp_top1` | trustwallet | REPORT.md | [figures.py#L483](src/figures.py#L483) |
-| `dp_top1_cap` | 2.9% | README.md, REPORT.md | [figures.py#L483](src/figures.py#L483) |
-| `dp_top3_cap` | 6.2% | REPORT.md | [figures.py#L484](src/figures.py#L484) |
-| `dp_topvol` | swapkit | REPORT.md | [figures.py#L484](src/figures.py#L484) |
-| `dp_topvol_near` | 0.0% | README.md, REPORT.md | [figures.py#L485](src/figures.py#L485) |
-| `dp_topvol_vol` | 39% | README.md, REPORT.md | [figures.py#L485](src/figures.py#L485) |
-| `dp_unstaked_real` | −2.0% | README.md, REPORT.md | [figures.py#L488](src/figures.py#L488) |
-| `dp_weeks` | 37 | REPORT.md | [figures.py#L468](src/figures.py#L468) |
+| `dp_b2_1` | 17 May 2026 | REPORT.md | [figures.py#L479](src/figures.py#L479) |
+| `dp_b2_2` | 27 Sep 2026 | REPORT.md | [figures.py#L479](src/figures.py#L479) |
+| `dp_b2_levels` | 1.9 → 2.5 → 5.0 | REPORT.md | [figures.py#L480](src/figures.py#L480) |
+| `dp_break` | 20 Sep 2026 | README.md, REPORT.md, THESIS.md, dashboard (no-JS values) | [figures.py#L477](src/figures.py#L477) |
+| `dp_break_after` | 4.8 | REPORT.md | [figures.py#L478](src/figures.py#L478) |
+| `dp_break_before` | 2.3 | REPORT.md | [figures.py#L478](src/figures.py#L478) |
+| `dp_break_hi` | 27 Sep 2026 | README.md, REPORT.md, THESIS.md | [figures.py#L477](src/figures.py#L477) |
+| `dp_break_lo` | 30 Aug 2026 | README.md, REPORT.md, THESIS.md | [figures.py#L477](src/figures.py#L477) |
+| `dp_cov_table` | (table) | REPORT.md | [figures.py#L483](src/figures.py#L483) |
+| `dp_gain20` | $1.53M | README.md | [figures.py#L493](src/figures.py#L493) |
+| `dp_int_bps` | 2.8 | README.md | [figures.py#L492](src/figures.py#L492) |
+| `dp_just_base` | 4.1% | README.md, REPORT.md | [figures.py#L489](src/figures.py#L489) |
+| `dp_just_bear` | 2.0% | README.md, REPORT.md, THESIS.md | [figures.py#L489](src/figures.py#L489) |
+| `dp_just_bull` | 16.2% | README.md, REPORT.md, THESIS.md | [figures.py#L489](src/figures.py#L489) |
+| `dp_lever_max` | 72% | README.md, THESIS.md | [figures.py#L492](src/figures.py#L492) |
+| `dp_lever_table` | (table) | README.md | [figures.py#L490](src/figures.py#L490) |
+| `dp_mde` | 0.48 | REPORT.md | [figures.py#L498](src/figures.py#L498) |
+| `dp_mde_n` | 32 | REPORT.md | [figures.py#L498](src/figures.py#L498) |
+| `dp_noref` | 39% | REPORT.md | [figures.py#L494](src/figures.py#L494) |
+| `dp_oc_share` | 22% | REPORT.md | [figures.py#L494](src/figures.py#L494) |
+| `dp_oct_cov` | 16.6% | REPORT.md | [figures.py#L488](src/figures.py#L488) |
+| `dp_oct_price` | +57% | REPORT.md | [figures.py#L486](src/figures.py#L486) |
+| `dp_oct_rev` | +26% | REPORT.md | [figures.py#L486](src/figures.py#L486) |
+| `dp_sep_cov` | 21.2% | REPORT.md | [figures.py#L488](src/figures.py#L488) |
+| `dp_sep_price` | +77% | REPORT.md | [figures.py#L487](src/figures.py#L487) |
+| `dp_sep_rev` | +146% | REPORT.md | [figures.py#L487](src/figures.py#L487) |
+| `dp_staker_real` | +3.3% | README.md, REPORT.md | [figures.py#L499](src/figures.py#L499) |
+| `dp_staker_real10` | +2.8% | REPORT.md | [figures.py#L499](src/figures.py#L499) |
+| `dp_take_table` | (table) | REPORT.md | [figures.py#L481](src/figures.py#L481) |
+| `dp_top1` | trustwallet | REPORT.md | [figures.py#L495](src/figures.py#L495) |
+| `dp_top1_cap` | 2.9% | REPORT.md | [figures.py#L495](src/figures.py#L495) |
+| `dp_top3_cap` | 6.2% | REPORT.md | [figures.py#L496](src/figures.py#L496) |
+| `dp_topvol` | swapkit | REPORT.md | [figures.py#L496](src/figures.py#L496) |
+| `dp_topvol_near` | 0.0% | REPORT.md | [figures.py#L497](src/figures.py#L497) |
+| `dp_topvol_vol` | 39% | REPORT.md | [figures.py#L497](src/figures.py#L497) |
+| `dp_unstaked_real` | −2.0% | README.md, REPORT.md | [figures.py#L500](src/figures.py#L500) |
+| `dp_weeks` | 37 | REPORT.md | [figures.py#L480](src/figures.py#L480) |
 | `drop1_over_uplift` | 74% | README.md, THESIS.md | [figures.py#L293](src/figures.py#L293) |
 | `drop1_usd` | $1.39M | FAQ.md, REPORT.md, THESIS.md | [figures.py#L290](src/figures.py#L290) |
 | `dune_fee_bps` | 7.4 | FAQ.md, REPORT.md | [figures.py#L285](src/figures.py#L285) |
@@ -134,32 +134,32 @@ Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTM
 | `el_rise_vol` | +25% | REPORT.md | [figures.py#L411](src/figures.py#L411) |
 | `el_rises` | 6 | REPORT.md | [figures.py#L411](src/figures.py#L411) |
 | `emissions_gap` | 1.5% | REPORT.md | [figures.py#L266](src/figures.py#L266) |
-| `ev_exp_px3` | −6% | REPORT.md | [figures.py#L568](src/figures.py#L568) |
-| `ev_expected` | 4 | REPORT.md | [figures.py#L564](src/figures.py#L564) |
-| `ev_fs_px3` | +13% | REPORT.md | [figures.py#L568](src/figures.py#L568) |
-| `ev_halv_px3` | +0% | REPORT.md | [figures.py#L569](src/figures.py#L569) |
-| `ev_hsp_px3` | −16% | REPORT.md, THESIS.md | [figures.py#L567](src/figures.py#L567) |
-| `ev_n` | 7 | REPORT.md | [figures.py#L563](src/figures.py#L563) |
-| `ev_placebo` | 184 | REPORT.md | [figures.py#L564](src/figures.py#L564) |
-| `ev_snap_px14` | +56% | REPORT.md | [figures.py#L567](src/figures.py#L567) |
-| `ev_snap_px3` | +26% | FAQ.md, REPORT.md, THESIS.md | [figures.py#L566](src/figures.py#L566) |
-| `ev_snap_rev` | +150% | FAQ.md, REPORT.md | [figures.py#L566](src/figures.py#L566) |
-| `ev_table` | (table) | REPORT.md | [figures.py#L563](src/figures.py#L563) |
-| `ev_tests` | 41 | REPORT.md | [figures.py#L563](src/figures.py#L563) |
-| `ev_unusual` | 9 | REPORT.md | [figures.py#L563](src/figures.py#L563) |
-| `f100_bb` | $0.035 | README.md | [figures.py#L734](src/figures.py#L734) |
-| `f100_cover` | 21% | README.md, THESIS.md, dashboard (no-JS values) | [figures.py#L735](src/figures.py#L735) |
-| `f100_fe` | $0.014 | README.md | [figures.py#L735](src/figures.py#L735) |
-| `f100_fees` | $0.159 | README.md, THESIS.md | [figures.py#L734](src/figures.py#L734) |
-| `f100_fees_to` | 2026-11-10 | README.md | [figures.py#L734](src/figures.py#L734) |
-| `f100_from` | 2026-10-14 | README.md, THESIS.md | [figures.py#L734](src/figures.py#L734) |
-| `f100_issued` | $0.238 | README.md, THESIS.md, dashboard (no-JS values) | [figures.py#L735](src/figures.py#L735) |
-| `f100_near` | $0.049 | README.md, THESIS.md, dashboard (no-JS values) | [figures.py#L734](src/figures.py#L734) |
-| `f100_oc_int` | $0.431 | README.md | [figures.py#L738](src/figures.py#L738) |
-| `f100_oc_near` | $0.038 | README.md | [figures.py#L737](src/figures.py#L737) |
-| `f100_oc_pool` | $0.469 | README.md | [figures.py#L736](src/figures.py#L736) |
-| `f100_to` | 2026-11-12 | README.md, THESIS.md, dashboard (no-JS values) | [figures.py#L734](src/figures.py#L734) |
-| `f100_vol` | $3.77B | README.md | [figures.py#L736](src/figures.py#L736) |
+| `ev_exp_px3` | −6% | REPORT.md | [figures.py#L580](src/figures.py#L580) |
+| `ev_expected` | 4 | REPORT.md | [figures.py#L576](src/figures.py#L576) |
+| `ev_fs_px3` | +13% | REPORT.md | [figures.py#L580](src/figures.py#L580) |
+| `ev_halv_px3` | +0% | REPORT.md | [figures.py#L581](src/figures.py#L581) |
+| `ev_hsp_px3` | −16% | REPORT.md, THESIS.md | [figures.py#L579](src/figures.py#L579) |
+| `ev_n` | 7 | REPORT.md | [figures.py#L575](src/figures.py#L575) |
+| `ev_placebo` | 184 | REPORT.md | [figures.py#L576](src/figures.py#L576) |
+| `ev_snap_px14` | +56% | REPORT.md | [figures.py#L579](src/figures.py#L579) |
+| `ev_snap_px3` | +26% | FAQ.md, REPORT.md, THESIS.md | [figures.py#L578](src/figures.py#L578) |
+| `ev_snap_rev` | +150% | FAQ.md, REPORT.md | [figures.py#L578](src/figures.py#L578) |
+| `ev_table` | (table) | REPORT.md | [figures.py#L575](src/figures.py#L575) |
+| `ev_tests` | 41 | REPORT.md | [figures.py#L575](src/figures.py#L575) |
+| `ev_unusual` | 9 | REPORT.md | [figures.py#L575](src/figures.py#L575) |
+| `f100_bb` | $0.035 | README.md | [figures.py#L746](src/figures.py#L746) |
+| `f100_cover` | 21% | README.md, THESIS.md, dashboard (no-JS values) | [figures.py#L747](src/figures.py#L747) |
+| `f100_fe` | $0.014 | README.md | [figures.py#L747](src/figures.py#L747) |
+| `f100_fees` | $0.159 | README.md, THESIS.md | [figures.py#L746](src/figures.py#L746) |
+| `f100_fees_to` | 2026-11-10 | README.md | [figures.py#L746](src/figures.py#L746) |
+| `f100_from` | 2026-10-14 | README.md, THESIS.md | [figures.py#L746](src/figures.py#L746) |
+| `f100_issued` | $0.238 | README.md, THESIS.md, dashboard (no-JS values) | [figures.py#L747](src/figures.py#L747) |
+| `f100_near` | $0.049 | README.md, THESIS.md, dashboard (no-JS values) | [figures.py#L746](src/figures.py#L746) |
+| `f100_oc_int` | $0.431 | README.md | [figures.py#L750](src/figures.py#L750) |
+| `f100_oc_near` | $0.038 | README.md | [figures.py#L749](src/figures.py#L749) |
+| `f100_oc_pool` | $0.469 | README.md | [figures.py#L748](src/figures.py#L748) |
+| `f100_to` | 2026-11-12 | README.md, THESIS.md, dashboard (no-JS values) | [figures.py#L746](src/figures.py#L746) |
+| `f100_vol` | $3.77B | README.md | [figures.py#L748](src/figures.py#L748) |
 | `fd_ci` | 2.2–9.0 | FAQ.md, REPORT.md | [figures.py#L283](src/figures.py#L283) |
 | `fd_conf` | 5.5 | FAQ.md, README.md, REPORT.md | [figures.py#L282](src/figures.py#L282) |
 | `fd_pub` | 2.9 | REPORT.md | [figures.py#L282](src/figures.py#L282) |
@@ -177,8 +177,8 @@ Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTM
 | `hsp_timelock_end` | 2026-11-16 | README.md, REPORT.md | [figures.py#L308](src/figures.py#L308) |
 | `hsp_turnout` | 62% | REPORT.md | [figures.py#L307](src/figures.py#L307) |
 | `hsp_voters` | 36 | REPORT.md | [figures.py#L307](src/figures.py#L307) |
-| `ic_back` | 3 | FAQ.md, REPORT.md, THESIS.md | [figures.py#L545](src/figures.py#L545) |
-| `ic_cut` | 10 | FAQ.md, REPORT.md, THESIS.md | [figures.py#L545](src/figures.py#L545) |
+| `ic_back` | 3 | FAQ.md, REPORT.md, THESIS.md | [figures.py#L557](src/figures.py#L557) |
+| `ic_cut` | 10 | FAQ.md, REPORT.md, THESIS.md | [figures.py#L557](src/figures.py#L557) |
 | `ic_d_near_usd_change` | −13% | FAQ.md, REPORT.md | src/figures.py |
 | `ic_d_new_senders_change` | −12% | REPORT.md | src/figures.py |
 | `ic_d_senders_change` | −6% | FAQ.md, REPORT.md | src/figures.py |
@@ -197,29 +197,29 @@ Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTM
 | `ic_dp_top_kept_half` | 0.09 | REPORT.md | src/figures.py |
 | `ic_dp_top_volume_change` | 0.09 | REPORT.md | src/figures.py |
 | `ic_dp_volume_usd_change` | 0.09 | REPORT.md | src/figures.py |
-| `ic_first_day` | 75% | REPORT.md | [figures.py#L544](src/figures.py#L544) |
-| `ic_first_hour` | 59% | REPORT.md | [figures.py#L544](src/figures.py#L544) |
-| `ic_from` | 08:33 | FAQ.md, REPORT.md | [figures.py#L534](src/figures.py#L534) |
-| `ic_gap_week` | 9 | REPORT.md | [figures.py#L536](src/figures.py#L536) |
-| `ic_hours` | 3.7 | FAQ.md, REPORT.md, THESIS.md | [figures.py#L534](src/figures.py#L534) |
-| `ic_pn` | 21 | FAQ.md, REPORT.md, THESIS.md | [figures.py#L544](src/figures.py#L544) |
-| `ic_rev_lost` | $2,014 | FAQ.md, REPORT.md, THESIS.md | [figures.py#L535](src/figures.py#L535) |
-| `ic_to` | 12:16 | FAQ.md, REPORT.md | [figures.py#L534](src/figures.py#L534) |
-| `ic_top` | 25 | REPORT.md | [figures.py#L541](src/figures.py#L541) |
-| `ic_top_nov` | −35% | REPORT.md | [figures.py#L545](src/figures.py#L545) |
-| `ic_top_vol` | −39% | FAQ.md, THESIS.md | [figures.py#L542](src/figures.py#L542) |
-| `ic_vol_lost` | $7.10M | REPORT.md | [figures.py#L535](src/figures.py#L535) |
-| `im_g5` | 83% | FAQ.md, README.md, THESIS.md | [figures.py#L499](src/figures.py#L499) |
-| `im_g5_hi` | 91% | REPORT.md | [figures.py#L499](src/figures.py#L499) |
-| `im_g5_lo` | 75% | REPORT.md | [figures.py#L499](src/figures.py#L499) |
-| `im_hi` | 41 | README.md | [figures.py#L497](src/figures.py#L497) |
-| `im_lo` | 10 | README.md | [figures.py#L497](src/figures.py#L497) |
-| `im_mid` | 24 | FAQ.md, README.md, REPORT.md, THESIS.md | [figures.py#L498](src/figures.py#L498) |
-| `im_mid_vol` | $3.0B | FAQ.md, REPORT.md | [figures.py#L498](src/figures.py#L498) |
-| `im_peer` | 20x | FAQ.md, REPORT.md | [figures.py#L500](src/figures.py#L500) |
+| `ic_first_day` | 75% | REPORT.md | [figures.py#L556](src/figures.py#L556) |
+| `ic_first_hour` | 59% | REPORT.md | [figures.py#L556](src/figures.py#L556) |
+| `ic_from` | 08:33 | FAQ.md, REPORT.md | [figures.py#L546](src/figures.py#L546) |
+| `ic_gap_week` | 9 | REPORT.md | [figures.py#L548](src/figures.py#L548) |
+| `ic_hours` | 3.7 | FAQ.md, REPORT.md, THESIS.md | [figures.py#L546](src/figures.py#L546) |
+| `ic_pn` | 21 | FAQ.md, REPORT.md, THESIS.md | [figures.py#L556](src/figures.py#L556) |
+| `ic_rev_lost` | $2,014 | FAQ.md, REPORT.md, THESIS.md | [figures.py#L547](src/figures.py#L547) |
+| `ic_to` | 12:16 | FAQ.md, REPORT.md | [figures.py#L546](src/figures.py#L546) |
+| `ic_top` | 25 | REPORT.md | [figures.py#L553](src/figures.py#L553) |
+| `ic_top_nov` | −35% | REPORT.md | [figures.py#L557](src/figures.py#L557) |
+| `ic_top_vol` | −39% | FAQ.md, THESIS.md | [figures.py#L554](src/figures.py#L554) |
+| `ic_vol_lost` | $7.10M | REPORT.md | [figures.py#L547](src/figures.py#L547) |
+| `im_g5` | 83% | FAQ.md, README.md, THESIS.md | [figures.py#L511](src/figures.py#L511) |
+| `im_g5_hi` | 91% | REPORT.md | [figures.py#L511](src/figures.py#L511) |
+| `im_g5_lo` | 75% | REPORT.md | [figures.py#L511](src/figures.py#L511) |
+| `im_hi` | 41 | README.md | [figures.py#L509](src/figures.py#L509) |
+| `im_lo` | 10 | README.md | [figures.py#L509](src/figures.py#L509) |
+| `im_mid` | 24 | FAQ.md, README.md, REPORT.md, THESIS.md | [figures.py#L510](src/figures.py#L510) |
+| `im_mid_vol` | $3.0B | FAQ.md, REPORT.md | [figures.py#L510](src/figures.py#L510) |
+| `im_peer` | 20x | FAQ.md, REPORT.md | [figures.py#L512](src/figures.py#L512) |
 | `im_table` | (table) | REPORT.md | src/figures.py |
-| `im_take` | 4.9 | REPORT.md | [figures.py#L500](src/figures.py#L500) |
-| `im_volg` | +48% | REPORT.md | [figures.py#L500](src/figures.py#L500) |
+| `im_take` | 4.9 | REPORT.md | [figures.py#L512](src/figures.py#L512) |
+| `im_volg` | +48% | REPORT.md | [figures.py#L512](src/figures.py#L512) |
 | `issuance` | 2.43% | README.md, REPORT.md | [figures.py#L297](src/figures.py#L297) |
 | `issued_feb_oct` | 23.9M | README.md, REPORT.md, THESIS.md | [figures.py#L265](src/figures.py#L265) |
 | `jump_dune` | 54% | REPORT.md | [figures.py#L288](src/figures.py#L288) |
@@ -238,7 +238,7 @@ Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTM
 | `ll_sig` | 0 | FAQ.md, README.md, REPORT.md, THESIS.md | [figures.py#L311](src/figures.py#L311) |
 | `ll_tests` | 24 | FAQ.md, README.md, REPORT.md, THESIS.md | [figures.py#L311](src/figures.py#L311) |
 | `ll_weeks` | 98 | REPORT.md | [figures.py#L311](src/figures.py#L311) |
-| `log_n` | 67 | README.md | src/figures.py |
+| `log_n` | 68 | README.md | src/figures.py |
 | `loo` | 10.7–12.2 | REPORT.md | [figures.py#L283](src/figures.py#L283) |
 | `mc_base` | 18% | FAQ.md, README.md, REPORT.md, THESIS.md, dashboard (no-JS values) | src/figures.py |
 | `mc_base_band` | 5–75% | REPORT.md, THESIS.md | src/figures.py |
@@ -284,14 +284,14 @@ Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTM
 | `noref_day_oct` | $5.2k | REPORT.md, THESIS.md | [figures.py#L335](src/figures.py#L335) |
 | `noref_near` | 39% | REPORT.md | [figures.py#L325](src/figures.py#L325) |
 | `noref_share_nov` | 49% | REPORT.md | [figures.py#L336](src/figures.py#L336) |
-| `numbers_n` | 535 | README.md | [figures.py#L685](src/figures.py#L685) |
+| `numbers_n` | 552 | README.md | [figures.py#L697](src/figures.py#L697) |
 | `oc_bps_nov` | 2.9 | REPORT.md, dashboard (no-JS values) | [figures.py#L331](src/figures.py#L331) |
 | `oc_bps_nov_ex` | 2.9 | REPORT.md | [figures.py#L332](src/figures.py#L332) |
 | `oc_bps_oct` | 4.6 | REPORT.md, dashboard (no-JS values) | [figures.py#L331](src/figures.py#L331) |
 | `oc_bps_oct_ex` | 3.7 | REPORT.md | [figures.py#L332](src/figures.py#L332) |
 | `oc_from` | 2026-10-14 | README.md, REPORT.md, dashboard (no-JS values) | [figures.py#L321](src/figures.py#L321) |
 | `oc_integrators_keep` | 92% | README.md, REPORT.md, THESIS.md | [figures.py#L322](src/figures.py#L322) |
-| `oc_share_vol` | 28% | README.md, dashboard (no-JS values) | [figures.py#L736](src/figures.py#L736) |
+| `oc_share_vol` | 28% | README.md, dashboard (no-JS values) | [figures.py#L748](src/figures.py#L748) |
 | `oc_swaps` | 2.7M | README.md, REPORT.md | [figures.py#L321](src/figures.py#L321) |
 | `oc_swaps_30` | 512k | README.md, REPORT.md | [figures.py#L321](src/figures.py#L321) |
 | `oc_table` | (table) | REPORT.md | src/figures.py |
@@ -336,12 +336,12 @@ Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTM
 | `peers_iqr` | 6–27x | REPORT.md | [figures.py#L301](src/figures.py#L301) |
 | `peers_median` | 20x | REPORT.md, THESIS.md | [figures.py#L301](src/figures.py#L301) |
 | `peers_n` | 12 | REPORT.md | [figures.py#L301](src/figures.py#L301) |
-| `pool_bps` | 8.8 | README.md, REPORT.md | [figures.py#L595](src/figures.py#L595) |
-| `pool_rest_bps` | 2.0 | README.md, REPORT.md | [figures.py#L595](src/figures.py#L595) |
-| `pool_share_aug` | 46% | REPORT.md | [figures.py#L593](src/figures.py#L593) |
-| `pool_share_jun` | 0% | README.md, REPORT.md | [figures.py#L593](src/figures.py#L593) |
-| `pool_share_late` | 73% | README.md | [figures.py#L594](src/figures.py#L594) |
-| `pool_share_oct` | 70% | README.md, REPORT.md | [figures.py#L594](src/figures.py#L594) |
+| `pool_bps` | 8.8 | README.md, REPORT.md | [figures.py#L607](src/figures.py#L607) |
+| `pool_rest_bps` | 2.0 | README.md, REPORT.md | [figures.py#L607](src/figures.py#L607) |
+| `pool_share_aug` | 46% | REPORT.md | [figures.py#L605](src/figures.py#L605) |
+| `pool_share_jun` | 0% | README.md, REPORT.md | [figures.py#L605](src/figures.py#L605) |
+| `pool_share_late` | 73% | README.md | [figures.py#L606](src/figures.py#L606) |
+| `pool_share_oct` | 70% | README.md, REPORT.md | [figures.py#L606](src/figures.py#L606) |
 | `premium_range` | 5.5–11 | REPORT.md, THESIS.md | [figures.py#L286](src/figures.py#L286) |
 | `price_at_peer` | $0.33 | README.md, REPORT.md, THESIS.md | [figures.py#L304](src/figures.py#L304) |
 | `price_date` | 2026-11-13 | README.md | [figures.py#L304](src/figures.py#L304) |
@@ -352,6 +352,11 @@ Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTM
 | `public_claims_survive` | 18 | README.md, REPORT.md | src/figures.py |
 | `public_claims_table` | (table) | REPORT.md | src/figures.py |
 | `public_range` | 1–3 | REPORT.md, THESIS.md | [figures.py#L286](src/figures.py#L286) |
+| `py_growth` | 11% | dashboard (no-JS values) | [figures.py#L475](src/figures.py#L475) |
+| `py_months` | 13 | dashboard (no-JS values) | [figures.py#L476](src/figures.py#L476) |
+| `py_mult` | 4.1x | dashboard (no-JS values) | [figures.py#L475](src/figures.py#L475) |
+| `py_need` | $516.5M | dashboard (no-JS values) | [figures.py#L475](src/figures.py#L475) |
+| `py_take` | 4.9 | dashboard (no-JS values) | [figures.py#L476](src/figures.py#L476) |
 | `q_heavy_n` | 140 | REPORT.md | [figures.py#L355](src/figures.py#L355) |
 | `q_heavy_rev` | 14% | REPORT.md | [figures.py#L356](src/figures.py#L356) |
 | `q_heavy_vol` | 18% | REPORT.md | [figures.py#L355](src/figures.py#L355) |
@@ -364,28 +369,28 @@ Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTM
 | `q_top10` | 19% | FAQ.md, REPORT.md, dashboard (no-JS values) | [figures.py#L354](src/figures.py#L354) |
 | `q_top100` | 34% | REPORT.md | [figures.py#L355](src/figures.py#L355) |
 | `q_with_sender` | 86% | REPORT.md | [figures.py#L358](src/figures.py#L358) |
-| `qr_best_share` | 52% | FAQ.md, README.md, REPORT.md, THESIS.md | [figures.py#L574](src/figures.py#L574) |
-| `qr_c_btc` | +8.5 bps | FAQ.md, REPORT.md, THESIS.md | [figures.py#L578](src/figures.py#L578) |
-| `qr_c_l1l2` | −1.2 bps | FAQ.md, REPORT.md, THESIS.md | [figures.py#L576](src/figures.py#L576) |
-| `qr_c_l2` | −0.3 bps | REPORT.md | [figures.py#L576](src/figures.py#L576) |
-| `qr_c_sol` | +4.5 bps | FAQ.md, REPORT.md, THESIS.md | [figures.py#L577](src/figures.py#L577) |
-| `qr_c_xasset` | +1.8 bps | REPORT.md | [figures.py#L577](src/figures.py#L577) |
-| `qr_ex_lifi_median` | −14.7 bps | REPORT.md | [figures.py#L575](src/figures.py#L575) |
-| `qr_first` | 2026-11-14 01:00 | REPORT.md | [figures.py#L573](src/figures.py#L573) |
-| `qr_last` | 2026-11-14 10:25 | REPORT.md | [figures.py#L574](src/figures.py#L574) |
-| `qr_median` | +0.1 bps | FAQ.md, README.md, REPORT.md, THESIS.md | [figures.py#L575](src/figures.py#L575) |
-| `qr_rounds` | 5 | FAQ.md, README.md, REPORT.md, THESIS.md | [figures.py#L573](src/figures.py#L573) |
-| `qr_swaps` | 48 | FAQ.md, REPORT.md, THESIS.md | [figures.py#L573](src/figures.py#L573) |
+| `qr_best_share` | 52% | FAQ.md, README.md, REPORT.md, THESIS.md | [figures.py#L586](src/figures.py#L586) |
+| `qr_c_btc` | +8.5 bps | FAQ.md, REPORT.md, THESIS.md | [figures.py#L590](src/figures.py#L590) |
+| `qr_c_l1l2` | −1.2 bps | FAQ.md, REPORT.md, THESIS.md | [figures.py#L588](src/figures.py#L588) |
+| `qr_c_l2` | −0.3 bps | REPORT.md | [figures.py#L588](src/figures.py#L588) |
+| `qr_c_sol` | +4.5 bps | FAQ.md, REPORT.md, THESIS.md | [figures.py#L589](src/figures.py#L589) |
+| `qr_c_xasset` | +1.8 bps | REPORT.md | [figures.py#L589](src/figures.py#L589) |
+| `qr_ex_lifi_median` | −14.7 bps | REPORT.md | [figures.py#L587](src/figures.py#L587) |
+| `qr_first` | 2026-11-14 01:00 | REPORT.md | [figures.py#L585](src/figures.py#L585) |
+| `qr_last` | 2026-11-14 10:25 | REPORT.md | [figures.py#L586](src/figures.py#L586) |
+| `qr_median` | +0.1 bps | FAQ.md, README.md, REPORT.md, THESIS.md | [figures.py#L587](src/figures.py#L587) |
+| `qr_rounds` | 5 | FAQ.md, README.md, REPORT.md, THESIS.md | [figures.py#L585](src/figures.py#L585) |
+| `qr_swaps` | 48 | FAQ.md, REPORT.md, THESIS.md | [figures.py#L585](src/figures.py#L585) |
 | `r30_annual` | $22.6M | README.md | [figures.py#L303](src/figures.py#L303) |
 | `r30_from` | 2026-10-14 | README.md, THESIS.md | [figures.py#L303](src/figures.py#L303) |
 | `r30_to` | 2026-11-12 | README.md, THESIS.md | [figures.py#L303](src/figures.py#L303) |
-| `rc_block` | 224,358,585 | README.md, REPORT.md | [figures.py#L445](src/figures.py#L445) |
-| `rc_calls` | 13 | README.md, REPORT.md | [figures.py#L445](src/figures.py#L445) |
-| `rc_gap` | −0.31 | README.md, REPORT.md | [figures.py#L444](src/figures.py#L444) |
-| `rc_onchain` | 2,274,592.78 | README.md, REPORT.md | [figures.py#L444](src/figures.py#L444) |
-| `rc_ppm` | 0.14 | README.md | [figures.py#L446](src/figures.py#L446) |
-| `rc_rebuilt` | 2,274,593.09 | README.md, REPORT.md | [figures.py#L444](src/figures.py#L444) |
-| `rc_receipts` | 3,393 | REPORT.md | [figures.py#L445](src/figures.py#L445) |
+| `rc_abs` | 0.31 | README.md | [figures.py#L454](src/figures.py#L454) |
+| `rc_block` | 224,358,585 | REPORT.md | [figures.py#L454](src/figures.py#L454) |
+| `rc_calls` | 13 | REPORT.md | [figures.py#L454](src/figures.py#L454) |
+| `rc_gap` | −0.31 | README.md, REPORT.md | [figures.py#L453](src/figures.py#L453) |
+| `rc_onchain` | 2,274,592.78 | REPORT.md | [figures.py#L453](src/figures.py#L453) |
+| `rc_rebuilt` | 2,274,593.09 | REPORT.md | [figures.py#L453](src/figures.py#L453) |
+| `rc_receipts` | 3,393 | README.md, REPORT.md | [figures.py#L454](src/figures.py#L454) |
 | `rev_end` | 2026-11-12 | REPORT.md | [figures.py#L256](src/figures.py#L256) |
 | `rev_gap` | 0.8% | FAQ.md, README.md, REPORT.md, THESIS.md | [figures.py#L256](src/figures.py#L256) |
 | `rev_llama` | $8.15M | FAQ.md | [figures.py#L255](src/figures.py#L255) |
@@ -395,36 +400,35 @@ Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTM
 | `rev_ratio` | 0.992 | REPORT.md | [figures.py#L255](src/figures.py#L255) |
 | `rev_rebuilt` | $8.09M | FAQ.md, REPORT.md, THESIS.md | [figures.py#L255](src/figures.py#L255) |
 | `rev_rebuilt_exact` | $8,087,549 | README.md, REPORT.md, THESIS.md | [figures.py#L257](src/figures.py#L257) |
-| `rob_alt` | 38 | REPORT.md | [figures.py#L525](src/figures.py#L525) |
-| `rob_alt_hold` | 37 | REPORT.md | [figures.py#L525](src/figures.py#L525) |
+| `rob_alt` | 38 | REPORT.md | [figures.py#L537](src/figures.py#L537) |
+| `rob_alt_hold` | 37 | REPORT.md | [figures.py#L537](src/figures.py#L537) |
 | `rob_be` | 1.07 | REPORT.md | src/figures.py |
 | `rob_be_drop` | 69% | REPORT.md | src/figures.py |
-| `rob_f13_holm` | 0.39 | REPORT.md | [figures.py#L531](src/figures.py#L531) |
-| `rob_f13_single` | 0.28 | REPORT.md | [figures.py#L531](src/figures.py#L531) |
-| `rob_fragile` | F5 | REPORT.md | [figures.py#L526](src/figures.py#L526) |
-| `rob_table` | (table) | REPORT.md | [figures.py#L525](src/figures.py#L525) |
-| `rob_variants` | 49 | README.md | [figures.py#L525](src/figures.py#L525) |
-| `rv_fee_day` | 2026-11-10 | FAQ.md, REPORT.md | [figures.py#L584](src/figures.py#L584) |
-| `rv_fee_factor` | ×185 | FAQ.md, README.md, REPORT.md | [figures.py#L583](src/figures.py#L583) |
-| `rv_fee_first` | $1,611 | FAQ.md, REPORT.md | [figures.py#L584](src/figures.py#L584) |
-| `rv_fee_latest` | $297,452 | FAQ.md, REPORT.md | [figures.py#L584](src/figures.py#L584) |
-| `rv_fee_settle` | 3 | FAQ.md, REPORT.md | [figures.py#L583](src/figures.py#L583) |
-| `rv_first` | 2026-10-29 | FAQ.md, REPORT.md | [figures.py#L582](src/figures.py#L582) |
-| `rv_last` | 2026-11-13 | FAQ.md, REPORT.md | [figures.py#L582](src/figures.py#L582) |
-| `rv_nd_factor` | ×185 | REPORT.md | [figures.py#L588](src/figures.py#L588) |
-| `rv_rb_moved` | 0 | FAQ.md, README.md, REPORT.md | [figures.py#L590](src/figures.py#L590) |
-| `rv_rb_pairs` | 1,143 | FAQ.md, README.md, REPORT.md | [figures.py#L589](src/figures.py#L589) |
-| `rv_rb_snaps` | 5 | FAQ.md, README.md, REPORT.md | [figures.py#L589](src/figures.py#L589) |
-| `rv_rev_max` | 5.8% | REPORT.md | [figures.py#L587](src/figures.py#L587) |
-| `s_be` | 41× | dashboard (no-JS values) | [figures.py#L742](src/figures.py#L742) |
-| `s_bought30` | 543k NEAR at $3.42 | dashboard (no-JS values) | [figures.py#L741](src/figures.py#L741) |
-| `s_iss_rate` | 2.43% a year, on-chain | dashboard (no-JS values) | [figures.py#L743](src/figures.py#L743) |
-| `s_issued30` | 2.6M NEAR | dashboard (no-JS values) | [figures.py#L743](src/figures.py#L743) |
-| `s_per100` | 21 | dashboard (no-JS values) | [figures.py#L740](src/figures.py#L740) |
-| `s_rev30` | $1.86M | dashboard (no-JS values) | [figures.py#L740](src/figures.py#L740) |
-| `s_take` | 4.9 bps | dashboard (no-JS values) | [figures.py#L740](src/figures.py#L740) |
-| `s_vol30` | $3.77B | dashboard (no-JS values) | [figures.py#L741](src/figures.py#L741) |
-| `sc_10_cost` | $0.14 | README.md | [figures.py#L407](src/figures.py#L407) |
+| `rob_f13_holm` | 0.39 | REPORT.md | [figures.py#L543](src/figures.py#L543) |
+| `rob_f13_single` | 0.28 | REPORT.md | [figures.py#L543](src/figures.py#L543) |
+| `rob_fragile` | F5 | REPORT.md | [figures.py#L538](src/figures.py#L538) |
+| `rob_table` | (table) | REPORT.md | [figures.py#L537](src/figures.py#L537) |
+| `rob_variants` | 49 | README.md | [figures.py#L537](src/figures.py#L537) |
+| `rv_fee_day` | 2026-11-10 | FAQ.md, REPORT.md | [figures.py#L596](src/figures.py#L596) |
+| `rv_fee_factor` | ×185 | FAQ.md, README.md, REPORT.md | [figures.py#L595](src/figures.py#L595) |
+| `rv_fee_first` | $1,611 | FAQ.md, REPORT.md | [figures.py#L596](src/figures.py#L596) |
+| `rv_fee_latest` | $297,452 | FAQ.md, REPORT.md | [figures.py#L596](src/figures.py#L596) |
+| `rv_fee_settle` | 3 | FAQ.md, REPORT.md | [figures.py#L595](src/figures.py#L595) |
+| `rv_first` | 2026-10-29 | FAQ.md, REPORT.md | [figures.py#L594](src/figures.py#L594) |
+| `rv_last` | 2026-11-13 | FAQ.md, REPORT.md | [figures.py#L594](src/figures.py#L594) |
+| `rv_nd_factor` | ×185 | REPORT.md | [figures.py#L600](src/figures.py#L600) |
+| `rv_rb_moved` | 0 | FAQ.md, README.md, REPORT.md | [figures.py#L602](src/figures.py#L602) |
+| `rv_rb_pairs` | 1,143 | FAQ.md, README.md, REPORT.md | [figures.py#L601](src/figures.py#L601) |
+| `rv_rb_snaps` | 5 | FAQ.md, README.md, REPORT.md | [figures.py#L601](src/figures.py#L601) |
+| `rv_rev_max` | 5.8% | REPORT.md | [figures.py#L599](src/figures.py#L599) |
+| `s_be` | 41× | dashboard (no-JS values) | [figures.py#L754](src/figures.py#L754) |
+| `s_bought30` | 543k NEAR at $3.42 | dashboard (no-JS values) | [figures.py#L753](src/figures.py#L753) |
+| `s_iss_rate` | 2.43% a year, on-chain | dashboard (no-JS values) | [figures.py#L755](src/figures.py#L755) |
+| `s_issued30` | 2.6M NEAR | dashboard (no-JS values) | [figures.py#L755](src/figures.py#L755) |
+| `s_per100` | 21 | dashboard (no-JS values) | [figures.py#L752](src/figures.py#L752) |
+| `s_rev30` | $1.86M | dashboard (no-JS values) | [figures.py#L752](src/figures.py#L752) |
+| `s_take` | 4.9 bps | dashboard (no-JS values) | [figures.py#L752](src/figures.py#L752) |
+| `s_vol30` | $3.77B | dashboard (no-JS values) | [figures.py#L753](src/figures.py#L753) |
 | `sc_big` | 64 | REPORT.md | [figures.py#L405](src/figures.py#L405) |
 | `sc_big_near` | 1.0 | REPORT.md | [figures.py#L406](src/figures.py#L406) |
 | `sc_big_rest` | 21 | REPORT.md | [figures.py#L405](src/figures.py#L405) |
@@ -489,14 +493,14 @@ Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTM
 | `take_now` | 4.9 | FAQ.md, README.md, REPORT.md | [figures.py#L305](src/figures.py#L305) |
 | `take_oct` | 5.5 | FAQ.md, README.md, REPORT.md, THESIS.md | [figures.py#L274](src/figures.py#L274) |
 | `take_sep` | 3.6 | REPORT.md | [figures.py#L274](src/figures.py#L274) |
-| `tr_captured` | 3.29M | REPORT.md | [figures.py#L493](src/figures.py#L493) |
-| `tr_endow` | 25M | REPORT.md | [figures.py#L491](src/figures.py#L491) |
-| `tr_moved` | 30.17M | REPORT.md, THESIS.md | [figures.py#L490](src/figures.py#L490) |
-| `tr_staked1` | 20.4M | REPORT.md | [figures.py#L490](src/figures.py#L490) |
-| `tr_staked2` | 47.5M | REPORT.md | [figures.py#L492](src/figures.py#L492) |
-| `tr_staked2_day` | 2026-10-07 | REPORT.md | [figures.py#L492](src/figures.py#L492) |
-| `tr_unstaked_day` | 2026-09-16 | REPORT.md | [figures.py#L491](src/figures.py#L491) |
-| `tr_x` | 9 | REPORT.md, THESIS.md | [figures.py#L490](src/figures.py#L490) |
+| `tr_captured` | 3.29M | REPORT.md | [figures.py#L505](src/figures.py#L505) |
+| `tr_endow` | 25M | REPORT.md | [figures.py#L503](src/figures.py#L503) |
+| `tr_moved` | 30.17M | REPORT.md, THESIS.md | [figures.py#L502](src/figures.py#L502) |
+| `tr_staked1` | 20.4M | REPORT.md | [figures.py#L502](src/figures.py#L502) |
+| `tr_staked2` | 47.5M | REPORT.md | [figures.py#L504](src/figures.py#L504) |
+| `tr_staked2_day` | 2026-10-07 | REPORT.md | [figures.py#L504](src/figures.py#L504) |
+| `tr_unstaked_day` | 2026-09-16 | REPORT.md | [figures.py#L503](src/figures.py#L503) |
+| `tr_x` | 9 | REPORT.md, THESIS.md | [figures.py#L502](src/figures.py#L502) |
 | `trust_burst_vol` | $27M | REPORT.md | [figures.py#L333](src/figures.py#L333) |
 | `trust_burst_zec` | 99% | REPORT.md | [figures.py#L333](src/figures.py#L333) |
 | `trust_share_oct` | 26% | REPORT.md | [figures.py#L334](src/figures.py#L334) |
@@ -528,13 +532,26 @@ Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTM
 | `vd_q2_why` | take 5.0 bps over the last four weeks against a 5.5 bps monthly pea… | dashboard (no-JS values) | src/figures.py |
 | `vd_q3` | no | dashboard (no-JS values) | src/figures.py |
 | `vd_q3_why` | buybacks cover 21% of new issuance (100% stops supply growing) | dashboard (no-JS values) | src/figures.py |
-| `vd_refute_streak` | 0 | README.md | [figures.py#L455](src/figures.py#L455) |
-| `vd_rule` | constructive if two of the three conditions hold for a quarter | dashboard (no-JS values) | [figures.py#L448](src/figures.py#L448) |
-| `vd_verdict` | not constructive | dashboard (no-JS values) | [figures.py#L448](src/figures.py#L448) |
+| `vd_refute_streak` | 0 | README.md | [figures.py#L464](src/figures.py#L464) |
+| `vd_rule` | constructive if two of the three conditions hold for a quarter | dashboard (no-JS values) | [figures.py#L457](src/figures.py#L457) |
+| `vd_verdict` | not constructive | dashboard (no-JS values) | [figures.py#L457](src/figures.py#L457) |
 | `volume0` | $127M | REPORT.md, THESIS.md | [figures.py#L305](src/figures.py#L305) |
 | `wallets_gap` | 0.16% | FAQ.md, README.md, REPORT.md, THESIS.md, dashboard (no-JS values) | [figures.py#L262](src/figures.py#L262) |
 | `wallets_official` | 4.339M | REPORT.md | [figures.py#L262](src/figures.py#L262) |
 | `wallets_rebuilt` | 4.346M | REPORT.md | [figures.py#L262](src/figures.py#L262) |
+| `wf_1cs` | $550.05k | REPORT.md | [figures.py#L445](src/figures.py#L445) |
+| `wf_1cs_share` | 7% | REPORT.md | [figures.py#L448](src/figures.py#L448) |
+| `wf_bb` | $4.95M | REPORT.md | [figures.py#L446](src/figures.py#L446) |
+| `wf_bb_all` | $5.50M | REPORT.md | [figures.py#L449](src/figures.py#L449) |
+| `wf_bb_all_share` | 67% | README.md, REPORT.md | [figures.py#L450](src/figures.py#L450) |
+| `wf_bb_share` | 61% | REPORT.md | [figures.py#L446](src/figures.py#L446) |
+| `wf_fe` | $2.59M | REPORT.md | [figures.py#L445](src/figures.py#L445) |
+| `wf_fe_share` | 32% | README.md, REPORT.md | [figures.py#L447](src/figures.py#L447) |
+| `wf_gap` | $61.8k | REPORT.md | [figures.py#L444](src/figures.py#L444) |
+| `wf_gap_share` | 0.8% | REPORT.md | [figures.py#L451](src/figures.py#L451) |
+| `wf_llama` | $8.15M | REPORT.md | [figures.py#L444](src/figures.py#L444) |
+| `wf_three` | $8.09M | REPORT.md | [figures.py#L445](src/figures.py#L445) |
+| `wf_to` | 2026-11-12 | REPORT.md | [figures.py#L444](src/figures.py#L444) |
 | `yoy_active` | -76% | REPORT.md | [figures.py#L315](src/figures.py#L315) |
 | `yoy_txns` | -85% | REPORT.md, THESIS.md | [figures.py#L315](src/figures.py#L315) |
 | `yoy_vol` | +48% | REPORT.md, THESIS.md | [figures.py#L315](src/figures.py#L315) |

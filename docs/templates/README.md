@@ -23,18 +23,16 @@
 - **Too small for the token.** Buybacks offset {{offset_rebuilt}} of new NEAR ({{offset_window}}). Market cap is {{near_captured_mult}} captured revenue; supply stops growing only below {{breakeven_now}}.
 - **Partly bought.** NEAR's take doubled from {{take_aug}} to {{take_oct}} bps in two months, a fifth to most of it from confidential swaps during an airdrop whose first drop cost {{drop1_over_uplift}} of the revenue it added. It is already easing ({{take_last_week}} bps in early November).
 - **NEAR does not own the customer.** On 1Click, integrators keep {{oc_integrators_keep}} of the fee pool.
+- **A policy, not a rule.** Nothing bought is burned or locked; {{ct_one_signer}} of it sits in a fund whose policy one Admin vote can change ([Rule or choice](#rule-or-choice-who-controls-the-revenue)).
 - **Priced level with its rivals.** In {{qr_rounds}} live quote rounds against Relay, Across and LI.FI, 1Click paid users the most in {{qr_best_share}} of swaps, median {{qr_median}} from the best: rivals are not undercutting NEAR Intents so far.
 
 **Also tested, and easy to miss**
-- **The track's own hypothesis, that usage leads price: no.** {{ll_sig}} of {{ll_tests}} lead-lag tests significant after Holm's correction, and {{sg_sig}} of {{sg_tests}} on human-scale signers (F13).
-- **It still works when swaps go dark.** Confidential swaps are invisible on the chain, but their fees land in public wallets: that is where revenue is measured here, and how confidential swaps are priced ({{pool_bps}} bps against {{pool_rest_bps}} on public).
-- **"Usage" can mislead.** From late October to early November, transactions to `intents.near` rose {{bq_is_tx}} while captured revenue moved {{bq_is_rev}}; {{bq_is_self_inc}} of the increase is the contract signing its own transactions.
-- **NEAR's own revenue series runs {{series_over_wallets}} above** what its three revenue wallets receive (REPORT section 10).
-- **Small swaps cost the most.** A $10 swap on 1Click gives up {{sc_10_cost}}, more than twice the rate paid on $1,000 (table below): the small payments agents would make are the dearest.
-- **The buyback wallet is explained to a fraction of a NEAR.** Every receipt in minus every receipt out since its creation gives {{rc_rebuilt}} NEAR; the chain says {{rc_onchain}} at block {{rc_block}}: {{rc_gap}} NEAR apart ({{rc_ppm}} per million), about the gas its own {{rc_calls}} multisig calls cost (F19).
-- **The take's jump is found by the data, not by us.** A break search on the weekly take puts the regime change in the week ending {{dp_break}} (90%: {{dp_break_lo}} to {{dp_break_hi}}), the week of the airdrop snapshot; {{dp_break_before}} → {{dp_break_after}} bps.
-- **NEAR's revenue does not hang on any integrator.** The one paying NEAR the most is {{dp_top1_cap}} of captured revenue; the largest by volume ({{dp_topvol_vol}} of 1Click) brings {{dp_topvol_near}}.
-- **A kill criterion registered before the analysis triggered** (top integrator above 60% of 1Click app fees) and is reported as written. [`HYPOTHESES.md`](HYPOTHESES.md) is unchanged since [its first commit](https://github.com/Wilivms/near-revenue-audit/commit/8468ac7) on 2026-10-29.
+- **The track's own hypothesis (usage leads price): no.** {{ll_sig}} of {{ll_tests}} lead-lag tests significant after Holm, {{sg_sig}} of {{sg_tests}} on human-scale signers (F13).
+- **The jump is dated by the data.** A break search puts it in the week ending {{dp_break}} (90%: {{dp_break_lo}} to {{dp_break_hi}}), the airdrop snapshot's week.
+- **"Buyback" is not what the buyback wallet gets:** {{wf_bb_all_share}} of DefiLlama's figure ends there; {{wf_fe_share}} sits in the front-end fund ([decomposed to the dollar](REPORT.md#1-the-revenue-is-real)).
+- **The buyback wallet, to a fraction of a NEAR:** {{rc_receipts}} receipts rebuild its balance to within {{rc_abs}} NEAR of what the chain reads (F19).
+- **Still works when swaps go dark:** confidential swaps are invisible, but their fees land in public wallets, which is where revenue is measured.
+- **A pre-registered kill criterion triggered** and is reported as written; [`HYPOTHESES.md`](HYPOTHESES.md) is unchanged since [its first commit](https://github.com/Wilivms/near-revenue-audit/commit/8468ac7).
 
 **2. Follow $100** ({{f100_from}} to {{f100_to}}, {{f100_vol}} of Intents volume)
 

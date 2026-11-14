@@ -97,6 +97,7 @@ def build() -> dict:
         "checks": _checks(),
         "verdict": json.loads((OUT / "verdict.json").read_text()),
         "oneclick_quality": json.loads((OUT / "oneclick_quality.json").read_text()),
+        "path_to_yes": json.loads((OUT / "deeper.json").read_text())["path_to_yes"],
         "events": _records(pd.read_csv(OUT / "events.csv")),
         "swap_cost": json.loads((OUT / "swap_cost.json").read_text()),
         "quote_race": {"summary": json.loads((OUT / "quote_race.json").read_text()),
@@ -136,7 +137,7 @@ def _checks() -> dict:
 def main() -> None:
     DASH.mkdir(exist_ok=True)
     data = build()
-    (DASH / "data.json").write_text(json.dumps(data, separators=(",", ":")))
+    (DASH / "data.json").write_text(json.dumps(data, separators=(",", ":"), allow_nan=False))  # NaN is not JSON: the page would not load
     print(f"dashboard/data.json: {len(data['daily'])} days, {len(data['oneclick_weekly'])} 1Click weeks")
 
 

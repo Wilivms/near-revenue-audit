@@ -191,6 +191,33 @@ def staker() -> dict:
             "unstaked_real": 1 / (1 + growth) - 1}
 
 
+def path_to_yes(lf: dict, iss: float, take_bps: float) -> dict:
+    """Month by month to December 2027: the daily Intents volume at which buybacks would match issuance, at today's
+    price, with the HSP-029 ramp (no earlier than 14 Feb 2027, 24 months to 1.6/2.5 of the cap), against actual volume."""
+    months = pd.date_range("2026-03-01", "2027-12-01", freq="MS")
+    start, end_ramp = pd.Timestamp("2027-02-14"), pd.Timestamp("2029-02-14")
+
+    def rate(t):
+        if t < start:
+            return iss
+        x = min(1.0, (t - start) / (end_ramp - start))
+        return iss * (1 - x * (1 - 1.6 / 2.5))
+    vol = llama_daily("llama_volume", "v")
+    actual = vol.loc[FEE_SWITCH:lf["as_of"]].groupby(vol.loc[FEE_SWITCH:lf["as_of"]].index.to_period("M")).mean()
+    rows = []
+    for m in months:
+        need_rev = lf["supply"] * rate(m + pd.Timedelta(days=14)) / 365 * lf["price"]
+        rows.append({"month": str(m.date())[:7], "issuance_rate": rate(m + pd.Timedelta(days=14)),
+                     "volume_needed_now_take": need_rev / (take_bps / 1e4), "volume_needed_8bps": need_rev / 8e-4,
+                     "volume_actual": float(actual[m.to_period("M")]) if m.to_period("M") in actual.index else None})
+    v_now = float(vol.loc[:lf["as_of"]].iloc[-30:].mean())
+    need_end = rows[-1]["volume_needed_now_take"]
+    months_left = (pd.Timestamp("2027-12-01").to_period("M") - pd.Timestamp(lf["as_of"]).to_period("M")).n
+    return {"rows": rows, "volume_now": v_now, "take_bps": take_bps, "price": lf["price"],
+            "needed_dec_2027": need_end, "multiple_needed": need_end / v_now,
+            "monthly_growth_needed": (need_end / v_now) ** (1 / months_left) - 1, "months_left": months_left}
+
+
 def main() -> dict:
     lf = json.loads((OUT.parent.parent / "dashboard" / "data.json").read_text())["live_fallback"]
     rev = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True)["rebuilt_total_usd"]
@@ -204,6 +231,7 @@ def main() -> dict:
            "levers": levers(cover0), "integrators_leave": integrators_leave(),
            "elasticity_mde": {"integrators": n, "min_detectable_spearman": mde(n), "observed": el["cross_section"]["spearman"]},
            "staker": staker()}
+    res["path_to_yes"] = path_to_yes(lf, iss, res["levers"]["take_now_bps"])
     (OUT / "deeper.json").write_text(json.dumps(res, indent=1, default=str))
     b1, b2 = res["breaks"]["model_1"], res["breaks"]["model_2"]
     print(f"deeper: one break, week ending {b1['break_weeks_ending'][0]} (90% {b1['ci90'][0]}), {b1['levels_bps'][0]:.1f} -> {b1['levels_bps'][1]:.1f} bps; "
@@ -220,6 +248,8 @@ def main() -> dict:
     print(f"  1Click is {il['oneclick_share_of_captured']:.0%} of captured; top integrator by NEAR revenue {il['top1_by_near']['ref']} "
           f"{il['top1_by_near']['share_of_captured']:.1%} of captured; top 3 {il['top3_by_near']['share_of_captured']:.1%}; "
           f"top by volume {il['top1_by_volume']['ref']} {il['top1_by_volume']['share_of_oneclick_volume']:.0%} of volume, {il['top1_by_volume']['share_of_oneclick_near']:.1%} of NEAR's 1Click revenue")
+    py = res["path_to_yes"]
+    print(f"  path to yes: {py['multiple_needed']:.1f}x today's volume by Dec 2027 at {py['take_bps']:.1f} bps, {py['monthly_growth_needed']:.1%} a month")
     print(f"  elasticity MDE {res['elasticity_mde']['min_detectable_spearman']:.2f} with {n} integrators; staker real {res['staker']['real_before_commission']:+.2%} (before commission)")
     return res
 
