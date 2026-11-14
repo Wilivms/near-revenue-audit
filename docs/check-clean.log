@@ -1,0 +1,1023 @@
+$ make check-clean   # 2026-11-14T21:09:47Z, commit 85992e6
+python3 -m src.check_outputs --snapshot
+make reproduce
+make[1]: Entering directory '/home/claude/near-revenue-audit'
+make ledger revenue supply governance montecarlo backtest leadlag bigquery oneclick-offline confidential official revisions quotes incident events swap-cost elasticity signers treasury control implied deeper verdict robustness open-questions predictions dashboard test
+make[2]: Entering directory '/home/claude/near-revenue-audit'
+python3 -m src.analysis.ledger
+/home/claude/near-revenue-audit/src/analysis/ledger.py:62: Pandas4Warning: Sorting by default when concatenating all DatetimeIndex is deprecated.  In the future, pandas will respect the default of `sort=False`. Specify `sort=True` or `sort=False` to silence this message. If you see this warnings when not directly calling concat, report a bug to pandas.
+  df = pd.concat(
+{
+ "first_holders_revenue_day": "2026-02-23",
+ "first_intents_inflow_day": "2026-04-23",
+ "cum_holders_revenue_usd": 8149355,
+ "cum_buyback_usd_at_daily_price": 4943557,
+ "cum_buyback_near": 1767726,
+ "coverage_ratio": 0.607,
+ "inflow_counterparties": {
+  "1csfundsadmin.sputnik-dao.near": 510068.0,
+  "35c78973c032aeb46eec96b9a7cd9bfbc01e53a3606dee0d08fe07344eaf9539": 464.0,
+  "52435fe912307fb3a088b8b8f3882781762fc1f0a404e8579c7fb1a964362c8d": 2684.0,
+  "5c33c6218d47e00ef229f60da78d0897e1ee9665312550b8afd5f9c7bc6957d2": 768.0,
+  "9c484fa5d2d069569ba063fc555c34e621ccd88fdbb0295fc79bad232621c5c1": 782.0,
+  "ccb91e1db61e8d7e1d4ae3e043001140132959a86ee35a548b6563a46284a6ea": 14.0,
+  "clingy.near": 3595.0,
+  "enleap.near": 450.0,
+  "intents.near": 1767726.0,
+  "multisignature.near": 5.0,
+  "nearlegion.tipbot.intear.near": 2.0,
+  "nf-payments.near": 60.0
+ },
+ "outflows_near": 12025.0,
+ "outflow_counterparties": {
+  "508aa18569e5a59d63b0f4c445e02e7b5fc53b86337328e756b32745ebac50e7": 12000.0,
+  "nf-payments.near": 25.0
+ },
+ "monthly": [
+  {
+   "index": "2026-02-01",
+   "holders_revenue_usd": 196848.0,
+   "buyback_usd": 0.0,
+   "buyback_near": 0.0
+  },
+  {
+   "index": "2026-03-01",
+   "holders_revenue_usd": 563460.0,
+   "buyback_usd": 0.0,
+   "buyback_near": 0.0
+  },
+  {
+   "index": "2026-04-01",
+   "holders_revenue_usd": 258740.0,
+   "buyback_usd": 47498.0,
+   "buyback_near": 34609.0
+  },
+  {
+   "index": "2026-05-01",
+   "holders_revenue_usd": 619614.0,
+   "buyback_usd": 415127.0,
+   "buyback_near": 227943.0
+  },
+  {
+   "index": "2026-06-01",
+   "holders_revenue_usd": 619475.0,
+   "buyback_usd": 491956.0,
+   "buyback_near": 223869.0
+  },
+  {
+   "index": "2026-07-01",
+   "holders_revenue_usd": 504864.0,
+   "buyback_usd": 341361.0,
+   "buyback_near": 180504.0
+  },
+  {
+   "index": "2026-08-01",
+   "holders_revenue_usd": 723262.0,
+   "buyback_usd": 488854.0,
+   "buyback_near": 277674.0
+  },
+  {
+   "index": "2026-09-01",
+   "holders_revenue_usd": 1839513.0,
+   "buyback_usd": 1225358.0,
+   "buyback_near": 396786.0
+  },
+  {
+   "index": "2026-10-01",
+   "holders_revenue_usd": 2189521.0,
+   "buyback_usd": 1448734.0,
+   "buyback_near": 297257.0
+  },
+  {
+   "index": "2026-11-01",
+   "holders_revenue_usd": 634058.0,
+   "buyback_usd": 484670.0,
+   "buyback_near": 129085.0
+  }
+ ]
+}
+python3 -m src.analysis.revenue_wallets
+=== Native NEAR / wNEAR flows by wallet, direction and counterparty (NEAR) ===
+wallet                          dir  counterparty                                                    
+1csfundsadmin.sputnik-dao.near  in   745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b          2.0
+                                     intents.near                                                         555340.0
+                                     sputnik-dao.near                                                          6.0
+                                out  buybacks.multisignature.near                                         510068.0
+                                     fdd59b04d49c7f535a441fa7ea24f6e5292e54f68f75ebbe2e41738301bcf9e4      45010.0
+buybacks.multisignature.near    in   1csfundsadmin.sputnik-dao.near                                       510068.0
+                                     35c78973c032aeb46eec96b9a7cd9bfbc01e53a3606dee0d08fe07344eaf9539        464.0
+                                     52435fe912307fb3a088b8b8f3882781762fc1f0a404e8579c7fb1a964362c8d       2684.0
+                                     5c33c6218d47e00ef229f60da78d0897e1ee9665312550b8afd5f9c7bc6957d2        768.0
+                                     9c484fa5d2d069569ba063fc555c34e621ccd88fdbb0295fc79bad232621c5c1        782.0
+                                     ccb91e1db61e8d7e1d4ae3e043001140132959a86ee35a548b6563a46284a6ea         14.0
+                                     clingy.near                                                            3595.0
+                                     enleap.near                                                             450.0
+                                     intents.near                                                        1767726.0
+                                     multisignature.near                                                       5.0
+                                     nearlegion.tipbot.intear.near                                             2.0
+                                     nf-payments.near                                                         60.0
+                                out  508aa18569e5a59d63b0f4c445e02e7b5fc53b86337328e756b32745ebac50e7      12000.0
+                                     nf-payments.near                                                         25.0
+fefundsadmin.sputnik-dao.near   in   auroraliqsupport.near                                               1270357.0
+                                     intents.near                                                         743697.0
+                                     sputnik-dao.near                                                          6.0
+                                out  aurorafinance1.near                                                       2.0
+
+=== Other tokens received / sent (top) ===
+                                          count             sum
+wallet                        dir token                        
+fefundsadmin.sputnik-dao.near in  USDC     1343  2322183.790077
+                              out USDC       14       2250900.0
+                              in  USDC.e      2        200000.0
+buybacks.multisignature.near  in  SHITZU      1            69.0
+fefundsadmin.sputnik-dao.near out USDC.e      1        200000.0
+
+=== Reconciliation from 2026-02-23 to 2026-11-12 (complete days) ===
+rebuilt from chain : $8,087,549
+DefiLlama holders  : $8,149,355   (ratio 0.992)
+rebuilt_1csfundsadmin_usd    0.068
+rebuilt_buybacks_usd         0.612
+rebuilt_fefundsadmin_usd      0.32
+           rebuilt_total_usd  llama_holders_revenue_usd     ratio
+2026-02-01     201245.730752                  196848.00  1.022341
+2026-03-01     567706.713769                  563460.00  1.007537
+2026-04-01     258018.504239                  258740.05  0.997211
+2026-05-01      604467.62602                  619614.00  0.975555
+2026-06-01      644097.28089                  619475.00  1.039747
+2026-07-01     492422.299467                  504864.00  0.975356
+2026-08-01     712186.302287                  723262.00  0.984686
+2026-09-01    1752098.244399                 1839513.00  0.952479
+2026-10-01    2205518.389217                 2189521.00  1.007306
+2026-11-01     649787.449658                  634058.00  1.024808
+python3 -m src.analysis.supply
+            net_issuance_near captured_near_3_wallets captured_near_buyback_wallet near_left_revenue_wallets captured_share_of_issuance net_flow_to_market_near
+date                                                                                                                                                           
+2025-11-01        2513439.540               319044.06                            0                       0.4                   0.126935           2194395.87985
+2025-12-01        2642313.450               108467.94                            0                       0.2                    0.04105           2533845.70998
+2026-01-01        2655524.947           209647.525071                            0                       0.2                   0.078948           2445877.62169
+2026-02-01        2392260.367           586779.072168                            0                       0.4                   0.245282          1805481.694381
+2026-03-01        2668266.444            450923.03356                         65.0                      25.4                   0.168995          2217368.810791
+2026-04-01        2639024.311           193366.722577                  34608.55428                   45010.3                   0.073272          2490667.888144
+2026-05-01        2697103.692           323837.501752                227942.553511                         0                   0.120069          2373266.190522
+2026-06-01        2640342.606           292679.033437                223883.484658                         0                   0.110849          2347663.572561
+2026-07-01        2715839.765           260316.375554                180967.550885                   12000.2                   0.095851          2467523.589925
+2026-08-01        2729983.393           405386.330765                278124.206676                         0                   0.148494          2324597.061753
+2026-09-01        2660555.792            564180.59172                404085.334381                         0                   0.212054          2096375.200524
+2026-10-01        2715174.169           451483.510335                297256.980188                         0                   0.166282          2263690.659096
+
+Feb 2026 to Oct 2026: issued 23,858,551 NEAR | captured by the 3 revenue wallets 3,528,952 (14.8%) | of which straight into the buyback wallet 1,646,934 (6.9%) | left the revenue wallets 57,036
+python3 -m src.analysis.governance
+{
+ "proposal_id": 29,
+ "title": "Establish a 24-Month Issuance Ramp to a 1.6% Target Rate Of NEAR Token Emissions",
+ "status": "Timelock",
+ "read_at_block": 224359673,
+ "venear_for": 3287728.662259631,
+ "venear_against": 1.5456460682699998e-05,
+ "venear_abstain": 1070.572816045589,
+ "share_for_of_cast": 0.9996744791168524,
+ "voters": 36,
+ "venear_cast": 3288799.235091133,
+ "venear_snapshot_total": 5274745.1547832405,
+ "turnout": 0.6234991717294222,
+ "approval_threshold": 0.6667,
+ "quorum_threshold": 0.35,
+ "voting_started": "2026-10-19 16:48:08.461922091+00:00",
+ "voting_ended": "2026-11-02 16:48:08.461922091+00:00",
+ "timelock_ends": "2026-11-16 16:48:08.461922091+00:00",
+ "earliest_ramp_start": "2027-02-14"
+}
+python3 -m src.analysis.montecarlo
+calibration: {'volume0': 126726039.0286, 'price0': 3.5854, 'supply0': 1311600007.6987, 'issuance_rate': np.float64(0.0243), 'take_last30_bps': 4.9195, 'take_mayaug_bps': 2.6284, 'history_end': '2026-11-12'}
+identity check: deflation needs mcap / annual captured revenue < 41.1x
+after HSP-029 is fully phased in (issuance 1.56% a year): < 64.2x
+                                                name  take_bps  median_offset_2027  p10_offset_2027  p90_offset_2027  p_any_deflationary_month  p_2027_net_deflationary median_path_deflationary_month  median_volume_dec2027_musd  median_net_supply_change_m_near
+                        base: take now, 365d history      4.92               0.185            0.053            0.753                     0.173                    0.066                                                    165.832                           30.234
+                          take back to May–Aug level      2.63               0.099            0.028            0.402                     0.077                    0.022                                                    165.832                           33.490
+                         take now, zero volume drift      4.92               0.184            0.052            0.749                     0.172                    0.066                                                    164.552                           30.263
+                       take now, 180d history (bull)      4.92               0.498            0.128            2.060                     0.503                    0.260                                                    482.956                           20.049
+take now, full history since Mar-2025 (hyper-growth)      4.92               2.761            0.298           33.027                     0.859                    0.715                        2027-05                    5302.808                          -52.444
+                take now, price keeps its 365d drift      4.92               0.148            0.044            0.590                     0.122                    0.042                                                    165.832                           31.392
+        base, buyback wallet only counted as retired      4.92               0.111            0.032            0.452                     0.091                    0.028                                                    165.832                           33.032
+                                  take doubles again      9.84               0.370            0.105            1.505                     0.367                    0.174                                                    165.832                           23.238
+                  incentive winds down over 6 months      4.92               0.109            0.033            0.429                     0.080                    0.024                                                    165.832                           32.689
+       base + issuance cut (HSP-029, earliest start)      4.92               0.199            0.057            0.809                     0.195                    0.074                                                    165.832                           28.020
+                 incentive winds down + issuance cut      4.92               0.117            0.035            0.461                     0.093                    0.028                                                    165.832                           30.476
+share of issuance offset at today's price ($3.59); >= 1.00 means net deflationary:
+            2.6 bps  4.9 bps  8.0 bps  11.0 bps  15.0 bps
+volume                                                   
+$127M/day      0.11     0.20     0.32      0.45      0.61
+$250M/day      0.21     0.39     0.64      0.88      1.20
+$500M/day      0.41     0.78     1.28      1.76      2.39
+$750M/day      0.62     1.17     1.91      2.63      3.59
+$1000M/day     0.83     1.56     2.55      3.51      4.79
+$1500M/day     1.24     2.35     3.83      5.27      7.18
+base case, captured / issued by month (p10, median, p90):
+           p10  median    p90
+2026-11  0.142   0.199  0.278
+2026-12  0.103   0.195  0.373
+2027-01  0.081   0.187  0.448
+2027-02  0.068   0.184  0.511
+2027-03  0.057   0.179  0.578
+2027-04  0.050   0.173  0.638
+2027-05  0.043   0.168  0.693
+2027-06  0.037   0.165  0.745
+2027-07  0.033   0.161  0.794
+2027-08  0.029   0.155  0.852
+2027-09  0.026   0.152  0.900
+2027-10  0.023   0.150  0.937
+2027-11  0.021   0.145  0.986
+2027-12  0.019   0.142  1.047
+python3 -m src.analysis.backtest_mc
+                 window  horizon_days price_drift  origins first_origin last_origin  coverage_10_90  below_p10  above_p90  mean_pit  median_error_log  band_width_log
+expanding (all history)            30        kept       67   2025-07-06  2026-10-11           0.806      0.194      0.000     0.347            -0.335           1.708
+expanding (all history)            30     removed       67   2025-07-06  2026-10-11           0.791      0.179      0.030     0.363            -0.308           1.698
+expanding (all history)            90        kept       58   2025-07-06  2026-08-09           0.603      0.397      0.000     0.228            -1.128           2.778
+expanding (all history)            90     removed       58   2025-07-06  2026-08-09           0.707      0.293      0.000     0.255            -1.071           2.786
+       rolling 180 days            30        kept       67   2025-07-06  2026-10-11           0.716      0.179      0.104     0.440            -0.193           1.556
+       rolling 180 days            30     removed       67   2025-07-06  2026-10-11           0.701      0.179      0.119     0.441            -0.094           1.579
+       rolling 180 days            90        kept       58   2025-07-06  2026-08-09           0.793      0.207      0.000     0.376            -0.490           2.630
+       rolling 180 days            90     removed       58   2025-07-06  2026-08-09           0.845      0.155      0.000     0.396            -0.267           2.630
+       rolling 365 days            30        kept       67   2025-07-06  2026-10-11           0.776      0.194      0.030     0.370            -0.316           1.669
+       rolling 365 days            30     removed       67   2025-07-06  2026-10-11           0.821      0.164      0.015     0.386            -0.251           1.665
+       rolling 365 days            90        kept       58   2025-07-06  2026-08-09           0.672      0.328      0.000     0.252            -0.965           2.741
+       rolling 365 days            90     removed       58   2025-07-06  2026-08-09           0.707      0.293      0.000     0.277            -0.867           2.751
+python3 -m src.analysis.leadlag
+/home/claude/near-revenue-audit/src/analysis/leadlag.py:100: Pandas4Warning: Sorting by default when concatenating all DatetimeIndex is deprecated.  In the future, pandas will respect the default of `sort=False`. Specify `sort=True` or `sort=False` to silence this message. If you see this warnings when not directly calling concat, report a bug to pandas.
+  d = pd.concat([vol, px.rename("near"), btc.rename("btc"), chain, rev.rename("revenue")], axis=1).loc[START:]
+         series         direction  lag_weeks  n      r     p  p_holm
+ intents_volume usage leads price          1 97  0.081 0.428     1.0
+ intents_volume price leads usage          1 97 -0.011 0.911     1.0
+ intents_volume usage leads price          2 96 -0.098 0.344     1.0
+ intents_volume price leads usage          2 96  0.007 0.948     1.0
+ intents_volume usage leads price          3 95  0.028 0.790     1.0
+ intents_volume price leads usage          3 95 -0.076 0.464     1.0
+ intents_volume usage leads price          4 94  0.005 0.964     1.0
+ intents_volume price leads usage          4 94 -0.166 0.109     1.0
+           txns usage leads price          1 97  0.147 0.150     1.0
+           txns price leads usage          1 97  0.030 0.770     1.0
+           txns usage leads price          2 96  0.056 0.586     1.0
+           txns price leads usage          2 96  0.098 0.343     1.0
+           txns usage leads price          3 95  0.097 0.349     1.0
+           txns price leads usage          3 95 -0.087 0.403     1.0
+           txns usage leads price          4 94 -0.025 0.813     1.0
+           txns price leads usage          4 94 -0.029 0.780     1.0
+active_accounts usage leads price          1 97 -0.042 0.682     1.0
+active_accounts price leads usage          1 97  0.111 0.280     1.0
+active_accounts usage leads price          2 96  0.041 0.694     1.0
+active_accounts price leads usage          2 96  0.112 0.278     1.0
+active_accounts usage leads price          3 95  0.063 0.543     1.0
+active_accounts price leads usage          3 95 -0.107 0.301     1.0
+active_accounts usage leads price          4 94  0.024 0.815     1.0
+active_accounts price leads usage          4 94  0.061 0.556     1.0
+{
+ "weeks": 98,
+ "first_week": "2024-12-23",
+ "last_week": "2026-11-02",
+ "beta_near_btc": 1.451562760666672,
+ "significant_after_holm": 0,
+ "tests": 24,
+ "best_usage_leads_price": {
+  "series": "txns",
+  "lag_weeks": 1,
+  "r": 0.14720068552139562,
+  "p": 0.15020293169280685,
+  "p_holm": 1.0
+ },
+ "tracks_captured_revenue_weekly_r": {
+  "intents_volume": 0.4481778683467517,
+  "txns": 0.5233396237329279,
+  "active_accounts": -0.031374093486094164,
+  "near_vs_btc": 0.10979888922290494,
+  "weeks": 36
+ },
+ "yoy_30d": {
+  "intents_volume": 0.4788268142343435,
+  "l1_txns": -0.8476440429768097,
+  "l1_active_accounts": -0.755696237041325
+ }
+}
+python3 -m src.analysis.bigquery_check
+{
+ "queries": "sql/*.sql, run on 2026-11-13",
+ "revenue": {
+  "to": "2026-11-12",
+  "near_bigquery": 3291733.5044334475,
+  "near_nearblocks": 3291733.504433448,
+  "max_monthly_gap": 1.1102230246251565e-16,
+  "monthly": {
+   "2026-02": [
+    176644.023,
+    176644.023
+   ],
+   "2026-03": [
+    450923.034,
+    450923.034
+   ],
+   "2026-04": [
+    193366.723,
+    193366.723
+   ],
+   "2026-05": [
+    323837.502,
+    323837.502
+   ],
+   "2026-06": [
+    292679.033,
+    292679.033
+   ],
+   "2026-07": [
+    260316.376,
+    260316.376
+   ],
+   "2026-08": [
+    405386.331,
+    405386.331
+   ],
+   "2026-09": [
+    564180.592,
+    564180.592
+   ],
+   "2026-10": [
+    451483.51,
+    451483.51
+   ],
+   "2026-11": [
+    172916.382,
+    172916.382
+   ]
+  },
+  "from_intents_near": 0.8921835600314663
+ },
+ "supply": {
+  "rpc_samples": 59,
+  "max_abs_rel_gap": 2.326728558399438e-05,
+  "issued_feb_oct_bigquery": 23873786.73290801,
+  "issued_feb_oct_pipeline": 23858550.53956437,
+  "issued_gap": 0.0006386051540880899
+ },
+ "activity": {
+  "days": 408,
+  "txns_ratio_min": 1.0,
+  "txns_ratio_max": 1.0,
+  "signers_vs_active_median": 1.0,
+  "intents_share_of_txns_oct2025": 0.016463444498623782,
+  "intents_share_of_txns_oct2026": 0.08899707374976992
+ },
+ "intents_signers": {
+  "windows": "2026-10-20..31 vs 2026-11-01..12",
+  "txns_change": 0.853884921459936,
+  "self_signed_share_nov": 0.8498946445376283,
+  "self_signed_share_of_increase": 0.99863739235913,
+  "other_signers_change": 0.0502586844050259,
+  "by_others_change": 0.08852140077821002,
+  "revenue_change": -0.17704885192776865,
+  "revenue_oct20_31_usd": 789582.0440615483,
+  "revenue_nov01_12_usd": 649787.4496576703
+ },
+ "pool_revenue": {
+  "monthly_share": {
+   "2026-06": 0.0,
+   "2026-07": 0.21015265213599227,
+   "2026-08": 0.45764385496176185,
+   "2026-09": 0.6617394425783955,
+   "2026-10": 0.7024091920875043,
+   "2026-11": 0.7962269846060972
+  },
+  "share_since_sep28": 0.7293991971838949,
+  "fit_weeks": "2026-08-10..2026-10-26",
+  "pool_bps_on_confidential": 8.820545816141212,
+  "rest_bps_on_public": 1.9616335295739282
+ }
+}
+python3 -m src.analysis.oneclick_offline
+1Click figures recomputed from the daily aggregates: all agree with the published outputs
+python3 -m src.analysis.confidential
+            public_musd  conf_musd  confidential_share
+month                                                 
+2026-03-01       2080.0        0.0                0.00
+2026-04-01       1891.0       48.0                0.02
+2026-05-01       1993.0       81.0                0.04
+2026-06-01       2346.0      284.0                0.11
+2026-07-01       2213.0      191.0                0.08
+2026-08-01       2777.0      425.0                0.13
+2026-09-01       3450.0     1353.0                0.28
+2026-10-01       2352.0     1633.0                0.41
+2026-11-01         93.0      144.0                0.61
+             public_usd  confidential_usd  confidential_share  rebuilt_total_usd  take_bps
+date                                                                                      
+2026-08-03  457000000.0        56000000.0                0.11          103472.85      2.02
+2026-08-10  458000000.0        51000000.0                0.10           87809.41      1.73
+2026-08-17  859000000.0       134000000.0                0.13          270184.84      2.72
+2026-08-24  786000000.0       149000000.0                0.16          209358.82      2.24
+2026-08-31  752000000.0       298000000.0                0.28          327620.32      3.12
+2026-09-07  730000000.0       181000000.0                0.20          219087.50      2.40
+2026-09-14  841000000.0       321000000.0                0.28          399532.89      3.44
+2026-09-21  843000000.0       439000000.0                0.34          586817.85      4.58
+2026-09-28  658000000.0       285000000.0                0.30          545366.79      5.78
+2026-10-05  695000000.0       456000000.0                0.40          565227.99      4.91
+2026-10-12  565000000.0       310000000.0                0.35          492789.12      5.63
+2026-10-19  449000000.0       325000000.0                0.42          405145.57      5.23
+2026-10-26  425000000.0       450000000.0                0.51          468531.61      5.35
+{
+ "regression": {
+  "weeks": 13,
+  "first_week": "2026-08-03",
+  "last_week": "2026-10-26",
+  "rebuilt_total_usd": {
+   "bps_public": 1.0207694146048045,
+   "bps_confidential": 11.024354817756416,
+   "r2": 0.8457591720023836
+  },
+  "rebuilt_buybacks_usd": {
+   "bps_public": 0.650979765005132,
+   "bps_confidential": 7.614333442661096,
+   "r2": 0.9412579737219557
+  },
+  "rebuilt_fefundsadmin_usd": {
+   "bps_public": 0.368285787249842,
+   "bps_confidential": 3.4102485051290348,
+   "r2": 0.5730355125543998
+  },
+  "bootstrap_90ci": {
+   "bps_public": [
+    0.1781709999848378,
+    1.6687608090885384
+   ],
+   "bps_confidential": [
+    9.725432750959888,
+    13.396201325418069
+   ]
+  },
+  "daily_fit_bps": {
+   "public": 1.5730112509978054,
+   "confidential": 9.230501970487024,
+   "days": 94
+  },
+  "robustness": {
+   "first_difference_bps": {
+    "public": 2.8669324192206385,
+    "confidential": 5.510654459364651
+   },
+   "first_difference_90ci_confidential": [
+    2.202476983198191,
+    9.035137935287834
+   ],
+   "first_difference_90ci_public": [
+    -1.2000389526621051,
+    5.326715375374392
+   ],
+   "leave_one_out_confidential_bps": [
+    10.676494578765555,
+    12.170498864424522
+   ],
+   "with_intercept": {
+    "const_usd": 3983.975410998145,
+    "bps_public": 0.9719062673557113,
+    "bps_confidential": 11.0022694609647
+   },
+   "corr_public_confidential_levels": 0.10886973400976716
+  },
+  "corr_confidential_vs_buyback_wallet": 0.966728136100914,
+  "corr_public_vs_buyback_wallet": 0.1878542067972767
+ },
+ "h41": {
+  "tvl_at_snapshot_usd": 71400000.0,
+  "tvl_30d_after_usd": 154900000.0,
+  "peak_usd": 187300000.0,
+  "peak_date": "2026-09-27",
+  "last_usd": 143000000.0,
+  "last_date": "2026-10-31",
+  "rejected": true
+ },
+ "incentive": {
+  "drop1_near": 333333,
+  "near_price_at_conversion": 4.163360981216509,
+  "drop1_usd_at_conversion": 1387785.6059518426,
+  "confidential_volume_jun15_oct_usd": 3753466666.6666665,
+  "captured_from_confidential_usd_regression": 4137954.832995478,
+  "all_confidential_fees_usd_dune_alltime": 3089268.81,
+  "confidential_fee_bps_dune_alltime": 7.4261851538580945
+ },
+ "turnover_daily": {
+  "2026-02": 0.0,
+  "2026-03": 0.0,
+  "2026-04": 0.251,
+  "2026-05": 0.221,
+  "2026-06": 0.372,
+  "2026-07": 0.186,
+  "2026-08": 0.388,
+  "2026-09": 0.457,
+  "2026-10": 0.351
+ },
+ "counterfactual": {
+  "may_aug_take_bps": 2.379411744581294,
+  "sep_oct_volume_usd": 8788000000.0,
+  "sep_oct_actual_usd": 3957616.633615491,
+  "sep_oct_at_may_aug_take_usd": 2091027.0411380413,
+  "uplift_usd": 1866589.5924774497
+ },
+ "out_of_sample": {
+  "week": "2026-11-02",
+  "public_usd": 104360000.0,
+  "confidential_usd": 807540000.0,
+  "confidential_share": 0.8855576269327777,
+  "predicted_usd": 900913.4985639174,
+  "predicted_low_usd": 785367.5963710148,
+  "actual_usd": 355421.3936251102,
+  "actual_over_predicted": 0.3945122302992045,
+  "predicted_first_difference_usd": 474926.6969385196,
+  "actual_over_predicted_first_difference": 0.7483710558202635,
+  "actual_take_bps": 3.8975917713028863,
+  "label_check_2026_11_09": {
+   "dune_public_full_day_usd": 3450000.0,
+   "oneclick_explorer_11h_usd": 20340000.0,
+   "oneclick_swaps": 11790,
+   "window_utc": "12:38-24:00"
+  }
+ },
+ "monthly_confidential_share": {
+  "2024-10": null,
+  "2024-11": null,
+  "2024-12": 0.0,
+  "2025-01": 0.0,
+  "2025-02": 0.0,
+  "2025-03": 0.0,
+  "2025-04": 0.0,
+  "2025-05": 0.0,
+  "2025-06": 0.0,
+  "2025-07": 0.0,
+  "2025-08": 0.0,
+  "2025-09": 0.0,
+  "2025-10": 0.0,
+  "2025-11": 0.0,
+  "2025-12": 0.0,
+  "2026-01": 0.0,
+  "2026-02": 0.0,
+  "2026-03": 0.0,
+  "2026-04": 0.0248,
+  "2026-05": 0.0391,
+  "2026-06": 0.108,
+  "2026-07": 0.0795,
+  "2026-08": 0.1327,
+  "2026-09": 0.2817,
+  "2026-10": 0.4098,
+  "2026-11": 0.6076
+ },
+ "jump_explained": {
+  "take_aug_bps": 2.224192074598812,
+  "take_oct_bps": 5.534550537557369,
+  "rise_bps": 3.3103584629585567,
+  "confidential_share_change": 0.2770571560904924,
+  "premium_bps": {
+   "levels_fit": 10.003585403151611,
+   "dune_fee_table": 6.40541573925329,
+   "first_difference_fit": 2.6437220401440125
+  },
+  "share_of_rise_explained": {
+   "levels_fit": 0.8372401217324739,
+   "dune_fee_table": 0.536094893695811,
+   "first_difference_fit": 0.22126368432058974
+  }
+ },
+ "near_terms": {
+  "near_bought_sep_oct": 1015664.1020553925,
+  "uplift_near": 479032.76589415665,
+  "drop1_near": 333333,
+  "net_near_removed": 145699.76589415665
+ }
+}
+python3 -m src.analysis.official
+            emissionsNear  revenueNear  official_offset  net_issuance_near  captured_near_3_wallets  captured_share_of_issuance    volume_usd     fees_usd  rebuilt_total_usd  gross_fee_bps  take_bps  capture_of_fees  official_revenue_usd  official_revenue_near  wallets_near_in  official_over_wallets_near
+date                                                                                                                                                                                                                                                                                                             
+2026-01-01    2719099.639   326134.910            0.120        2655524.947               209647.525                       0.079           NaN          NaN                NaN            NaN       NaN              NaN            526392.265             330339.683       209647.525                       1.576
+2026-02-01    2461663.038   405184.989            0.165        2392260.367               586779.072                       0.245  4.535681e+08  1011003.402         201245.731         22.290     4.437            0.199            429570.005             404219.990       586779.072                       0.689
+2026-03-01    2731646.287   307557.789            0.113        2668266.444               450923.034                       0.169  2.079963e+09  3588105.912         567706.714         17.251     2.729            0.158            395381.063             305709.753       450923.034                       0.678
+2026-04-01    2650044.838   300293.029            0.113        2639024.311               193366.723                       0.073  1.939569e+09  3258333.444         258018.504         16.799     1.330            0.079            401246.541             300365.780       193366.723                       1.553
+2026-05-01    2744114.885   459817.333            0.168        2697103.692               323837.502                       0.120  2.074296e+09  3079841.462         604467.626         14.848     2.914            0.196            823526.511             440598.879       323837.502                       1.361
+2026-06-01    2662073.289   443174.370            0.166        2640342.606               292679.033                       0.111  2.629610e+09  3270646.337         644097.281         12.438     2.449            0.197            943197.895             435629.305       292679.033                       1.488
+2026-07-01    2756952.982   346156.244            0.126        2715839.765               260316.376                       0.096  2.404694e+09  3342378.382         492422.299         13.899     2.048            0.147            654117.205             345737.185       260316.376                       1.328
+2026-08-01    2762730.861   501092.784            0.181        2729983.393               405386.331                       0.148  3.201837e+09  3985547.629         712186.302         12.448     2.224            0.179            871119.486             491234.435       405386.331                       1.212
+2026-09-01    2679582.344   674800.635            0.252        2660555.792               564180.592                       0.212  4.803094e+09  7524662.642        1752098.244         15.666     3.648            0.233           2196455.073             693488.479       564180.592                       1.229
+2026-10-01    2775028.304   511037.339            0.184        2715174.169               451483.510                       0.166  3.985642e+09  6385461.085        2205518.389         16.021     5.534            0.345           2502469.669             512856.703       451483.510                       1.136
+2026-11-01    1075836.040   201211.161            0.187                NaN                      NaN                         NaN  1.426224e+09  2391345.064         549360.076         16.767     3.852            0.230            758632.442             202741.955       172916.382                       1.172
+              volume_usd     fees_usd  rebuilt_total_usd  gross_fee_bps  take_bps  capture_of_fees
+2026-08-17  9.942010e+08  1470488.514         270184.837         14.791     2.718            0.184
+2026-08-24  9.351992e+08  1168215.368         209358.816         12.492     2.239            0.179
+2026-08-31  1.048282e+09  1225685.339         327620.318         11.692     3.125            0.267
+2026-09-07  9.098788e+08  1233979.313         219087.498         13.562     2.408            0.178
+2026-09-14  1.163216e+09  2022055.695         399532.885         17.383     3.435            0.198
+2026-09-21  1.279580e+09  2252207.500         586817.851         17.601     4.586            0.261
+2026-09-28  9.448893e+08  1720518.487         545366.785         18.209     5.772            0.317
+2026-10-05  1.150847e+09  1793937.598         565227.986         15.588     4.911            0.315
+2026-10-12  8.759295e+08  1412761.128         492789.119         16.129     5.626            0.349
+2026-10-19  7.736693e+08  1183462.051         405145.572         15.297     5.237            0.342
+2026-10-26  8.769626e+08  1352814.421         468531.609         15.426     5.343            0.346
+2026-11-02  9.121825e+08  1448121.837         355421.394         15.875     3.896            0.245
+{
+ "snapshot": "2026-11-13",
+ "wallets": {
+  "fefundsadmin.sputnik-dao.near": {
+   "official_near": 2011735.3417772015,
+   "rebuilt_near": 2014059.9242446788,
+   "ratio": 1.001155511075042
+  },
+  "buybacks.multisignature.near": {
+   "official_near": 1771956.791379682,
+   "rebuilt_near": 1776549.795978463,
+   "ratio": 1.0025920522560852
+  },
+  "1csfundsadmin.sputnik-dao.near": {
+   "official_near": 555348.272928576,
+   "rebuilt_near": 555348.2729285762,
+   "ratio": 1.0000000000000004
+  }
+ },
+ "wallets_total": {
+  "official_near": 4339040.4060854595,
+  "rebuilt_near": 4345957.993151718,
+  "ratio": 1.0015942665702207
+ },
+ "offset_feb_to_last_full_month": {
+  "months": [
+   "2026-02",
+   "2026-10"
+  ],
+  "official": 0.16302597067224234,
+  "rebuilt": 0.14791142345452205,
+  "official_emissions_near": 24223836.82716798,
+  "rebuilt_issuance_near": 23858550.53956437,
+  "official_revenue_near": 3949114.512155071,
+  "rebuilt_captured_near": 3528952.171868621
+ },
+ "official_ytd": {
+  "date": "2026-11-12",
+  "emissions_near": 28018772.506261177,
+  "revenue_near": 4476460.5824874295,
+  "offset": 0.1597664773318354
+ },
+ "take_october_weeks_bps": 5.252868476634675,
+ "capture_october_weeks": 0.336357762166696,
+ "last_week": {
+  "week": "2026-11-02",
+  "take_bps": 3.8963848103404826,
+  "capture_of_fees": 0.24543611216252667,
+  "gross_fee_bps": 15.875352555129762,
+  "volume_usd": 912182474.0766606
+ },
+ "tvl": {
+  "last_usd": 137865300.2989126,
+  "last_date": "2026-11-12",
+  "peak_usd": 187260119.24206185,
+  "peak_date": "2026-09-27",
+  "change_from_peak": -0.2637765005334586,
+  "change_30d": -0.13733330893744067
+ },
+ "revenue_definitions": {
+  "mar_oct_official_usd": 8787513.443292405,
+  "mar_oct_wallets_usd": 7236515.360286527,
+  "mar_oct_official_over_wallets_usd": 1.214329412125295,
+  "official_over_wallets_near": {
+   "2026-07": 1.328,
+   "2026-08": 1.212,
+   "2026-09": 1.229,
+   "2026-10": 1.136,
+   "2026-11": 1.172
+  },
+  "oct_take_bps": {
+   "official": 6.27871223766223,
+   "wallets": 5.533659597174599
+  },
+  "current_month": "2026-11",
+  "current_month_wallet_days": 11,
+  "current_month_take_bps_wallets": 3.8518499847487417,
+  "current_month_take_bps_official_implied": 4.516238359457703
+ },
+ "capture_by_mechanism": {
+  "d7": {
+   "front_end_fees": 0.16030319001970753,
+   "b2b_partners": 0.0783501827722115,
+   "quote_improvement": 0.028395118839796406,
+   "total": 0.2670484916317154
+  },
+  "d30": {
+   "front_end_fees": 0.19374561136628282,
+   "b2b_partners": 0.10432947877356384,
+   "quote_improvement": 0.03634256957851966,
+   "total": 0.33441765971836634
+  },
+  "ytd": {
+   "front_end_fees": 0.13325519156145457,
+   "b2b_partners": 0.07097463125617155,
+   "quote_improvement": 0.025872335365801757,
+   "total": 0.23010215818342789
+  },
+  "all_time": {
+   "front_end_fees": 0.1199781142353509,
+   "b2b_partners": 0.052715100616861514,
+   "quote_improvement": 0.019216200744724972,
+   "total": 0.1919094155969374
+  }
+ }
+}
+python3 -m src.analysis.revisions
+revisions: DefiLlama gross fees settle after 3 day(s); largest change x184.64 (2026-11-10 read on 2026-11-11)
+revisions: wallet rebuild, 1143 day readings over 5 snapshots, 0 moved by 1% or more
+python3 -m src.analysis.quotes
+quotes: 5 rounds, 48 swaps; 1Click pays the most in 52% (ex LI.FI fee 0%); median gap +0.1 bps; by corridor {'same asset, EVM L2 to L2': -0.34, 'same asset, Ethereum to L2': -1.2, 'cross asset, EVM': 1.81, 'cross chain family, Solana to EVM': 4.45, 'native BTC to EVM': 8.54}
+python3 -m src.analysis.incident
+incident: placebo dates 21; volume_usd_change -0.30 (placebo median -0.02, p=0.09); near_usd_change -0.13 (placebo median -0.06, p=0.82); senders_change -0.06 (placebo median -0.33, p=0.73); new_senders_change -0.12 (placebo median -0.42, p=0.73); top_kept_half +15.00 (placebo median +20.00, p=0.09); top_volume_change -0.39 (placebo median -0.07, p=0.09)
+incident: recovery, first full hour 59% of usual, first 24 h 75%; comeback {'cut_back': 10, 'back_to_half_by_31oct_12nov': 3, 'top_volume_31oct_12nov_vs_before': -0.3455270903919444}
+incident: halt 3.7 h (08:33 to 12:16 UTC, 1 Oct), NEAR revenue forgone about $2,014; volume -30% after vs before (rivals +41%; placebo month -25%, rivals +33%); top 25 integrators keeping half their volume: 15 (placebo 21)
+python3 -m src.analysis.events
+events: 7 events, 184 placebo dates, 41 tests, 9 with p <= 0.10:
+  halving              volume_change             +1.317  placebo median   +0.029  p=0.01 *
+  halving              share_change_pts         +24.261  placebo median   +1.776  p=0.06 *
+  halving              abnormal_return_3d        +0.002  placebo median   -0.013  p=0.76
+  halving              abnormal_return_14d       +0.332  placebo median   -0.018  p=0.16
+  fee_switch           volume_change             -0.020  placebo median   +0.029  p=0.82
+  fee_switch           share_change_pts          -3.729  placebo median   +1.776  p=0.55
+  fee_switch           abnormal_return_3d        +0.135  placebo median   -0.013  p=0.11
+  fee_switch           abnormal_return_14d       +0.221  placebo median   -0.018  p=0.19
+  confidential_ga      volume_change             -0.255  placebo median   +0.029  p=0.29
+  confidential_ga      revenue_change            +0.039  placebo median   +0.145  p=0.88
+  confidential_ga      confidential_tvl_change    +0.069  placebo median   +0.600  p=0.13
+  confidential_ga      take_change_bps           +0.743  placebo median   +0.508  p=0.62
+  confidential_ga      share_change_pts          -6.189  placebo median   +1.776  p=0.45
+  confidential_ga      abnormal_return_3d        +0.042  placebo median   -0.013  p=0.35
+  confidential_ga      abnormal_return_14d       -0.117  placebo median   -0.018  p=0.38
+  confidential_1click  volume_change             +0.133  placebo median   +0.029  p=0.72
+  confidential_1click  revenue_change            -0.124  placebo median   +0.145  p=0.68
+  confidential_1click  confidential_tvl_change    -0.084  placebo median   +0.600  p=0.02 *
+  confidential_1click  take_change_bps           -0.262  placebo median   +0.508  p=0.73
+  confidential_1click  share_change_pts          +3.707  placebo median   +1.776  p=0.89
+  confidential_1click  abnormal_return_3d        -0.086  placebo median   -0.013  p=0.11
+  confidential_1click  abnormal_return_14d       -0.163  placebo median   -0.018  p=0.17
+  airdrop_snapshot     volume_change             +0.282  placebo median   +0.029  p=0.52
+  airdrop_snapshot     revenue_change            +1.502  placebo median   +0.145  p=0.02 *
+  airdrop_snapshot     confidential_tvl_change    +1.367  placebo median   +0.600  p=0.17
+  airdrop_snapshot     take_change_bps           +1.765  placebo median   +0.508  p=0.15
+  airdrop_snapshot     share_change_pts          +0.548  placebo median   +1.776  p=0.91
+  airdrop_snapshot     abnormal_return_3d        +0.258  placebo median   -0.013  p=0.05 *
+  airdrop_snapshot     abnormal_return_14d       +0.563  placebo median   -0.018  p=0.05 *
+  exploit              volume_change             -0.275  placebo median   +0.029  p=0.27
+  exploit              revenue_change            -0.025  placebo median   +0.145  p=0.83
+  exploit              confidential_tvl_change    +0.272  placebo median   +0.600  p=0.37
+  exploit              take_change_bps           +1.921  placebo median   +0.508  p=0.06 *
+  exploit              share_change_pts         -12.732  placebo median   +1.776  p=0.32
+  exploit              abnormal_return_3d        -0.063  placebo median   -0.013  p=0.22
+  exploit              abnormal_return_14d       -0.020  placebo median   -0.018  p=0.98
+  hsp029               volume_change             +0.077  placebo median   +0.029  p=0.84
+  hsp029               revenue_change            -0.038  placebo median   +0.145  p=0.81
+  hsp029               take_change_bps           -0.577  placebo median   +0.508  p=0.66
+  hsp029               share_change_pts         -24.019  placebo median   +1.776  p=0.04 *
+  hsp029               abnormal_return_3d        -0.155  placebo median   -0.013  p=0.03 *
+python3 -m src.analysis.swap_cost
+swap_cost: 2026-10-14 to 2026-11-12, 507,526 swaps: a user pays 58.7 bps: integrators 43.1, NEAR 3.8, solvers and networks 11.8 (NEAR keeps 6.4% of what users pay)
+  under $10     148,188 swaps  cost  219.6  integrators  45.2  NEAR  4.9  rest 169.6
+  $10-30         69,632 swaps  cost  136.6  integrators  47.0  NEAR  5.1  rest  84.4
+  $30-100        81,985 swaps  cost   74.5  integrators  40.5  NEAR  4.5  rest  29.5
+  $100-300       75,422 swaps  cost   63.7  integrators  42.2  NEAR  4.9  rest  16.6
+  $300-1k        56,137 swaps  cost   61.0  integrators  45.2  NEAR  5.1  rest  10.7
+  $1k-3k         35,498 swaps  cost   60.9  integrators  48.1  NEAR  4.8  rest   8.0
+  $3k-10k        23,902 swaps  cost   56.3  integrators  46.1  NEAR  3.9  rest   6.2
+  $10k-30k       10,183 swaps  cost   54.7  integrators  42.9  NEAR  4.2  rest   7.6
+  $30k-100k       5,062 swaps  cost   55.7  integrators  40.2  NEAR  5.2  rest  10.3
+  $100k-300k      1,226 swaps  cost   62.6  integrators  43.9  NEAR  2.8  rest  15.9
+  $300k-1M          284 swaps  cost   64.3  integrators  42.7  NEAR  1.0  rest  20.5
+  over $1M            7 swaps  cost   26.7  integrators  38.6  NEAR  0.0  rest -11.9
+  2026-08  cost   49.8  integrators  32.8  NEAR  2.6  rest  14.4
+  2026-09  cost   60.3  integrators  41.8  NEAR  2.5  rest  16.0
+  2026-10  cost   59.0  integrators  41.4  NEAR  4.4  rest  13.1
+python3 -m src.analysis.elasticity
+elasticity: 6 fee rises (median relative volume +25%), 4 cuts (median +211%); across 32 integrators, fee vs growth Spearman +0.08 (p = 0.65)
+  0-10 bps    16 integrators  $  346.9M  median growth vs 1Click -12%
+  10-30 bps    7 integrators  $  193.4M  median growth vs 1Click -53%
+  30-60 bps    4 integrators  $   15.2M  median growth vs 1Click -23%
+  60+ bps      5 integrators  $  578.7M  median growth vs 1Click +11%
+python3 -m src.analysis.signers
+signers: heavy signers (median 52 accounts) sent 76% of transactions in Nov 2024, 79% now; human-scale signers 123,846 a week, -69% on a year; 5 burst weeks; lead-lag 0 of 24 significant after Holm (best r = +0.15, p = 0.14); same week with Intents volume r = -0.09, with revenue since March r = +0.18
+python3 -m src.analysis.treasury
+treasury: 30.17M NEAR moved out in 2026-04, 2026-05 (9.2x the NEAR the revenue wallets received since the fee switch); 20.37M staked on 31 Jul, unstaked on 2026-09-16, pooled with 25M from the Foundation endowment and 47.5M staked again on 2026-10-06–10-07
+python3 -m src.analysis.control
+control (2026-11-14): buyback multisig 2 of 4 keys (0 full-access), 4 requests ever, sent out 12,025 NEAR, holds 2.28M; intents.near protocol fee 1 pip
+  front-end fund: 5 members, 2 approval(s) to pay, 1 to change the rules; 17 proposals, 1 passed with one vote; stablecoins paid $2.45M ($0.66M since buybacks began), NEAR paid out 0; holds 2.02M NEAR
+  1Click fund: 4 members, 2 approval(s) to pay, 2 to change the rules; 11 proposals, 4 passed with one vote; stablecoins paid $0.00M ($0.00M since buybacks began), NEAR paid out 555,078; holds 0.00M NEAR
+  NEAR held 4.30M, burned 0, locked 0; 47% sits where one signer can change the rules
+python3 -m src.analysis.implied
+implied: at 15% and 3% growth, the price needs 23.9x today's revenue ($3.0B a day of volume at 4.9 bps); or 83% a year for five years then the peer median multiple (20x); Intents volume over the last 30 days is +48% on a year earlier
+python3 -m src.analysis.deeper
+deeper: one break, week ending 2026-09-20 (90% ['2026-08-30', '2026-09-27']), 2.3 -> 4.8 bps; two breaks ['2026-05-17', '2026-09-27'] levels [1.9, 2.5, 5.0] (R2 0.47)
+  take 2026-03: 2.73 bps (90% 1.33-5.12)
+  take 2026-04: 1.36 bps (90% 1.15-1.60)
+  take 2026-05: 3.03 bps (90% 2.59-3.51)
+  take 2026-06: 2.74 bps (90% 2.05-3.52)
+  take 2026-07: 2.23 bps (90% 2.01-2.51)
+  take 2026-08: 2.56 bps (90% 2.31-2.83)
+  take 2026-09: 3.65 bps (90% 3.30-3.99)
+  take 2026-10: 5.53 bps (90% 4.89-6.32)
+  coverage 2026-03: 16.9%  change -0.37 = revenue -0.14 + price -0.12 + issuance -0.11
+  coverage 2026-04: 7.3%  change -0.84 = revenue -0.79 + price -0.06 + issuance +0.01
+  coverage 2026-05: 12.0%  change +0.49 = revenue +0.85 + price -0.34 + issuance -0.02
+  coverage 2026-06: 11.1%  change -0.08 = revenue +0.06 + price -0.16 + issuance +0.02
+  coverage 2026-07: 9.6%  change -0.15 = revenue -0.27 + price +0.15 + issuance -0.03
+  coverage 2026-08: 14.8%  change +0.44 = revenue +0.37 + price +0.07 + issuance -0.01
+  coverage 2026-09: 21.2%  change +0.36 = revenue +0.90 + price -0.57 + issuance +0.03
+  coverage 2026-10: 16.6%  change -0.24 = revenue +0.23 + price -0.45 + issuance -0.02
+  justified bear: take back to its May-August level: 2.0% of market cap
+  justified base: the last 30 days: 4.1% of market cap
+  justified bull: four times the volume at today's take: 16.2% of market cap
+  lever NEAR's published 20 bps applied to all integrator volume on 1Click: coverage 38%
+  lever take back to its October level (5.5 bps): coverage 23%
+  lever twice today's volume: coverage 41%
+  lever issuance cut (HSP-029) fully phased in: coverage 32%
+  lever 20 bps on 1Click integrators and the issuance cut: coverage 59%
+  lever take of 5.5 bps, twice the volume and the issuance cut: coverage 72%
+  1Click is 22% of captured; top integrator by NEAR revenue trustwallet 2.9% of captured; top 3 6.2%; top by volume swapkit 39% of volume, 0.0% of NEAR's 1Click revenue
+  path to yes: 4.1x today's volume by Dec 2027 at 4.9 bps, 11.5% a month
+  elasticity MDE 0.48 with 32 integrators; staker real +3.28% (before commission)
+python3 -m src.analysis.verdict
+verdict: not constructive (0 of 3 conditions held for a quarter); Real? yes; Durable? holds; Sufficient? no; C1 not met (3.9 bps (week ending 08 Nov)); C2 not met (21% (last 30 days)); C3 not met (0% of 4.30M NEAR held)
+python3 -m src.analysis.robustness
+  F1   alter holds      0.9924  baseline: fee switch to the last complete day  
+  F1   alter holds      0.9917  settled DefiLlama days only (to 2026-11-11)  
+  F1   alter holds      0.9917  from 1 March (first full month)  
+  F1   alter holds      0.9870  last 90 days  
+  F1   alter holds      1.0111  last 30 days  
+  F1   stres holds      0.9525  worst full month (Sep)  a single month is held to ±5%
+  F3   alter holds      0.1479  baseline: Feb–Oct, three wallets  
+  F3   alter holds      0.1630  NEAR's dashboard (its revenue and emissions series)  
+  F3   alter holds      0.1371  Mar–Oct (first full month)  
+  F3   alter holds      0.1753  Aug–Oct (since the take rose)  
+  F3   stres FLIPS      0.2453  best single month since February  
+  F3   alter holds      0.0690  buyback multisig only  
+  F4   alter holds    205.4465  revenue annualised over the last 30 days  post-cut break-even 64x
+  F4   alter holds    186.8312  revenue annualised over the last 60 days  post-cut break-even 64x
+  F4   alter holds    223.3532  revenue annualised over the last 90 days  post-cut break-even 64x
+  F4   alter holds    333.5219  revenue annualised over the last 180 days  post-cut break-even 64x
+  F4   alter holds    158.4312  best 30 days since the fee switch, annualised  
+  F4   stres holds      1.0692  NEAR price at which today's revenue would reach the post-cut break-even  against $3.42 on 2026-11-13; lowest of the last year $0.96
+  F5   alter holds      2.4878  baseline: NEAR-reported volume, August vs October  2.2 → 5.5 bps
+  F5   alter holds      2.1580  DefiLlama volume, August vs October  2.6 → 5.5 bps
+  F5   alter FLIPS      1.8331  DefiLlama volume, last two weeks of Aug vs of Oct  2.8 → 5.2 bps
+  F5   alter holds      2.2890  DefiLlama volume, July–August vs October  2.4 → 5.5 bps
+  F8   alter holds      0.8423  take before the campaign = May–Aug (DefiLlama volume)  Drop 1 cost / uplift
+  F8   alter holds      0.7961  take before the campaign = Jun–Aug (DefiLlama volume)  Drop 1 cost / uplift
+  F8   alter holds      0.7571  take before the campaign = Jul–Aug (DefiLlama volume)  Drop 1 cost / uplift
+  F8   alter holds      0.8145  take before the campaign = August (DefiLlama volume)  Drop 1 cost / uplift
+  F8   stres holds      0.9294  Drop 1 valued at 1.25x the conversion price  
+  F8   stres FLIPS      1.1152  Drop 1 valued at 1.50x the conversion price  
+  F10  alter holds      2.2535  TVL 14 days after the snapshot vs at it  
+  F10  alter holds      2.1695  TVL 30 days after the snapshot vs at it  
+  F10  alter holds      2.0028  TVL 45 days after the snapshot vs at it  
+  F10  alter holds      1.1064  lowest TVL since the snapshot vs at it  
+  F11  alter holds      0.1848  scenario: base: take now, 365d history  median share of 2027 issuance offset
+  F11  alter holds      0.0988  scenario: take back to May–Aug level  median share of 2027 issuance offset
+  F11  alter holds      0.1840  scenario: take now, zero volume drift  median share of 2027 issuance offset
+  F11  stres holds      0.4981  scenario: take now, 180d history (bull)  median share of 2027 issuance offset
+  F11  stres FLIPS      2.7613  scenario: take now, full history since Mar-2025 (hyper-growth)  median share of 2027 issuance offset
+  F11  alter holds      0.1484  scenario: take now, price keeps its 365d drift  median share of 2027 issuance offset
+  F11  alter holds      0.1109  scenario: base, buyback wallet only counted as retired  median share of 2027 issuance offset
+  F11  stres holds      0.3697  scenario: take doubles again  median share of 2027 issuance offset
+  F11  alter holds      0.1092  scenario: incentive winds down over 6 months  median share of 2027 issuance offset
+  F11  alter holds      0.1986  scenario: base + issuance cut (HSP-029, earliest start)  median share of 2027 issuance offset
+  F11  alter holds      0.1173  scenario: incentive winds down + issuance cut  median share of 2027 issuance offset
+  F11  info  holds      0.4333  sensitivity grid: cells where supply still grows (30 cells)  share of volume × take cells below 100%; informative, not a test
+  F12  alter holds    207.7200  annualised over 30 days ×365/30 (baseline)  peers median 20x, Q3 27x (12 peers)
+  F12  alter holds    413.4793  annualised over last 12 months (DefiLlama total1y)  peers median 19x, Q3 25x (13 peers)
+  F13  info  holds      0.2841  smallest |r| detected with 80% power, a single test at 5%, n = 95 weeks  power, not a test: a weaker lead could exist and go undetected
+  F13  info  holds      0.3873  smallest |r| detected with 80% power, the strictest Holm step (24 tests), n = 95 weeks  power, not a test: a weaker lead could exist and go undetected
+  F13  alter holds      0.1664  largest correlation found (absolute)  
+robustness: 49 variants; fragile: ['F5']
+python3 -m src.analysis.open_questions
+{
+ "confidential_fee": {
+  "weeks": 13,
+  "from": "2026-08-03",
+  "to": "2026-10-26",
+  "buyback multisig": {
+   "confidential_bps": 7.614333442661089,
+   "public_bps": 0.6509797650051334,
+   "first_diff_confidential_bps": 5.259071285040079,
+   "first_diff_public_bps": 1.831380924697539,
+   "loo_min": 7.438714308299153,
+   "loo_max": 8.053991727951892,
+   "boot_p5": 7.029799391863344,
+   "boot_p95": 8.751466529245516,
+   "corr_with_confidential": 0.966728136100914,
+   "corr_with_public": 0.1878542067972768
+  },
+  "front-end fund": {
+   "confidential_bps": 3.4102485051290317,
+   "public_bps": 0.368285787249842,
+   "first_diff_confidential_bps": 0.253135273371412,
+   "first_diff_public_bps": 1.0305947050363173,
+   "loo_min": 3.237717045065587,
+   "loo_max": 4.115866855566275,
+   "boot_p5": 2.650969352746433,
+   "boot_p95": 4.843784173279381,
+   "corr_with_confidential": 0.7502994801031548,
+   "corr_with_public": 0.18197239295282414
+  }
+ },
+ "revenue_gap": {
+  "to": "2026-11-12",
+  "d7": {
+   "from": "2026-11-06",
+   "fees_usd": 1687629.1375003243,
+   "front_end_usd": 270532.3343115096,
+   "b2b_usd": 132226.05137486005,
+   "quote_improvement_usd": 47920.42991682482,
+   "reported_usd": 450678.81560319447,
+   "wallets_usd": 426450.94707576215,
+   "reported_over_wallets": 1.0568127909987455,
+   "without_quote_improvement_over_wallets": 0.9444424697568246,
+   "quote_improvement_share_of_reported": 0.10632944850688729
+  },
+  "d30": {
+   "from": "2026-10-14",
+   "fees_usd": 6046609.871305367,
+   "front_end_usd": 1171504.126209459,
+   "b2b_usd": 630839.6562203749,
+   "quote_improvement_usd": 219749.3399620791,
+   "reported_usd": 2022093.122391913,
+   "wallets_usd": 1856681.6971810544,
+   "reported_over_wallets": 1.0890898130045652,
+   "without_quote_improvement_over_wallets": 0.9707338555479271,
+   "quote_improvement_share_of_reported": 0.10867419384827336
+  },
+  "ytd": {
+   "from": "2026-01-01",
+   "fees_usd": 45627410.88046996,
+   "front_end_usd": 6080089.377330221,
+   "b2b_usd": 3238388.6624151855,
+   "quote_improvement_usd": 1180487.676172751,
+   "reported_usd": 10498965.715918157,
+   "wallets_usd": 8918475.340080546,
+   "reported_over_wallets": 1.177215310416874,
+   "without_quote_improvement_over_wallets": 1.044851018185497,
+   "quote_improvement_share_of_reported": 0.11243847328531968
+  },
+  "all_time": {
+   "from": "2025-05-06",
+   "fees_usd": 61436597.97253233,
+   "front_end_usd": 7371047.169779812,
+   "b2b_usd": 3238636.443679712,
+   "quote_improvement_usd": 1180577.9997131445,
+   "reported_usd": 11790261.613172669,
+   "wallets_usd": 9807278.898793174,
+   "reported_over_wallets": 1.2021949956601632,
+   "without_quote_improvement_over_wallets": 1.0818172627644034,
+   "quote_improvement_share_of_reported": 0.10013162035303304
+  }
+ }
+}
+python3 -m src.predictions
+# Predictions: results
+
+Frozen file: `predictions/PREDICTIONS.csv`, sha256 `e41b07a41a4bf91e698673e996cc7040a65476142c656887906ce6f19cc8e7b9` (timestamped in Bitcoin: `ots verify predictions/PREDICTIONS.csv.ots`). Resolved from the committed snapshots by `python3 -m src.predictions`.
+
+| ID | Prediction | Resolves on | So far (not a resolution) | Value | Status |
+| --- | --- | --- | --- | --- | --- |
+| P1 | NEAR's take over 1-14 Nov 2026 stays below 5.0 bps of Intents volume | 2026-11-15 | 4.1 bps, 11-01 to 11-12 |  | pending |
+| P2 | Confidential TVL on 14 Nov 2026 is below 140M USD | 2026-11-15 | 137.9M USD on 2026-11-12 |  | pending |
+| P3 | HSP-029 leaves its timelock without a veto | 2026-11-17 | passed, in its timelock (no veto so far) |  | pending |
+| P4 | Buybacks offset less than 20% of NEAR issued in November 2026 | 2026-12-02 | last complete month Oct: 17% |  | pending |
+| P5 | NEAR's take over Q4 2026 stays above its May-Aug level (2.4 bps) | 2027-01-02 | 5.1 bps, 10-01 to 11-12 |  | pending |
+| P6 | NEAR's total supply on 1 Apr 2027 is higher than on 11 Nov 2026 | 2027-04-02 |  |  | pending |
+python3 -m src.analysis.dashboard_data
+dashboard/data.json: 263 days, 19 1Click weeks
+python3 -m pytest -q tests
+..................................................................       [100%]
+66 passed in 14.99s
+make[2]: Leaving directory '/home/claude/near-revenue-audit'
+make[1]: Leaving directory '/home/claude/near-revenue-audit'
+python3 -m src.check_outputs
+58/58 outputs match the committed ones (text exactly, numbers to 1e-09 relative)
+python3 -m src.figures --check
+PASS  F1   Reported revenue reaches NEAR's wallets: $8.09M rebuilt vs $8.15M on DefiLlama (ratio 0.992)
+PASS  F2   NEAR's own dashboard agrees on the wallets: 4.346M vs 4.339M NEAR (0.16% apart)
+PASS  F3   Buybacks offset well under a fifth of issuance: 14.8% (NEAR's dashboard: 16.3%)
+PASS  F4   Market cap is far above break-even: 205x annual captured revenue vs 41x (64x after HSP-029)
+PASS  F5   NEAR's take doubled from August to October: 2.2 → 5.5 bps of volume (1.8x to 2.5x depending on the window: make robustness)
+PASS  F6   Confidential swaps pay NEAR more than public ones, in every method: 5.5–11 bps vs 1–3 (Dune fee table 7.4)
+PASS  F7   They explain part, not all, of the jump: 22% to 84% of the +3.3 bps
+PASS  F8   Drop 1 of NEAR@3.33 cost less than the revenue uplift: $1.39M vs $1.87M (74%)
+PASS  F9   The fit missed its first unseen week: $355k actual vs $475k–$901k predicted
+PASS  F10  Confidential TVL did not leave after the snapshot (H4.1 rejected): $71M → $155M 30 days later; $138M on 2026-11-12
+PASS  F11  Supply still grows through 2027 in the base case: median 18% of 2027 issuance offset (7% chance of a deflationary 2027)
+PASS  F12  Peers are priced on their revenue, NEAR is not: 208x vs peer median 20x (12 peers)
+PASS  F13  Usage does not lead NEAR's price (the track's hypothesis): 0 of 24 lead-lag tests significant after Holm; best r = +0.15, p = 0.15 before correction (L1 transactions, 1-week lag)
+PASS  F14  NEAR's BigQuery dataset agrees with the pipeline's sources: revenue wallets 3.292M NEAR on both, max monthly gap 0 (identical to the last digit); net issuance Feb–Oct 23.87M (0.06% apart)
+PASS  F15  The 1Click results recompute without the partner key: 30 figures (integrator shares, the November take, the fee-schedule test) recomputed from the published daily aggregates, all within 1.5%
+PASS  F16  The rebuilt revenue never revises; the aggregators' latest days do: 0 of 1,143 daily readings of the rebuilt revenue changed across 5 dated snapshots; DefiLlama's gross fees for the latest day were revised up to ×185 (2026-11-10: $1,611 → $297,452), settled after 3 days
+PASS  F17  The exploit cost NEAR little revenue, but large integrators pulled back: 1Click stopped for 3.7 hours on 1 Oct (08:33 to 12:16 UTC), about $2,014 of NEAR revenue; in the two weeks after, NEAR's 1Click revenue changed −13% (inside the range of 21 placebo dates) while the 25 largest integrators' volume changed −39%, below every placebo date (−18% at worst); 3 of the 10 that cut back returned by November
+PASS  F18  Users pay about 60 bps a swap on 1Click; NEAR keeps about a sixteenth of it: 59 bps of what users send is gone on delivery (2026-10-14 to 2026-11-12, 507,526 swaps): integrators 43, NEAR 3.8, solvers and networks 12 (6.4% to NEAR)
+PASS  F19  The buyback wallet's balance is explained by its receipts, to a fraction of a NEAR: 2,274,593.09 NEAR rebuilt from 3,393 receipts vs 2,274,592.78 read on-chain at block 224,358,585 (gap −0.31 NEAR)
+19/19 findings hold
+Headline numbers:
+  14.8% of new NEAR offset by the 3 revenue wallets, February 2026 to October 2026
+  205x market cap (2026-11-13) / wallet revenue 2026-10-14 to 2026-11-12, annualised
+  41x break-even multiple (1 / 2.43%); about $639M of daily volume at today's take
+  92% of the 1Click fee pool kept by integrators, 2026-10-14 to 2026-11-12
+Follow $100 of Intents volume, 2026-10-14 to 2026-11-12: fees $0.159, to NEAR's wallets $0.049 (buyback multisig $0.035), new NEAR issued $0.238: revenue covers 21% of issuance
