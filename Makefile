@@ -1,4 +1,4 @@
-.PHONY: control control-fetch signers treasury elasticity elasticity-collect swap-cost swap-cost-collect implied robustness events incident incident-collect quotes quotes-fetch revisions open-questions oneclick-offline setup pycheck anchor-check bigquery reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
+.PHONY: verdict deeper control control-fetch signers treasury elasticity elasticity-collect swap-cost swap-cost-collect implied robustness events incident incident-collect quotes quotes-fetch revisions open-questions oneclick-offline setup pycheck anchor-check bigquery reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -44,6 +44,12 @@ swap-cost-collect: ## daily sums for `make swap-cost` from the private per-swap 
 
 signers:     ## who signs NEAR's transactions: human-scale signers against bots, and the lead-lag test on them
 	python3 -m src.analysis.signers
+
+verdict:     ## the verdict, computed: real, durable, sufficient, and the three conditions with their status
+	python3 -m src.analysis.verdict
+
+deeper:      ## breaks in the take found by the data, bootstrap intervals, why coverage moved, levers, integrators leaving, justified market cap
+	python3 -m src.analysis.deeper
 
 control:     ## rule or choice: who controls each revenue wallet, with how many signatures, and every payment out
 	python3 -m src.analysis.control
@@ -99,7 +105,7 @@ pycheck:
 test:        ## model checks
 	python3 -m pytest -q tests
 
-STEPS = ledger revenue supply governance montecarlo backtest leadlag bigquery oneclick-offline confidential official revisions quotes incident events swap-cost elasticity signers treasury control implied robustness open-questions predictions dashboard
+STEPS = ledger revenue supply governance montecarlo backtest leadlag bigquery oneclick-offline confidential official revisions quotes incident events swap-cost elasticity signers treasury control implied deeper verdict robustness open-questions predictions dashboard
 
 reproduce:   ## every offline step on the committed snapshots, then the tests
 	$(MAKE) $(STEPS) test

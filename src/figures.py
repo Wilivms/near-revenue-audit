@@ -440,6 +440,52 @@ def figures() -> dict[str, str]:
               "ct_fee_pips": str(ct["intents_protocol_fee_pips"]), "ct_held": f"{ct['held_near'] / 1e6:.2f}M",
               "ct_one_signer": pct(ct["held_where_one_signer_can_change_the_rules"]),
               "ct_block": f"{min(b for b in ct['block_heights'].values() if b):,}", "ct_payments_table": control_table(ct)})
+    rc = ct["reconcile"]
+    f.update({"rc_rebuilt": f"{rc['rebuilt_near']:,.2f}", "rc_onchain": f"{rc['onchain_near']:,.2f}", "rc_gap": f"{rc['gap_near']:+.2f}".replace("-", "−"),
+              "rc_block": f"{rc['block']:,}", "rc_receipts": f"{rc['receipts']:,}", "rc_calls": str(rc["own_calls"]),
+              "rc_ppm": f"{abs(rc['gap_near']) / rc['onchain_near'] * 1e6:.2f}"})
+    vd = _json("verdict.json")
+    f.update({"vd_verdict": vd["verdict"], "vd_rule": vd["rule"], "vd_met": str(vd["met_for_a_quarter"]),
+              **{f"vd_q{i}": q["answer"] for i, q in enumerate(vd["questions"], 1)},
+              **{f"vd_q{i}_why": q["why"] for i, q in enumerate(vd["questions"], 1)},
+              **{f"vd_c{i}": c["condition"] for i, c in enumerate(vd["conditions"], 1)},
+              **{f"vd_c{i}_now": c["now"] for i, c in enumerate(vd["conditions"], 1)},
+              **{f"vd_c{i}_rec": c["record"] for i, c in enumerate(vd["conditions"], 1)},
+              **{f"vd_c{i}_st": c["status"] for i, c in enumerate(vd["conditions"], 1)},
+              "vd_refute_rule": vd["bought_reading_refuted"]["rule"], "vd_refute_streak": str(vd["bought_reading_refuted"]["streak_weeks"])})
+    dp = _json("deeper.json")
+    b1, b2 = dp["breaks"]["model_1"], dp["breaks"]["model_2"]
+    day = lambda x: pd.Timestamp(x).strftime("%-d %b %Y")  # noqa: E731
+    cs = {r["month"]: r for r in dp["coverage_split"]}
+    so, oc_ = cs.get("2026-09"), cs.get("2026-10")
+    jc = list(dp["justified"]["cases"].values())
+    lv = dp["levers"]
+    il = dp["integrators_leave"]
+    st = dp["staker"]
+    f.update({"dp_break": day(b1["break_weeks_ending"][0]), "dp_break_lo": day(b1["ci90"][0][0]), "dp_break_hi": day(b1["ci90"][0][1]),
+              "dp_break_before": f"{b1['levels_bps'][0]:.1f}", "dp_break_after": f"{b1['levels_bps'][1]:.1f}",
+              "dp_b2_1": day(b2["break_weeks_ending"][0]), "dp_b2_2": day(b2["break_weeks_ending"][1]),
+              "dp_b2_levels": " → ".join(f"{x:.1f}" for x in b2["levels_bps"]), "dp_weeks": str(dp["breaks"]["weeks"]),
+              "dp_take_table": "\n".join(["| Month | Take (bps) | 90% interval |", "| --- | --- | --- |"] +
+                                         [f"| {r['month']} | {r['take_bps']:.2f} | {r['ci90'][0]:.2f}–{r['ci90'][1]:.2f} |" for r in dp["monthly_take"]]),
+              "dp_cov_table": "\n".join(["| Month | Coverage | Change (log) | from revenue in $ | from the price paid per NEAR | from issuance |", "| --- | --- | --- | --- | --- | --- |"] +
+                                        [f"| {r['month']} | {r['coverage']:.1%} | {r['change_log']:+.2f} | {r['from_revenue']:+.2f} | {r['from_price']:+.2f} | {r['from_issuance']:+.2f} |"
+                                         for r in dp["coverage_split"][1:]]),
+              "dp_oct_rev": f"{np.expm1(oc_['from_revenue']):+.0%}", "dp_oct_price": f"{np.expm1(-oc_['from_price']):+.0%}",
+              "dp_sep_price": f"{np.expm1(-so['from_price']):+.0%}", "dp_sep_rev": f"{np.expm1(so['from_revenue']):+.0%}",
+              "dp_sep_cov": pct(so["coverage"], 1), "dp_oct_cov": pct(oc_["coverage"], 1),
+              "dp_just_bear": pct(jc[0]["share_of_market_cap"], 1), "dp_just_base": pct(jc[1]["share_of_market_cap"], 1), "dp_just_bull": pct(jc[2]["share_of_market_cap"], 1),
+              "dp_lever_table": "\n".join(["| If… | Coverage of issuance (now " + pct(lv["coverage_now"]) + ") |", "| --- | --- |"] +
+                                          [f"| {r['lever']} | {pct(r['coverage'])} |" for r in lv["rows"]]),
+              "dp_lever_max": pct(max(r["coverage"] for r in lv["rows"])), "dp_int_bps": f"{lv['near_bps_on_integrators']:.1f}",
+              "dp_gain20": usd(lv["gain_20bps_usd"], 2),
+              "dp_oc_share": pct(il["oneclick_share_of_captured"]), "dp_noref": pct(il["no_integrator_share_of_oneclick_near"]),
+              "dp_top1": il["top1_by_near"]["ref"], "dp_top1_cap": pct(il["top1_by_near"]["share_of_captured"], 1),
+              "dp_top3_cap": pct(il["top3_by_near"]["share_of_captured"], 1), "dp_topvol": il["top1_by_volume"]["ref"],
+              "dp_topvol_vol": pct(il["top1_by_volume"]["share_of_oneclick_volume"]), "dp_topvol_near": pct(il["top1_by_volume"]["share_of_oneclick_near"], 1),
+              "dp_mde": f"{dp['elasticity_mde']['min_detectable_spearman']:.2f}", "dp_mde_n": str(dp["elasticity_mde"]["integrators"]),
+              "dp_staker_real": f"{st['real_before_commission']:+.1%}", "dp_staker_real10": f"{st['real_at_10pct_commission']:+.1%}",
+              "dp_unstaked_real": f"{st['unstaked_real']:+.1%}".replace("-", "−")})
     tr = _json("treasury.json")
     f.update({"tr_moved": f"{tr['moved_out_2026_near'] / 1e6:.2f}M", "tr_x": f"{tr['moved_over_captured']:.0f}", "tr_staked1": f"{tr['staked_first_near'] / 1e6:.1f}M",
               "tr_unstaked_day": tr["unstaked_day"], "tr_endow": f"{tr['foundation_endowment_joined_near'] / 1e6:.0f}M",
@@ -631,6 +677,10 @@ def claims(v: dict | None = None) -> list[dict]:
          "dollar value sent and delivered per 1Click swap (Explorer API), split by the fees in each record, daily sums committed; holds if NEAR's share of the user's cost is under 10% and integrators' over half",
          _json("swap_cost.json")["last30"]["near_share_of_cost"] < 0.10 and _json("swap_cost.json")["last30"]["integrators_bps"] > 0.5 * _json("swap_cost.json")["last30"]["cost_bps"],
          "make swap-cost"),
+        ("F19", "The buyback wallet's balance is explained by its receipts, to a fraction of a NEAR",
+         f"{f['rc_rebuilt']} NEAR rebuilt from {f['rc_receipts']} receipts vs {f['rc_onchain']} read on-chain at block {f['rc_block']} (gap {f['rc_gap']} NEAR)",
+         "every NEAR in minus every NEAR out of buybacks.multisignature.near since its creation (committed history), against the archival-RPC balance at the block after the last receipt; holds if within 1 NEAR",
+         abs(_json("control.json")["reconcile"]["gap_near"]) < 1.0, "make control"),
     ]
     return [{"id": i, "finding": a, "number": n, "check": c, "passed": bool(p), "command": cmd} for i, a, n, c, p, cmd in rows]
 
@@ -844,6 +894,8 @@ def render() -> dict[str, str]:
     f["public_claims_survive"] = str(sum(r["verdict"].startswith("Survives") for r in pcs))
     f["public_claims_close"] = str(sum(r["verdict"].startswith("Close") for r in pcs))
     f["public_claims_fail"] = str(len(pcs) - int(f["public_claims_survive"]) - int(f["public_claims_close"]))
+    f["numbers_n"] = str(len({k for name in DOCS for k in re.findall(r"\{\{(\w+)\}\}", (TEMPLATES / name).read_text())}
+                              | {m.group(2) for m in STATIC.finditer((ROOT / DASHBOARD).read_text())}))
     out = {}
     for name in DOCS:
         t = (TEMPLATES / name).read_text()
@@ -853,7 +905,38 @@ def render() -> dict[str, str]:
         out[name] = "<!-- Generated from docs/templates/" + name + " by `make docs`; edit the template, not this file. -->\n" + \
             re.sub(r"\{\{(\w+)\}\}", lambda m: f[m.group(1)], t)
     out[DASHBOARD] = static_dashboard(f)
+    out["NUMBERS.md"] = numbers_registry(f, out)
     return out
+
+
+def numbers_registry(f: dict, docs: dict) -> str:
+    """Every value printed in the documents and the dashboard: its key, its value, where it is printed and the line of
+    src/figures.py that computes it, so any number can be traced to code and from there to an output file."""
+    src = (ROOT / "src" / "figures.py").read_text().splitlines()
+    where = {}
+    for i, line in enumerate(src, 1):
+        for k in re.findall(r'"(\w+)":', line):
+            where.setdefault(k, i)
+    used = {}
+    for name in DOCS:
+        for k in re.findall(r"\{\{(\w+)\}\}", (TEMPLATES / name).read_text()):
+            used.setdefault(k, set()).add(name)
+    for m in STATIC.finditer((ROOT / DASHBOARD).read_text()):
+        used.setdefault(m.group(2), set()).add("dashboard (no-JS values)")
+    lines = ["<!-- Generated by `make docs` (src/figures.py, numbers_registry); do not edit. -->", "# Every printed number, traced",
+             "", "Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTML comes from one key computed in "
+             "[`src/figures.py`](src/figures.py) from the committed outputs in `data/processed/`. A test re-renders every document "
+             "and fails if any printed value differs from the data. Tables rendered whole (findings, claims, payments) are listed once.", "",
+             f"{len(used)} keys.", "", "| Key | Value | Printed in | Computed at |", "| --- | --- | --- | --- |"]
+    for k in sorted(used):
+        v = f.get(k, "")
+        v = "(table)" if "\n" in v else v.replace("|", "\\|")
+        if len(v) > 70:
+            v = v[:67] + "…"
+        ln = where.get(k) or next((where[w] for w in where if k.startswith(w.rstrip("0123456789_"))), None)
+        at = f"[figures.py#L{ln}](src/figures.py#L{ln})" if ln else "src/figures.py"
+        lines.append(f"| `{k}` | {v} | {', '.join(sorted(used[k]))} | {at} |")
+    return "\n".join(lines) + "\n"
 
 
 DASHBOARD = "dashboard/index.html"

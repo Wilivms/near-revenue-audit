@@ -1,0 +1,332 @@
+{
+ "breaks": {
+  "weeks": 37,
+  "from": "2026-03-01",
+  "to": "2026-11-08",
+  "model_1": {
+   "break_weeks_ending": [
+    "2026-09-20"
+   ],
+   "ci90": [
+    [
+     "2026-08-30",
+     "2026-09-27"
+    ]
+   ],
+   "levels_bps": [
+    2.2697972631439045,
+    4.782870760192782
+   ],
+   "r2": 0.41246903865592854
+  },
+  "model_2": {
+   "break_weeks_ending": [
+    "2026-05-17",
+    "2026-09-27"
+   ],
+   "ci90": [
+    [
+     "2026-04-05",
+     "2026-08-16"
+    ],
+    [
+     "2026-08-30",
+     "2026-10-11"
+    ]
+   ],
+   "levels_bps": [
+    1.9441357508042827,
+    2.5374414354398582,
+    5.014539117594326
+   ],
+   "r2": 0.4661793865237185
+  }
+ },
+ "monthly_take": [
+  {
+   "month": "2026-03",
+   "days": 31,
+   "take_bps": 2.729759434728275,
+   "ci90": [
+    1.3250344852354872,
+    5.118161945271749
+   ]
+  },
+  {
+   "month": "2026-04",
+   "days": 30,
+   "take_bps": 1.3611869752535275,
+   "ci90": [
+    1.1539320836917248,
+    1.600598824639519
+   ]
+  },
+  {
+   "month": "2026-05",
+   "days": 31,
+   "take_bps": 3.028868371823729,
+   "ci90": [
+    2.5866801168783327,
+    3.5071428265689684
+   ]
+  },
+  {
+   "month": "2026-06",
+   "days": 30,
+   "take_bps": 2.7353780327113033,
+   "ci90": [
+    2.0534435339918002,
+    3.517933699859484
+   ]
+  },
+  {
+   "month": "2026-07",
+   "days": 31,
+   "take_bps": 2.232620734636478,
+   "ci90": [
+    2.0081275628988418,
+    2.508585207016241
+   ]
+  },
+  {
+   "month": "2026-08",
+   "days": 31,
+   "take_bps": 2.564286587103675,
+   "ci90": [
+    2.3054847307255297,
+    2.8251265528305027
+   ]
+  },
+  {
+   "month": "2026-09",
+   "days": 30,
+   "take_bps": 3.647853044047898,
+   "ci90": [
+    3.299482187288659,
+    3.989856770901205
+   ]
+  },
+  {
+   "month": "2026-10",
+   "days": 31,
+   "take_bps": 5.5336595961444335,
+   "ci90": [
+    4.8887735053303665,
+    6.320908481903622
+   ]
+  }
+ ],
+ "coverage_split": [
+  {
+   "month": "2026-02",
+   "revenue_usd": 656066.1854087942,
+   "near_bought": 586779.0721678128,
+   "price_paid": 1.1180804096932175,
+   "issued_near": 2392260.366549253,
+   "coverage": 0.2452822779546442
+  },
+  {
+   "month": "2026-03",
+   "revenue_usd": 567706.7137689281,
+   "near_bought": 450923.0335600285,
+   "price_paid": 1.2589880567574798,
+   "issued_near": 2668266.444350958,
+   "coverage": 0.16899475482093887,
+   "change_log": -0.3725420243616016,
+   "from_revenue": -0.14465673987751415,
+   "from_price": -0.11869497377539943,
+   "from_issuance": -0.10919031070868793
+  },
+  {
+   "month": "2026-04",
+   "revenue_usd": 258018.5042387933,
+   "near_bought": 193366.7225770407,
+   "price_paid": 1.3343480243142365,
+   "issued_near": 2639024.310720921,
+   "coverage": 0.07327205050423251,
+   "change_log": -0.8356884445079281,
+   "from_revenue": -0.7885736321632184,
+   "from_price": -0.05813453253540493,
+   "from_issuance": 0.011019720190694969
+  },
+  {
+   "month": "2026-05",
+   "revenue_usd": 604467.6260199285,
+   "near_bought": 323837.5017521924,
+   "price_paid": 1.8665769799647247,
+   "issued_near": 2697103.692273855,
+   "coverage": 0.12006861385413542,
+   "change_log": 0.4938841281237218,
+   "from_revenue": 0.8513168094440439,
+   "from_price": -0.33566346021134613,
+   "from_issuance": -0.021769221108975813
+  },
+  {
+   "month": "2026-06",
+   "revenue_usd": 644097.2808896336,
+   "near_bought": 292679.0334371495,
+   "price_paid": 2.2006949842819825,
+   "issued_near": 2640342.605997801,
+   "coverage": 0.11084888482740836,
+   "change_log": -0.07989548567779733,
+   "from_revenue": 0.06350165832883091,
+   "from_price": -0.16466695095285439,
+   "from_issuance": 0.021269806946226415
+  },
+  {
+   "month": "2026-07",
+   "revenue_usd": 492422.29946721316,
+   "near_bought": 260316.3755544214,
+   "price_paid": 1.8916301305227263,
+   "issued_near": 2715839.765479088,
+   "coverage": 0.09585115398312179,
+   "change_log": -0.14537136692856495,
+   "from_revenue": -0.2685130913921237,
+   "from_price": 0.15133425217239177,
+   "from_issuance": -0.02819252770883335
+  },
+  {
+   "month": "2026-08",
+   "revenue_usd": 712186.3022865396,
+   "near_bought": 405386.3307645831,
+   "price_paid": 1.7568088715357355,
+   "issued_near": 2729983.39251709,
+   "coverage": 0.1484940647901928,
+   "change_log": 0.43774848081284445,
+   "from_revenue": 0.3690028571133692,
+   "from_price": 0.07393993810458843,
+   "from_issuance": -0.005194314405113064
+  },
+  {
+   "month": "2026-09",
+   "revenue_usd": 1752098.2443988791,
+   "near_bought": 564180.5917198942,
+   "price_paid": 3.105562775666635,
+   "issued_near": 2660555.7922434807,
+   "coverage": 0.21205365937624482,
+   "change_log": 0.3562943632091057,
+   "from_revenue": 0.9002298077946608,
+   "from_price": -0.5696959250166542,
+   "from_issuance": 0.025760480431099422
+  },
+  {
+   "month": "2026-10",
+   "revenue_usd": 2205518.3892166116,
+   "near_bought": 451483.5103354985,
+   "price_paid": 4.885047490610866,
+   "issued_near": 2715174.169431925,
+   "coverage": 0.16628160190178848,
+   "change_log": -0.24315660481123033,
+   "from_revenue": 0.2301485119060354,
+   "from_price": -0.4529840600054784,
+   "from_issuance": -0.02032105671178733
+  }
+ ],
+ "justified": {
+  "market_cap_usd": 4640959837.0,
+  "discount": 0.15,
+  "growth": 0.03,
+  "scenarios_in_file": 11,
+  "cases": {
+   "bear: take back to its May-August level": {
+    "annual_revenue_usd": 11020528.07984,
+    "value_usd": 91837733.99866667,
+    "share_of_market_cap": 0.019788521604193032
+   },
+   "base: the last 30 days": {
+    "annual_revenue_usd": 22589627.31570283,
+    "value_usd": 188246894.2975236,
+    "share_of_market_cap": 0.04056206063166661
+   },
+   "bull: four times the volume at today's take": {
+    "annual_revenue_usd": 90358509.26281132,
+    "value_usd": 752987577.1900944,
+    "share_of_market_cap": 0.16224824252666645
+   }
+  }
+ },
+ "levers": {
+  "window": [
+   "2026-10-14",
+   "2026-11-12"
+  ],
+  "coverage_now": 0.20711801917845402,
+  "take_now_bps": 4.919465307371541,
+  "integrator_volume_usd": 885432251.9741,
+  "near_from_integrators_usd": 243717.39279999997,
+  "near_bps_on_integrators": 2.752524456350264,
+  "gain_20bps_usd": 1527147.1111482,
+  "rows": [
+   {
+    "lever": "NEAR's published 20 bps applied to all integrator volume on 1Click",
+    "coverage": 0.37747553664380207
+   },
+   {
+    "lever": "take back to its October level (5.5 bps)",
+    "coverage": 0.2315595363127262
+   },
+   {
+    "lever": "twice today's volume",
+    "coverage": 0.41423603835690803
+   },
+   {
+    "lever": "issuance cut (HSP-029) fully phased in",
+    "coverage": 0.3236219049663344
+   },
+   {
+    "lever": "20 bps on 1Click integrators and the issuance cut",
+    "coverage": 0.5898055260059407
+   },
+   {
+    "lever": "take of 5.5 bps, twice the volume and the issuance cut",
+    "coverage": 0.7236235509772693
+   }
+  ]
+ },
+ "integrators_leave": {
+  "window": [
+   "2026-10-14",
+   "2026-11-12"
+  ],
+  "oneclick_near_usd": 400913.14890000003,
+  "captured_usd": 1856681.6971810544,
+  "oneclick_share_of_captured": 0.21592992999752988,
+  "no_integrator_share_of_oneclick_near": 0.39209428907808014,
+  "top1_by_near": {
+   "ref": "trustwallet",
+   "share_of_oneclick_near": 0.13434568670990274,
+   "share_of_captured": 0.029009254726739382
+  },
+  "top3_by_near": {
+   "refs": [
+    "trustwallet",
+    "lifi",
+    "arbie"
+   ],
+   "share_of_oneclick_near": 0.2880042927422179,
+   "share_of_captured": 0.062188746770815206
+  },
+  "top1_by_volume": {
+   "ref": "swapkit",
+   "share_of_oneclick_volume": 0.38826297953229083,
+   "share_of_oneclick_near": 0.0
+  },
+  "incident_comeback": {
+   "cut_back": 10,
+   "back_to_half_by_31oct_12nov": 3,
+   "top_volume_31oct_12nov_vs_before": -0.3455270903919444
+  }
+ },
+ "elasticity_mde": {
+  "integrators": 32,
+  "min_detectable_spearman": 0.4778862378869856,
+  "observed": 0.08230226411616967
+ },
+ "staker": {
+  "gross": 0.054104755373076,
+  "net_supply_growth": 0.0205868681162649,
+  "real_before_commission": 0.032841777906349456,
+  "real_at_10pct_commission": 0.027540440307038505,
+  "unstaked_real": -0.020171598086758502
+ }
+}

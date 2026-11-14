@@ -711,3 +711,35 @@ Two leads from other theses, taken further and tied to F13 and F3.
 - the label "liquidity support" was our reading of a recipient's account name (`auroraliqsupport.near`), not the proposals' text, and is no longer used as a label.
 
 Also: the 2027 probabilities are now flagged as probable upper bounds (the simulation was too optimistic in its 2026 backtest), 1Click's share of Intents volume is computed (28%) instead of "about a quarter", and the README says which coverage figure covers which window.
+
+### 67. Deeper checks, a computed verdict, and checks that must fail (2026-11-14)
+
+From two independent reviews and a re-read of the other theses: the ideas that fit this audit, done on our own data and tied to the findings.
+
+**Breaks found by the data** (`make deeper`). A least-squares search over the weekly take since the fee switch (37 complete weeks) puts a single break in the week ending 20 September 2026, with a 90% residual-bootstrap interval from 30 August to 27 September. The level goes from 2.3 to 4.8 bps. The airdrop snapshot was on 16 September; confidential intents opened to all developers on 13 July, outside the interval. With two breaks: 17 May and 27 September (1.9 → 2.5 → 5.0 bps). The September jump sits on the incentive, not on a slow trend.
+
+**Monthly take with intervals.** Days resampled within each month: March is wide (1.3–5.1 bps); from April on the intervals are tight. October (4.9–6.3) overlaps no earlier month except March.
+
+**Why coverage moved.** The monthly change in NEAR bought per NEAR issued splits exactly into revenue in dollars, the price paid per NEAR and issuance. In October revenue rose 26% but each NEAR bought cost 57% more, so coverage fell from 21.2% to 16.6%. Buybacks are reflexive.
+
+**Justified market cap.** As a perpetuity (15% discount, 3% growth) the buybacks are worth 2.0% (take back to May–August), 4.1% (last 30 days) or 16.2% (four times the volume) of today's market cap.
+
+**Levers.** On the Follow $100 window (coverage 21%):
+- the published 20 bps on 1Click integrators gives 38%; the issuance cut 32%; twice the volume 41%;
+- the best combination tested reaches 72%. No volume response is assumed, and the fee test could not detect one below a rank correlation of 0.48 (32 integrators, 80% power).
+
+**Integrators leaving.** 1Click is 22% of captured revenue. The integrator paying NEAR the most is 2.9% of it; the largest by volume (39% of 1Click volume) pays NEAR 0.0%.
+
+**F19, the buyback wallet to a fraction of a NEAR.** 3,393 receipts since creation give 2,274,593.09 NEAR. The archival RPC reads 2,274,592.78 at block 224,358,585, just after the last receipt: −0.31 NEAR, about the gas of its own 13 multisig calls.
+
+**The verdict, computed** (`make verdict`, dashboard banner). Real: yes. Durable: holds on four weeks (5.0 against a 5.5 peak). Sufficient: no. The three conditions are not met; the take was at 5 bps or more in 4 of the last 13 weeks.
+- The rule (two of three for a quarter) was fixed today, after the analysis; it is recomputed daily from now, so it cannot be tuned to future data. README says so.
+- What would refute "partly bought": the take at 5 bps or more for 60 days. Streak: 0 weeks.
+
+**Predictions** now resolve on the day after the data date (data to day D is complete on D+1). The refresh writes resolved results in full on NEAR testnet (`node anchor/anchor.mjs results`).
+
+**Checks that must fail** (`tests/test_must_fail.py`). A planted false F1 (revenue 5% off) and a false F2 (2% gap) must FAIL; a number in an output changed by one part in a million must be reported.
+
+**Every printed number traced.** `NUMBERS.md` is generated with the documents: each value, where it is printed, the line of code that computes it.
+
+**Live versus snapshot.** The dashboard now labels its figures "live, refreshed daily, data to …" or "repository snapshot on GitHub, data to …". Sender concentration and round trips are now in the live bundle too.

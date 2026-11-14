@@ -95,6 +95,8 @@ def build() -> dict:
         # peers with material holders revenue only (at least $100k in 30 days): a token paying its holders
         # a few hundred dollars is not a comparable, and its multiple (18,000x for JTO) breaks the chart
         "checks": _checks(),
+        "verdict": json.loads((OUT / "verdict.json").read_text()),
+        "oneclick_quality": json.loads((OUT / "oneclick_quality.json").read_text()),
         "events": _records(pd.read_csv(OUT / "events.csv")),
         "swap_cost": json.loads((OUT / "swap_cost.json").read_text()),
         "quote_race": {"summary": json.loads((OUT / "quote_race.json").read_text()),
@@ -119,7 +121,8 @@ def _checks() -> dict:
     from ..figures import claims, public_claims, values
     from ..predictions import resolve
     v = values()
-    preds = resolve(pd.Timestamp(v["data_to"]))  # as of the data date, so the bundle stays reproducible
+    # as of the day after the data date (data to day D is complete on D+1), so the bundle stays reproducible
+    preds = resolve(pd.Timestamp(v["data_to"]) + pd.Timedelta(days=1))
     preds["value"] = preds["value"].astype(object).where(preds["value"].notna(), None)
     ll = json.loads((OUT / "leadlag_summary.json").read_text())
     return {"findings": claims(v), "public_claims": public_claims(v), "predictions": preds.to_dict("records"),

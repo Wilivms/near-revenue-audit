@@ -66,6 +66,8 @@ def main() -> int:
             same = entries[max(entries)]["sha256"] == current
             print(f"{'':12s} current {path} {'is' if same else 'is NOT'} the anchored file")
             ok &= same
+    for d, e in sorted(a.get("results", {}).items()):  # resolved predictions, written in full on the day they resolve
+        print(f"{'results':12s} {d}  " + ", ".join(f"{p['id']} {p['status']}" for p in e.get("resolved", [])))
     print("anchors: OK" if ok else "anchors: MISMATCH")
     return 0 if ok else 1
 

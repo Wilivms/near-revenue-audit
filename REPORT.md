@@ -36,6 +36,8 @@ Two caveats. First, NEAR's dashboard also publishes a monthly revenue series, an
 
 Second, the reading of "buyback". The front-end fund holds about 2.0M NEAR (47% of all NEAR captured to date). It is a Sputnik DAO whose members' account names point to Aurora. It has not sold, but nothing on-chain commits it not to. It has paid $2.45M in stablecoins to three `aurora…` accounts ($2.05M to `auroraliqsupport.near`, four 50,000 USDC invoices to `aurora…` DAO accounts), $657k of it after the buyback programme began; most likely payments to an operating partner, and the proposals give no further detail (Rule or choice, below; every payment in the appendix). **Bought is not retired.**
 
+**To a fraction of a NEAR** (F19, `make control`). The buyback multisig's 3,393 receipts since its creation (every NEAR in, minus every NEAR out) rebuild a balance of 2,274,593.09 NEAR; the archival RPC reads 2,274,592.78 at block 224,358,585, just after the last receipt. The −0.31 NEAR left is about what the wallet's own 13 multisig calls cost in gas, which the receipt list does not itemise.
+
 ### 2. The revenue grew, with confidential swaps as the largest identified driver, under an incentive
 
 Source: NEAR's own Dune dashboard (@near, "NEAR Intents"), read from its public result tables (log 24).
@@ -137,7 +139,7 @@ Coverage limit: 1Click is about 28% of Intents volume, and confidential swaps we
 
 **The treasury's NEAR was staked, not sold** (`make treasury`, log 65, `sql/treasury_walk.sql`). 10% of issuance goes to the protocol treasury, and F3 compares buybacks with all new NEAR as if all of it could reach the market. In April–May 2026 the treasury moved 30.17M NEAR out, 9 times the 3.29M NEAR the revenue wallets have received since the fee switch. Followed hop by hop through moves of 100,000 NEAR or more: 20.4M was staked with p2p-org and Figment on 31 July, unstaked on 2026-09-16, pooled with 25M from the NEAR Foundation endowment, and 47.5M was staked again in the cnear-1/2/3 pools by 2026-10-07. As far as the chain shows, none of it reached an exchange. The treasury's share of issuance is therefore not selling pressure today, but it is a stock 9 times larger than everything the revenue wallets have received since February, and its holders decide when it moves.
 
-**Rule or choice: nothing is burned or locked, and one fund's policy can change with one Admin vote** (`make control`, log 66). Multisigs and DAOs are a normal way to run a treasury; this measures only what a holder can count on today. Public view calls on 2026-11-14 at block 224,500,889, and the wallets' full histories. The buyback multisig needs 2 of 4 keys (no full-access key), has executed 4 requests ever and holds 2.28M NEAR, having sent out 12,025. The 1Click fund (a DAO of 4) forwarded 510k NEAR to it; 4 of its proposals passed with one approval while the threshold was one, among them 45,010 NEAR described as "fees accrued by mistake", returned to one account in April (most likely a refund to whoever paid them). The front-end fund (a DAO of 5) needs 2 approvals to pay; its policy can be changed with 1 Admin vote, which happened once (2025-11-07). It holds 2.02M NEAR and has paid $2.45M in stablecoins to `aurora…` accounts, $657k of it after 2026-02-23. Of the 4.30M NEAR held, none is burned or locked, and 47% is in the fund whose policy one Admin vote can change. F3 counts all of it as offsetting issuance, which is right while the policy holds. A burn or a time lock would make it a rule; it is one of the three conditions in the README's verdict.
+**Rule or choice: nothing is burned or locked, and one fund's policy can change with one Admin vote** (`make control`, log 66). Multisigs and DAOs are a normal way to run a treasury; this measures only what a holder can count on today. Public view calls on 2026-11-14 at block 224,505,096, and the wallets' full histories. The buyback multisig needs 2 of 4 keys (no full-access key), has executed 4 requests ever and holds 2.28M NEAR, having sent out 12,025. The 1Click fund (a DAO of 4) forwarded 510k NEAR to it; 4 of its proposals passed with one approval while the threshold was one, among them 45,010 NEAR described as "fees accrued by mistake", returned to one account in April (most likely a refund to whoever paid them). The front-end fund (a DAO of 5) needs 2 approvals to pay; its policy can be changed with 1 Admin vote, which happened once (2025-11-07). It holds 2.02M NEAR and has paid $2.45M in stablecoins to `aurora…` accounts, $657k of it after 2026-02-23. Of the 4.30M NEAR held, none is burned or locked, and 47% is in the fund whose policy one Admin vote can change. F3 counts all of it as offsetting issuance, which is right while the policy holds. A burn or a time lock would make it a rule; it is one of the three conditions in the README's verdict.
 
 **What the price implies** (`make implied`, log 63). Run backwards from the market cap: the captured revenue that would justify it, valued as if all of it reached holders (which favours the price: it buys NEAR back and is not paid out, and issuance still dilutes).
 
@@ -193,7 +195,7 @@ What the simulation assumes, and what that does to the result:
 ### 7. The holder's view
 
 - **Risk** (daily prices, Nov 2024 to Nov 2026): NEAR's volatility is about **103% a year** against 44% for BTC; its worst drawdown was **-88%** (Dec 2024 to Feb 2026), with 705 days under water; beta to BTC about 1.3–1.5. Revenue has not dampened the token's swings.
-- **Dilution**: issuance adds 2.43% of supply a year; buybacks at the last 30 days' pace remove 0.4%. Supply still grows about **2.1% a year**. A holder who does not stake loses about 2% of their share of the network each year; stakers (45% of supply) earn about 5.4% gross, before validator commission. Today, staking, not buybacks, is what protects a holder from dilution.
+- **Dilution**: issuance adds 2.43% of supply a year; buybacks at the last 30 days' pace remove 0.4%. Supply still grows about **2.1% a year**. A holder who does not stake loses about 2% of their share of the network each year; stakers (45% of supply) earn about 5.4% gross, before validator commission. In real terms, as a share of the network, a staker gains about +3.3% a year before commission (+2.8% at a 10% commission) and an unstaked holder −2.0% (`make deeper`). Today, staking, not buybacks, is what protects a holder from dilution.
 - **What NEAR earns on** (1Click, 2026-10-14 to 2026-11-12): swaps whose volatile leg is BTC bring 37% of NEAR's revenue, ETH 14%, ZEC 14%. Stablecoin-to-stablecoin swaps are 31% of volume but 11% of revenue, at 1.3 bps.
 - **What changed in November** (1Click, 16–29 Oct against 1–10 Nov; log 34): NEAR's take fell from 4.6 to 2.9 bps while volume rose ($32M to $38M a day). Most of the gap is one flow: Trust Wallet routed $27M of swaps (99% ZEC) at 20 bps between 23 and 28 October, 26% of NEAR's 1Click revenue in the second half of October, then stopped. Without Trust Wallet the take went from 3.7 to 2.9 bps. ZEC fell from 28% to 11% of volume and from 48% to 10% of NEAR's revenue. What held: NEAR's revenue from swaps without an integrator, its own front-end and direct users ($5.2k then $5.4k a day), now 49% of NEAR's 1Click revenue. The fall in late-October pricing was one integrator's burst, not a broad repricing; the part NEAR controls did not fall.
 
@@ -312,6 +314,49 @@ Every finding rests on choices: a window, a source, a denominator, a price. `mak
 - **F8 holds for any pre-campaign baseline**, but if Drop 1's tokens are valued at 1.5x the conversion price, the airdrop cost more than it brought.
 - Stress results are not hidden by the tests: they mark the edge of each claim.
 
+
+### 13. Deeper checks: breaks found by the data, intervals, why coverage moved
+
+All from committed outputs, `make deeper` (log 67).
+
+**When did the take change? The data says: the week of the airdrop snapshot.** Instead of choosing the dates, a least-squares search over NEAR's weekly take since the fee switch (37 complete weeks) finds where the level shifts. One break: the regime changes in the week ending **20 Sep 2026** (90% bootstrap interval 30 Aug 2026 to 27 Sep 2026), from 2.3 to 4.8 bps. The NEAR@3.33 Drop 1 snapshot was on 16 September; confidential intents opened to all developers on 13 July, outside the interval. With two breaks: 17 May 2026 and 27 Sep 2026, levels 1.9 → 2.5 → 5.0 bps. The September jump is where the incentive is, not a slow trend.
+
+**How sure is each month's take?** 90% intervals from resampling days within the month:
+
+| Month | Take (bps) | 90% interval |
+| --- | --- | --- |
+| 2026-03 | 2.73 | 1.33–5.12 |
+| 2026-04 | 1.36 | 1.15–1.60 |
+| 2026-05 | 3.03 | 2.59–3.51 |
+| 2026-06 | 2.74 | 2.05–3.52 |
+| 2026-07 | 2.23 | 2.01–2.51 |
+| 2026-08 | 2.56 | 2.31–2.83 |
+| 2026-09 | 3.65 | 3.30–3.99 |
+| 2026-10 | 5.53 | 4.89–6.32 |
+
+March is noisy (the first weeks after the fee switch); from April on the intervals are tight, and October's (the peak) overlaps no earlier month but March's wide one.
+
+**Why coverage moved.** Each month's NEAR bought per NEAR issued, its change split exactly into revenue in dollars, the price paid per NEAR bought, and issuance (log changes add up):
+
+| Month | Coverage | Change (log) | from revenue in $ | from the price paid per NEAR | from issuance |
+| --- | --- | --- | --- | --- | --- |
+| 2026-03 | 16.9% | -0.37 | -0.14 | -0.12 | -0.11 |
+| 2026-04 | 7.3% | -0.84 | -0.79 | -0.06 | +0.01 |
+| 2026-05 | 12.0% | +0.49 | +0.85 | -0.34 | -0.02 |
+| 2026-06 | 11.1% | -0.08 | +0.06 | -0.16 | +0.02 |
+| 2026-07 | 9.6% | -0.15 | -0.27 | +0.15 | -0.03 |
+| 2026-08 | 14.8% | +0.44 | +0.37 | +0.07 | -0.01 |
+| 2026-09 | 21.2% | +0.36 | +0.90 | -0.57 | +0.03 |
+| 2026-10 | 16.6% | -0.24 | +0.23 | -0.45 | -0.02 |
+
+In September revenue in dollars rose +146% but each NEAR bought cost +77% more; in October revenue rose +26% and the price paid +57%, so coverage fell from 21.2% to 16.6%. Buybacks are reflexive: when NEAR rises, the same dollars buy less of it.
+
+**What the buybacks justify.** Valued as a perpetuity (15% discount rate, 3% growth), captured revenue is worth **2.0%** of today's market cap if the take falls back to its May–August level, **4.1%** on the last 30 days, and **16.2%** with four times the volume at today's take.
+
+**Integrators leaving.** 1Click is 22% of captured revenue, and 39% of NEAR's 1Click revenue comes from users without an integrator. The integrator that pays NEAR the most (trustwallet) is 2.9% of captured revenue, the top three 6.2%. The largest by volume (swapkit, 39% of 1Click volume) brings NEAR 0.0% of its 1Click revenue. NEAR's revenue does not hang on any integrator; its volume does, and after the 1 October halt only 3 of the 10 large integrators that cut back had returned by November (F17).
+
+**What the fee test could see.** With 32 integrators, the cross-section could only detect a rank correlation of about ±0.48 (5% test, 80% power). "No effect found" means no large effect; a moderate response to fees cannot be ruled out.
+
 ## Bull case and bear case
 
 **Bull.** Confidential swaps are a product NEAR monetises better than public swaps (about 5.5–11 bps against 1–3), and they reached 41% of volume. If a part of that use outlives the airdrop, the take rate stays well above its old level. The take rate is a lever NEAR can still pull: it doubled in two months and the sensitivity table shows that 8–15 bps with 2–4x today's volume reaches break-even. A single deal with the largest integrator, which now pays NEAR almost nothing, would add more revenue than any volume growth. The revenue is clean, reconciles to the chain and is not being sold.
@@ -355,7 +400,7 @@ Questions sent to the NEAR team (Discord ticket 2026-11-04, near.com support, th
 
 ## Appendix: every payment from the two revenue DAOs
 
-Read from each DAO's proposals (view call `get_proposals`, 2026-11-14, block 224,500,889) and matched to the transaction that executed it in the DAO's committed history (`make control`). Proposal bonds (0.1 NEAR, returned to proposers) are left out. Recipients that are implicit accounts are not named. Facts only: the proposals give no more detail than the text shown.
+Read from each DAO's proposals (view call `get_proposals`, 2026-11-14, block 224,505,096) and matched to the transaction that executed it in the DAO's committed history (`make control`). Proposal bonds (0.1 NEAR, returned to proposers) are left out. Recipients that are implicit accounts are not named. Facts only: the proposals give no more detail than the text shown.
 
 | Fund | Proposal | Executed | Paid | To | Approvals | Proposal text (start) | Transaction |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -385,7 +430,7 @@ Read from each DAO's proposals (view call `get_proposals`, 2026-11-14, block 224
 ```bash
 pip install -r requirements.txt
 make check-clean   # every offline step on the committed snapshots, the tests, and a comparison of every output with the committed one
-make verify        # renders README/REPORT/FAQ from the outputs and re-checks the 18 findings
+make verify        # renders README/REPORT/FAQ from the outputs and re-checks the 19 findings
 make refresh       # optional, with network: fresh snapshots, then everything again
 ```
 

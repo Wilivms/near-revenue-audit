@@ -1,0 +1,50 @@
+{
+ "rule": "constructive if two of the three conditions hold for a quarter",
+ "verdict": "not constructive",
+ "questions": [
+  {
+   "q": "Real?",
+   "answer": "yes",
+   "why": "rebuilt from the chain; F1, F2 and F19 hold"
+  },
+  {
+   "q": "Durable?",
+   "answer": "holds",
+   "why": "take 5.0 bps over the last four weeks against a 5.5 bps monthly peak (October); 2.4 bps was its May-August level"
+  },
+  {
+   "q": "Sufficient?",
+   "answer": "no",
+   "why": "buybacks cover 21% of new issuance (100% stops supply growing)"
+  }
+ ],
+ "conditions": [
+  {
+   "id": "C1",
+   "condition": "NEAR's take at 5 bps or more",
+   "now": "3.9 bps (week ending 08 Nov)",
+   "record": "4 of the last 13 weeks",
+   "status": "not met"
+  },
+  {
+   "id": "C2",
+   "condition": "revenue covers half of new issuance or more",
+   "now": "21% (last 30 days)",
+   "record": "0 of the last 3 months",
+   "status": "not met"
+  },
+  {
+   "id": "C3",
+   "condition": "bought NEAR burned or locked by a rule",
+   "now": "0% of 4.30M NEAR held",
+   "record": "read on 2026-11-14",
+   "status": "not met"
+  }
+ ],
+ "met_for_a_quarter": 0,
+ "bought_reading_refuted": {
+  "rule": "the take holds at 5 bps or more for 60 days (about 9 weeks)",
+  "streak_weeks": 0,
+  "refuted": false
+ }
+}

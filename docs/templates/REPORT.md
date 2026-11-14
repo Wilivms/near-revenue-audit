@@ -35,6 +35,8 @@ Two caveats. First, NEAR's dashboard also publishes a monthly revenue series, an
 
 Second, the reading of "buyback". The front-end fund holds about {{fefunds_near}} NEAR ({{fefunds_share}} of all NEAR captured to date). It is a Sputnik DAO whose members' account names point to Aurora. It has not sold, but nothing on-chain commits it not to. It has paid {{ct_fe_stable}} in stablecoins to three `aurora…` accounts ({{ct_fe_liq}} to `auroraliqsupport.near`, four 50,000 USDC invoices to `aurora…` DAO accounts), {{ct_fe_stable_since}} of it after the buyback programme began; most likely payments to an operating partner, and the proposals give no further detail (Rule or choice, below; every payment in the appendix). **Bought is not retired.**
 
+**To a fraction of a NEAR** (F19, `make control`). The buyback multisig's {{rc_receipts}} receipts since its creation (every NEAR in, minus every NEAR out) rebuild a balance of {{rc_rebuilt}} NEAR; the archival RPC reads {{rc_onchain}} at block {{rc_block}}, just after the last receipt. The {{rc_gap}} NEAR left is about what the wallet's own {{rc_calls}} multisig calls cost in gas, which the receipt list does not itemise.
+
 ### 2. The revenue grew, with confidential swaps as the largest identified driver, under an incentive
 
 Source: NEAR's own Dune dashboard (@near, "NEAR Intents"), read from its public result tables (log 24).
@@ -167,7 +169,7 @@ What the simulation assumes, and what that does to the result:
 ### 7. The holder's view
 
 - **Risk** (daily prices, Nov 2024 to Nov 2026): NEAR's volatility is about **{{near_vol}} a year** against {{btc_vol}} for BTC; its worst drawdown was **{{near_maxdd}}** (Dec 2024 to Feb 2026), with {{near_underwater}} days under water; beta to BTC about 1.3–1.5. Revenue has not dampened the token's swings.
-- **Dilution**: issuance adds {{issuance}} of supply a year; buybacks at the last 30 days' pace remove {{buyback_rate}}. Supply still grows about **{{net_growth}} a year**. A holder who does not stake loses about 2% of their share of the network each year; stakers ({{staked}} of supply) earn about {{staker_reward}} gross, before validator commission. Today, staking, not buybacks, is what protects a holder from dilution.
+- **Dilution**: issuance adds {{issuance}} of supply a year; buybacks at the last 30 days' pace remove {{buyback_rate}}. Supply still grows about **{{net_growth}} a year**. A holder who does not stake loses about 2% of their share of the network each year; stakers ({{staked}} of supply) earn about {{staker_reward}} gross, before validator commission. In real terms, as a share of the network, a staker gains about {{dp_staker_real}} a year before commission ({{dp_staker_real10}} at a 10% commission) and an unstaked holder {{dp_unstaked_real}} (`make deeper`). Today, staking, not buybacks, is what protects a holder from dilution.
 - **What NEAR earns on** (1Click, {{oc_from}} to {{oc_to}}): swaps whose volatile leg is BTC bring {{asset_btc}} of NEAR's revenue, ETH {{asset_eth}}, ZEC {{asset_zec}}. Stablecoin-to-stablecoin swaps are {{asset_stable_vol}} of volume but {{asset_stable_near}} of revenue, at {{asset_stable_bps}} bps.
 - **What changed in November** (1Click, 16–29 Oct against 1–10 Nov; log 34): NEAR's take fell from {{oc_bps_oct}} to {{oc_bps_nov}} bps while volume rose ({{oc_vol_oct}} to {{oc_vol_nov}} a day). Most of the gap is one flow: Trust Wallet routed {{trust_burst_vol}} of swaps ({{trust_burst_zec}} ZEC) at 20 bps between 23 and 28 October, {{trust_share_oct}} of NEAR's 1Click revenue in the second half of October, then stopped. Without Trust Wallet the take went from {{oc_bps_oct_ex}} to {{oc_bps_nov_ex}} bps. ZEC fell from {{zec_vol_oct}} to {{zec_vol_nov}} of volume and from {{zec_near_oct}} to {{zec_near_nov}} of NEAR's revenue. What held: NEAR's revenue from swaps without an integrator, its own front-end and direct users ({{noref_day_oct}} then {{noref_day_nov}} a day), now {{noref_share_nov}} of NEAR's 1Click revenue. The fall in late-October pricing was one integrator's burst, not a broad repricing; the part NEAR controls did not fall.
 
@@ -233,6 +235,31 @@ Every finding rests on choices: a window, a source, a denominator, a price. `mak
 - **F4 would break only at a NEAR price near ${{rob_be}}**, {{rob_be_drop}} below today's: at today's revenue, that is where the market cap would meet the post-HSP-029 break-even multiple.
 - **F8 holds for any pre-campaign baseline**, but if Drop 1's tokens are valued at 1.5x the conversion price, the airdrop cost more than it brought.
 - Stress results are not hidden by the tests: they mark the edge of each claim.
+
+
+### 13. Deeper checks: breaks found by the data, intervals, why coverage moved
+
+All from committed outputs, `make deeper` (log 67).
+
+**When did the take change? The data says: the week of the airdrop snapshot.** Instead of choosing the dates, a least-squares search over NEAR's weekly take since the fee switch ({{dp_weeks}} complete weeks) finds where the level shifts. One break: the regime changes in the week ending **{{dp_break}}** (90% bootstrap interval {{dp_break_lo}} to {{dp_break_hi}}), from {{dp_break_before}} to {{dp_break_after}} bps. The NEAR@3.33 Drop 1 snapshot was on 16 September; confidential intents opened to all developers on 13 July, outside the interval. With two breaks: {{dp_b2_1}} and {{dp_b2_2}}, levels {{dp_b2_levels}} bps. The September jump is where the incentive is, not a slow trend.
+
+**How sure is each month's take?** 90% intervals from resampling days within the month:
+
+{{dp_take_table}}
+
+March is noisy (the first weeks after the fee switch); from April on the intervals are tight, and October's (the peak) overlaps no earlier month but March's wide one.
+
+**Why coverage moved.** Each month's NEAR bought per NEAR issued, its change split exactly into revenue in dollars, the price paid per NEAR bought, and issuance (log changes add up):
+
+{{dp_cov_table}}
+
+In September revenue in dollars rose {{dp_sep_rev}} but each NEAR bought cost {{dp_sep_price}} more; in October revenue rose {{dp_oct_rev}} and the price paid {{dp_oct_price}}, so coverage fell from {{dp_sep_cov}} to {{dp_oct_cov}}. Buybacks are reflexive: when NEAR rises, the same dollars buy less of it.
+
+**What the buybacks justify.** Valued as a perpetuity (15% discount rate, 3% growth), captured revenue is worth **{{dp_just_bear}}** of today's market cap if the take falls back to its May–August level, **{{dp_just_base}}** on the last 30 days, and **{{dp_just_bull}}** with four times the volume at today's take.
+
+**Integrators leaving.** 1Click is {{dp_oc_share}} of captured revenue, and {{dp_noref}} of NEAR's 1Click revenue comes from users without an integrator. The integrator that pays NEAR the most ({{dp_top1}}) is {{dp_top1_cap}} of captured revenue, the top three {{dp_top3_cap}}. The largest by volume ({{dp_topvol}}, {{dp_topvol_vol}} of 1Click volume) brings NEAR {{dp_topvol_near}} of its 1Click revenue. NEAR's revenue does not hang on any integrator; its volume does, and after the 1 October halt only {{ic_back}} of the {{ic_cut}} large integrators that cut back had returned by November (F17).
+
+**What the fee test could see.** With {{dp_mde_n}} integrators, the cross-section could only detect a rank correlation of about ±{{dp_mde}} (5% test, 80% power). "No effect found" means no large effect; a moderate response to fees cannot be ruled out.
 
 ## Bull case and bear case
 

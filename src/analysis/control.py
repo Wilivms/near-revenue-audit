@@ -25,6 +25,7 @@ from .ledger import OUT, RAW
 
 FOLDER = RAW / "control"
 RPC = "https://rpc.mainnet.near.org"
+ARCHIVAL = "https://archival-rpc.mainnet.fastnear.com"
 MULTISIG = "buybacks.multisignature.near"
 DAOS = {"fefundsadmin.sputnik-dao.near": "front-end fund", "1csfundsadmin.sputnik-dao.near": "1Click fund"}
 INTENTS = "intents.near"
@@ -62,6 +63,13 @@ def fetch() -> dict:
         d["last_proposal_id"] = _view(dao, "get_last_proposal_id")
         d["proposals"] = _view(dao, "get_proposals", {"from_index": 0, "limit": 200})
     out["accounts"][INTENTS]["fee_pips"] = _view(INTENTS, "fee")
+    # the buyback multisig's balance just after the last receipt in its committed history, for the reconciliation (F19)
+    import requests
+    hist = sorted((RAW / "wallet_buybacks_txns").glob("*.json"))[-1]
+    last = max(int(t["block"]["block_height"]) for t in json.loads(hist.read_text()))
+    r = requests.post(ARCHIVAL, json={"jsonrpc": "2.0", "id": 1, "method": "query",
+                                      "params": {"request_type": "view_account", "account_id": MULTISIG, "block_id": last + 5}}, timeout=30).json()
+    m["reconcile"] = {"history_file": hist.name, "block": last + 5, "amount_yocto": r.get("result", {}).get("amount")}
     FOLDER.mkdir(parents=True, exist_ok=True)
     f = FOLDER / f"control_{out['read_at'][:10]}.json"
     f.write_text(json.dumps(out, indent=1))
@@ -160,6 +168,32 @@ def _multisig_outflows() -> list[dict]:
     return out
 
 
+def reconcile(raw: dict) -> dict | None:
+    """F19: the buyback multisig's balance, rebuilt from its receipts, against the balance read on-chain at the same block."""
+    rc = raw["accounts"][MULTISIG].get("reconcile")
+    if not rc or not rc.get("amount_yocto"):
+        return None
+    rows = json.loads((RAW / "wallet_buybacks_txns" / rc["history_file"]).read_text())
+    ins = outs = 0
+    seen = set()
+    for t in rows:
+        if t["receipt_id"] in seen or int(t["block"]["block_height"]) > rc["block"]:
+            continue
+        seen.add(t["receipt_id"])
+        if not (t.get("outcomes") or {}).get("status", True):
+            continue
+        dep = sum(int(a.get("deposit") or 0) for a in t.get("actions") or [])
+        if t["receiver_account_id"] == MULTISIG and t["predecessor_account_id"] != MULTISIG:
+            ins += dep
+        elif t["predecessor_account_id"] == MULTISIG and t["receiver_account_id"] != MULTISIG:
+            outs += dep
+    onchain = int(rc["amount_yocto"]) / 1e24
+    rebuilt = (ins - outs) / 1e24
+    own_calls = len({t["transaction_hash"] for t in rows if t["predecessor_account_id"] == MULTISIG and t["receiver_account_id"] == MULTISIG})
+    return {"block": rc["block"], "receipts": len(seen), "in_near": ins / 1e24, "out_near": outs / 1e24, "rebuilt_near": rebuilt,
+            "onchain_near": onchain, "gap_near": onchain - rebuilt, "own_calls": own_calls}
+
+
 def main() -> dict:
     f = sorted(FOLDER.glob("control_*.json"))[-1]
     raw = json.loads(f.read_text())
@@ -184,6 +218,7 @@ def main() -> dict:
         "intents_protocol_fee_pips": A[INTENTS].get("fee_pips"), "intents_full_access_keys": sum(k["full_access"] for k in A[INTENTS]["keys"]),
         "held_near": held, "burned_near": 0.0, "locked_near": 0.0,
         "held_where_one_signer_can_change_the_rules": one_signer / held,
+        "reconcile": reconcile(raw),
         "note": "burned and locked are 0: no wallet has ever sent NEAR to a burn or lock contract; the multisig's few outflows are listed",
     }
     (OUT / "control.json").write_text(json.dumps(res, indent=1))

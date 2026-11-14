@@ -50,7 +50,7 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add dashboard/live.json
           git diff --cached --quiet && exit 0
-          if [ -n "$NEAR_TESTNET_KEY" ]; then (cd anchor && npm ci --silent) && node anchor/anchor.mjs daily && git add anchor/anchors.jsonl || echo "anchor failed; the bundle is still committed"; fi
+          if [ -n "$NEAR_TESTNET_KEY" ]; then (cd anchor && npm ci --silent) && node anchor/anchor.mjs daily && node anchor/anchor.mjs results && git add anchor/anchors.jsonl || echo "anchor failed; the bundle is still committed"; fi
           git commit -m "Automated daily data refresh, $(date -u +%F): dashboard/live.json and its NEAR testnet anchor only" -m "Scheduled GitHub Action (.github/workflows/refresh.yml). Re-fetches the public sources, recomputes the dashboard bundle and writes its sha256 to NEAR testnet (anchor/anchors.jsonl). It changes no code, no analysis and no document; the submitted thesis is unchanged. This is how the dated predictions resolve in public."
           git pull --rebase -X theirs origin main
           git push
