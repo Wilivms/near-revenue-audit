@@ -762,3 +762,13 @@ From two independent reviews and a re-read of the other theses: the ideas that f
 - **The path to yes.** At today's price and take (4.9 bps), with the issuance cut's ramp, buybacks match issuance in December 2027 only if daily volume reaches $516.5M, 4.1 times today's. That is about 11% growth a month for 13 months (dashboard chart, `make deeper`).
 - **A bug caught before it shipped.** The first version of the path wrote NaN into `dashboard/data.json` for months without data. NaN is not valid JSON, so the page would not have loaded. `dashboard_data.py` now refuses NaN (`allow_nan=False`), so this cannot happen again.
 - **Dropped: a transaction verifier.** The idea was to paste a swap's hash and see what NEAR earned from it. But NEAR's revenue reaches its wallets in batches (`native_withdraw`), not swap by swap. A per-transaction figure would need the private Explorer API, or would be misleading. The in-browser rebuild ("Verify it in your browser") already lets anyone check the revenue without a key.
+- **A README-only review** (an agent shown only the README, as a screening model would be) found mixed windows and wording. Fixed:
+  - "today's take" now always says which window (4.9 bps over 30 days, 3.9 in the first week of November);
+  - "a fifth to most" became the method range (22% to 84%), as the correction table already said;
+  - the four-way agreement now says 0.8%, not 0.5%;
+  - the 47% (NEAR held today) and the 32% (dollars since the fee switch) are labelled as different bases;
+  - the integrator take is labelled against the all-1Click take;
+  - "Own NEAR, if at all…" became a statement of what the case rests on;
+  - guesses about other parties' payments say "would fit" instead of "most likely".
+
+  Its other points were checked and are differences of definition, now labelled where they appear.

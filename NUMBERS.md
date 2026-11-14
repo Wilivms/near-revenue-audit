@@ -442,7 +442,7 @@ Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTM
 | `sc_int` | 43 | FAQ.md, THESIS.md | [figures.py#L383](src/figures.py#L383) |
 | `sc_int_100` | $0.43 | README.md | [figures.py#L384](src/figures.py#L384) |
 | `sc_left` | 0.001% | REPORT.md | [figures.py#L387](src/figures.py#L387) |
-| `sc_near` | 3.8 | FAQ.md, REPORT.md | [figures.py#L383](src/figures.py#L383) |
+| `sc_near` | 3.8 | FAQ.md, README.md, REPORT.md | [figures.py#L383](src/figures.py#L383) |
 | `sc_near_100` | $0.04 | README.md | [figures.py#L385](src/figures.py#L385) |
 | `sc_near_share` | 6.4% | FAQ.md, README.md, REPORT.md, THESIS.md | [figures.py#L384](src/figures.py#L384) |
 | `sc_rest` | 12 | FAQ.md, THESIS.md | [figures.py#L383](src/figures.py#L383) |

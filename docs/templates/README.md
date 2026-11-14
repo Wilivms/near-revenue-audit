@@ -2,7 +2,7 @@
 
 [![tests](https://github.com/Wilivms/near-revenue-audit/actions/workflows/tests.yml/badge.svg)](https://github.com/Wilivms/near-revenue-audit/actions/workflows/tests.yml)
 
-*Investment Thesis track (`thesis`), NEAR HACKATHON 2026. Data to {{data_to}}.*
+*Investment Thesis track (`thesis`), NEAR HACKATHON 2026. Data to {{data_to}}; market cap at the {{mcap_date}} price; wallet control read on {{ct_date}}.*
 
 **[Live dashboard](https://near-revenue-audit.vercel.app)** · **[One-page thesis](THESIS.md)** · **[Full report](REPORT.md)** · **[Headline numbers, exactly](#the-headline-numbers-exactly)** · **[Where we were wrong](#where-we-were-wrong-and-what-changed)** · rebuild everything: `make setup && . .venv/bin/activate && make check-clean`
 
@@ -10,10 +10,10 @@
 
 **Is NEAR's protocol revenue real, durable, or bought?** Since 2026-02-23, NEAR Intents fees buy back NEAR. This project rebuilds that revenue from the chain and answers what the dashboards do not: why it moved, who pays it, what the growth cost, and what it means for the token.
 
-**The verdict, for an investor** (a thesis on public data to {{data_to}}, not personal advice). **NEAR's fee capture does not support its price today, and is unlikely to within 12 months** ({{mc_base_p}} chance of a deflationary 2027 in our base case, {{mc_bull_p}} even if volume grows {{mc_bull_vol_mult}}; probably upper bounds, as the simulation was too optimistic when backtested on 2026). Own NEAR, if at all, for staking and for the option that NEAR Intents grows several-fold at a higher take, not for the buybacks.
+**The verdict, for an investor** (a thesis on public data to {{data_to}}, not personal advice). **NEAR's fee capture does not support its price today, and is unlikely to within 12 months** ({{mc_base_p}} chance of a deflationary 2027 in our base case, {{mc_bull_p}} even if volume grows {{mc_bull_vol_mult}}; probably upper bounds, as the simulation was too optimistic when backtested on 2026). On this evidence, the case for holding NEAR rests on staking and on the option that NEAR Intents grows several-fold at a higher take, not on the buybacks.
 - **Where it stands:** market cap is {{near_captured_mult}} captured revenue; supply stops growing below {{breakeven_now}}. Valued as a perpetuity, the buybacks justify {{dp_just_bear}} to {{dp_just_bull}} of the market cap ({{dp_just_base}} on the last 30 days). Justifying the price on revenue alone needs {{im_lo}}–{{im_hi}}x today's revenue (mid case {{im_mid}}x).
 - **Horizon:** 12 months, to November 2027, checked against our [dated predictions](#predictions).
-- **We turn constructive if two of these hold for a quarter:** the take stays at 5 bps or more after the airdrop (it is {{take_last_week}} bps now); revenue covers half of new issuance (it is {{f100_cover}}); a rule replaces the choice, with bought NEAR burned or locked on-chain (today none is, and {{ct_one_signer}} of it sits in a fund whose policy one Admin vote can change: [Rule or choice](#rule-or-choice-who-controls-the-revenue)).
+- **We turn constructive if two of these hold for a quarter:** the take stays at 5 bps or more after the airdrop ({{take_now}} bps over the last 30 days, {{take_last_week}} in the first week of November); revenue covers half of new issuance (it is {{f100_cover}}); a rule replaces the choice, with bought NEAR burned or locked on-chain (today none is, and {{ct_one_signer}} of it sits in a fund whose policy one Admin vote can change: [Rule or choice](#rule-or-choice-who-controls-the-revenue)).
 - **It gets worse if:** the take falls back to its May–August level ({{take_mayaug}} bps), rivals start to beat 1Click's quotes, or the front-end fund sells or pays out its NEAR.
 
 ## For judges: the project in 3 minutes
@@ -21,15 +21,15 @@
 **1. The answer**
 - **Real.** Rebuilt from NEAR's three revenue wallets, it matches DefiLlama within {{rev_gap}}, NEAR's own dashboard within {{wallets_gap}} and NEAR's BigQuery dataset to the last digit.
 - **Too small for the token.** Buybacks offset {{offset_rebuilt}} of new NEAR ({{offset_window}}). Market cap is {{near_captured_mult}} captured revenue; supply stops growing only below {{breakeven_now}}.
-- **Partly bought.** NEAR's take doubled from {{take_aug}} to {{take_oct}} bps in two months, a fifth to most of it from confidential swaps during an airdrop whose first drop cost {{drop1_over_uplift}} of the revenue it added. It is already easing ({{take_last_week}} bps in early November).
+- **Partly bought.** NEAR's take doubled from {{take_aug}} to {{take_oct}} bps in two months, {{jump_fd}} to {{jump_levels}} of it (depending on the method) from confidential swaps during an airdrop whose first drop cost {{drop1_over_uplift}} of the revenue it added. It is already easing: {{take_now}} bps over the last 30 days, {{take_last_week}} in the first week of November.
 - **NEAR does not own the customer.** On 1Click, integrators keep {{oc_integrators_keep}} of the fee pool.
-- **A policy, not a rule.** Nothing bought is burned or locked; {{ct_one_signer}} of it sits in a fund whose policy one Admin vote can change ([Rule or choice](#rule-or-choice-who-controls-the-revenue)).
-- **Priced level with its rivals.** In {{qr_rounds}} live quote rounds against Relay, Across and LI.FI, 1Click paid users the most in {{qr_best_share}} of swaps, median {{qr_median}} from the best: rivals are not undercutting NEAR Intents so far.
+- **A policy, not a rule.** Nothing bought is burned or locked; {{ct_one_signer}} of the NEAR held today sits in a fund whose policy one Admin vote can change ([Rule or choice](#rule-or-choice-who-controls-the-revenue)).
+- **Priced level with its rivals.** In {{qr_rounds}} live quote rounds against Relay, Across and LI.FI, 1Click paid users the most in {{qr_best_share}} of swaps, with a median gap of {{qr_median}} to the best rival (positive: 1Click pays more): rivals are not undercutting NEAR Intents so far, on a small sample.
 
 **Also tested, and easy to miss**
 - **The track's own hypothesis (usage leads price): no.** {{ll_sig}} of {{ll_tests}} lead-lag tests significant after Holm, {{sg_sig}} of {{sg_tests}} on human-scale signers (F13).
 - **The jump is dated by the data.** A break search puts it in the week ending {{dp_break}} (90%: {{dp_break_lo}} to {{dp_break_hi}}), the airdrop snapshot's week.
-- **"Buyback" is not what the buyback wallet gets:** {{wf_bb_all_share}} of DefiLlama's figure ends there; {{wf_fe_share}} sits in the front-end fund ([decomposed to the dollar](REPORT.md#1-the-revenue-is-real)).
+- **"Buyback" is not what the buyback wallet gets:** {{wf_bb_all_share}} of DefiLlama's figure ends there; {{wf_fe_share}} of those dollars went to the front-end fund ([decomposed to the dollar](REPORT.md#1-the-revenue-is-real)).
 - **The buyback wallet, to a fraction of a NEAR:** {{rc_receipts}} receipts rebuild its balance to within {{rc_abs}} NEAR of what the chain reads (F19).
 - **Still works when swaps go dark:** confidential swaps are invisible, but their fees land in public wallets, which is where revenue is measured.
 - **A pre-registered kill criterion triggered** and is reported as written; [`HYPOTHESES.md`](HYPOTHESES.md) is unchanged since [its first commit](https://github.com/Wilivms/near-revenue-audit/commit/8468ac7).
@@ -69,7 +69,7 @@ make verify          # → prints every finding and the headline numbers above
 ```
 
 **5. What only this project brings**
-- **Revenue confirmed four independent ways, and it never revises**: DefiLlama, NEAR's dashboard, NEAR's BigQuery dataset and the withdrawals from `intents.near` agree within 0.5%; {{rv_rb_moved}} of {{rv_rb_pairs}} daily readings of the rebuilt revenue changed across {{rv_rb_snaps}} dated snapshots, while the aggregators revised their latest day of fees by up to {{rv_fee_factor}} (F16).
+- **Revenue confirmed four independent ways, and it never revises**: DefiLlama, NEAR's dashboard, NEAR's BigQuery dataset and the withdrawals from `intents.near` agree within {{rev_gap}}; {{rv_rb_moved}} of {{rv_rb_pairs}} daily readings of the rebuilt revenue changed across {{rv_rb_snaps}} dated snapshots, while the aggregators revised their latest day of fees by up to {{rv_fee_factor}} (F16).
 - **The questions the dashboards skip, answered with data**: the airdrop's role, who pays, and where the revenue now comes from: {{pool_share_late}} of what reaches the wallets since late September is paid out of the confidential pool (about $136M), worth {{pool_bps}} bps of confidential volume against {{pool_rest_bps}} on public ([REPORT section 10](REPORT.md#10-the-two-questions-near-did-not-answer-and-what-the-data-says)). And the user's whole cost of a swap, $10 to $1M: NEAR keeps {{sc_near_share}} of it (F18).
 - **What the price implies, run backwards**: at a 15% discount rate and 3% growth, NEAR's market cap needs {{im_mid}}x today's captured revenue, or {{im_g5}} a year of growth for five years (REPORT section 4).
 - **Events tested against a placebo, not narrated**: the October exploit and six other NEAR events (halving, fee switch, airdrop, HSP-029…), each compared with the same before/after split at every ordinary date of the year (F17, REPORT section 11).
@@ -136,6 +136,7 @@ Kept in the open because a thesis is only as good as its corrections. Each one i
 | A weekly fit explains NEAR's revenue from public and confidential volume | It missed its first unseen week: {{oos_actual}} actual against {{oos_pred_fd}}–{{oos_pred}} predicted | The airdrop is now "the largest identified driver" of the jump, {{jump_fd}}–{{jump_levels}} of it, not "most of it" | 30, 32 |
 | Confidential swaps pay NEAR about 11 bps | The 11 bps came from a trend in the front-end fund; fitted wallet by wallet, the buyback multisig gets {{oq_bb_conf}} bps | Matches NEAR's own Dune fee table (7.4 bps) | 42 |
 | The airdrop's cost cancels the revenue it added | Drop 1 cost {{drop1_over_uplift}} of the uplift, not all of it | Reported as a net gain, small against supply | 32 |
+| The front-end fund "paid four 50,000 USDC invoices from revenue" | Its full proposal history shows {{ct_fe_stable}} paid in stablecoins, the invoices among them | Every payment listed with its transaction, facts only, in REPORT's appendix | 66 |
 | The Monte Carlo engine sizes 2027 | In a walk-forward test it was too optimistic for 2026 | The 2027 figures are flagged as more likely too high than too low | 21 |
 | The 92% integrator share covered 2.6M swaps | 2.6M was every swap collected at the time ({{oc_swaps}} now); the 30-day window holds {{oc_swaps_30}} | Both counts published separately; the 92% itself was right | 36 |
 
@@ -146,9 +147,9 @@ A buyback can be a rule (code that buys and burns or locks, whatever happens) or
 | Link | Signatures needed (read on {{ct_date}}) | What the history shows |
 | --- | --- | --- |
 | `intents.near` (where swaps settle) | protocol fee {{ct_fee_pips}} pip (0.01 bps); no full-access key | NEAR's revenue comes from the fees 1Click and front-ends set, not from the contract's own fee |
-| 1Click fund (`1csfundsadmin.sputnik-dao.near`) | DAO of {{ct_oc_members}} accounts; {{ct_oc_pay}} approvals to pay | forwarded {{ct_oc_to_bb}} NEAR to the buyback multisig; {{ct_oc_one}} proposals passed with one approval, while the threshold was one. One of them returned {{ct_oc_implicit}} NEAR described as "fees accrued by mistake" to one account in April, most likely a refund to whoever paid them |
-| Buyback multisig (`buybacks.multisignature.near`) | {{ct_ms_conf}} of {{ct_ms_keys}} keys; no full-access key | {{ct_ms_requests}} requests ever; holds {{ct_ms_bal}} NEAR; has sent out {{ct_ms_out}} NEAR ({{ct_ms_out_share}} of what it received) |
-| Front-end fund (`fefundsadmin.sputnik-dao.near`) | DAO of {{ct_fe_members}} accounts; {{ct_fe_pay}} approvals to pay; the policy itself can be changed with **{{ct_fe_policy}} Admin vote** (used once, on {{ct_fe_policy_change_day}}) | holds {{ct_fe_bal}} NEAR; has paid {{ct_fe_stable}} in stablecoins to three `aurora…` accounts, {{ct_fe_liq}} of it to `auroraliqsupport.near`, {{ct_fe_stable_since}} after the buyback programme began. These are most likely payments to an operating partner of the front-end, and part predates the buybacks; the proposals give no further detail |
+| 1Click fund (`1csfundsadmin.sputnik-dao.near`) | DAO of {{ct_oc_members}} accounts; {{ct_oc_pay}} approvals to pay | forwarded {{ct_oc_to_bb}} NEAR to the buyback multisig; {{ct_oc_one}} proposals were approved by a single vote, at a time when one vote was enough. One of them sent {{ct_oc_implicit}} NEAR described as "fees accrued by mistake" to one account in April (a refund would fit that description; the proposal says no more) |
+| Buyback multisig (`buybacks.multisignature.near`) | {{ct_ms_conf}} of {{ct_ms_keys}} keys; no full-access key | {{ct_ms_requests}} requests ever; holds {{ct_ms_bal}} NEAR (read on {{ct_date}}); has sent out {{ct_ms_out}} NEAR ({{ct_ms_out_share}} of what it received) |
+| Front-end fund (`fefundsadmin.sputnik-dao.near`) | DAO of {{ct_fe_members}} accounts; {{ct_fe_pay}} approvals to pay; the policy itself can be changed with **{{ct_fe_policy}} Admin vote** (used once, on {{ct_fe_policy_change_day}}) | holds {{ct_fe_bal}} NEAR; has paid {{ct_fe_stable}} in stablecoins to three `aurora…` accounts, {{ct_fe_liq}} of it to `auroraliqsupport.near`, {{ct_fe_stable_since}} after the buyback programme began. A payment to an operating partner of the front-end would fit; part predates the buybacks; the proposals give no further detail |
 
 **Nothing is burned and nothing is locked.** The {{ct_held}} NEAR bought back sits in two places that can move it with two approvals; {{ct_one_signer}} of it is in the fund whose policy one Admin vote can change. None of this says anyone will sell. It says the buyback is a policy, not a mechanism, and F3's offset counts on the policy holding. A burn or a time lock would make it a rule: that is the third condition in the verdict above.
 
@@ -158,11 +159,11 @@ A buyback can be a rule (code that buys and burns or locks, whatever happens) or
 
 {{dp_lever_table}}
 
-No single lever reaches 100%; the best combination here reaches {{dp_lever_max}}. Today NEAR earns {{dp_int_bps}} bps on 1Click integrators' volume against the 20 bps it publishes; charging it would add about {{dp_gain20}} a month if no one left.
+No single lever reaches 100%; the best combination here reaches {{dp_lever_max}}. Today NEAR earns {{dp_int_bps}} bps on the volume 1Click integrators bring ({{sc_near}} bps on all 1Click volume, users without an integrator included) against the 20 bps it publishes; charging it would add about {{dp_gain20}} a month if no one left.
 
 **Path to rules.** Each link in [Rule or choice](#rule-or-choice-who-controls-the-revenue) could become a rule with tools NEAR already has: the buyback multisig could send what it buys to a contract that locks it (a time lock, or a burn); the front-end fund's policy could require more than one Admin vote to change; a House of Stake proposal (the way HSP-029 cut issuance) could make the fee and its destination a protocol commitment.
 
-- **For a holder:** staking keeps your share of the network ({{dp_staker_real}} a year in real terms, before commission); not staking, {{dp_unstaked_real}} a year. Buybacks today justify {{dp_just_base}} of the market cap ({{dp_just_bear}} to {{dp_just_bull}} across cases).
+- **What it means for holders:** staking keeps a holder's share of the network ({{dp_staker_real}} a year in real terms, before commission); not staking, {{dp_unstaked_real}} a year. Buybacks today justify {{dp_just_base}} of the market cap ({{dp_just_bear}} to {{dp_just_bull}} across cases).
 - **For NEAR's teams:** the 21% gap in the published revenue series, the fee on confidential swaps and the front-end fund's policy are the three places where a published rule would remove doubt.
 - **For builders and integrators:** the cost table above is what your users pay, band by band; NEAR keeps {{sc_near_share}} of it. Every number here is rebuilt by `make check-clean` with no key.
 
@@ -228,7 +229,7 @@ The 1Click results come from the NEAR Intents Explorer API, which needs a partne
 | Evidence, not conviction | {{claims_n}} findings with explicit pass conditions (above); hypotheses and kill criteria registered before the analysis ([`HYPOTHESES.md`](HYPOTHESES.md), unchanged since its first commit); results against expectations reported as written (H4.1 rejected, the fit's out-of-sample miss, a kill criterion triggered on 1Click) |
 | Technical implementation | revenue rebuilt from wallet histories ([`revenue_wallets.py`](src/analysis/revenue_wallets.py)); supply from archival-RPC headers ([`supply.py`](src/analysis/supply.py)); {{oc_swaps}} swaps from the Intents Explorer API ([`intents_explorer.py`](src/ingest/intents_explorer.py), [`swaps.py`](src/analysis/swaps.py)); robustness of the channel fit ([`confidential.py`](src/analysis/confidential.py)); joint block bootstrap with a walk-forward backtest ([`montecarlo.py`](src/analysis/montecarlo.py), [`backtest_mc.py`](src/analysis/backtest_mc.py)); governance read on-chain ([`governance.py`](src/analysis/governance.py)) |
 | Design | the dashboard: a what-if simulator on the break-even identity, live kill criteria, a scenario fan chart, a "show the numbers" table under each chart and the sources listed on the page; light theme, phone widths, reduced-motion support |
-| Impact | findings that change how NEAR's revenue should be read: the September jump decomposed and costed, the integrator economics of 1Click, a {{series_over_wallets}} gap inside NEAR's own revenue reporting, a public threshold ($177M/day) shown to be 3–6× too low |
+| Impact | findings that change how NEAR's revenue should be read: the September jump decomposed and costed, the integrator economics of 1Click, NEAR's published revenue series running {{series_over_wallets}} above what its wallets receive, a public threshold ($177M/day) shown to be far too low ({{be_vol_now}} at today's take) |
 | Originality | swap-level data no other thesis uses; an incentive's cost set against the revenue it bought; a model whose own failure is published; NEAR's dashboard audited against the chain |
 | Sustainability | `make refresh` and a daily Action; predictions that resolve from 2026-11-15 to 2027-04-02 with a resolver; MIT licence |
 
