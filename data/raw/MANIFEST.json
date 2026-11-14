@@ -292,6 +292,10 @@
    "bytes": 1935609,
    "sha256": "9e26013f367af944728b1d6c4004ad62d7938d1d7c02ba405e4f56e382a7a7cc"
   },
+  "oneclick_aggregates/integrator_fees_2026-11-12.json": {
+   "bytes": 484780,
+   "sha256": "d82aa36a720e314fef24ddfe313da3b2224f8a9e4091a9d2dd5d4ae46a8c5117"
+  },
   "oneclick_aggregates/swap_cost_2026-11-12.json": {
    "bytes": 163266,
    "sha256": "f6613d64c0d2c68025a998ec4a2c878c5c6306e45213be6f06c93e83a3b3529c"

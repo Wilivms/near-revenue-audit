@@ -655,3 +655,10 @@ A pass over all 83 thesis projects on 14 November looked for analyses worth adop
   - Mid case (15%, 3% growth): 24x, about $3.0B a day of Intents volume at today's 4.9 bps take.
   - Alternatively, revenue growing 75–91% a year for five years, then valued at the 20x peer median. Intents volume is +48% on a year earlier.
 - **Follow $10 to $1M** (same day, finer bands). Cost by swap size, in bands from each size to 3x it. Under $10 it is 220 bps, $10–30 137 bps and $30–100 75 bps: fixed network costs. From $3k to $100k it is flat at 55–56 bps. Above $100k it rises again: 63 bps at $100k–300k and 64 bps at $300k–1M, where solvers and networks take 16 then 21 bps, while NEAR's slice falls to 2.8 then 1.0 bps. Only 7 swaps above $1M, too few to read. The largest swaps pay NEAR least, consistent with direct deals or fee caps for large flows.
+
+### 64. Do 1Click volumes react to fees? (2026-11-14)
+
+The take is NEAR's lever only if volume does not leave when fees rise. NEAR rarely changes its own fee, and when it did (September) the airdrop was running, so `src/analysis/elasticity.py` uses the integrators, who set their own fees. The committed aggregate holds daily volume and volume-weighted fees by integrator, under a one-way pseudonym.
+- **Across integrators.** For the 32 integrators with $1M or more in 14 Aug–12 Sep, their fee then against their volume growth by 14 Oct–12 Nov, relative to all of 1Click: Spearman +0.08 (p = 0.65). The 5 charging 60+ bps ($579M) grew 11% against 1Click; the 16 charging 10 bps or less fell 12%.
+- **Within an integrator.** A clean step is a move of 3 bps or more between two stable 10-day windows. 6 fee rises were followed by a median volume change of +25% against 1Click, and 4 cuts by +211%, mostly from small bases. These are few and noisy: an absence of visible effect, not a measured elasticity.
+- **Reading, with F18 and the quote race.** Users pay about 59 bps, do not visibly shop on fees of this size, and 1Click is priced level with rival routers. What limits NEAR's take is the integrators' choice of router, not the users.

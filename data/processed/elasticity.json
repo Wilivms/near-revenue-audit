@@ -1,0 +1,120 @@
+{
+ "within": {
+  "app_fee": [
+   {
+    "id": "07f26dc9ff",
+    "day": "2026-09-18",
+    "fee_before_bps": 20.0,
+    "fee_change_bps": 14.960936374103817,
+    "volume_before_usd": 73441.33,
+    "relative_volume_change": 4.111904572850342
+   },
+   {
+    "id": "473e970d1c",
+    "day": "2026-09-23",
+    "fee_before_bps": 53.888786893598606,
+    "fee_change_bps": -19.09371525846865,
+    "volume_before_usd": 94933.60999999999,
+    "relative_volume_change": -0.023643910454456803
+   },
+   {
+    "id": "9a9266b330",
+    "day": "2026-09-14",
+    "fee_before_bps": 0.27494209992112767,
+    "fee_change_bps": 19.62762141772704,
+    "volume_before_usd": 1979643.59,
+    "relative_volume_change": -0.2916661743192892
+   },
+   {
+    "id": "a5e021a360",
+    "day": "2026-09-22",
+    "fee_before_bps": 25.0,
+    "fee_change_bps": -25.0,
+    "volume_before_usd": 18142.09,
+    "relative_volume_change": 3.415053710404275
+   },
+   {
+    "id": "e301bdf9a0",
+    "day": "2026-09-25",
+    "fee_before_bps": 2.0000765880850273,
+    "fee_change_bps": 7.589096290245767,
+    "volume_before_usd": 260486.21,
+    "relative_volume_change": 0.5199025184822069
+   }
+  ],
+  "near_fee": [
+   {
+    "id": "473e970d1c",
+    "day": "2026-09-12",
+    "fee_before_bps": 11.861292010915038,
+    "fee_change_bps": 13.138707989084965,
+    "volume_before_usd": 33033.32,
+    "relative_volume_change": 1.3090910607122987
+   },
+   {
+    "id": "59f98b4209",
+    "day": "2026-09-07",
+    "fee_before_bps": 9.236480656430203,
+    "fee_change_bps": -9.19769766273886,
+    "volume_before_usd": 58121.64,
+    "relative_volume_change": 0.8111197396749612
+   },
+   {
+    "id": "66ab0bfa0a",
+    "day": "2026-09-08",
+    "fee_before_bps": 10.826171728172435,
+    "fee_change_bps": 25.25922010084735,
+    "volume_before_usd": 197269.03,
+    "relative_volume_change": -0.4947416358354294
+   },
+   {
+    "id": "9d21c360fc",
+    "day": "2026-09-08",
+    "fee_before_bps": 8.02764508265296,
+    "fee_change_bps": 63.490465720470816,
+    "volume_before_usd": 755308.7,
+    "relative_volume_change": -0.012357292090446625
+   },
+   {
+    "id": "a5e021a360",
+    "day": "2026-09-22",
+    "fee_before_bps": 25.0,
+    "fee_change_bps": -25.0,
+    "volume_before_usd": 18142.09,
+    "relative_volume_change": 3.415053710404275
+   }
+  ]
+ },
+ "fee_rises": 6,
+ "fee_cuts": 4,
+ "fee_rises_median_volume": 0.2537726131958801,
+ "fee_cuts_median_volume": 2.113086725039618,
+ "cross_section": {
+  "integrators": 32,
+  "spearman": 0.08230226411616966,
+  "p": 0.6542904897876077,
+  "by_fee_band": {
+   "0-10 bps": {
+    "integrators": 16,
+    "volume_before_usd": 346857077.71000004,
+    "median_relative_growth": -0.1202722369820865
+   },
+   "10-30 bps": {
+    "integrators": 7,
+    "volume_before_usd": 193354902.49999994,
+    "median_relative_growth": -0.533770465426772
+   },
+   "30-60 bps": {
+    "integrators": 4,
+    "volume_before_usd": 15152201.950000001,
+    "median_relative_growth": -0.22553938825533984
+   },
+   "60+ bps": {
+    "integrators": 5,
+    "volume_before_usd": 578712888.41,
+    "median_relative_growth": 0.11124310769524712
+   }
+  }
+ },
+ "note": "few clean fee steps; volumes move with bursts and deals far more than with fees of this size"
+}

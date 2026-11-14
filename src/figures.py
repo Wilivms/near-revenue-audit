@@ -404,6 +404,14 @@ def figures() -> dict[str, str]:
               "sc_big": f"{bs['$300k-1M']['cost_bps']:.0f}", "sc_big_rest": f"{bs['$300k-1M']['solvers_networks_bps']:.0f}",
               "sc_flat_rest": f"{bs['$3k-10k']['solvers_networks_bps']:.0f}", "sc_big_near": f"{bs['$300k-1M']['near_bps']:.1f}",
               "sc_10_cost": f"${10 * bs['$10-30']['cost_bps'] / 1e4:.2f}"})
+    el = _json("elasticity.json")
+    cs = el["cross_section"]
+    f.update({"el_n": str(cs["integrators"]), "el_rho": f"{cs['spearman']:+.2f}".replace("-", "−"), "el_p": f"{cs['p']:.2f}",
+              "el_rises": str(el["fee_rises"]), "el_cuts": str(el["fee_cuts"]), "el_rise_vol": spct(el["fee_rises_median_volume"]),
+              "el_cut_vol": spct(el["fee_cuts_median_volume"]),
+              "el_hi_g": spct(cs["by_fee_band"]["60+ bps"]["median_relative_growth"]), "el_hi_n": str(cs["by_fee_band"]["60+ bps"]["integrators"]),
+              "el_hi_v": usd(cs["by_fee_band"]["60+ bps"]["volume_before_usd"], 0), "el_lo_g": spct(cs["by_fee_band"]["0-10 bps"]["median_relative_growth"]),
+              "el_lo_n": str(cs["by_fee_band"]["0-10 bps"]["integrators"])})
     im = _json("implied.json")
     pm = {(x["discount"], x["growth"]): x for x in im["perpetuity"]}
     fv = {x["discount"]: x for x in im["five_years_then_peer_multiple"]}
