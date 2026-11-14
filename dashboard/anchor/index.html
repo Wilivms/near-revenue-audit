@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mainnet anchor</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="anchor-modal.css">
+<style>
+:root{--bg:#f2ede1;--ink:#24211b;--mut:#6b6457;--acc:#005fb0}
+@media (prefers-color-scheme:dark){:root{--bg:#1d1b16;--ink:#ece6d8;--mut:#a59d8c;--acc:#83dcff}}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 ui-monospace,Menlo,monospace}
+main{max-width:820px;margin:0 auto;padding:32px 16px}
+h1{font:600 24px/1.2 system-ui,sans-serif;margin:0 0 8px}
+p{color:var(--mut)}
+button{font:inherit;padding:10px 16px;border:1px solid var(--acc);background:var(--acc);color:var(--bg);cursor:pointer;margin:6px 8px 6px 0}
+button:disabled{opacity:.4;cursor:default}
+pre{white-space:pre-wrap;word-break:break-all;border:1px solid var(--mut);padding:12px;font-size:12.5px}
+</style></head>
+<body><main>
+<h1>Anchor NEAR Revenue Audit on NEAR mainnet</h1>
+<p>This page hashes two files of the repository in your browser (the frozen predictions and the manifest of every raw data file, at the latest commit) and asks your wallet to sign one transaction: a write to SocialDB (<code>social.near</code>, method <code>set</code>) under your account, with 0.05 NEAR attached for storage. Nothing else is called and no key leaves your wallet.</p>
+<p>Account: <b id="acct">not connected</b></p>
+<button id="connect">Connect a NEAR wallet</button><button id="sign" disabled>Sign the anchor</button>
+<p>Transaction: <b id="tx">–</b></p>
+<pre id="log"></pre>
+</main>
+<script type="module" src="anchor.bundle.js"></script>
+</body></html>
