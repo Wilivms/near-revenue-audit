@@ -1,6 +1,12 @@
 {
  "read_at": "2026-11-14T10:24:33Z",
  "source_file": "control_2026-11-14.json",
+ "block_heights": {
+  "buybacks.multisignature.near": 224500889,
+  "fefundsadmin.sputnik-dao.near": 224500901,
+  "1csfundsadmin.sputnik-dao.near": 224500913,
+  "intents.near": 224500926
+ },
  "multisig": {
   "account": "buybacks.multisignature.near",
   "keys": 4,
@@ -62,108 +68,168 @@
    ],
    "payments": [
     {
+     "proposal": 2,
+     "proposed": "2025-11-07",
      "day": "2025-11-07",
+     "tx": "4dPysMoApxVYqrLvqzpDwWVCD4fNxuiXix7bYS8cvhXJ",
      "token": "USDC",
      "amount": 410000.0,
      "to": "auroraliqsupport.near",
+     "description": "* Title: tr <br>* Summary: tr",
      "approvals": 2
     },
     {
+     "proposal": 3,
+     "proposed": "2025-11-13",
      "day": "2025-11-13",
+     "tx": "82UDWBkdTmXZT29ZRjcGA4yHSApEiSQLEbMQKUXMW82i",
      "token": "USDC",
      "amount": 160000.0,
      "to": "auroraliqsupport.near",
+     "description": "* Title: transfer <br>* Summary: transfer",
      "approvals": 2
     },
     {
+     "proposal": 4,
+     "proposed": "2025-11-21",
      "day": "2025-11-21",
+     "tx": "4t617Jk7SWB9oeZNVzL8Za8dZAH9wDU4YdNScWhowYZk",
      "token": "USDC",
      "amount": 200000.0,
      "to": "auroraliqsupport.near",
+     "description": "* Title: transfer <br>* Summary: transfer",
      "approvals": 2
     },
     {
+     "proposal": 5,
+     "proposed": "2025-12-01",
      "day": "2025-12-01",
+     "tx": "74hg1kGnDKdDuLvbBT1HGpji7ha1qr8EvMBrmX32XZKB",
      "token": "USDC",
      "amount": 175000.0,
      "to": "auroraliqsupport.near",
+     "description": "* Title: transfer <br>* Summary: transfer",
      "approvals": 2
     },
     {
+     "proposal": 6,
+     "proposed": "2025-12-16",
      "day": "2025-12-16",
+     "tx": "5mZESoDJonRsV9mydQ64Ws1UG32yAn6bM3xbqL6EJziz",
      "token": "USDC",
      "amount": 50000.0,
      "to": "aurorafinance.sputnik-dao.near",
+     "description": "* Title: invoice <br>* Summary: invoice",
      "approvals": 2
     },
     {
+     "proposal": 7,
+     "proposed": "2026-01-08",
      "day": "2026-01-08",
+     "tx": "8C2YCY2xswtC8Zqxtqeg7fegdT81bS8aAf63gk4biX4A",
      "token": "USDC",
      "amount": 50000.0,
      "to": "aurorafinance.sputnik-dao.near",
+     "description": "* Title: dec",
      "approvals": 2
     },
     {
+     "proposal": 8,
+     "proposed": "2026-01-15",
      "day": "2026-01-15",
+     "tx": "5nqrzSXjiPjE5V25TBuHbLheWnix7RNq3x3wtU4gdvcN",
      "token": "USDC",
      "amount": 355000.0,
      "to": "auroraliqsupport.near",
+     "description": "* Title: transfer",
      "approvals": 2
     },
     {
+     "proposal": 9,
+     "proposed": "2026-02-02",
      "day": "2026-02-02",
+     "tx": "7VPuSzJY7YdFVSK18CdMvQXppcKNvmtqtkd79ksnh41c",
      "token": "USDC",
      "amount": 50000.0,
      "to": "aurorafinance.sputnik-dao.near",
+     "description": "* Title: transfer invoice <br>* Summary: transfer invoice",
      "approvals": 2
     },
     {
+     "proposal": 10,
+     "proposed": "2026-02-02",
      "day": "2026-02-02",
+     "tx": "2asKX4Ai8J9fEHa1uawfpwk3vQda6FPeGstgpnZxZFMq",
      "token": "USDC",
      "amount": 280000.0,
      "to": "auroraliqsupport.near",
+     "description": "* Title: transfer",
      "approvals": 2
     },
     {
+     "proposal": 11,
+     "proposed": "2026-02-06",
      "day": "2026-02-06",
+     "tx": "H6s4eBwUm5KmbXLsF6bpmBe91oqX2amgYVvxe1Ezbzsb",
      "token": "USDC",
      "amount": 64000.0,
      "to": "auroraliqsupport.near",
+     "description": "* Title: transfer",
      "approvals": 2
     },
     {
+     "proposal": 12,
+     "proposed": "2026-02-26",
      "day": "2026-02-26",
+     "tx": "GdifhCzrpMxCVq4kjduWmC8jux2hhmfECD8Nhc45ec9p",
      "token": "USDC",
      "amount": 130000.0,
      "to": "auroraliqsupport.near",
+     "description": "* Title: transfer",
      "approvals": 2
     },
     {
+     "proposal": 13,
+     "proposed": "2026-03-09",
      "day": "2026-03-09",
+     "tx": "D9FNVpNDj8GgtJCLh4yVZWxEwzmiKm4PPjFmQTPPyD5u",
      "token": "USDC",
      "amount": 50000.0,
      "to": "aurorafinance.sputnik-dao.near",
+     "description": "* Title: Payment Request",
      "approvals": 2
     },
     {
+     "proposal": 14,
+     "proposed": "2026-03-12",
      "day": "2026-03-12",
+     "tx": "BXpr2gVipDcVe3pJVrsAErj3TJ3yYUEj4PiiuNmYvR5Y",
      "token": "USDC",
      "amount": 36900.0,
      "to": "auroraliqsupport.near",
+     "description": "* Title: transfer",
      "approvals": 2
     },
     {
+     "proposal": 15,
+     "proposed": "2026-03-26",
      "day": "2026-03-26",
+     "tx": "HbXvj1zNPSCA6ryGhxVgYVtRUc8UCxw9LYJhLK7XYNTz",
      "token": "USDC.e",
      "amount": 200000.0,
      "to": "aurorasupport.near",
+     "description": "* Title: transfer",
      "approvals": 2
     },
     {
+     "proposal": 16,
+     "proposed": "2026-03-27",
      "day": "2026-03-27",
+     "tx": "2grCmY6TdikHaA1J7iXWd5WZJxBaYYNdP41SzBmatyvd",
      "token": "USDC",
      "amount": 240000.0,
      "to": "auroraliqsupport.near",
+     "description": "* Title: transfer",
      "approvals": 2
     }
    ],
@@ -234,38 +300,58 @@
    ],
    "payments": [
     {
+     "proposal": 0,
+     "proposed": "2026-04-22",
      "day": "2026-04-22",
+     "tx": "8Pf196B9eF9qQeCuR2396Buajx8f9WTFh3E5RQejebGk",
      "token": "NEAR",
      "amount": 10.000000000000002,
      "to": "an implicit account",
+     "description": "* Notes: Test",
      "approvals": 1
     },
     {
+     "proposal": 1,
+     "proposed": "2026-04-22",
      "day": "2026-04-22",
+     "tx": "8Bit5x7bvChY4Tm4wQfvevAM4bDAHTKHvPYFF8tebKbk",
      "token": "NEAR",
      "amount": 45000.0,
      "to": "an implicit account",
+     "description": "* Notes: Fees accrued by mistake",
      "approvals": 1
     },
     {
-     "day": "2026-07-10",
+     "proposal": 4,
+     "proposed": "2026-07-10",
+     "day": "2026-07-14",
+     "tx": "2txpgiJ4wvBRHPkfpNYsjT7PTFqpjMXdHDBNGFKhrbyP",
      "token": "NEAR",
      "amount": 7274.0,
      "to": "buybacks.multisignature.near",
+     "description": "",
      "approvals": 1
     },
     {
-     "day": "2026-08-27",
+     "proposal": 5,
+     "proposed": "2026-08-27",
+     "day": "2026-08-28",
+     "tx": "EZbV4xn4b3NjJLYWjgEf1Zc1tF8FQeVGjxXQdwxKYV7S",
      "token": "NEAR",
      "amount": 1.0,
      "to": "buybacks.multisignature.near",
+     "description": "",
      "approvals": 2
     },
     {
+     "proposal": 9,
+     "proposed": "2026-09-09",
      "day": "2026-09-09",
+     "tx": "CMfn15uTJF5DX9wFzV5G2JdHpy3qmHa5NJNUH9uj5Jp6",
      "token": "NEAR",
      "amount": 502793.0,
      "to": "buybacks.multisignature.near",
+     "description": "",
      "approvals": 2
     }
    ],

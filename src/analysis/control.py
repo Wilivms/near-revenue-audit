@@ -77,6 +77,23 @@ def _kind(p: dict) -> str:
     return next(iter(p["kind"])) if isinstance(p["kind"], dict) else p["kind"]
 
 
+def _executions(acc: str) -> list[dict]:
+    """Payments the DAO executed, from its committed history: (day, receiver, amount in the token's units, transaction)."""
+    folder = {"fefundsadmin.sputnik-dao.near": "wallet_fefundsadmin_txns", "1csfundsadmin.sputnik-dao.near": "wallet_1csfundsadmin_txns"}[acc]
+    rows = json.loads(sorted((RAW / folder).glob("*.json"))[-1].read_text())
+    out = []
+    for t in rows:
+        if t["predecessor_account_id"] != acc or not (t.get("outcomes") or {}).get("status", True):
+            continue
+        for a in t.get("actions") or []:
+            if a.get("method") == "ft_transfer":
+                args = json.loads(a["args"]) if isinstance(a.get("args"), str) else (a.get("args") or {})
+                out.append({"day": _day(t["block_timestamp"]), "to": args.get("receiver_id"), "amount": args.get("amount"), "tx": t["transaction_hash"]})
+            elif a["action"] == "TRANSFER" and a["deposit"] and a["deposit"] > 1e23:  # more than 0.1 NEAR: proposal bonds are 0.1
+                out.append({"day": _day(t["block_timestamp"]), "to": t["receiver_account_id"], "amount": f"{a['deposit']:.0f}", "tx": t["transaction_hash"]})
+    return out
+
+
 def _dao(acc: str, d: dict) -> dict:
     roles = {r["name"]: r for r in d["policy"]["roles"]}
     members = sorted({m for r in d["policy"]["roles"] if isinstance(r["kind"], dict) for m in r["kind"].get("Group", [])})
@@ -96,14 +113,20 @@ def _dao(acc: str, d: dict) -> dict:
     props = d["proposals"]
     kinds = pd.Series([f"{_kind(p)} {p['status']}" for p in props]).value_counts().to_dict()
     passed_with_one = [p for p in props if p["status"] == "Approved" and sum(v == "Approve" for v in p["votes"].values()) == 1]
-    payments = []
+    payments, execs = [], _executions(acc)
     for p in props:
         if _kind(p) == "Transfer" and p["status"] == "Approved":
             t = p["kind"]["Transfer"]
             tok = STABLE.get(t["token_id"], "NEAR" if t["token_id"] == "" else t["token_id"])
             amt = int(t["amount"]) / (1e6 if tok in ("USDC", "USDC.e") else 1e24)
             rec = t["receiver_id"] if t["receiver_id"].endswith(".near") else "an implicit account"
-            payments.append({"day": _day(p["submission_time"]), "token": tok, "amount": amt, "to": rec, "approvals": sum(v == "Approve" for v in p["votes"].values())})
+            ex = [e for e in execs if e["to"] == t["receiver_id"] and e["day"] >= _day(p["submission_time"]) and not e.get("used")
+                  and abs(float(e["amount"]) - float(t["amount"])) <= 1e-6 * float(t["amount"]) + 1]
+            if ex:
+                ex[0]["used"] = True
+            payments.append({"proposal": p["id"], "proposed": _day(p["submission_time"]), "day": ex[0]["day"] if ex else None,
+                             "tx": ex[0]["tx"] if ex else None, "token": tok, "amount": amt, "to": rec,
+                             "description": p["description"][:80], "approvals": sum(v == "Approve" for v in p["votes"].values())})
     pay = pd.DataFrame(payments)
     stable = pay[pay["token"].isin(["USDC", "USDC.e"])] if len(pay) else pay
     return {"label": DAOS[acc], "members": len(members), "roles": sorted(roles),
@@ -114,7 +137,7 @@ def _dao(acc: str, d: dict) -> dict:
                                for p in props if _kind(p) == "ChangePolicy" and p["status"] == "Approved"],
             "payments": payments,
             "stablecoins_paid_usd": float(stable["amount"].sum()) if len(stable) else 0.0,
-            "stablecoins_paid_since_buybacks_usd": float(stable.loc[stable["day"] >= BUYBACK_START, "amount"].sum()) if len(stable) else 0.0,
+            "stablecoins_paid_since_buybacks_usd": float(stable.loc[stable["proposed"] >= BUYBACK_START, "amount"].sum()) if len(stable) else 0.0,
             "stablecoins_by_recipient": stable.groupby("to")["amount"].sum().round(2).to_dict() if len(stable) else {},
             "near_paid_out": float(pay.loc[pay["token"] == "NEAR", "amount"].sum()) if len(pay) else 0.0,
             "near_paid_out_by_recipient": pay[pay["token"] == "NEAR"].groupby("to")["amount"].sum().round(2).to_dict() if len(pay) else {},
@@ -153,7 +176,7 @@ def main() -> dict:
     held = sum(bal.values())
     one_signer = sum(bal[a] for a in DAOS if daos[a]["approvals_to_change_policy"] == 1)
     res = {
-        "read_at": raw["read_at"], "source_file": f.name,
+        "read_at": raw["read_at"], "source_file": f.name, "block_heights": {a: A[a].get("block_height") for a in A},
         "multisig": {"account": MULTISIG, "keys": len(ms["keys"]), "full_access_keys": sum(k["full_access"] for k in ms["keys"]),
                      "confirmations": ms["num_confirmations"], "requests_ever": ms["request_nonce"], "open_requests": len(ms["open_requests"] or []),
                      "balance_near": bal[MULTISIG], "outflows": outflows, "near_sent_out": float(sum(o["near"] for o in outflows))},

@@ -438,7 +438,8 @@ def figures() -> dict[str, str]:
               "ct_oc_members": str(oc["members"]), "ct_oc_pay": str(oc["approvals_to_transfer"]), "ct_oc_one": str(len(oc["approved_with_one_vote"])),
               "ct_oc_implicit": f"{implicit:,.0f}", "ct_oc_to_bb": f"{oc['near_paid_out_by_recipient'].get('buybacks.multisignature.near', 0.0) / 1e3:,.0f}k",
               "ct_fee_pips": str(ct["intents_protocol_fee_pips"]), "ct_held": f"{ct['held_near'] / 1e6:.2f}M",
-              "ct_one_signer": pct(ct["held_where_one_signer_can_change_the_rules"])})
+              "ct_one_signer": pct(ct["held_where_one_signer_can_change_the_rules"]),
+              "ct_block": f"{min(b for b in ct['block_heights'].values() if b):,}", "ct_payments_table": control_table(ct)})
     tr = _json("treasury.json")
     f.update({"tr_moved": f"{tr['moved_out_2026_near'] / 1e6:.2f}M", "tr_x": f"{tr['moved_over_captured']:.0f}", "tr_staked1": f"{tr['staked_first_near'] / 1e6:.1f}M",
               "tr_unstaked_day": tr["unstaked_day"], "tr_endow": f"{tr['foundation_endowment_joined_near'] / 1e6:.0f}M",
@@ -649,6 +650,18 @@ def _claims_data() -> dict:
     return d
 
 
+def control_table(ct: dict) -> str:
+    """Every payment the two revenue DAOs executed, with its proposal, approvals and transaction (REPORT appendix)."""
+    lines = ["| Fund | Proposal | Executed | Paid | To | Approvals | Proposal text (start) | Transaction |", "| --- | --- | --- | --- | --- | --- | --- | --- |"]
+    for d in ct["daos"].values():
+        for p in d["payments"]:
+            amt = f"{p['amount']:,.0f} {p['token']}"
+            text = re.sub(r"<br>|\*|\|", " ", p["description"]).split("Summary")[0].replace("Title:", "").replace("Notes:", "").strip() or "(none)"
+            tx = f"[{p['tx'][:8]}…](https://nearblocks.io/txns/{p['tx']})" if p["tx"] else "not found"
+            lines.append(f"| {d['label']} | {p['proposal']} | {p['day'] or p['proposed']} | {amt} | `{p['to']}` | {p['approvals']} | {text} | {tx} |")
+    return "\n".join(lines)
+
+
 def follow_100(v: dict) -> dict:
     """Where $100 of NEAR Intents volume goes, over the same 30 days as the headline multiple."""
     d = _claims_data()
@@ -670,7 +683,7 @@ def follow_100(v: dict) -> dict:
     per = lambda x: f"${100 * x / vol:.3f}"  # noqa: E731
     return {"f100_from": a, "f100_to": b, "f100_fees_to": fb, "f100_fees": per(fees), "f100_near": per(captured), "f100_bb": per(bb),
             "f100_fe": per(captured - bb), "f100_issued": per(issued_usd), "f100_cover": pct(captured / issued_usd),
-            "f100_vol": usd(vol, 2), "f100_oc_pool": f"${100 * oc['fee_usd'].sum() / oc['volume_usd'].sum():.3f}",
+            "f100_vol": usd(vol, 2), "oc_share_vol": pct(oc["volume_usd"].sum() / vol), "f100_oc_pool": f"${100 * oc['fee_usd'].sum() / oc['volume_usd'].sum():.3f}",
             "f100_oc_near": f"${100 * oc['near_usd'].sum() / oc['volume_usd'].sum():.3f}",
             "f100_oc_int": f"${100 * (oc['fee_usd'].sum() - oc['near_usd'].sum()) / oc['volume_usd'].sum():.3f}",
             # static values printed in dashboard/index.html, shown when JavaScript does not run (same inputs as its live card)

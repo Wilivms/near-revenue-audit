@@ -76,7 +76,7 @@ a { color: inherit; text-underline-offset: 3px; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hero h1 .w:last-child { color: var(--accent); } }
 /* key findings guide */
 .guide { padding: 56px 0 8px; }
-.guide .cards { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
+.guide .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
 .guide a.g { display: block; text-decoration: none; background: var(--card); border: 1px solid var(--line); padding: 16px 16px 14px; transition: border-color 160ms ease, transform 160ms var(--ease-out); }
 .guide a.g:hover { border-color: var(--accent); transform: translateY(-2px); }
 .guide .gk { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
@@ -431,9 +431,10 @@ footer li + li { margin-top: 6px; }
         <a class="g" href="#customer"><div class="gk">Who pays</div><div class="gv">92%</div><div class="gt">of the 1Click fee pool goes to integrators. NEAR's published 20 bps applies to a small part of their volume.</div><div class="go">Customer →</div></a>
         <a class="g" href="#buybacks"><div class="gk">Too small for supply</div><div class="gv">below 41×</div><div class="gt">Supply stops growing only when market cap is below 41× annual captured revenue. The live multiple, above, is about five times that.</div><div class="go">Buybacks →</div></a>
         <a class="g" href="#forecast"><div class="gk">2027</div><div class="gv" id="g2027">18%</div><div class="gt">of 2027 issuance offset in the base case; supply keeps growing unless volume rises several times.</div><div class="go">2027 →</div></a>
-        <a class="g" href="#checks"><div class="gk">Held to account</div><div class="gv" id="gHeld"><span data-s="claims_n">18</span> + <span data-s="public_claims_n">33</span></div><div class="gt"><span id="gHeldF" data-s="claims_n">18</span> findings re-checked on every commit; <span id="gHeldC" data-s="public_claims_n">33</span> public claims tested at their own dates; predictions anchored on NEAR.</div><div class="go">Checks →</div></a>
+        <a class="g" href="#checks"><div class="gk">NEAR's own count</div><div class="gv"><span data-s="series_over_wallets">21%</span> higher</div><div class="gt">NEAR's published revenue series runs above what its three revenue wallets receive, every month, while the wallet totals agree with NEAR's own within <span data-s="wallets_gap">0.16%</span>. Most of the gap is revenue that never reaches the wallets that buy NEAR.</div><div class="go">Checks →</div></a>
+        <a class="g" href="#checks"><div class="gk">Held to account</div><div class="gv" id="gHeld"><span data-s="claims_n">18</span> + <span data-s="public_claims_n">33</span></div><div class="gt"><span id="gHeldF" data-s="claims_n">18</span> findings re-checked on every commit; <span id="gHeldC" data-s="public_claims_n">33</span> public claims tested at their own dates; predictions anchored on NEAR (testnet).</div><div class="go">Checks →</div></a>
       </div>
-      <p class="follow verdict"><b>Verdict for an investor</b> (a thesis on public data, not personal advice): NEAR's fee capture does not support its price today. Market cap is <b data-s="near_captured_mult">205x</b> captured revenue; supply stops growing below <span data-s="breakeven_now">41x</span>. Nothing bought back is burned or locked, and <span data-s="ct_one_signer">47%</span> of it sits in a fund that one signer can re-rule. We turn constructive if, for a quarter, two of these hold: a take of 5 bps or more after the airdrop, revenue covering half of issuance, a burn or lock written in code. <a href="https://github.com/Wilivms/near-revenue-audit#rule-or-choice-who-controls-the-revenue">Rule or choice →</a></p>
+      <p class="follow verdict"><b>Verdict for an investor</b> (a thesis on public data, not personal advice): NEAR's fee capture does not support its price today. Market cap is <b data-s="near_captured_mult">205x</b> captured revenue; supply stops growing below <span data-s="breakeven_now">41x</span>. Nothing bought back is burned or locked, and <span data-s="ct_one_signer">47%</span> of it sits in a fund whose policy one Admin vote can change (a normal DAO set-up, but a policy, not a rule). We turn constructive if, for a quarter, two of these hold: a take of 5 bps or more after the airdrop, revenue covering half of issuance, a burn or lock written in code. <a href="https://github.com/Wilivms/near-revenue-audit#rule-or-choice-who-controls-the-revenue">Rule or choice →</a></p>
       <p class="follow" id="follow100">Follow $100 swapped through NEAR Intents over the 30 days to <span id="f100to" data-s="f100_to">2026-11-12</span>: <b id="f100near" data-s="f100_near">$0.049</b> reaches NEAR's revenue wallets, while <b id="f100iss" data-s="f100_issued">$0.238</b> of new NEAR is issued over the same days. Revenue covers <b id="f100cov" data-s="f100_cover">21%</b> of issuance; supply stops growing at 100%.<span id="f100cost"></span></p>
       <details class="numbers follow-x"><summary>Follow $10 to $1M on 1Click: what a swap costs, and who gets it</summary><div class="tbl-wrap" id="tbFollowX"></div><p class="src">Measured on the 1Click swaps of the last 30 days in the band from each size to three times it (the $1M row: $300k–1M). Falls with size to about $3k, flat to $100k, then rises as the solvers' spread widens, while NEAR's slice shrinks. Rebuild: <code>make swap-cost</code></p></details>
     </div>
@@ -462,7 +463,7 @@ footer li + li { margin-top: 6px; }
             <div class="hint">A higher price means fewer NEAR per dollar of revenue</div>
           </div>
           <label class="toggle"><input type="checkbox" id="sOnly"> <span>Count only the buyback wallet as retired (about 60% of what is captured). The front-end fund has no on-chain commitment not to sell.</span></label>
-          <label class="toggle" style="margin-top:12px"><input type="checkbox" id="sCut"> <span>Apply the approved issuance cut, fully phased in (HSP-029: maximum issuance 2.5% → 1.6% a year; not before 2029, start date not yet set).</span></label>
+          <label class="toggle" style="margin-top:12px"><input type="checkbox" id="sCut"> <span>Apply the approved issuance cut, fully phased in (HSP-029: maximum issuance 2.5% → 1.6% a year; the ramp starts no earlier than <span data-s="hsp_earliest">2027-02-14</span> and runs 24 months, so it is fully in place in 2029).</span></label>
           <div class="presets" role="group" aria-label="Presets">
             <button class="chip" type="button" data-p="today">Today</button>
             <button class="chip" type="button" data-p="mayaug">Take back to May–Aug</button>
@@ -598,7 +599,7 @@ footer li + li { margin-top: 6px; }
     <div class="wrap">
       <div class="head">
         <div><p class="kicker">06 / Valuation</p><h2 id="h-mc">Where it goes by end-2027</h2></div>
-        <p>10,000 simulated paths per scenario. Volume and price are drawn together, in 30-day blocks, from history. Pick a scenario: in the base case the median path stays far below break-even; only several-fold volume growth reaches it. The issuance cut approved on 2 November helps a little in 2027, because it phases in over 24 months.</p>
+        <p>10,000 simulated paths per scenario. Volume and price are drawn together, in 30-day blocks, from history. Pick a scenario: in the base case the median path stays far below break-even; only several-fold volume growth reaches it. The issuance cut approved on 2 November helps only a little in 2027: its 24-month ramp starts no earlier than <span data-s="hsp_earliest">2027-02-14</span>.</p>
       </div>
       <div class="card reveal">
         <div class="seg" id="segMc" role="group" aria-label="Scenario" style="margin-bottom:16px"><span class="pill"></span></div>
@@ -703,7 +704,7 @@ make dashboard-serve</pre>
     <div>
       <h2>Read with care</h2>
       <ul>
-        <li>1Click covers about 28% of Intents volume and no confidential swaps.</li>
+        <li>1Click covers <span data-s="oc_share_vol">28%</span> of Intents volume (<span data-s="oc_from">2026-10-14</span> to <span data-s="oc_to">2026-11-12</span>) and no confidential swaps.</li>
         <li>"Bought back" counts NEAR entering the 3 revenue wallets. Only one is a buyback wallet; the front-end fund (about 47% of all-time NEAR captured) is a DAO treasury with no on-chain commitment not to sell.</li>
         <li>The live reading converts dollars at today's NEAR price.</li>
         <li>Independent research built for NEAR Hackathon 2026, not affiliated with NEAR Foundation. Not investment advice.</li>

@@ -93,5 +93,8 @@ The criterion "incentive activity fades" (now on confidential TVL, since the vol
 **What NEAR features does this use?**
 NEAR Intents (`intents.near` contract views, fee and fee collector, 1Click and confidential channels), the NEAR RPC and archival RPC (total supply, validators, contract state), and NEAR's revenue wallets on-chain.
 
+**Are you saying the revenue DAOs misuse funds?**
+No. Multisigs and DAOs are a normal way to run a treasury, and the payments listed have plausible ordinary reasons: the front-end fund's {{ct_fe_stable}} to `aurora…` accounts most likely pays an operating partner of the front-end (and part predates the buybacks), and the 1Click fund's {{ct_oc_implicit}} NEAR of "fees accrued by mistake" was most likely a refund. The point is narrower: none of the NEAR bought back is burned or locked, and {{ct_one_signer}} of it is in a fund whose policy one Admin vote can change. A holder relies on a policy, not a rule. Every payment, with its transaction, is in [REPORT's appendix](REPORT.md#appendix-every-payment-from-the-two-revenue-daos).
+
 **Is this investment advice?**
 No. It is independent research, not affiliated with NEAR Foundation.
