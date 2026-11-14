@@ -127,3 +127,22 @@ def test_quote_race_gap_sign_and_lifi_fee(monkeypatch):
     assert t.loc[0, "best_competitor"] == "lifi"
     assert t.loc[0, "gap_vs_best_bps"] == pytest.approx((1000 / 995 - 1) * 1e4)  # positive: 1Click pays more
     assert t.loc[0, "gap_vs_best_ex_lifi_fee_bps"] == pytest.approx((1000 / (995 / 0.9975) - 1) * 1e4)
+
+
+def test_incident_halt_is_the_longest_gap_on_1_october(monkeypatch, tmp_path):
+    import json as _json
+    from src.analysis import incident
+    mins = [f"2026-09-2{d} 12:00:00+00:00" for d in range(4, 10)] + ["2026-10-01 08:00:00+00:00", "2026-10-01 08:30:00+00:00",
+                                                                     "2026-10-01 12:00:00+00:00", "2026-10-01 12:05:00+00:00"]
+    days = pd.date_range("2026-08-18", "2026-10-16").strftime("%Y-%m-%d")
+    agg = {"daily": [{"day": d, "swaps": 10, "volume_usd": 100.0, "fee_usd": 1.0, "near_usd": 0.1, "integrators": 5} for d in days],
+           "minute_2026-09-24_to_10-02": [{"minute": m, "swaps": 1, "volume_usd": 10.0, "near_usd": 1.0} for m in mins],
+           "top_integrators": {k: [{"rank": 1, "before_usd": 100.0, "after_usd": 60.0}] for k in incident.WINDOWS}}
+    p = tmp_path / "agg.json"
+    p.write_text(_json.dumps(agg))
+    monkeypatch.setattr(incident, "AGG", p)
+    monkeypatch.setattr(incident, "OUT", tmp_path)
+    monkeypatch.setattr(incident, "_rivals", lambda: pd.Series(1.0, index=days))
+    r = incident.main()
+    assert r["halt"]["hours"] == pytest.approx(3.5)
+    assert r["event"]["top_integrators_kept_half"] == 1 and r["event"]["volume_usd"]["change"] == pytest.approx(0)

@@ -1,0 +1,98 @@
+{
+ "halt": {
+  "last_swap_before_utc": "2026-10-01 08:33:00+00:00",
+  "first_swap_after_utc": "2026-10-01 12:16:00+00:00",
+  "hours": 3.72,
+  "near_revenue_forgone_usd": 2014.0,
+  "volume_forgone_usd": 7096120.0,
+  "longest_gap_in_prior_week_minutes": 9.0
+ },
+ "event": {
+  "volume_usd": {
+   "before_per_day": 50009793.69105,
+   "after_per_day": 35151146.0846,
+   "change": -0.2971147551266379
+  },
+  "near_usd": {
+   "before_per_day": 14716.71125,
+   "after_per_day": 12784.925200000001,
+   "change": -0.13126479260099633
+  },
+  "swaps": {
+   "before_per_day": 21549.5,
+   "after_per_day": 17257.5,
+   "change": -0.19916935427736138
+  },
+  "integrators": {
+   "before_per_day": 94.5,
+   "after_per_day": 104.0,
+   "change": 0.10052910052910047
+  },
+  "rivals_volume": {
+   "before_per_day": 53971392.0,
+   "after_per_day": 76114105.0,
+   "change": 0.4102675913936036
+  },
+  "volume_vs_rivals": -0.5015944143063074,
+  "top_integrators_kept_half": 15,
+  "top_integrators": 25,
+  "top_integrators_volume_change": -0.3930130713716322,
+  "windows": {
+   "before": [
+    "2026-09-15",
+    "2026-09-28"
+   ],
+   "after": [
+    "2026-10-03",
+    "2026-10-16"
+   ]
+  }
+ },
+ "placebo": {
+  "volume_usd": {
+   "before_per_day": 55617975.8644,
+   "after_per_day": 41924571.78015,
+   "change": -0.246204646455228
+  },
+  "near_usd": {
+   "before_per_day": 12716.521550000001,
+   "after_per_day": 7599.13415,
+   "change": -0.4024203772925624
+  },
+  "swaps": {
+   "before_per_day": 30568.5,
+   "after_per_day": 25452.5,
+   "change": -0.16736182671704536
+  },
+  "integrators": {
+   "before_per_day": 86.0,
+   "after_per_day": 85.0,
+   "change": -0.011627906976744207
+  },
+  "rivals_volume": {
+   "before_per_day": 35470056.5,
+   "after_per_day": 47258779.0,
+   "change": 0.33235702627087726
+  },
+  "volume_vs_rivals": -0.4342392176558235,
+  "top_integrators_kept_half": 21,
+  "top_integrators": 25,
+  "top_integrators_volume_change": -0.19547096788677243,
+  "windows": {
+   "before": [
+    "2026-08-18",
+    "2026-08-31"
+   ],
+   "after": [
+    "2026-09-01",
+    "2026-09-14"
+   ]
+  }
+ },
+ "volume_vs_rivals_beyond_placebo": -0.11905243126150233,
+ "retention_event_vs_placebo": [
+  15,
+  21,
+  25
+ ]
+}

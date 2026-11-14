@@ -288,6 +288,10 @@
    "bytes": 325759,
    "sha256": "bd4b7533455bd68dbaf6e9ab48eedfce6049e2872802f0dce7a6ec4de93e0e7a"
   },
+  "oneclick_aggregates/incident_2026-10.json": {
+   "bytes": 1296436,
+   "sha256": "e719f9e19a76beb03c2cb55abf4062964e74ae0c514971d5a7ff5f44deab6cb7"
+  },
   "quotes/2026-11-14T0100.json": {
    "bytes": 7961,
    "sha256": "c4fdbe8d50b3ae8e970164f855559df6e3a2fb7677f8658498611bbef25fcd14"
@@ -299,6 +303,10 @@
   "quotes/2026-11-14T0104.json": {
    "bytes": 7854,
    "sha256": "7d179b6f6415e5d255285682286b0cdc088b59a9e5fa7b344a123daf952d3511"
+  },
+  "quotes/2026-11-14T0716.json": {
+   "bytes": 7864,
+   "sha256": "fd86e5b4e1ac5a6a99e54368a308c22ebe25f759d4461350abce331a710055af"
   },
   "stake/2026-10-31.json": {
    "bytes": 118,

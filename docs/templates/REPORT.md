@@ -82,6 +82,17 @@ Source: NEAR's own Dune dashboard (@near, "NEAR Intents"), read from its public 
 - **ZEC** is 18.6% of 1Click volume over 76 days but about half of NEAR's 1Click revenue in the last two weeks. (log 13)
 - **Users do not stay.** 3–5% of the addresses active in a given week come back in the same week three months later; at most 9–19% are seen again at any time over 2.5 months. These are lower bounds (a returning user with a new address counts as new). (log 14)
 - **The volume is broad, not wash-traded** (`oneclick_quality.json`, log 36). {{q_senders}} sending addresses ({{q_with_sender}} of swaps carry one); {{q_one_swap}} swapped once. The top 10 send {{q_top10}} of volume and the top 100 {{q_top100}} (HHI {{q_hhi}}). {{q_heavy_n}} addresses with 100 swaps or more, likely bots, market makers and integrator hot wallets, send {{q_heavy_vol}} of volume and {{q_heavy_rev}} of NEAR's revenue. Round trips, where an address swaps A into B and B back into A within 24 hours, are {{q_rt_vol}} of volume and {{q_rt_rev}} of NEAR's revenue, {{q_rt_ref}} of them through one integrator (LI.FI). Self-trading does not inflate the revenue. An independent entry (Toll Road) finds about 1% round trips outside market makers on a 1.2% sample of `intents.near`; the full 1Click record agrees.
+- **The freeze and the exploit did not break it, but large integrators pulled back** (`make incident`, F17, log 59). On 29 September 1Click blocked a $50M swap linked to the Bitget hacker; on 1 October an exploit in the Omni deposit path drained about $3.8M (returned the next day). From the swaps: no swap from {{ic_from}} to {{ic_to}} UTC on 1 October, a {{ic_hours}}-hour halt (the longest gap the week before was {{ic_gap_week}} minutes), about {{ic_vol_lost}} of volume and {{ic_rev_lost}} of NEAR revenue at the previous week's pace. On the median day of the two weeks after (3–16 Oct) against the two weeks before (15–28 Sep), compared with the same two windows a month earlier, when nothing happened:
+
+  | Median day, after against before | Freeze and exploit | Quiet month (placebo) |
+  | --- | --- | --- |
+  | 1Click volume | {{ic_vol}} | {{ic_vol_p}} |
+  | NEAR's 1Click revenue | {{ic_rev}} | {{ic_rev_p}} |
+  | Rival venues' volume (THORChain, Chainflip, Maya) | {{ic_riv}} | {{ic_riv_p}} |
+  | Of the {{ic_top}} largest integrators, kept at least half their volume | {{ic_kept}} | {{ic_kept_p}} |
+  | Volume of those {{ic_top}} integrators | {{ic_top_vol}} | {{ic_top_vol_p}} |
+
+  Volume fell about as much as in a quiet month, while rivals grew in both: 1Click was already losing share, and the incident added little to it. NEAR's revenue held up better than in the placebo month (its take was rising). The cost shows in the largest integrators: six more of the 25 cut their volume by half than in a normal month, while active integrators per day rose ({{ic_int}}). Medians, because the rival venues carried a few $250M–300M days on 25–30 September.
 - Reading: NEAR's 1Click revenue rests on unattributed users, a few direct deals and one asset. Distribution partners own the flow, and could route it elsewhere.
 
 Coverage limit: 1Click is about 28% of Intents volume, and confidential swaps were not visible in the Explorer API over the period collected. These results describe 1Click, not all of Intents.

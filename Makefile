@@ -1,4 +1,4 @@
-.PHONY: quotes quotes-fetch revisions open-questions oneclick-offline setup pycheck anchor-check bigquery reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
+.PHONY: incident incident-collect quotes quotes-fetch revisions open-questions oneclick-offline setup pycheck anchor-check bigquery reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -30,6 +30,12 @@ risk:        ## holder's view: NEAR vs BTC risk, issuance, stake, buyback yield;
 confidential: ## confidential swaps from NEAR's Dune dashboard (data/raw/dune): volume share, take-rate regression, H4.1, incentive cost
 	python3 -m src.analysis.confidential
 
+incident:    ## the freeze and the exploit (29 Sep to 2 Oct): the halt, volume, NEAR's revenue and integrators, against a placebo month
+	python3 -m src.analysis.incident
+
+incident-collect: ## aggregates for `make incident` from the private per-swap 1Click data (needs make swaps-collect first)
+	python3 -m src.analysis.incident --collect
+
 quotes:      ## quote race offline: 1Click against Relay, Across and LI.FI on the same swaps (data/raw/quotes)
 	python3 -m src.analysis.quotes
 
@@ -60,7 +66,7 @@ pycheck:
 test:        ## model checks
 	python3 -m pytest -q tests
 
-STEPS = ledger revenue supply governance montecarlo backtest leadlag bigquery oneclick-offline confidential official revisions quotes open-questions predictions dashboard
+STEPS = ledger revenue supply governance montecarlo backtest leadlag bigquery oneclick-offline confidential official revisions quotes incident open-questions predictions dashboard
 
 reproduce:   ## every offline step on the committed snapshots, then the tests
 	$(MAKE) $(STEPS) test

@@ -591,3 +591,14 @@ The track asks whether NEAR's take can last; one threat is rival routers pricing
 - LI.FI's public quote includes its default 0.25% fixed fee. Grossed up by that fee, LI.FI would beat every router (1Click −18.1 bps), so the result depends on the front-end a user comes through; both readings are published.
 - Limits: quotes are not fills; origin-chain gas is left out; three rounds within minutes are one market state. More rounds are added at each refresh (`make quotes-fetch` is part of `make refresh`).
 - Reading: NEAR keeps a few basis points inside a price level with the market. Where 1Click trails, the gap is about the size of NEAR's take. The pressure on the take comes from integrators (who keep about 92% of the 1Click fee pool) more than from rival routers.
+
+### 59. The freeze and the exploit, measured from the swaps (2026-11-14)
+
+On 29 September 1Click blocked a $50M swap linked to the Bitget hacker; on 1 October an exploit in the Omni deposit and withdrawal path drained about $3.8M and NEAR Intents stopped its services; the funds came back on 2 October (The Block, Cointelegraph, Decrypt). `src/analysis/incident.py` aggregates the private 1Click swaps (1.4 million, 17 Aug to 16 Oct) into `data/raw/oneclick_aggregates/incident_2026-10.json`: by minute around the halt, daily totals, and the 25 largest integrators' volume by rank. The file holds no swap, address or integrator name. `make incident` then works offline (finding F17).
+- **The halt, from the swaps.** The last swap before it was at 08:33 UTC on 1 October and the next at 12:16, 3.7 hours later; the longest gap in the week before was 9 minutes. At the previous week's median hourly pace that is about $7.1M of volume and $2,014 of NEAR's 1Click revenue.
+- **Before and after, against a placebo.** Compared on the median day of 3–16 Oct against 15–28 Sep, and the same two windows one month earlier (1–14 Sep against 18–31 Aug), when nothing happened:
+  - 1Click volume −30% (placebo −25%); NEAR's 1Click revenue −13% (placebo −40%; its take was rising).
+  - Rivals (THORChain, Chainflip, Maya, DefiLlama) +41% (placebo +33%): 1Click was losing share in both periods.
+  - Medians, because the rivals carried $250M–300M days on 25–30 Sep; means would show the rivals collapsing afterwards.
+- **Where the cost shows: large integrators.** Of the 25 largest before, 15 kept at least half their volume after, against 21 in the placebo windows, and their combined volume fell 39% against 20%. Integrators active per day rose (94 to 104).
+- Reading: a resilience check the thesis needed. The business and NEAR's revenue came through; the cost was paid in the relationship with large integrators, the same place where REPORT section 3 finds NEAR weakest.

@@ -32,6 +32,11 @@ def pct(x: float, d: int = 0) -> str:
     return f"{x * 100:.{d}f}%"
 
 
+def spct(x: float) -> str:
+    """A signed whole percentage, with a real minus sign."""
+    return f"{x * 100:+.0f}%".replace("-", "−")
+
+
 def usd(x: float, d: int | None = None) -> str:
     a = abs(x)
     if a >= 1e9:
@@ -370,6 +375,17 @@ def figures() -> dict[str, str]:
               "bq_intents_tx_25": pct(bq["activity"]["intents_share_of_txns_oct2025"], 1), "bq_intents_tx_26": pct(bq["activity"]["intents_share_of_txns_oct2026"], 1)})
     rv = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True)["rebuilt_total_usd"]
     f.update(follow_100(v))
+    ic = _json("incident.json")
+    ie, ip, ih = ic["event"], ic["placebo"], ic["halt"]
+    f.update({"ic_hours": f"{ih['hours']:.1f}", "ic_from": ih["last_swap_before_utc"][11:16], "ic_to": ih["first_swap_after_utc"][11:16],
+              "ic_rev_lost": f"${ih['near_revenue_forgone_usd']:,.0f}", "ic_vol_lost": usd(ih["volume_forgone_usd"]),
+              "ic_gap_week": f"{ih['longest_gap_in_prior_week_minutes']:.0f}",
+              "ic_vol": spct(ie["volume_usd"]["change"]), "ic_vol_p": spct(ip["volume_usd"]["change"]),
+              "ic_rev": spct(ie["near_usd"]["change"]), "ic_rev_p": spct(ip["near_usd"]["change"]),
+              "ic_riv": spct(ie["rivals_volume"]["change"]), "ic_riv_p": spct(ip["rivals_volume"]["change"]),
+              "ic_int": f"{ie['integrators']['before_per_day']:.0f} to {ie['integrators']['after_per_day']:.0f}",
+              "ic_kept": str(ie["top_integrators_kept_half"]), "ic_kept_p": str(ip["top_integrators_kept_half"]), "ic_top": str(ie["top_integrators"]),
+              "ic_top_vol": spct(ie["top_integrators_volume_change"]), "ic_top_vol_p": spct(ip["top_integrators_volume_change"])})
     qr = _json("quote_race.json")
     bc = qr["by_corridor_median_gap_bps"]
     sg = lambda x: "0.0 bps" if round(x, 1) == 0 else f"{x:+.1f} bps".replace("-", "−")  # noqa: E731
@@ -468,6 +484,11 @@ def claims(v: dict | None = None) -> list[dict]:
          "every dated snapshot in data/raw compared day by day with the latest (same rebuild code on each wallet snapshot); holds if no complete day of the rebuilt revenue moved by 1% or more (figures that use DefiLlama's gross fees stop at its settled days)",
          _json("source_revisions.json")["rebuilt_from_wallets"]["pairs"] > 0 and sum(x["moved_1pct"] for x in _json("source_revisions.json")["rebuilt_from_wallets"]["by_age"].values()) == 0,
          "make revisions"),
+        ("F17", "The freeze and the exploit cost the business little, and NEAR's revenue less",
+         f"1Click stopped for {f['ic_hours']} hours on 1 Oct ({f['ic_from']} to {f['ic_to']} UTC), about {f['ic_rev_lost']} of NEAR revenue at the previous week's pace; on the median day of the two weeks after, NEAR's 1Click revenue changed {f['ic_rev']} against {f['ic_rev_p']} in a quiet month, volume {f['ic_vol']} against {f['ic_vol_p']}",
+         "from 1Click swap aggregates (the longest gap with no swap on 1 Oct; 3-16 Oct against 15-28 Sep, and the same comparison a month earlier as placebo); holds if the halt lasted under 12 hours and NEAR's 1Click revenue fell no more than in the placebo month",
+         _json("incident.json")["halt"]["hours"] < 12 and _json("incident.json")["event"]["near_usd"]["change"] >= _json("incident.json")["placebo"]["near_usd"]["change"],
+         "make incident"),
     ]
     return [{"id": i, "finding": a, "number": n, "check": c, "passed": bool(p), "command": cmd} for i, a, n, c, p, cmd in rows]
 

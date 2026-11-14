@@ -90,6 +90,17 @@ Source: NEAR's own Dune dashboard (@near, "NEAR Intents"), read from its public 
 - **ZEC** is 18.6% of 1Click volume over 76 days but about half of NEAR's 1Click revenue in the last two weeks. (log 13)
 - **Users do not stay.** 3–5% of the addresses active in a given week come back in the same week three months later; at most 9–19% are seen again at any time over 2.5 months. These are lower bounds (a returning user with a new address counts as new). (log 14)
 - **The volume is broad, not wash-traded** (`oneclick_quality.json`, log 36). 235k sending addresses (86% of swaps carry one); 78% swapped once. The top 10 send 19% of volume and the top 100 34% (HHI 93). 140 addresses with 100 swaps or more, likely bots, market makers and integrator hot wallets, send 18% of volume and 14% of NEAR's revenue. Round trips, where an address swaps A into B and B back into A within 24 hours, are 2.9% of volume and 1.3% of NEAR's revenue, 79% of them through one integrator (LI.FI). Self-trading does not inflate the revenue. An independent entry (Toll Road) finds about 1% round trips outside market makers on a 1.2% sample of `intents.near`; the full 1Click record agrees.
+- **The freeze and the exploit did not break it, but large integrators pulled back** (`make incident`, F17, log 59). On 29 September 1Click blocked a $50M swap linked to the Bitget hacker; on 1 October an exploit in the Omni deposit path drained about $3.8M (returned the next day). From the swaps: no swap from 08:33 to 12:16 UTC on 1 October, a 3.7-hour halt (the longest gap the week before was 9 minutes), about $7.10M of volume and $2,014 of NEAR revenue at the previous week's pace. On the median day of the two weeks after (3–16 Oct) against the two weeks before (15–28 Sep), compared with the same two windows a month earlier, when nothing happened:
+
+  | Median day, after against before | Freeze and exploit | Quiet month (placebo) |
+  | --- | --- | --- |
+  | 1Click volume | −30% | −25% |
+  | NEAR's 1Click revenue | −13% | −40% |
+  | Rival venues' volume (THORChain, Chainflip, Maya) | +41% | +33% |
+  | Of the 25 largest integrators, kept at least half their volume | 15 | 21 |
+  | Volume of those 25 integrators | −39% | −20% |
+
+  Volume fell about as much as in a quiet month, while rivals grew in both: 1Click was already losing share, and the incident added little to it. NEAR's revenue held up better than in the placebo month (its take was rising). The cost shows in the largest integrators: six more of the 25 cut their volume by half than in a normal month, while active integrators per day rose (94 to 104). Medians, because the rival venues carried a few $250M–300M days on 25–30 September.
 - Reading: NEAR's 1Click revenue rests on unattributed users, a few direct deals and one asset. Distribution partners own the flow, and could route it elsewhere.
 
 Coverage limit: 1Click is about 28% of Intents volume, and confidential swaps were not visible in the Explorer API over the period collected. These results describe 1Click, not all of Intents.
@@ -131,17 +142,17 @@ What the simulation assumes, and what that does to the result:
 
 - **Peers.** Tokens whose holders receive protocol revenue trade at a median **20x** market cap / annualised holders revenue (12 peers with material holders revenue, interquartile 6–27x). NEAR trades at **208x**. At the peer median, NEAR Intents' revenue would support about $453M of market cap, against $4.6B (about $0.33 a NEAR, against $3.42): about 90% of NEAR's value rests on something other than this revenue (log 22). NEAR is a layer 1 and most peers are applications, so the gap is partly a category premium, not a mispricing.
 - **Competitors.** Among cross-chain swap venues on DefiLlama, NEAR Intents went from 6% of volume (June 2025) to 58–79% each month from May to October 2026, while THORChain fell from 84% to 4–31%. November to date reverses it (NEAR 35%, THORChain 53%): DefiLlama shows THORChain volume above $180M a day from 4 November. That is eight days of data and may be a reporting artefact; it is flagged, not concluded. NEAR led its category on volume for six months; it has not yet turned that share into enough captured revenue.
-- **Price.** Will competing routers compete NEAR's take away? A quote race (`src/ingest/quotes.py`, `make quotes`) asks 1Click, Relay, LI.FI and, on same-asset routes, Across for the same swap within the same minute, on five corridors at about $1k and $20k, and keeps every answer in `data/raw/quotes/`. Over 3 rounds (2026-11-14 01:00 to 2026-11-14 01:04 UTC, 28 swaps), 1Click paid the user the most in **46%** of swaps, a median **−0.1 bps** from the best alternative, all fees included:
+- **Price.** Will competing routers compete NEAR's take away? A quote race (`src/ingest/quotes.py`, `make quotes`) asks 1Click, Relay, LI.FI and, on same-asset routes, Across for the same swap within the same minute, on five corridors at about $1k and $20k, and keeps every answer in `data/raw/quotes/`. Over 4 rounds (2026-11-14 01:00 to 2026-11-14 07:16 UTC, 38 swaps), 1Click paid the user the most in **50%** of swaps, a median **0.0 bps** from the best alternative, all fees included:
 
   | Corridor | 1Click against the best alternative (median) |
   | --- | --- |
-  | Native BTC to EVM | +5.4 bps |
-  | Same asset, L2 to L2 (USDC) | +0.1 bps |
-  | Cross asset, EVM (ETH to USDC) | −0.2 bps |
+  | Native BTC to EVM | +7.0 bps |
+  | Same asset, L2 to L2 (USDC) | 0.0 bps |
+  | Cross asset, EVM (ETH to USDC) | +0.9 bps |
   | Same asset, Ethereum to L2 (ETH) | −1.2 bps |
-  | Solana to EVM (SOL to USDC) | −3.3 bps |
+  | Solana to EVM (SOL to USDC) | +3.1 bps |
 
-  LI.FI's public quote includes its default 0.25% fee; without it, LI.FI would beat everyone (1Click −18.1 bps), so the result depends on which front-end a user comes through. Quotes are not fills and leave out the origin-chain gas each route needs. Read with the 1Click data: NEAR keeps a few basis points inside a price that is level with the market, so its take is not what loses 1Click a swap; where 1Click loses (Ethereum to L2, Solana), the gap is a few basis points, about the size of the take itself. More rounds are added at each refresh.
+  LI.FI's public quote includes its default 0.25% fee; without it, LI.FI would beat everyone (1Click −16.0 bps), so the result depends on which front-end a user comes through. Quotes are not fills and leave out the origin-chain gas each route needs. Read with the 1Click data: NEAR keeps a few basis points inside a price that is level with the market, so its take is not what loses 1Click a swap; where 1Click loses (Ethereum to L2, Solana), the gap is a few basis points, about the size of the take itself. More rounds are added at each refresh.
 - **Protocol fee.** The `intents.near` fee itself is 1 pip (about 0.01 bps), unchanged since March 2025: NEAR's revenue comes from app fees, not from the protocol fee.
 
 ### 7. The holder's view
@@ -271,7 +282,7 @@ Questions sent to the NEAR team (Discord ticket 2026-11-04, near.com support, th
 ```bash
 pip install -r requirements.txt
 make check-clean   # every offline step on the committed snapshots, the tests, and a comparison of every output with the committed one
-make verify        # renders README/REPORT/FAQ from the outputs and re-checks the 16 findings
+make verify        # renders README/REPORT/FAQ from the outputs and re-checks the 17 findings
 make refresh       # optional, with network: fresh snapshots, then everything again
 ```
 
