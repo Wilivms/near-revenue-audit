@@ -9,10 +9,17 @@
 
 [![The live dashboard: NEAR's captured revenue against issuance](docs/img/hero.jpg)](https://near-revenue-audit.vercel.app)
 
+> **In one screen.** **Verdict:** NEAR's fee capture does not support its price today, and is unlikely to within 12 months (a thesis on public data, not advice).
+> - **205x**: market cap over captured revenue; supply only stops growing below **41x**.
+> - **$0.049** of every $100 swapped reaches NEAR's revenue wallets, against **$0.238** of new NEAR issued over the same days.
+> - **2.4 → 5.5 bps** (May–August to October): the take more than doubled, and the jump is dated by the data to the airdrop snapshot's week; nothing bought is burned or locked.
+>
+> **Check it:** `make setup && . .venv/bin/activate && make check-clean` (no key, about 2 minutes: 19/19 findings, every output compared; [a full transcript](docs/check-clean.log), [last CI run](https://github.com/Wilivms/near-revenue-audit/actions/workflows/tests.yml)). **Anchored on NEAR mainnet every day** under [`near-revenue-audit.near`](https://nearblocks.io/address/near-revenue-audit.near). Every printed number is traced in [`NUMBERS.md`](NUMBERS.md).
+
 **Is NEAR's protocol revenue real, durable, or bought?** Since 2026-02-23, NEAR Intents fees buy back NEAR. This project rebuilds that revenue from the chain and answers what the dashboards do not: why it moved, who pays it, what the growth cost, and what it means for the token.
 
 **The verdict, for an investor** (a thesis on public data to 2026-11-12, not personal advice). **NEAR's fee capture does not support its price today, and is unlikely to within 12 months** (7% chance of a deflationary 2027 in our base case, 26% even if volume grows 4x; probably upper bounds, as the simulation was too optimistic when backtested on 2026). On this evidence, the case for holding NEAR rests on staking and on the option that NEAR Intents grows several-fold at a higher take, not on the buybacks.
-- **Where it stands:** market cap is 205x captured revenue; supply stops growing below 41x. Valued as a perpetuity, the buybacks justify 2.0% to 16.2% of the market cap (4.1% on the last 30 days). Justifying the price on revenue alone needs 10–41x today's revenue (mid case 24x).
+- **Where it stands:** market cap ($4.6B on 2026-11-13, CoinGecko) is 205x captured revenue (last 30 days, annualised); supply stops growing below 41x. Valued as a perpetuity, the buybacks justify 2.0% to 16.2% of the market cap (4.1% on the last 30 days). Justifying the price on revenue alone needs 10–41x today's revenue (mid case 24x).
 - **Horizon:** 12 months, to November 2027, checked against our [dated predictions](#predictions).
 - **We turn constructive if two of these hold for a quarter:** the take stays at 5 bps or more after the airdrop (4.9 bps over the last 30 days, 3.9 in the first week of November); revenue covers half of new issuance (it is 21%); a rule replaces the choice, with bought NEAR burned or locked on-chain (today none is, and 47% of it sits in a fund whose policy one Admin vote can change: [Rule or choice](#rule-or-choice-who-controls-the-revenue)).
 - **It gets worse if:** the take falls back to its May–August level (2.4 bps), rivals start to beat 1Click's quotes, or the front-end fund sells or pays out its NEAR.
@@ -20,7 +27,7 @@
 ## For judges: the project in 3 minutes
 
 **1. The answer**
-- **Real.** Rebuilt from NEAR's three revenue wallets, it matches DefiLlama within 0.8%, NEAR's own dashboard within 0.16% and NEAR's BigQuery dataset to the last digit.
+- **Real.** Rebuilt from NEAR's three revenue wallets, it matches DefiLlama within 0.8% since the 2026-02-23 fee switch (about 1% on a single 30-day window), NEAR's own dashboard within 0.16% and NEAR's BigQuery dataset to the last digit.
 - **Too small for the token.** Buybacks offset 14.8% of new NEAR (February 2026 to October 2026). Market cap is 205x captured revenue; supply stops growing only below 41x.
 - **Partly bought.** NEAR's take doubled from 2.2 to 5.5 bps in two months, 22% to 84% of it (depending on the method) from confidential swaps during an airdrop whose first drop cost 74% of the revenue it added. It is already easing: 4.9 bps over the last 30 days, 3.9 in the first week of November.
 - **NEAR does not own the customer.** On 1Click, integrators keep 92% of the fee pool.
@@ -124,7 +131,7 @@ Each number with its window, its source and the command that rebuilds it. None o
 - **Valuation:** valued like peers whose holders receive revenue, this revenue supports about $0.33 a NEAR, against $3.42 (daily close, 2026-11-13).
 
 **Every number checked against independent sources**
-- Revenue rebuilt from the chain matches DefiLlama within 0.8% and NEAR's own dashboard within 0.16%; NEAR's public BigQuery dataset matches the wallet histories **to the last digit** (3.292M NEAR) and issuance within 0.06%.
+- Revenue rebuilt from the chain matches DefiLlama within 0.8% since the fee switch and NEAR's own dashboard within 0.16%; NEAR's public BigQuery dataset matches the wallet histories **to the last digit** (3.292M NEAR) and issuance within 0.06%.
 
 **Held to account in public**
 - 19/19 findings with explicit pass conditions, re-checked in CI on every commit; documents rendered from the outputs, so no figure is typed by hand.
