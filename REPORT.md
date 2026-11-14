@@ -30,6 +30,7 @@ NEAR Intents now earns protocol revenue, and since 2026-02-23 that revenue buys 
 | NEAR's own dashboard agrees | All-time NEAR received by the same three wallets: 4.346M rebuilt vs 4.339M on revenue.near.org (0.16% apart) | log 29, `make official` |
 | Bought NEAR stays put | 57,037 NEAR (1.3% of all NEAR received) left; both outflows forwarded to `bridge-mng.near` the same day, one DAO proposal titled "Fees accrued by mistake" | log 3, 9 |
 | Executed at market | Front-end fund conversions: +0.04% vs market, volume-weighted | log 4 |
+| It does not move after the fact | The same rebuild run on each of 5 dated wallet snapshots (2026-10-29 to 2026-11-13): 0 of 1,143 complete-day readings changed. DefiLlama's gross fees for the latest day were revised up to ×185 (2026-11-10: $1,611 → $297,452) and NEAR's dashboard, fed the same way, up to ×185; both settle after 3 days, revenue after two (at most 5.8%) | log 56, `make revisions` (F16) |
 
 Two caveats. First, NEAR's dashboard also publishes a monthly revenue series, and it runs about **21% above** the NEAR that reaches the three wallets it lists (ratio 1.14 to 1.33 each month since July; 21% more in dollars over March–October). The ratio is stable, so trends agree, but where the difference goes is not visible on-chain from these wallets; the question has been put to NEAR (log 32). This audit counts only what reaches the wallets.
 
@@ -159,7 +160,7 @@ The track suggests testing whether cross-chain volume through NEAR Intents is a 
 | 1Click with an API key and no app fee: 20 bps, 1 bp on stablecoin and same-asset routes | [NEAR Intents docs, fees](https://docs.near-intents.org/resources/fees) | swaps without an integrator, last 30 days: 69% of cross-asset volume pays NEAR's wallets 20 bps or more, 79% of same-asset volume pays 1 bp | **Survives for most volume** |
 | 1Click with app fees: a 50/50 split, at least 20 bps to 1Click (custom deals exist) | NEAR Intents docs, fees | swaps with an integrator, last 30 days: 13% of cross-asset volume pays NEAR 20 bps or more, 73% pays it nothing; average 3.5 bps | **The exception is the rule** |
 | "About $177M of daily volume makes NEAR deflationary" | community DefiLlama Pro dashboard, widely quoted in 2026 (log 6) | assumes all gross fees buy NEAR; with the captured share, break-even is $639M/day at 4.9 bps | **Inflated** |
-| "NEAR captures a growing share of fees" | revenue.near.org, read 2026-11-11 | 19% of gross fees all-time, 33% over the last 30 days; take 2.2 → 5.5 bps Aug to Oct, 3.9 in the week of 2 Nov | **Survives, but turned down in November** |
+| "NEAR captures a growing share of fees" | revenue.near.org, read 2026-11-11 | 19% of gross fees all-time, 33% over the last 30 days (read high: the page's latest days of fees are still being revised, F16); take 2.2 → 5.5 bps Aug to Oct, 3.9 in the week of 2 Nov | **Survives, but turned down in November** |
 | "...feeding buybacks that permanently remove NEAR from circulation" | revenue.near.org, read 2026-11-11 | 47% of the NEAR captured sits in a DAO treasury with no on-chain commitment not to sell; nothing is burned; supply grows 2.1% a year net | **Not shown** |
 | Revenue as NEAR reports it | revenue.near.org monthly revenue series | 21% above the NEAR its own three revenue wallets receive (Mar–Oct), while the wallet totals agree within 0.16% | **Unverified (gap unexplained)** |
 | Share of emissions offset, as NEAR reports it | revenue.near.org, read 2026-11-11 | 16.3% on NEAR's count, 14.8% rebuilt from the wallets and archival supply, Feb–Oct | **Survives (definitions differ)** |
@@ -259,7 +260,7 @@ Questions sent to the NEAR team (Discord ticket 2026-11-04, near.com support, th
 ```bash
 pip install -r requirements.txt
 make check-clean   # every offline step on the committed snapshots, the tests, and a comparison of every output with the committed one
-make verify        # renders README/REPORT/FAQ from the outputs and re-checks the 15 findings
+make verify        # renders README/REPORT/FAQ from the outputs and re-checks the 16 findings
 make refresh       # optional, with network: fresh snapshots, then everything again
 ```
 

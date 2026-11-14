@@ -370,6 +370,18 @@ def figures() -> dict[str, str]:
               "bq_intents_tx_25": pct(bq["activity"]["intents_share_of_txns_oct2025"], 1), "bq_intents_tx_26": pct(bq["activity"]["intents_share_of_txns_oct2026"], 1)})
     rv = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True)["rebuilt_total_usd"]
     f.update(follow_100(v))
+    sr = _json("source_revisions.json")
+    fl, rb, nd = sr["defillama"]["gross fees"], sr["rebuilt_from_wallets"], sr["near_dashboard"]["gross fees"]
+    big = fl["largest"][0]
+    f.update({"rv_snaps": str(len(fl["snapshots"])), "rv_first": fl["snapshots"][0], "rv_last": fl["snapshots"][-1],
+              "rv_fee_settle": str(fl["settled_after_days"]), "rv_fee_factor": f"×{big['factor']:.0f}",
+              "rv_fee_day": big["day"], "rv_fee_first": f"${big['first']:,.0f}", "rv_fee_latest": f"${big['latest']:,.0f}",
+              "rv_fee_moved": str(sum(x["moved_1pct"] for k, x in fl["by_age"].items() if k in ("1", "2"))),
+              "rv_fee_young": str(sum(x["pairs"] for k, x in fl["by_age"].items() if k in ("1", "2"))),
+              "rv_rev_max": pct(max(x["max_abs_change"] for x in sr["defillama"]["holders revenue"]["by_age"].values()), 1),
+              "rv_nd_factor": f"×{nd['largest'][0]['factor']:.0f}" if nd.get("largest") else "none",
+              "rv_rb_pairs": f"{rb['pairs']:,}", "rv_rb_snaps": str(len(rb["snapshots"])),
+              "rv_rb_moved": str(sum(x["moved_1pct"] for x in rb["by_age"].values()))})
     f["rev_nov01_11"] = f"${float(rv.loc['2026-11-01':'2026-11-11'].sum()) / 1e6:.2f}M"
     pr = bq["pool_revenue"]
     f.update({"pool_share_jun": pct(pr["monthly_share"]["2026-06"]), "pool_share_aug": pct(pr["monthly_share"]["2026-08"]),
@@ -442,6 +454,11 @@ def claims(v: dict | None = None) -> list[dict]:
         ("F15", "The 1Click results recompute without the partner key", f"{_leaves(_json('oneclick_offline_check.json')['published'])} figures (integrator shares, the November take, the fee-schedule test) recomputed from the published daily aggregates, all within 1.5%",
          "data/processed/oneclick_daily.csv (daily sums by integrator, route type, NEAR fee tier, ZEC; no swap or address) recomputed and compared with the outputs of make swaps; holds if all agree within 1.5%",
          _json("oneclick_offline_check.json")["agree"], "make oneclick-offline"),
+        ("F16", "The rebuilt revenue never revises; the aggregators' latest days do",
+         f"{f['rv_rb_moved']} of {f['rv_rb_pairs']} daily readings of the rebuilt revenue changed across {f['rv_rb_snaps']} dated snapshots; DefiLlama's gross fees for the latest day were revised up to {f['rv_fee_factor']} ({f['rv_fee_day']}: {f['rv_fee_first']} → {f['rv_fee_latest']}), settled after {f['rv_fee_settle']} days",
+         "every dated snapshot in data/raw compared day by day with the latest (same rebuild code on each wallet snapshot); holds if no complete day of the rebuilt revenue moved by 1% or more (figures that use DefiLlama's gross fees stop at its settled days)",
+         _json("source_revisions.json")["rebuilt_from_wallets"]["pairs"] > 0 and sum(x["moved_1pct"] for x in _json("source_revisions.json")["rebuilt_from_wallets"]["by_age"].values()) == 0,
+         "make revisions"),
     ]
     return [{"id": i, "finding": a, "number": n, "check": c, "passed": bool(p), "command": cmd} for i, a, n, c, p, cmd in rows]
 
@@ -466,7 +483,12 @@ def follow_100(v: dict) -> dict:
     d = _claims_data()
     a, b = v["r30_from"], v["r30_to"]
     rev = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True).loc[a:b]
-    vol, fees = float(d["vol"].loc[a:b].sum()), float(d["fees"].loc[a:b].sum())
+    vol = float(d["vol"].loc[a:b].sum())
+    # gross fees: DefiLlama revises its latest days (make revisions), so the fee rate is taken over the settled days only
+    rv = _json("source_revisions.json")["defillama"]["gross fees"]
+    settled = str((pd.Timestamp(rv["snapshots"][-1]) - pd.Timedelta(days=rv["settled_after_days"])).date())
+    fb = min(b, settled)
+    fees = float(d["fees"].loc[a:fb].sum()) / float(d["vol"].loc[a:fb].sum()) * vol
     captured = float(rev["rebuilt_total_usd"].sum())
     bb = float(rev["rebuilt_buybacks_usd"].sum())
     days = (pd.Timestamp(b) - pd.Timestamp(a)).days + 1
@@ -475,7 +497,7 @@ def follow_100(v: dict) -> dict:
     oc = pd.read_csv(OUT / "oneclick_daily.csv")
     oc = oc[(oc["day"] >= a) & (oc["day"] <= b)]
     per = lambda x: f"${100 * x / vol:.3f}"  # noqa: E731
-    return {"f100_from": a, "f100_to": b, "f100_fees": per(fees), "f100_near": per(captured), "f100_bb": per(bb),
+    return {"f100_from": a, "f100_to": b, "f100_fees_to": fb, "f100_fees": per(fees), "f100_near": per(captured), "f100_bb": per(bb),
             "f100_fe": per(captured - bb), "f100_issued": per(issued_usd), "f100_cover": pct(captured / issued_usd),
             "f100_vol": usd(vol, 2), "f100_oc_pool": f"${100 * oc['fee_usd'].sum() / oc['volume_usd'].sum():.3f}",
             "f100_oc_near": f"${100 * oc['near_usd'].sum() / oc['volume_usd'].sum():.3f}",
@@ -534,7 +556,7 @@ def public_claims(v: dict | None = None) -> list[dict]:
         ("\"About $177M of daily volume makes NEAR deflationary\"", "community DefiLlama Pro dashboard, widely quoted in 2026 (log 6)",
          f"assumes all gross fees buy NEAR; with the captured share, break-even is {f['be_vol_now']}/day at {f['take_now']} bps", "Inflated"),
         ("\"NEAR captures a growing share of fees\"", "revenue.near.org, read 2026-11-11",
-         f"{f['cap_total_all']} of gross fees all-time, {f['cap_total_d30']} over the last 30 days; take {f['take_aug']} → {f['take_oct']} bps Aug to Oct, {f['take_last_week']} in the week of 2 Nov",
+         f"{f['cap_total_all']} of gross fees all-time, {f['cap_total_d30']} over the last 30 days (read high: the page's latest days of fees are still being revised, F16); take {f['take_aug']} → {f['take_oct']} bps Aug to Oct, {f['take_last_week']} in the week of 2 Nov",
          "Survives, but turned down in November"),
         ("\"...feeding buybacks that permanently remove NEAR from circulation\"", "revenue.near.org, read 2026-11-11",
          f"{f['fefunds_share']} of the NEAR captured sits in a DAO treasury with no on-chain commitment not to sell; nothing is burned; supply grows {f['net_growth']} a year net",

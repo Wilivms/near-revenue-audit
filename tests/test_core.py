@@ -100,3 +100,17 @@ def test_offline_1click_recompute_on_a_toy_table():
     assert r["top_integrator"] == "trust"
     assert r["no_integrator_near_share"] == pytest.approx(0.4 / 0.6)
     assert r["oct16_29"]["near_bps_ex_trust"] == pytest.approx(0.2 / 100 * 1e4)
+
+
+def test_revisions_compare_by_age():
+    from src.analysis import revisions
+    d = lambda s: pd.Timestamp(s)  # noqa: E731
+    snaps = {
+        "2026-11-04": pd.Series({d("2026-11-01"): 100.0, d("2026-11-02"): 100.0, d("2026-11-03"): 10.0, d("2026-11-04"): 1.0}),
+        "2026-11-10": pd.Series({d("2026-11-01"): 100.0, d("2026-11-02"): 100.0, d("2026-11-03"): 80.0, d("2026-11-04"): 90.0}),
+    }
+    r = revisions.compare(snaps)
+    assert r["pairs"] == 3  # the snapshot's own (partial) day is not compared
+    assert r["by_age"]["1"]["moved_1pct"] == 1 and r["by_age"]["3"]["moved_1pct"] == 0
+    assert r["settled_after_days"] == 2
+    assert r["largest"][0]["factor"] == 8.0

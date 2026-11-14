@@ -10,7 +10,7 @@ NEAR Intents' protocol revenue is real and has grown, but in its current form it
 ## Evidence for
 
 - **It is real.** Three independent indexers agree: NearBlocks, NEAR's BigQuery dataset (to the last digit on the NEAR the wallets received) and NEAR's own dashboard. Rebuilt from the chain, revenue matches DefiLlama within 0.8% ($8.09M since the 2026-02-23 fee switch) and NEAR's own dashboard within 0.16% on the NEAR its three revenue wallets received. ($8,087,549 vs $8,149,355; `make revenue`, `make official`)
-- **In one line.** Of every $100 swapped through NEAR Intents (2026-10-14 to 2026-11-12), users pay $0.154 in fees, NEAR's wallets receive $0.049, and the network issues $0.238 of new NEAR: revenue covers 21% of issuance.
+- **In one line.** Of every $100 swapped through NEAR Intents (2026-10-14 to 2026-11-12), users pay $0.159 in fees, NEAR's wallets receive $0.049, and the network issues $0.238 of new NEAR: revenue covers 21% of issuance.
 - **It is too small for the supply story.** Feb–Oct 2026: 3.53M NEAR captured against 23.9M issued, 14.8% (16.3% on NEAR's own count). Supply still grows 2.1% a year net. (`make supply`)
 - **The gap is structural.** Supply stops growing only when market cap is below 41x annual captured revenue (64x after the approved HSP-029 cut); it is 205x (market cap on 2026-11-13 ÷ wallet revenue 2026-10-14 to 2026-11-12, annualised). Break-even needs about $639M of daily volume at today's take, against about $127M. (`make montecarlo`)
 - **2027 does not change it in the base case.** Median 18% of 2027 issuance offset (5–75%), 7% chance of a deflationary 2027; 20% with the issuance cut. The engine was too optimistic in its 2026 backtest. (`make montecarlo backtest`)

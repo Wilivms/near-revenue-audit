@@ -22,7 +22,7 @@
 
 | Of every $100 swapped through NEAR Intents | |
 | --- | --- |
-| Paid by users in fees (all parties) | {{f100_fees}} |
+| Paid by users in fees (all parties) | {{f100_fees}} (DefiLlama's fee rate up to {{f100_fees_to}}: its later days were still being revised) |
 | Reaches NEAR's three revenue wallets | **{{f100_near}}** (buyback multisig {{f100_bb}}, front-end fund {{f100_fe}}) |
 | New NEAR issued over the same days | **{{f100_issued}}** |
 | Revenue as a share of new issuance | **{{f100_cover}}** ({{offset_rebuilt}} over {{offset_window}}) |
@@ -46,6 +46,7 @@ make verify          # → prints every finding and the headline numbers above
 **5. What only this project brings**
 - **Revenue confirmed four independent ways**: DefiLlama, NEAR's dashboard, NEAR's BigQuery dataset, and the withdrawals from `intents.near` to the wallets (within 0.5%).
 - **The questions the dashboards skip, answered with data**: the airdrop's role, who pays, and where the revenue now comes from: {{pool_share_late}} of what reaches the wallets since late September is paid out of the confidential pool (about $136M), worth {{pool_bps}} bps of confidential volume against {{pool_rest_bps}} on public ([REPORT section 10](REPORT.md#10-the-two-questions-near-did-not-answer-and-what-the-data-says)).
+- **Numbers that do not move after the fact**: {{rv_rb_moved}} of {{rv_rb_pairs}} daily readings of the rebuilt revenue changed across {{rv_rb_snaps}} dated snapshots, while DefiLlama's and NEAR's own dashboard revised their latest day of gross fees by up to {{rv_fee_factor}} (finding F16, `make revisions`).
 - **Other people's claims tested**: {{public_claims_n}} statements by NEAR, Nansen, analysts and the press, each checked at its own date.
 - **Bets made in public**: hypotheses written before the tests, six predictions timestamped on Bitcoin and anchored on NEAR testnet, two resolving before judging.
 - **Honest about its misses**: [five corrections](#where-we-were-wrong-and-what-changed), each dated in the research log.

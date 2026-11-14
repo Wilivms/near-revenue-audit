@@ -1,0 +1,428 @@
+{
+ "rule": "a series is settled after k days if no day read at least k days old moved by 1% or more in a later snapshot",
+ "defillama": {
+  "gross fees": {
+   "pairs": 2178,
+   "snapshots": [
+    "2026-10-29",
+    "2026-11-04",
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-13"
+   ],
+   "by_age": {
+    "1": {
+     "pairs": 3,
+     "moved_1pct": 2,
+     "max_abs_change": 183.638113
+    },
+    "2": {
+     "pairs": 4,
+     "moved_1pct": 2,
+     "max_abs_change": 6.120803
+    },
+    "3": {
+     "pairs": 4,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "4": {
+     "pairs": 4,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "5": {
+     "pairs": 4,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "6": {
+     "pairs": 4,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "7+": {
+     "pairs": 2155,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    }
+   },
+   "settled_after_days": 3,
+   "largest": [
+    {
+     "day": "2026-11-10",
+     "read_on": "2026-11-11",
+     "first": 1611.0,
+     "latest": 297452.0,
+     "factor": 184.64
+    },
+    {
+     "day": "2026-11-02",
+     "read_on": "2026-11-04",
+     "first": 23021.0,
+     "latest": 163928.0,
+     "factor": 7.12
+    },
+    {
+     "day": "2026-11-09",
+     "read_on": "2026-11-10",
+     "first": 57866.0,
+     "latest": 263808.0,
+     "factor": 4.56
+    },
+    {
+     "day": "2026-11-09",
+     "read_on": "2026-11-11",
+     "first": 57866.0,
+     "latest": 263808.0,
+     "factor": 4.56
+    }
+   ]
+  },
+  "revenue": {
+   "pairs": 2178,
+   "snapshots": [
+    "2026-10-29",
+    "2026-11-04",
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-13"
+   ],
+   "by_age": {
+    "1": {
+     "pairs": 3,
+     "moved_1pct": 2,
+     "max_abs_change": 0.058343
+    },
+    "2": {
+     "pairs": 4,
+     "moved_1pct": 0,
+     "max_abs_change": 0.002656
+    },
+    "3": {
+     "pairs": 4,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "4": {
+     "pairs": 4,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "5": {
+     "pairs": 4,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "6": {
+     "pairs": 4,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "7+": {
+     "pairs": 2155,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    }
+   },
+   "settled_after_days": 2,
+   "largest": [
+    {
+     "day": "2026-10-28",
+     "read_on": "2026-10-29",
+     "first": 54197.0,
+     "latest": 57359.0,
+     "factor": 1.06
+    },
+    {
+     "day": "2026-11-10",
+     "read_on": "2026-11-11",
+     "first": 58470.0,
+     "latest": 57833.0,
+     "factor": 0.99
+    }
+   ]
+  },
+  "holders revenue": {
+   "pairs": 2178,
+   "snapshots": [
+    "2026-10-29",
+    "2026-11-04",
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-13"
+   ],
+   "by_age": {
+    "1": {
+     "pairs": 3,
+     "moved_1pct": 2,
+     "max_abs_change": 0.058343
+    },
+    "2": {
+     "pairs": 4,
+     "moved_1pct": 0,
+     "max_abs_change": 0.002656
+    },
+    "3": {
+     "pairs": 4,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "4": {
+     "pairs": 4,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "5": {
+     "pairs": 4,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "6": {
+     "pairs": 4,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "7+": {
+     "pairs": 2155,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    }
+   },
+   "settled_after_days": 2,
+   "largest": [
+    {
+     "day": "2026-10-28",
+     "read_on": "2026-10-29",
+     "first": 54197.0,
+     "latest": 57359.0,
+     "factor": 1.06
+    },
+    {
+     "day": "2026-11-10",
+     "read_on": "2026-11-11",
+     "first": 58470.0,
+     "latest": 57833.0,
+     "factor": 0.99
+    }
+   ]
+  },
+  "volume": {
+   "pairs": 2781,
+   "snapshots": [
+    "2026-10-29",
+    "2026-11-04",
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-13"
+   ],
+   "by_age": {
+    "1": {
+     "pairs": 2,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "2": {
+     "pairs": 4,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "3": {
+     "pairs": 4,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "4": {
+     "pairs": 4,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "5": {
+     "pairs": 4,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "6": {
+     "pairs": 4,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "7+": {
+     "pairs": 2759,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    }
+   },
+   "settled_after_days": 1,
+   "largest": []
+  }
+ },
+ "near_dashboard": {
+  "gross fees": {
+   "pairs": 1095,
+   "snapshots": [
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-13"
+   ],
+   "by_age": {
+    "1": {
+     "pairs": 2,
+     "moved_1pct": 2,
+     "max_abs_change": 183.613091
+    },
+    "2": {
+     "pairs": 2,
+     "moved_1pct": 1,
+     "max_abs_change": 3.558836
+    },
+    "3": {
+     "pairs": 2,
+     "moved_1pct": 0,
+     "max_abs_change": 4e-06
+    },
+    "4": {
+     "pairs": 2,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "5": {
+     "pairs": 2,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "6": {
+     "pairs": 2,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "7+": {
+     "pairs": 1083,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    }
+   },
+   "settled_after_days": 3,
+   "largest": [
+    {
+     "day": "2026-11-10",
+     "read_on": "2026-11-11",
+     "first": 1611.11,
+     "latest": 297431.61,
+     "factor": 184.61
+    },
+    {
+     "day": "2026-11-09",
+     "read_on": "2026-11-10",
+     "first": 57865.89,
+     "latest": 263801.08,
+     "factor": 4.56
+    },
+    {
+     "day": "2026-11-09",
+     "read_on": "2026-11-11",
+     "first": 57865.89,
+     "latest": 263801.08,
+     "factor": 4.56
+    }
+   ]
+  },
+  "volume": {
+   "pairs": 1342,
+   "snapshots": [
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-13"
+   ],
+   "by_age": {
+    "1": {
+     "pairs": 1,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "2": {
+     "pairs": 2,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "3": {
+     "pairs": 2,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "4": {
+     "pairs": 2,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "5": {
+     "pairs": 2,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "6": {
+     "pairs": 2,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    },
+    "7+": {
+     "pairs": 1331,
+     "moved_1pct": 0,
+     "max_abs_change": 0.0
+    }
+   },
+   "settled_after_days": 1,
+   "largest": []
+  }
+ },
+ "rebuilt_from_wallets": {
+  "pairs": 1143,
+  "snapshots": [
+   "2026-10-29",
+   "2026-11-04",
+   "2026-11-10",
+   "2026-11-11",
+   "2026-11-13"
+  ],
+  "by_age": {
+   "1": {
+    "pairs": 4,
+    "moved_1pct": 0,
+    "max_abs_change": 0.0
+   },
+   "2": {
+    "pairs": 4,
+    "moved_1pct": 0,
+    "max_abs_change": 0.0
+   },
+   "3": {
+    "pairs": 4,
+    "moved_1pct": 0,
+    "max_abs_change": 0.0
+   },
+   "4": {
+    "pairs": 4,
+    "moved_1pct": 0,
+    "max_abs_change": 0.0
+   },
+   "5": {
+    "pairs": 4,
+    "moved_1pct": 0,
+    "max_abs_change": 0.0
+   },
+   "6": {
+    "pairs": 4,
+    "moved_1pct": 0,
+    "max_abs_change": 0.0
+   },
+   "7+": {
+    "pairs": 1119,
+    "moved_1pct": 0,
+    "max_abs_change": 0.0
+   }
+  },
+  "settled_after_days": 1,
+  "largest": [],
+  "unit": "NEAR received from outside the three wallets, per day (no price involved)"
+ }
+}

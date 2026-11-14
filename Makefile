@@ -1,4 +1,4 @@
-.PHONY: open-questions oneclick-offline setup pycheck anchor-check bigquery reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
+.PHONY: revisions open-questions oneclick-offline setup pycheck anchor-check bigquery reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -30,6 +30,9 @@ risk:        ## holder's view: NEAR vs BTC risk, issuance, stake, buyback yield;
 confidential: ## confidential swaps from NEAR's Dune dashboard (data/raw/dune): volume share, take-rate regression, H4.1, incentive cost
 	python3 -m src.analysis.confidential
 
+revisions:   ## do the sources revise past days? every dated snapshot of DefiLlama, NEAR's dashboard and the wallet rebuild, compared
+	python3 -m src.analysis.revisions
+
 official:    ## cross-check against NEAR's own dashboard (revenue.near.org snapshot in data/raw/near_revenue)
 	python3 -m src.analysis.official
 
@@ -51,7 +54,7 @@ pycheck:
 test:        ## model checks
 	python3 -m pytest -q tests
 
-STEPS = ledger revenue supply governance montecarlo backtest leadlag bigquery oneclick-offline confidential official open-questions predictions dashboard
+STEPS = ledger revenue supply governance montecarlo backtest leadlag bigquery oneclick-offline confidential official revisions open-questions predictions dashboard
 
 reproduce:   ## every offline step on the committed snapshots, then the tests
 	$(MAKE) $(STEPS) test
