@@ -112,6 +112,10 @@
    "bytes": 252240,
    "sha256": "c848aacb860a4e503ebfc80fc57994e0614b86b3f0a4e73e990e4d65620257e5"
   },
+  "control/control_2026-11-14.json": {
+   "bytes": 50757,
+   "sha256": "a85c08b9148aa37502fcd0d9b87cd4c810635cd5141aef22bb382cca6db1ef62"
+  },
   "dune/conf_tvl_8644298.txt": {
    "bytes": 2932,
    "sha256": "dd2fea183f9fcf54b05973124c431cd3e70203417fe102c1c39b1850561c4e07"
@@ -327,6 +331,10 @@
   "quotes/2026-11-14T0716.json": {
    "bytes": 7864,
    "sha256": "fd86e5b4e1ac5a6a99e54368a308c22ebe25f759d4461350abce331a710055af"
+  },
+  "quotes/2026-11-14T1025.json": {
+   "bytes": 7856,
+   "sha256": "c31bb76b49363bed2ef0542c14f14e8e08c2e2d58a4415baf55aa66db7652918"
   },
   "stake/2026-10-31.json": {
    "bytes": 118,

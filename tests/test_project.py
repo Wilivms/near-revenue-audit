@@ -22,7 +22,7 @@ def rendered():
     return figures.render()
 
 
-@pytest.mark.parametrize("name", DOCS)
+@pytest.mark.parametrize("name", [*DOCS, figures.DASHBOARD])
 def test_committed_document_is_the_rendered_one(rendered, name):
     assert (ROOT / name).read_text() == rendered[name], f"{name} is stale: run `make docs`"
 

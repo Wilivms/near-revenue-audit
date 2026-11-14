@@ -92,7 +92,8 @@ def so_far(metric: str, args: list[str]) -> str:
             return f"{tvl.iloc[-1] / 1e6:.1f}M USD on {tvl.index[-1]:%Y-%m-%d}"
         if metric == "hsp029_status":
             files = sorted((RAW / "governance").glob("hsp029_*.json"))
-            return json.loads(files[-1].read_text())["status"] if files else ""
+            st = json.loads(files[-1].read_text())["status"] if files else ""
+            return "passed, in its timelock (no veto so far)" if st == "Timelock" else st
         if metric == "month_offset":
             sm = pd.read_csv(OUT / "supply_monthly.csv", index_col=0, parse_dates=True)
             return f"last complete month {sm.index[-1]:%b}: {sm['captured_share_of_issuance'].iloc[-1]:.0%}"

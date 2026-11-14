@@ -1,0 +1,1877 @@
+{
+ "read_at": "2026-11-14T10:24:33Z",
+ "rpc": "https://rpc.mainnet.near.org",
+ "accounts": {
+  "buybacks.multisignature.near": {
+   "block_height": 224500889,
+   "amount_yocto": "2280770076500144441428218818236",
+   "code_hash": "2v9kZJHN4sogHuKtKHaqYAqQBazkqH2cjY1rrjQYvNQa",
+   "keys": [
+    {
+     "public_key": "ed25519:4BGbi2xFEp7hBsfGGLsrzB2DY2VTaADxh4KdpqdCsgSf",
+     "full_access": false
+    },
+    {
+     "public_key": "ed25519:52QSJjJv7Ra4NgpajbYLgX5nr9goszbZvkNTX72SjJtU",
+     "full_access": false
+    },
+    {
+     "public_key": "ed25519:6ss8i9d8nG8vsiAw5DYrKbdrokmP9KCjSj6N3RhgjgrE",
+     "full_access": false
+    },
+    {
+     "public_key": "ed25519:BFVZgNSbUf3rVcwFww7vbXXfWy38VLgpv3PdPFbHotkP",
+     "full_access": false
+    }
+   ],
+   "num_confirmations": 2,
+   "request_nonce": 4,
+   "open_requests": []
+  },
+  "fefundsadmin.sputnik-dao.near": {
+   "block_height": 224500901,
+   "amount_yocto": "2016267225089388382673836168397",
+   "code_hash": "4zSoHkLjJWZm34Psd4Eq2WUXHELt6LxtKmUXpsZWAECp",
+   "keys": [],
+   "policy": {
+    "roles": [
+     {
+      "name": "Requestor",
+      "kind": {
+       "Group": [
+        "aurorafinance1.near",
+        "aurorafinance2.near",
+        "paperclip-maximizer.near",
+        "aurorafinance3.near",
+        "auroracfo.near"
+       ]
+      },
+      "permissions": [
+       "call:AddProposal",
+       "transfer:VoteRemove",
+       "transfer:AddProposal",
+       "call:VoteRemove"
+      ],
+      "vote_policy": {
+       "call": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "1"
+       },
+       "transfer": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "1"
+       }
+      }
+     },
+     {
+      "name": "Admin",
+      "kind": {
+       "Group": [
+        "paperclip-maximizer.near",
+        "aurorafinance2.near",
+        "aurorafinance3.near",
+        "auroracfo.near",
+        "aurorafinance1.near"
+       ]
+      },
+      "permissions": [
+       "config:*",
+       "policy_update_parameters:*",
+       "add_bounty:*",
+       "remove_member_from_role:*",
+       "upgrade_self:*",
+       "policy_remove_role:*",
+       "set_vote_token:*",
+       "upgrade_remote:*",
+       "bounty_done:*",
+       "add_member_to_role:*",
+       "factory_info_update:*",
+       "policy:*",
+       "policy_add_or_update_role:*",
+       "policy_update_default_vote_policy:*"
+      ],
+      "vote_policy": {
+       "policy_remove_role": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "1"
+       },
+       "policy_update_parameters": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "1"
+       },
+       "remove_member_from_role": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "1"
+       },
+       "upgrade_remote": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "1"
+       },
+       "bounty_done": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "1"
+       },
+       "policy": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "1"
+       },
+       "config": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "1"
+       },
+       "add_member_to_role": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "1"
+       },
+       "set_vote_token": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "1"
+       },
+       "factory_info_update": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "1"
+       },
+       "policy_add_or_update_role": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "1"
+       },
+       "upgrade_self": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "1"
+       },
+       "add_bounty": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "1"
+       },
+       "policy_update_default_vote_policy": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "1"
+       }
+      }
+     },
+     {
+      "name": "Approver",
+      "kind": {
+       "Group": [
+        "auroracfo.near",
+        "aurorafinance1.near",
+        "paperclip-maximizer.near",
+        "aurorafinance3.near",
+        "aurorafinance2.near"
+       ]
+      },
+      "permissions": [
+       "transfer:VoteApprove",
+       "call:VoteApprove",
+       "transfer:RemoveProposal",
+       "call:VoteReject",
+       "transfer:VoteReject",
+       "transfer:Finalize",
+       "call:Finalize",
+       "call:RemoveProposal"
+      ],
+      "vote_policy": {
+       "transfer": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "config": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "add_bounty": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "set_vote_token": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "upgrade_remote": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "add_member_to_role": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "upgrade_self": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "call": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "policy": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "remove_member_from_role": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "bounty_done": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "vote": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       }
+      }
+     }
+    ],
+    "default_vote_policy": {
+     "weight_kind": "RoleWeight",
+     "quorum": "0",
+     "threshold": [
+      1,
+      2
+     ]
+    },
+    "proposal_bond": "100000000000000000000000",
+    "proposal_period": "604800000000000",
+    "bounty_bond": "100000000000000000000000",
+    "bounty_forgiveness_period": "604800000000000"
+   },
+   "last_proposal_id": 17,
+   "proposals": [
+    {
+     "id": 0,
+     "proposer": "aurorafinance1.near",
+     "description": "* Title: transfer <br>* Summary: transter",
+     "kind": {
+      "Transfer": {
+       "token_id": "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+       "receiver_id": "auroraliqsupport.near",
+       "amount": "410000000000",
+       "msg": null
+      }
+     },
+     "status": "Failed",
+     "vote_counts": {
+      "Approver": [
+       1,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "aurorafinance1.near": "Approve"
+     },
+     "submission_time": "1762532009367324218"
+    },
+    {
+     "id": 1,
+     "proposer": "aurorafinance1.near",
+     "description": "* Title: Update policy - Voting Thresholds <br>* Summary: aurorafinance1.near requested to change voting threshold from 1 to 2.",
+     "kind": {
+      "ChangePolicy": {
+       "policy": {
+        "roles": [
+         {
+          "name": "Requestor",
+          "kind": {
+           "Group": [
+            "paperclip-maximizer.near",
+            "aurorafinance2.near",
+            "auroracfo.near",
+            "aurorafinance1.near",
+            "aurorafinance3.near"
+           ]
+          },
+          "permissions": [
+           "call:VoteRemove",
+           "transfer:AddProposal",
+           "call:AddProposal",
+           "transfer:VoteRemove"
+          ],
+          "vote_policy": {
+           "transfer": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           },
+           "call": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           }
+          }
+         },
+         {
+          "name": "Admin",
+          "kind": {
+           "Group": [
+            "auroracfo.near",
+            "aurorafinance2.near",
+            "paperclip-maximizer.near",
+            "aurorafinance1.near",
+            "aurorafinance3.near"
+           ]
+          },
+          "permissions": [
+           "policy_update_parameters:*",
+           "policy_add_or_update_role:*",
+           "factory_info_update:*",
+           "remove_member_from_role:*",
+           "upgrade_remote:*",
+           "upgrade_self:*",
+           "bounty_done:*",
+           "policy_remove_role:*",
+           "config:*",
+           "add_member_to_role:*",
+           "policy_update_default_vote_policy:*",
+           "set_vote_token:*",
+           "add_bounty:*",
+           "policy:*"
+          ],
+          "vote_policy": {
+           "add_member_to_role": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           },
+           "policy": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           },
+           "policy_add_or_update_role": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           },
+           "policy_remove_role": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           },
+           "factory_info_update": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           },
+           "set_vote_token": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           },
+           "policy_update_parameters": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           },
+           "remove_member_from_role": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           },
+           "add_bounty": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           },
+           "upgrade_self": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           },
+           "bounty_done": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           },
+           "upgrade_remote": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           },
+           "config": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           },
+           "policy_update_default_vote_policy": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           }
+          }
+         },
+         {
+          "name": "Approver",
+          "kind": {
+           "Group": [
+            "aurorafinance3.near",
+            "aurorafinance1.near",
+            "paperclip-maximizer.near",
+            "aurorafinance2.near",
+            "auroracfo.near"
+           ]
+          },
+          "permissions": [
+           "transfer:VoteReject",
+           "call:RemoveProposal",
+           "transfer:Finalize",
+           "call:VoteApprove",
+           "call:VoteReject",
+           "transfer:RemoveProposal",
+           "transfer:VoteApprove",
+           "call:Finalize"
+          ],
+          "vote_policy": {
+           "transfer": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "upgrade_self": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "remove_member_from_role": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "set_vote_token": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "bounty_done": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "policy": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "add_member_to_role": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "call": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "config": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "upgrade_remote": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "vote": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "add_bounty": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           }
+          }
+         }
+        ],
+        "default_vote_policy": {
+         "weight_kind": "RoleWeight",
+         "quorum": "0",
+         "threshold": [
+          1,
+          2
+         ]
+        },
+        "proposal_bond": "100000000000000000000000",
+        "proposal_period": "604800000000000",
+        "bounty_bond": "100000000000000000000000",
+        "bounty_forgiveness_period": "604800000000000"
+       }
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Admin": [
+       1,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "auroracfo.near": "Approve"
+     },
+     "submission_time": "1762532193130850844"
+    },
+    {
+     "id": 2,
+     "proposer": "aurorafinance1.near",
+     "description": "* Title: tr <br>* Summary: tr",
+     "kind": {
+      "Transfer": {
+       "token_id": "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+       "receiver_id": "auroraliqsupport.near",
+       "amount": "410000000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       2,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "aurorafinance1.near": "Approve",
+      "auroracfo.near": "Approve"
+     },
+     "submission_time": "1762532283178923835"
+    },
+    {
+     "id": 3,
+     "proposer": "aurorafinance1.near",
+     "description": "* Title: transfer <br>* Summary: transfer",
+     "kind": {
+      "Transfer": {
+       "token_id": "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+       "receiver_id": "auroraliqsupport.near",
+       "amount": "160000000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       2,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "aurorafinance1.near": "Approve",
+      "aurorafinance2.near": "Approve"
+     },
+     "submission_time": "1763038794894163755"
+    },
+    {
+     "id": 4,
+     "proposer": "auroracfo.near",
+     "description": "* Title: transfer <br>* Summary: transfer",
+     "kind": {
+      "Transfer": {
+       "token_id": "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+       "receiver_id": "auroraliqsupport.near",
+       "amount": "200000000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       2,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "aurorafinance1.near": "Approve",
+      "auroracfo.near": "Approve"
+     },
+     "submission_time": "1763744310872674714"
+    },
+    {
+     "id": 5,
+     "proposer": "aurorafinance1.near",
+     "description": "* Title: transfer <br>* Summary: transfer",
+     "kind": {
+      "Transfer": {
+       "token_id": "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+       "receiver_id": "auroraliqsupport.near",
+       "amount": "175000000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       2,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "aurorafinance1.near": "Approve",
+      "aurorafinance2.near": "Approve"
+     },
+     "submission_time": "1764613022790253759"
+    },
+    {
+     "id": 6,
+     "proposer": "aurorafinance1.near",
+     "description": "* Title: invoice <br>* Summary: invoice",
+     "kind": {
+      "Transfer": {
+       "token_id": "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+       "receiver_id": "aurorafinance.sputnik-dao.near",
+       "amount": "50000000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       2,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "aurorafinance1.near": "Approve",
+      "auroracfo.near": "Approve"
+     },
+     "submission_time": "1765883029539988472"
+    },
+    {
+     "id": 7,
+     "proposer": "aurorafinance1.near",
+     "description": "* Title: dec",
+     "kind": {
+      "Transfer": {
+       "token_id": "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+       "receiver_id": "aurorafinance.sputnik-dao.near",
+       "amount": "50000000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       2,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "aurorafinance1.near": "Approve",
+      "auroracfo.near": "Approve"
+     },
+     "submission_time": "1767881974655537530"
+    },
+    {
+     "id": 8,
+     "proposer": "aurorafinance1.near",
+     "description": "* Title: transfer",
+     "kind": {
+      "Transfer": {
+       "token_id": "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+       "receiver_id": "auroraliqsupport.near",
+       "amount": "355000000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       2,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "aurorafinance1.near": "Approve",
+      "auroracfo.near": "Approve"
+     },
+     "submission_time": "1768483211946038593"
+    },
+    {
+     "id": 9,
+     "proposer": "aurorafinance1.near",
+     "description": "* Title: transfer invoice <br>* Summary: transfer invoice",
+     "kind": {
+      "Transfer": {
+       "token_id": "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+       "receiver_id": "aurorafinance.sputnik-dao.near",
+       "amount": "50000000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       2,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "aurorafinance1.near": "Approve",
+      "aurorafinance2.near": "Approve"
+     },
+     "submission_time": "1770023777983384758"
+    },
+    {
+     "id": 10,
+     "proposer": "aurorafinance1.near",
+     "description": "* Title: transfer",
+     "kind": {
+      "Transfer": {
+       "token_id": "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+       "receiver_id": "auroraliqsupport.near",
+       "amount": "280000000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       2,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "auroracfo.near": "Approve",
+      "aurorafinance1.near": "Approve"
+     },
+     "submission_time": "1770046241974984312"
+    },
+    {
+     "id": 11,
+     "proposer": "aurorafinance1.near",
+     "description": "* Title: transfer",
+     "kind": {
+      "Transfer": {
+       "token_id": "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+       "receiver_id": "auroraliqsupport.near",
+       "amount": "64000000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       2,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "aurorafinance1.near": "Approve",
+      "auroracfo.near": "Approve"
+     },
+     "submission_time": "1770380907080196965"
+    },
+    {
+     "id": 12,
+     "proposer": "aurorafinance1.near",
+     "description": "* Title: transfer",
+     "kind": {
+      "Transfer": {
+       "token_id": "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+       "receiver_id": "auroraliqsupport.near",
+       "amount": "130000000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       2,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "aurorafinance1.near": "Approve",
+      "auroracfo.near": "Approve"
+     },
+     "submission_time": "1772126260749553815"
+    },
+    {
+     "id": 13,
+     "proposer": "aurorafinance1.near",
+     "description": "* Title: Payment Request",
+     "kind": {
+      "Transfer": {
+       "token_id": "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+       "receiver_id": "aurorafinance.sputnik-dao.near",
+       "amount": "50000000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       2,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "aurorafinance1.near": "Approve",
+      "aurorafinance2.near": "Approve"
+     },
+     "submission_time": "1773058072692558739"
+    },
+    {
+     "id": 14,
+     "proposer": "aurorafinance1.near",
+     "description": "* Title: transfer",
+     "kind": {
+      "Transfer": {
+       "token_id": "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+       "receiver_id": "auroraliqsupport.near",
+       "amount": "36900000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       2,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "auroracfo.near": "Approve",
+      "aurorafinance1.near": "Approve"
+     },
+     "submission_time": "1773322909197961609"
+    },
+    {
+     "id": 15,
+     "proposer": "aurorafinance1.near",
+     "description": "* Title: transfer",
+     "kind": {
+      "Transfer": {
+       "token_id": "a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.factory.bridge.near",
+       "receiver_id": "aurorasupport.near",
+       "amount": "200000000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       2,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "aurorafinance1.near": "Approve",
+      "aurorafinance2.near": "Approve"
+     },
+     "submission_time": "1774524033355574822"
+    },
+    {
+     "id": 16,
+     "proposer": "aurorafinance1.near",
+     "description": "* Title: transfer",
+     "kind": {
+      "Transfer": {
+       "token_id": "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
+       "receiver_id": "auroraliqsupport.near",
+       "amount": "240000000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       2,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "aurorafinance2.near": "Approve",
+      "aurorafinance1.near": "Approve"
+     },
+     "submission_time": "1774617610827007451"
+    }
+   ]
+  },
+  "1csfundsadmin.sputnik-dao.near": {
+   "block_height": 224500913,
+   "amount_yocto": "270875891412420848813311023",
+   "code_hash": "4zSoHkLjJWZm34Psd4Eq2WUXHELt6LxtKmUXpsZWAECp",
+   "keys": [],
+   "policy": {
+    "roles": [
+     {
+      "name": "Requestor",
+      "kind": {
+       "Group": [
+        "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6",
+        "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b",
+        "96c39c068d823af7d8aea81237eae07bc6f5f05fc19a0b34f170d700a6601850",
+        "c7b5000cd52a65f02e3e5d5c071f7cf96492b31fc19e60163fe225f66c92a483"
+       ]
+      },
+      "permissions": [
+       "call:AddProposal",
+       "transfer:VoteRemove",
+       "transfer:AddProposal",
+       "call:VoteRemove"
+      ],
+      "vote_policy": {
+       "call": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "1"
+       },
+       "transfer": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "1"
+       }
+      }
+     },
+     {
+      "name": "Admin",
+      "kind": {
+       "Group": [
+        "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b",
+        "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6",
+        "c7b5000cd52a65f02e3e5d5c071f7cf96492b31fc19e60163fe225f66c92a483",
+        "96c39c068d823af7d8aea81237eae07bc6f5f05fc19a0b34f170d700a6601850"
+       ]
+      },
+      "permissions": [
+       "config:*",
+       "policy_update_parameters:*",
+       "add_bounty:*",
+       "remove_member_from_role:*",
+       "upgrade_self:*",
+       "policy_remove_role:*",
+       "set_vote_token:*",
+       "upgrade_remote:*",
+       "bounty_done:*",
+       "add_member_to_role:*",
+       "factory_info_update:*",
+       "policy:*",
+       "policy_add_or_update_role:*",
+       "policy_update_default_vote_policy:*"
+      ],
+      "vote_policy": {
+       "upgrade_remote": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "upgrade_self": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "call": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "bounty_done": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "policy": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "config": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "add_member_to_role": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "set_vote_token": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "vote": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "transfer": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "add_bounty": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "remove_member_from_role": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       }
+      }
+     },
+     {
+      "name": "Approver",
+      "kind": {
+       "Group": [
+        "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b",
+        "96c39c068d823af7d8aea81237eae07bc6f5f05fc19a0b34f170d700a6601850",
+        "c7b5000cd52a65f02e3e5d5c071f7cf96492b31fc19e60163fe225f66c92a483",
+        "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6"
+       ]
+      },
+      "permissions": [
+       "transfer:VoteApprove",
+       "call:VoteApprove",
+       "transfer:RemoveProposal",
+       "call:VoteReject",
+       "transfer:VoteReject",
+       "transfer:Finalize",
+       "call:Finalize",
+       "call:RemoveProposal"
+      ],
+      "vote_policy": {
+       "transfer": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "config": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "add_bounty": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "set_vote_token": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "upgrade_remote": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "add_member_to_role": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "upgrade_self": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "call": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "policy": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "remove_member_from_role": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "bounty_done": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       },
+       "vote": {
+        "weight_kind": "RoleWeight",
+        "quorum": "0",
+        "threshold": "2"
+       }
+      }
+     }
+    ],
+    "default_vote_policy": {
+     "weight_kind": "RoleWeight",
+     "quorum": "0",
+     "threshold": [
+      1,
+      2
+     ]
+    },
+    "proposal_bond": "100000000000000000000000",
+    "proposal_period": "604800000000000",
+    "bounty_bond": "100000000000000000000000",
+    "bounty_forgiveness_period": "604800000000000"
+   },
+   "last_proposal_id": 11,
+   "proposals": [
+    {
+     "id": 0,
+     "proposer": "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b",
+     "description": "* Notes: Test",
+     "kind": {
+      "Transfer": {
+       "token_id": "",
+       "receiver_id": "fdd59b04d49c7f535a441fa7ea24f6e5292e54f68f75ebbe2e41738301bcf9e4",
+       "amount": "10000000000000000000000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       1,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b": "Approve"
+     },
+     "submission_time": "1776848406450111846"
+    },
+    {
+     "id": 1,
+     "proposer": "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b",
+     "description": "* Notes: Fees accrued by mistake",
+     "kind": {
+      "Transfer": {
+       "token_id": "",
+       "receiver_id": "fdd59b04d49c7f535a441fa7ea24f6e5292e54f68f75ebbe2e41738301bcf9e4",
+       "amount": "45000000000000000000000000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       1,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b": "Approve"
+     },
+     "submission_time": "1776848461491151255"
+    },
+    {
+     "id": 2,
+     "proposer": "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6",
+     "description": "* Title: Update policy - Voting Thresholds <br>* Summary: f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6 requested to change voting threshold from 1 to 2.",
+     "kind": {
+      "ChangePolicy": {
+       "policy": {
+        "roles": [
+         {
+          "name": "Requestor",
+          "kind": {
+           "Group": [
+            "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6",
+            "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b",
+            "c7b5000cd52a65f02e3e5d5c071f7cf96492b31fc19e60163fe225f66c92a483",
+            "96c39c068d823af7d8aea81237eae07bc6f5f05fc19a0b34f170d700a6601850"
+           ]
+          },
+          "permissions": [
+           "call:AddProposal",
+           "transfer:AddProposal",
+           "transfer:VoteRemove",
+           "call:VoteRemove"
+          ],
+          "vote_policy": {
+           "call": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           },
+           "transfer": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           }
+          }
+         },
+         {
+          "name": "Admin",
+          "kind": {
+           "Group": [
+            "c7b5000cd52a65f02e3e5d5c071f7cf96492b31fc19e60163fe225f66c92a483",
+            "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b",
+            "96c39c068d823af7d8aea81237eae07bc6f5f05fc19a0b34f170d700a6601850",
+            "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6"
+           ]
+          },
+          "permissions": [
+           "upgrade_remote:*",
+           "upgrade_self:*",
+           "add_bounty:*",
+           "bounty_done:*",
+           "config:*",
+           "factory_info_update:*",
+           "policy_update_default_vote_policy:*",
+           "policy:*",
+           "policy_remove_role:*",
+           "policy_add_or_update_role:*",
+           "remove_member_from_role:*",
+           "add_member_to_role:*",
+           "set_vote_token:*",
+           "policy_update_parameters:*"
+          ],
+          "vote_policy": {
+           "transfer": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "set_vote_token": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "add_bounty": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "remove_member_from_role": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "add_member_to_role": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "bounty_done": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "call": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "upgrade_remote": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "upgrade_self": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "policy": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "vote": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "config": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           }
+          }
+         },
+         {
+          "name": "Approver",
+          "kind": {
+           "Group": [
+            "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b",
+            "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6",
+            "96c39c068d823af7d8aea81237eae07bc6f5f05fc19a0b34f170d700a6601850",
+            "c7b5000cd52a65f02e3e5d5c071f7cf96492b31fc19e60163fe225f66c92a483"
+           ]
+          },
+          "permissions": [
+           "transfer:Finalize",
+           "call:RemoveProposal",
+           "call:Finalize",
+           "transfer:RemoveProposal",
+           "transfer:VoteApprove",
+           "transfer:VoteReject",
+           "call:VoteApprove",
+           "call:VoteReject"
+          ],
+          "vote_policy": {
+           "call": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           },
+           "transfer": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           }
+          }
+         }
+        ],
+        "default_vote_policy": {
+         "weight_kind": "RoleWeight",
+         "quorum": "0",
+         "threshold": [
+          1,
+          2
+         ]
+        },
+        "proposal_bond": "100000000000000000000000",
+        "proposal_period": "604800000000000",
+        "bounty_bond": "100000000000000000000000",
+        "bounty_forgiveness_period": "604800000000000"
+       }
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Admin": [
+       1,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6": "Approve"
+     },
+     "submission_time": "1776849294353323468"
+    },
+    {
+     "id": 3,
+     "proposer": "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6",
+     "description": "* Title: Update policy - Voting Thresholds <br>* Summary: f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6 requested to change voting threshold from 1 to 2.",
+     "kind": {
+      "ChangePolicy": {
+       "policy": {
+        "roles": [
+         {
+          "name": "Requestor",
+          "kind": {
+           "Group": [
+            "96c39c068d823af7d8aea81237eae07bc6f5f05fc19a0b34f170d700a6601850",
+            "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6",
+            "c7b5000cd52a65f02e3e5d5c071f7cf96492b31fc19e60163fe225f66c92a483",
+            "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b"
+           ]
+          },
+          "permissions": [
+           "call:VoteRemove",
+           "transfer:AddProposal",
+           "call:AddProposal",
+           "transfer:VoteRemove"
+          ],
+          "vote_policy": {
+           "call": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           },
+           "transfer": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "1"
+           }
+          }
+         },
+         {
+          "name": "Admin",
+          "kind": {
+           "Group": [
+            "c7b5000cd52a65f02e3e5d5c071f7cf96492b31fc19e60163fe225f66c92a483",
+            "96c39c068d823af7d8aea81237eae07bc6f5f05fc19a0b34f170d700a6601850",
+            "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6",
+            "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b"
+           ]
+          },
+          "permissions": [
+           "add_bounty:*",
+           "policy_update_default_vote_policy:*",
+           "policy:*",
+           "add_member_to_role:*",
+           "remove_member_from_role:*",
+           "set_vote_token:*",
+           "config:*",
+           "bounty_done:*",
+           "factory_info_update:*",
+           "policy_add_or_update_role:*",
+           "policy_remove_role:*",
+           "policy_update_parameters:*",
+           "upgrade_remote:*",
+           "upgrade_self:*"
+          ],
+          "vote_policy": {
+           "add_member_to_role": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "policy": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "call": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "upgrade_remote": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "upgrade_self": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "add_bounty": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "transfer": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "remove_member_from_role": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "set_vote_token": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "bounty_done": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "config": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "vote": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           }
+          }
+         },
+         {
+          "name": "Approver",
+          "kind": {
+           "Group": [
+            "c7b5000cd52a65f02e3e5d5c071f7cf96492b31fc19e60163fe225f66c92a483",
+            "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b",
+            "96c39c068d823af7d8aea81237eae07bc6f5f05fc19a0b34f170d700a6601850",
+            "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6"
+           ]
+          },
+          "permissions": [
+           "transfer:VoteReject",
+           "call:VoteApprove",
+           "transfer:RemoveProposal",
+           "call:Finalize",
+           "transfer:VoteApprove",
+           "call:RemoveProposal",
+           "call:VoteReject",
+           "transfer:Finalize"
+          ],
+          "vote_policy": {
+           "call": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "config": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "set_vote_token": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "upgrade_remote": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "upgrade_self": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "remove_member_from_role": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "transfer": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "vote": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "add_bounty": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "add_member_to_role": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "bounty_done": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           },
+           "policy": {
+            "weight_kind": "RoleWeight",
+            "quorum": "0",
+            "threshold": "2"
+           }
+          }
+         }
+        ],
+        "default_vote_policy": {
+         "weight_kind": "RoleWeight",
+         "quorum": "0",
+         "threshold": [
+          1,
+          2
+         ]
+        },
+        "proposal_bond": "100000000000000000000000",
+        "proposal_period": "604800000000000",
+        "bounty_bond": "100000000000000000000000",
+        "bounty_forgiveness_period": "604800000000000"
+       }
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Admin": [
+       2,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6": "Approve",
+      "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b": "Approve"
+     },
+     "submission_time": "1783702338790610208"
+    },
+    {
+     "id": 4,
+     "proposer": "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6",
+     "description": "",
+     "kind": {
+      "Transfer": {
+       "token_id": "",
+       "receiver_id": "buybacks.multisignature.near",
+       "amount": "7274000000000000000000000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       1,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b": "Approve"
+     },
+     "submission_time": "1783702675199636530"
+    },
+    {
+     "id": 5,
+     "proposer": "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6",
+     "description": "",
+     "kind": {
+      "Transfer": {
+       "token_id": "",
+       "receiver_id": "buybacks.multisignature.near",
+       "amount": "1000000000000000000000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       2,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6": "Approve",
+      "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b": "Approve"
+     },
+     "submission_time": "1787828551464277901"
+    },
+    {
+     "id": 6,
+     "proposer": "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6",
+     "description": "",
+     "kind": {
+      "Transfer": {
+       "token_id": "",
+       "receiver_id": "buybacks.multisignature.near",
+       "amount": "502793000000000000000000000000",
+       "msg": null
+      }
+     },
+     "status": "InProgress",
+     "vote_counts": {
+      "Approver": [
+       1,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b": "Approve"
+     },
+     "submission_time": "1787828618294882125"
+    },
+    {
+     "id": 7,
+     "proposer": "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6",
+     "description": "* Proposal Action: payment-transfer <br>* Recipient: buybacks.multisignature.near <br>* Destination Network: nep141:wrap.near <br>* Deposit Address: c19da9ebe8e0c14892a98403fe6ae4bc4b81ac1fd83cb568b849ec685716c5e2 <br>* Signature: ed25519:5zhUycs7emV37F141Ro99D2Et2AfKgx31JUgXJ7HCXV29NJspag1VbG5DwKtCD9JETtpGk8Nr8W1xAXSGEuLY6YD",
+     "kind": {
+      "FunctionCall": {
+       "receiver_id": "intents.near",
+       "actions": [
+        {
+         "method_name": "mt_transfer",
+         "args": "eyJyZWNlaXZlcl9pZCI6ImMxOWRhOWViZThlMGMxNDg5MmE5ODQwM2ZlNmFlNGJjNGI4MWFjMWZkODNjYjU2OGI4NDllYzY4NTcxNmM1ZTIiLCJhbW91bnQiOiI5OTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAiLCJ0b2tlbl9pZCI6Im5lcDE0MTp3cmFwLm5lYXIifQ==",
+         "deposit": "1",
+         "gas": "150000000000000"
+        }
+       ]
+      }
+     },
+     "status": "InProgress",
+     "vote_counts": {
+      "Approver": [
+       1,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b": "Approve"
+     },
+     "submission_time": "1787828713604715668"
+    },
+    {
+     "id": 8,
+     "proposer": "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6",
+     "description": "* Proposal Action: payment-transfer <br>* Recipient: buybacks.multisignature.near <br>* Destination Network: nep141:wrap.near <br>* Network Fee: 0.099009900990099009900991 <br>* Deposit Address: c6c1294fba977ddd14fc98e4f1de62b492d62a5d167ff3a43f0da8878a713819 <br>* Signature: ed25519:2XFWiFqY4Wso4UaJ5yGZqq7FiVBqbfJ6iSzCRzCNcZWUFLnfGRSg365HZevmXzmnvBdsnhknqyoPApFkbKxRHcKe",
+     "kind": {
+      "FunctionCall": {
+       "receiver_id": "intents.near",
+       "actions": [
+        {
+         "method_name": "mt_transfer",
+         "args": "eyJyZWNlaXZlcl9pZCI6ImM2YzEyOTRmYmE5NzdkZGQxNGZjOThlNGYxZGU2MmI0OTJkNjJhNWQxNjdmZjNhNDNmMGRhODg3OGE3MTM4MTkiLCJhbW91bnQiOiI5OTAwOTkwMDk5MDA5OTAwOTkwMDk5MDA5OTEiLCJ0b2tlbl9pZCI6Im5lcDE0MTp3cmFwLm5lYXIifQ==",
+         "deposit": "1",
+         "gas": "150000000000000"
+        }
+       ]
+      }
+     },
+     "status": "InProgress",
+     "vote_counts": {
+      "Approver": [
+       0,
+       1,
+       0
+      ]
+     },
+     "votes": {
+      "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6": "Reject"
+     },
+     "submission_time": "1788949044778770888"
+    },
+    {
+     "id": 9,
+     "proposer": "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6",
+     "description": "",
+     "kind": {
+      "Transfer": {
+       "token_id": "",
+       "receiver_id": "buybacks.multisignature.near",
+       "amount": "502793000000000000000000000000",
+       "msg": null
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       2,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b": "Approve",
+      "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6": "Approve"
+     },
+     "submission_time": "1788949363083684574"
+    },
+    {
+     "id": 10,
+     "proposer": "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6",
+     "description": "* Proposal Action: payment-transfer <br>* Recipient: buybacks.multisignature.near <br>* Destination Network: nep141:wrap.near <br>* Network Fee: 0.09899989998999899989999 <br>* Deposit Address: c0addac935f49baee1909a6fb4f08b57352a6d8c8ce7da27c59545fe45c5838c <br>* Signature: ed25519:4SD4NrBuzChUpfmHFDXFScgieZ9iipLAPdtPwuBdfBSCFe3PVLkjum1T2TtuEyPZA92JR3xpK9ZvDf6v763vGdfo",
+     "kind": {
+      "FunctionCall": {
+       "receiver_id": "intents.near",
+       "actions": [
+        {
+         "method_name": "mt_transfer",
+         "args": "eyJyZWNlaXZlcl9pZCI6ImMwYWRkYWM5MzVmNDliYWVlMTkwOWE2ZmI0ZjA4YjU3MzUyYTZkOGM4Y2U3ZGEyN2M1OTU0NWZlNDVjNTgzOGMiLCJhbW91bnQiOiI5ODk5OTg5OTk4OTk5ODk5OTg5OTk4OTk5OTAiLCJ0b2tlbl9pZCI6Im5lcDE0MTp3cmFwLm5lYXIifQ==",
+         "deposit": "1",
+         "gas": "150000000000000"
+        }
+       ]
+      }
+     },
+     "status": "Approved",
+     "vote_counts": {
+      "Approver": [
+       2,
+       0,
+       0
+      ]
+     },
+     "votes": {
+      "f7e23b5d988c35bd9a598671dcdb231e9763b47ac5105eb5d0c9e1427040d6c6": "Approve",
+      "745def2beee571628e35743e564687bb11ae1cf312efd3c1e079d679e46e011b": "Approve"
+     },
+     "submission_time": "1788955762109864757"
+    }
+   ]
+  },
+  "intents.near": {
+   "block_height": 224500926,
+   "amount_yocto": "137704989004240509638271183987",
+   "code_hash": "BtA1BEFNS619KkvXFsgcpQ21Tb5yMm32aaUkn7xNothk",
+   "keys": [
+    {
+     "public_key": "ed25519:oxEocH88sCavwDRXqoMtryK2Qm9Af72jxMsvsQGHQJx",
+     "full_access": false
+    },
+    {
+     "public_key": "ed25519:2nwukzu9FrAYbrrBRyHH7XNaJpQcYCoVqZAPeSXEbQJF",
+     "full_access": false
+    },
+    {
+     "public_key": "ed25519:4vq3dbhcG3A1fJufpgMZwa1UKQcnWf3aprFFp916J82Z",
+     "full_access": false
+    },
+    {
+     "public_key": "ed25519:5feHBLeyMBf7mppZR1kHv3Hk43kG7b69pM1JKEfWPjdC",
+     "full_access": false
+    },
+    {
+     "public_key": "ed25519:8KwHMd5ruFvFqcBCAq1k7k5aqpdLoGMfbUeQKjbaMdSb",
+     "full_access": false
+    },
+    {
+     "public_key": "ed25519:Anpgu2DvnC3E4yULEyN5eX64KPpgpKTHomgWcm6ArZyr",
+     "full_access": false
+    },
+    {
+     "public_key": "ed25519:BXa2Evq6XGAr3TiXfQisyv9PYp4Gpzm14AbLuw8h6G77",
+     "full_access": false
+    },
+    {
+     "public_key": "ed25519:CTjF3Xm8s7Gob9qLPMbh3sAq8scdoEpibrDFFCMAVwcQ",
+     "full_access": false
+    },
+    {
+     "public_key": "ed25519:FKPYRP9c93qVKPexkDAsHhqmgwmrS4H5uMiuqGXhY2y3",
+     "full_access": false
+    }
+   ],
+   "fee_pips": 1
+  }
+ }
+}

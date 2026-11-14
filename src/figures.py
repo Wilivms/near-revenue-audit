@@ -11,6 +11,7 @@ or if a rendered document differs from the committed one.
 """
 from __future__ import annotations
 
+import html
 import json
 import re
 import sys
@@ -418,7 +419,26 @@ def figures() -> dict[str, str]:
               "sg_yoy": spct(sg_["light_signers_yoy"]), "sg_bursts": str(len(sg_["bursts"])), "sg_tests": str(sg_["lead_lag_tests"]),
               "sg_sig": str(sg_["lead_lag_significant_holm"]), "sg_best_r": f"{sg_['lead_lag_best']['r']:+.2f}", "sg_best_p": f"{sg_['lead_lag_best']['p']:.2f}",
               "sg_vol_r": f"{sg_['same_week_corr']['intents_volume']:+.2f}".replace("-", "−"), "sg_rev_r": f"{sg_['light_vs_revenue_since_march']:+.2f}",
-              "sg_bot_drop": spct(sg_["heavy_txns_drop_2026_04"]), "sg_weeks": str(sg_["weeks"])})
+              "sg_bot_drop": spct(sg_["heavy_txns_drop_2026_04"]), "sg_weeks": str(sg_["weeks"]),
+              "sg_tg_share": pct(sg_["tg_share_of_light_last4"]), "sg_non_tg": f"{sg_['light_non_tg_last4'] / 1e3:.0f}k",
+              "sg_non_tg_yoy": spct(sg_["light_non_tg_yoy"]),
+              "sg_non_tg_vol_r": f"{sg_['same_week_corr_non_tg']['intents_volume']:+.2f}".replace("-", "−")})
+    ct = _json("control.json")
+    ms, fe, oc = ct["multisig"], ct["daos"]["fefundsadmin.sputnik-dao.near"], ct["daos"]["1csfundsadmin.sputnik-dao.near"]
+    implicit = oc["near_paid_out_by_recipient"].get("an implicit account", 0.0)
+    f.update({"ct_date": ct["read_at"][:10], "ct_ms_conf": str(ms["confirmations"]), "ct_ms_keys": str(ms["keys"]), "ct_ms_fak": str(ms["full_access_keys"]),
+              "ct_ms_requests": str(ms["requests_ever"]), "ct_ms_out": f"{ms['near_sent_out']:,.0f}", "ct_ms_bal": f"{ms['balance_near'] / 1e6:.2f}M",
+              "ct_ms_out_share": pct(ms["near_sent_out"] / (ms["near_sent_out"] + ms["balance_near"]), 1),
+              "ct_fe_members": str(fe["members"]), "ct_fe_pay": str(fe["approvals_to_transfer"]), "ct_fe_policy": str(fe["approvals_to_change_policy"]),
+              "ct_fe_props": str(fe["proposals"]), "ct_fe_policy_changes": str(len(fe["policy_changes"])),
+              "ct_fe_policy_change_day": fe["policy_changes"][0]["day"] if fe["policy_changes"] else "",
+              "ct_fe_stable": usd(fe["stablecoins_paid_usd"], 2), "ct_fe_stable_since": f"${fe['stablecoins_paid_since_buybacks_usd'] / 1e3:,.0f}k",
+              "ct_fe_liq": usd(fe["stablecoins_by_recipient"].get("auroraliqsupport.near", 0.0), 2),
+              "ct_fe_bal": f"{fe['balance_near'] / 1e6:.2f}M",
+              "ct_oc_members": str(oc["members"]), "ct_oc_pay": str(oc["approvals_to_transfer"]), "ct_oc_one": str(len(oc["approved_with_one_vote"])),
+              "ct_oc_implicit": f"{implicit:,.0f}", "ct_oc_to_bb": f"{oc['near_paid_out_by_recipient'].get('buybacks.multisignature.near', 0.0) / 1e3:,.0f}k",
+              "ct_fee_pips": str(ct["intents_protocol_fee_pips"]), "ct_held": f"{ct['held_near'] / 1e6:.2f}M",
+              "ct_one_signer": pct(ct["held_where_one_signer_can_change_the_rules"])})
     tr = _json("treasury.json")
     f.update({"tr_moved": f"{tr['moved_out_2026_near'] / 1e6:.2f}M", "tr_x": f"{tr['moved_over_captured']:.0f}", "tr_staked1": f"{tr['staked_first_near'] / 1e6:.1f}M",
               "tr_unstaked_day": tr["unstaked_day"], "tr_endow": f"{tr['foundation_endowment_joined_near'] / 1e6:.0f}M",
@@ -652,7 +672,12 @@ def follow_100(v: dict) -> dict:
             "f100_fe": per(captured - bb), "f100_issued": per(issued_usd), "f100_cover": pct(captured / issued_usd),
             "f100_vol": usd(vol, 2), "f100_oc_pool": f"${100 * oc['fee_usd'].sum() / oc['volume_usd'].sum():.3f}",
             "f100_oc_near": f"${100 * oc['near_usd'].sum() / oc['volume_usd'].sum():.3f}",
-            "f100_oc_int": f"${100 * (oc['fee_usd'].sum() - oc['near_usd'].sum()) / oc['volume_usd'].sum():.3f}"}
+            "f100_oc_int": f"${100 * (oc['fee_usd'].sum() - oc['near_usd'].sum()) / oc['volume_usd'].sum():.3f}",
+            # static values printed in dashboard/index.html, shown when JavaScript does not run (same inputs as its live card)
+            "s_per100": str(round(100 * captured / issued_usd)), "s_rev30": usd(captured, 2), "s_take": f"{captured / vol * 1e4:.1f} bps",
+            "s_bought30": f"{captured / lf['price'] / 1e3:,.0f}k NEAR at ${lf['price']:.2f}", "s_vol30": usd(vol, 2),
+"s_be": f"{1 / v['issuance']:.0f}×",
+            "s_issued30": f"{lf['supply'] * v['issuance'] / 365 * days / 1e6:.1f}M NEAR", "s_iss_rate": f"{v['issuance'] * 100:.2f}% a year, on-chain"}
 
 
 def public_claims(v: dict | None = None) -> list[dict]:
@@ -814,7 +839,22 @@ def render() -> dict[str, str]:
             raise KeyError(f"{name}: no value for {missing}")
         out[name] = "<!-- Generated from docs/templates/" + name + " by `make docs`; edit the template, not this file. -->\n" + \
             re.sub(r"\{\{(\w+)\}\}", lambda m: f[m.group(1)], t)
+    out[DASHBOARD] = static_dashboard(f)
     return out
+
+
+DASHBOARD = "dashboard/index.html"
+STATIC = re.compile(r'(<[a-z]+\b[^>]*\bdata-s="(\w+)"[^>]*>)([^<]*)(</)')
+
+
+def static_dashboard(f: dict) -> str:
+    """The dashboard's values for readers without JavaScript (and for crawlers): every element marked data-s="key" holds
+    the committed snapshot's value of that key; the page's script then replaces them with live values."""
+    t = (ROOT / DASHBOARD).read_text()
+    missing = sorted({m.group(2) for m in STATIC.finditer(t)} - set(f))
+    if missing:
+        raise KeyError(f"{DASHBOARD}: no value for {missing}")
+    return STATIC.sub(lambda m: m.group(1) + html.escape(f[m.group(2)], quote=False) + m.group(4), t)
 
 
 def main() -> int:

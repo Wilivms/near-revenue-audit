@@ -1,11 +1,11 @@
 route,corridor,size_in,size,rounds,competitors,median_gap_vs_best_bps,min_gap_bps,max_gap_bps,oneclick_best_share,median_gap_vs_best_ex_lifi_fee_bps,median_gap_vs_relay_bps,median_gap_vs_across_bps,median_gap_vs_lifi_ex_fee_bps,most_often_best_rival
-usdc-arb-base,"same asset, EVM L2 to L2",1000.0,"1,000 USDC",4,3,0.0856,-0.6581,0.0886,0.75,-0.9476,0.2603,0.0856,-0.9476,across
-usdc-arb-base,"same asset, EVM L2 to L2",20000.0,"20,000 USDC",4,3,-0.5228,-1.0196,0.0372,0.25,-1.5244,-0.5141,-0.5228,-1.5244,across
-eth-eth-arb,"same asset, Ethereum to L2",0.5,0.5 ETH,4,3,-1.1299,-1.1302,-1.1296,0.0,-2.0439,3.1766,-1.1299,-2.0439,across
-eth-eth-arb,"same asset, Ethereum to L2",10.0,10 ETH,4,3,-1.263,-1.263,-1.263,0.0,-2.0211,2.9913,-1.263,-2.0211,across
-eth-usdc,"cross asset, EVM",0.5,0.5 ETH,4,2,0.8821,-0.3328,3.7151,0.5,-20.2871,0.8821,,-20.2871,relay
-eth-usdc,"cross asset, EVM",10.0,10 ETH,4,2,0.2195,-3.0832,4.498,0.5,-21.5441,0.7416,,-21.5441,relay
-sol-usdc,"cross chain family, Solana to EVM",13.0,13 SOL,4,2,-1.8553,-14.6991,7.5047,0.5,-26.8506,11.9756,,-26.8506,lifi
-sol-usdc,"cross chain family, Solana to EVM",260.0,260 SOL,4,2,3.917,-12.6783,6.7644,0.75,-21.0928,17.6211,,-21.0928,lifi
-btc-usdc,native BTC to EVM,0.015,0.015 BTC,3,2,7.0557,6.8583,12.7059,1.0,-17.962,22.5628,,-17.962,lifi
-btc-usdc,native BTC to EVM,0.3,0.3 BTC,3,2,3.995,3.589,13.528,1.0,-21.015,23.5135,,-21.015,lifi
+usdc-arb-base,"same asset, EVM L2 to L2",1000.0,"1,000 USDC",5,3,0.0856,-0.705,0.0886,0.6,-0.9476,0.2603,0.0856,-0.9476,across
+usdc-arb-base,"same asset, EVM L2 to L2",20000.0,"20,000 USDC",5,3,-1.0195,-1.0196,0.0372,0.2,-2.0211,-1.0108,-1.0195,-2.0211,across
+eth-eth-arb,"same asset, Ethereum to L2",0.5,0.5 ETH,5,3,-1.1298,-1.1302,-1.1296,0.0,-2.0439,3.1767,-1.1298,-2.0439,across
+eth-eth-arb,"same asset, Ethereum to L2",10.0,10 ETH,5,3,-1.263,-1.263,-1.263,0.0,-2.0211,2.9914,-1.263,-2.0211,across
+eth-usdc,"cross asset, EVM",0.5,0.5 ETH,5,2,1.8626,-0.3328,3.7151,0.6,-21.2676,1.8626,,-21.2676,relay
+eth-usdc,"cross asset, EVM",10.0,10 ETH,5,2,1.7503,-3.0832,4.498,0.6,-22.0957,1.7503,,-22.0957,relay
+sol-usdc,"cross chain family, Solana to EVM",13.0,13 SOL,5,2,4.531,-14.6991,10.2226,0.6,-20.4803,13.6131,,-20.4803,lifi
+sol-usdc,"cross chain family, Solana to EVM",260.0,260 SOL,5,2,4.3764,-12.6783,6.7644,0.8,-20.6346,17.5787,,-20.6346,lifi
+btc-usdc,native BTC to EVM,0.015,0.015 BTC,4,2,8.7137,6.8583,12.7059,1.0,-16.308,22.8601,,-16.308,lifi
+btc-usdc,native BTC to EVM,0.3,0.3 BTC,4,2,7.0051,3.589,13.528,1.0,-18.0124,25.3799,,-18.0124,lifi

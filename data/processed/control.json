@@ -1,0 +1,291 @@
+{
+ "read_at": "2026-11-14T10:24:33Z",
+ "source_file": "control_2026-11-14.json",
+ "multisig": {
+  "account": "buybacks.multisignature.near",
+  "keys": 4,
+  "full_access_keys": 0,
+  "confirmations": 2,
+  "requests_ever": 4,
+  "open_requests": 0,
+  "balance_near": 2280770.0765001443,
+  "outflows": [
+   {
+    "day": "2026-03-20",
+    "near": 20.000000000000004,
+    "to": "nf-payments.near"
+   },
+   {
+    "day": "2026-03-20",
+    "near": 5.000000000000001,
+    "to": "nf-payments.near"
+   },
+   {
+    "day": "2026-07-10",
+    "near": 12000.0,
+    "to": "an implicit account"
+   }
+  ],
+  "near_sent_out": 12025.0
+ },
+ "daos": {
+  "fefundsadmin.sputnik-dao.near": {
+   "label": "front-end fund",
+   "members": 5,
+   "roles": [
+    "Admin",
+    "Approver",
+    "Requestor"
+   ],
+   "approvals_to_transfer": 2,
+   "approvals_to_change_policy": 1,
+   "approvals_to_call": 2,
+   "proposals": 17,
+   "by_kind": {
+    "Transfer Approved": 15,
+    "Transfer Failed": 1,
+    "ChangePolicy Approved": 1
+   },
+   "approved_with_one_vote": [
+    {
+     "id": 1,
+     "kind": "ChangePolicy",
+     "day": "2025-11-07"
+    }
+   ],
+   "policy_changes": [
+    {
+     "id": 1,
+     "day": "2025-11-07",
+     "approvals": 1
+    }
+   ],
+   "payments": [
+    {
+     "day": "2025-11-07",
+     "token": "USDC",
+     "amount": 410000.0,
+     "to": "auroraliqsupport.near",
+     "approvals": 2
+    },
+    {
+     "day": "2025-11-13",
+     "token": "USDC",
+     "amount": 160000.0,
+     "to": "auroraliqsupport.near",
+     "approvals": 2
+    },
+    {
+     "day": "2025-11-21",
+     "token": "USDC",
+     "amount": 200000.0,
+     "to": "auroraliqsupport.near",
+     "approvals": 2
+    },
+    {
+     "day": "2025-12-01",
+     "token": "USDC",
+     "amount": 175000.0,
+     "to": "auroraliqsupport.near",
+     "approvals": 2
+    },
+    {
+     "day": "2025-12-16",
+     "token": "USDC",
+     "amount": 50000.0,
+     "to": "aurorafinance.sputnik-dao.near",
+     "approvals": 2
+    },
+    {
+     "day": "2026-01-08",
+     "token": "USDC",
+     "amount": 50000.0,
+     "to": "aurorafinance.sputnik-dao.near",
+     "approvals": 2
+    },
+    {
+     "day": "2026-01-15",
+     "token": "USDC",
+     "amount": 355000.0,
+     "to": "auroraliqsupport.near",
+     "approvals": 2
+    },
+    {
+     "day": "2026-02-02",
+     "token": "USDC",
+     "amount": 50000.0,
+     "to": "aurorafinance.sputnik-dao.near",
+     "approvals": 2
+    },
+    {
+     "day": "2026-02-02",
+     "token": "USDC",
+     "amount": 280000.0,
+     "to": "auroraliqsupport.near",
+     "approvals": 2
+    },
+    {
+     "day": "2026-02-06",
+     "token": "USDC",
+     "amount": 64000.0,
+     "to": "auroraliqsupport.near",
+     "approvals": 2
+    },
+    {
+     "day": "2026-02-26",
+     "token": "USDC",
+     "amount": 130000.0,
+     "to": "auroraliqsupport.near",
+     "approvals": 2
+    },
+    {
+     "day": "2026-03-09",
+     "token": "USDC",
+     "amount": 50000.0,
+     "to": "aurorafinance.sputnik-dao.near",
+     "approvals": 2
+    },
+    {
+     "day": "2026-03-12",
+     "token": "USDC",
+     "amount": 36900.0,
+     "to": "auroraliqsupport.near",
+     "approvals": 2
+    },
+    {
+     "day": "2026-03-26",
+     "token": "USDC.e",
+     "amount": 200000.0,
+     "to": "aurorasupport.near",
+     "approvals": 2
+    },
+    {
+     "day": "2026-03-27",
+     "token": "USDC",
+     "amount": 240000.0,
+     "to": "auroraliqsupport.near",
+     "approvals": 2
+    }
+   ],
+   "stablecoins_paid_usd": 2450900.0,
+   "stablecoins_paid_since_buybacks_usd": 656900.0,
+   "stablecoins_by_recipient": {
+    "aurorafinance.sputnik-dao.near": 200000.0,
+    "auroraliqsupport.near": 2050900.0,
+    "aurorasupport.near": 200000.0
+   },
+   "near_paid_out": 0.0,
+   "near_paid_out_by_recipient": {},
+   "balance_near": 2016267.2250893884,
+   "full_access_keys": 0
+  },
+  "1csfundsadmin.sputnik-dao.near": {
+   "label": "1Click fund",
+   "members": 4,
+   "roles": [
+    "Admin",
+    "Approver",
+    "Requestor"
+   ],
+   "approvals_to_transfer": 2,
+   "approvals_to_change_policy": 2,
+   "approvals_to_call": 2,
+   "proposals": 11,
+   "by_kind": {
+    "Transfer Approved": 5,
+    "ChangePolicy Approved": 2,
+    "FunctionCall InProgress": 2,
+    "Transfer InProgress": 1,
+    "FunctionCall Approved": 1
+   },
+   "approved_with_one_vote": [
+    {
+     "id": 0,
+     "kind": "Transfer",
+     "day": "2026-04-22"
+    },
+    {
+     "id": 1,
+     "kind": "Transfer",
+     "day": "2026-04-22"
+    },
+    {
+     "id": 2,
+     "kind": "ChangePolicy",
+     "day": "2026-04-22"
+    },
+    {
+     "id": 4,
+     "kind": "Transfer",
+     "day": "2026-07-10"
+    }
+   ],
+   "policy_changes": [
+    {
+     "id": 2,
+     "day": "2026-04-22",
+     "approvals": 1
+    },
+    {
+     "id": 3,
+     "day": "2026-07-10",
+     "approvals": 2
+    }
+   ],
+   "payments": [
+    {
+     "day": "2026-04-22",
+     "token": "NEAR",
+     "amount": 10.000000000000002,
+     "to": "an implicit account",
+     "approvals": 1
+    },
+    {
+     "day": "2026-04-22",
+     "token": "NEAR",
+     "amount": 45000.0,
+     "to": "an implicit account",
+     "approvals": 1
+    },
+    {
+     "day": "2026-07-10",
+     "token": "NEAR",
+     "amount": 7274.0,
+     "to": "buybacks.multisignature.near",
+     "approvals": 1
+    },
+    {
+     "day": "2026-08-27",
+     "token": "NEAR",
+     "amount": 1.0,
+     "to": "buybacks.multisignature.near",
+     "approvals": 2
+    },
+    {
+     "day": "2026-09-09",
+     "token": "NEAR",
+     "amount": 502793.0,
+     "to": "buybacks.multisignature.near",
+     "approvals": 2
+    }
+   ],
+   "stablecoins_paid_usd": 0.0,
+   "stablecoins_paid_since_buybacks_usd": 0.0,
+   "stablecoins_by_recipient": {},
+   "near_paid_out": 555078.0,
+   "near_paid_out_by_recipient": {
+    "an implicit account": 45010.0,
+    "buybacks.multisignature.near": 510068.0
+   },
+   "balance_near": 270.87589141242086,
+   "full_access_keys": 0
+  }
+ },
+ "intents_protocol_fee_pips": 1,
+ "intents_full_access_keys": 0,
+ "held_near": 4297308.177480945,
+ "burned_near": 0.0,
+ "locked_near": 0.0,
+ "held_where_one_signer_can_change_the_rules": 0.4691930719921771,
+ "note": "burned and locked are 0: no wallet has ever sent NEAR to a burn or lock contract; the multisig's few outflows are listed"
+}

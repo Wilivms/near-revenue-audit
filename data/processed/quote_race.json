@@ -1,18 +1,18 @@
 {
- "rounds": 4,
+ "rounds": 5,
  "first_round": "2026-11-14T01:00:45+00:00",
- "last_round": "2026-11-14T07:16:48+00:00",
- "quotes_compared": 38,
- "oneclick_best_share": 0.5,
+ "last_round": "2026-11-14T10:25:54+00:00",
+ "quotes_compared": 48,
+ "oneclick_best_share": 0.5208333333333334,
  "oneclick_best_share_ex_lifi_fee": 0.0,
- "median_gap_vs_best_ex_lifi_fee_bps": -16.041167370073882,
- "median_gap_vs_best_bps": 0.005559056828197129,
+ "median_gap_vs_best_ex_lifi_fee_bps": -14.728539429531562,
+ "median_gap_vs_best_bps": 0.06136378110088714,
  "by_corridor_median_gap_bps": {
-  "same asset, EVM L2 to L2": 0.01,
+  "same asset, EVM L2 to L2": -0.34,
   "same asset, Ethereum to L2": -1.2,
-  "cross asset, EVM": 0.88,
-  "cross chain family, Solana to EVM": 3.11,
-  "native BTC to EVM": 6.96
+  "cross asset, EVM": 1.81,
+  "cross chain family, Solana to EVM": 4.45,
+  "native BTC to EVM": 8.54
  },
  "best_corridor": "native BTC to EVM",
  "worst_corridor": "same asset, Ethereum to L2",

@@ -1,4 +1,4 @@
-.PHONY: signers treasury elasticity elasticity-collect swap-cost swap-cost-collect implied robustness events incident incident-collect quotes quotes-fetch revisions open-questions oneclick-offline setup pycheck anchor-check bigquery reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
+.PHONY: control control-fetch signers treasury elasticity elasticity-collect swap-cost swap-cost-collect implied robustness events incident incident-collect quotes quotes-fetch revisions open-questions oneclick-offline setup pycheck anchor-check bigquery reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -44,6 +44,12 @@ swap-cost-collect: ## daily sums for `make swap-cost` from the private per-swap 
 
 signers:     ## who signs NEAR's transactions: human-scale signers against bots, and the lead-lag test on them
 	python3 -m src.analysis.signers
+
+control:     ## rule or choice: who controls each revenue wallet, with how many signatures, and every payment out
+	python3 -m src.analysis.control
+
+control-fetch: ## public view calls on NEAR mainnet (no key): multisig threshold, DAO policies and proposals, intents.near fee
+	python3 -m src.analysis.control --fetch
 
 treasury:    ## the protocol treasury's 30M NEAR in 2026, followed hop by hop: sold or staked?
 	python3 -m src.analysis.treasury
@@ -93,13 +99,13 @@ pycheck:
 test:        ## model checks
 	python3 -m pytest -q tests
 
-STEPS = ledger revenue supply governance montecarlo backtest leadlag bigquery oneclick-offline confidential official revisions quotes incident events swap-cost elasticity signers treasury implied robustness open-questions predictions dashboard
+STEPS = ledger revenue supply governance montecarlo backtest leadlag bigquery oneclick-offline confidential official revisions quotes incident events swap-cost elasticity signers treasury control implied robustness open-questions predictions dashboard
 
 reproduce:   ## every offline step on the committed snapshots, then the tests
 	$(MAKE) $(STEPS) test
 
 refresh:     ## fetch fresh public snapshots (network), re-run everything, re-render the documents, then the tests
-	REFRESH=1 $(MAKE) data supply comps risk official-fetch governance-fetch leadlag-fetch quotes-fetch manifest $(STEPS) docs test
+	REFRESH=1 $(MAKE) data supply comps risk official-fetch governance-fetch leadlag-fetch quotes-fetch control-fetch manifest $(STEPS) docs test
 
 manifest:    ## sha256 of every raw snapshot -> data/raw/MANIFEST.json
 	python3 -m src.manifest

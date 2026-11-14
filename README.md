@@ -11,6 +11,12 @@
 
 **Is NEAR's protocol revenue real, durable, or bought?** Since 2026-02-23, NEAR Intents fees buy back NEAR. This project rebuilds that revenue from the chain and answers what the dashboards do not: why it moved, who pays it, what the growth cost, and what it means for the token.
 
+**The verdict, for an investor** (a thesis on public data to 2026-11-12, not personal advice). **NEAR's fee capture does not support its price today, and is unlikely to within 12 months** (7% chance of a deflationary 2027 in our base case, 26% even if volume grows 4x). Own NEAR, if at all, for staking and for the option that NEAR Intents grows several-fold at a higher take, not for the buybacks.
+- **Where it stands:** market cap is 205x captured revenue; supply stops growing below 41x. Justifying the price on revenue alone needs 10–41x today's revenue (mid case 24x).
+- **Horizon:** 12 months, to November 2027, checked against our [dated predictions](#predictions).
+- **We turn constructive if two of these hold for a quarter:** the take stays at 5 bps or more after the airdrop (it is 3.9 bps now); revenue covers half of new issuance (it is 21%); a rule replaces the choice, with bought NEAR burned or locked on-chain (today none is, and 47% of it sits in a fund whose rules one signer can change: [Rule or choice](#rule-or-choice-who-controls-the-revenue)).
+- **It gets worse if:** the take falls back to its May–August level (2.4 bps), rivals start to beat 1Click's quotes, or the front-end fund sells or pays out its NEAR.
+
 ## For judges: the project in 3 minutes
 
 **1. The answer**
@@ -18,7 +24,7 @@
 - **Too small for the token.** Buybacks offset 14.8% of new NEAR (February 2026 to October 2026). Market cap is 205x captured revenue; supply stops growing only below 41x.
 - **Partly bought.** NEAR's take doubled from 2.2 to 5.5 bps in two months, a fifth to most of it from confidential swaps during an airdrop whose first drop cost 74% of the revenue it added. It is already easing (3.9 bps in early November).
 - **NEAR does not own the customer.** On 1Click, integrators keep 92% of the fee pool.
-- **Priced level with its rivals.** In 4 live quote rounds against Relay, Across and LI.FI, 1Click paid users the most in 50% of swaps, median 0.0 bps from the best: rivals are not undercutting NEAR Intents so far.
+- **Priced level with its rivals.** In 5 live quote rounds against Relay, Across and LI.FI, 1Click paid users the most in 52% of swaps, median +0.1 bps from the best: rivals are not undercutting NEAR Intents so far.
 
 **2. Follow $100** (2026-10-14 to 2026-11-12, $3.77B of Intents volume)
 
@@ -28,6 +34,8 @@
 | Reaches NEAR's three revenue wallets | **$0.049** (buyback multisig $0.035, front-end fund $0.014) |
 | New NEAR issued over the same days | **$0.238** |
 | Revenue as a share of new issuance | **21%** (14.8% over February 2026 to October 2026) |
+
+*Snapshot figures: every number in this README is from the committed data, to 2026-11-12. The dashboard shows the same measures on the live 30 days (refreshed daily), so they can differ from these by a point; each carries its date.*
 
 And on 1Click (about a quarter of Intents volume, where the retail apps and their fees are), each swap records what was sent and what was delivered, so the user's whole cost can be split. Per $100 on average: **$0.59**, of which $0.43 to integrators, **$0.04 to NEAR** and $0.12 to solvers and networks (6.4% to NEAR, F18). By size:
 
@@ -50,12 +58,12 @@ For supply to stop growing, the second bold line has to reach the third. On 1Cli
 - **"Verify it in your browser"** (Checks section): one click reads the hash anchored on NEAR testnet, hashes the raw files, rebuilds the revenue from the raw receipts and compares it with this audit and NEAR's own dashboard. No key, no install.
 - **"Every finding is a test"**: the 18 findings, 33 public claims about NEAR, six dated predictions and their on-chain anchors, all updated daily.
 
-**4. Re-run it** (about 2 minutes, no key, no network after setup)
+**4. Re-run it** (about 2 minutes, **no key, no account, no network after setup**: the private 1Click data enters only as committed daily aggregates, so `make oneclick-offline` rebuilds every 1Click table from them)
 
 ```
 git clone https://github.com/Wilivms/near-revenue-audit && cd near-revenue-audit
 make setup && . .venv/bin/activate
-make check-clean     # → 54/54 outputs match the committed ones, 18/18 findings hold
+make check-clean     # → 55/55 outputs match the committed ones, 18/18 findings hold
 make verify          # → prints every finding and the headline numbers above
 ```
 
@@ -88,9 +96,9 @@ Each number with its window, its source and the command that rebuilds it. None o
 | --- | --- | --- |
 | 2 min | Open the **[live dashboard](https://near-revenue-audit.vercel.app)** | the live reading (NEAR bought back per 100 issued, recomputed in your browser), then the simulator: move volume and take rate, see break-even |
 | 5 min | Read **[`THESIS.md`](THESIS.md)** | the claim, evidence for and against, what would change our mind, what could not be computed, on one page |
-| 2 min | Run `make setup && . .venv/bin/activate && make check-clean` | every output rebuilt from committed data and compared: `54/54 outputs match`, `18/18 findings hold` |
+| 2 min | Run `make setup && . .venv/bin/activate && make check-clean` | every output rebuilt from committed data and compared: `55/55 outputs match`, `18/18 findings hold` |
 | 3 min | Open **[REPORT section 9](REPORT.md#9-public-claims-checked)** | 33 public claims about NEAR tested at their own dates |
-| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (65 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
+| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (66 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
 
 ## Why this thesis is different
 
@@ -128,6 +136,19 @@ Kept in the open because a thesis is only as good as its corrections. Each one i
 | The airdrop's cost cancels the revenue it added | Drop 1 cost 74% of the uplift, not all of it | Reported as a net gain, small against supply | 32 |
 | The Monte Carlo engine sizes 2027 | In a walk-forward test it was too optimistic for 2026 | The 2027 figures are flagged as more likely too high than too low | 21 |
 | The 92% integrator share covered 2.6M swaps | 2.6M was every swap collected at the time (2.7M now); the 30-day window holds 512k | Both counts published separately; the 92% itself was right | 36 |
+
+## Rule or choice: who controls the revenue
+
+A buyback is a rule when code buys and burns or locks whatever happens, and a choice when people decide each time. Read on NEAR mainnet with public view calls on 2026-11-14 (`make control-fetch`, no key; `make control` offline), with the wallets' full histories:
+
+| Link | Who can move the money, and with how many signatures | What actually happened |
+| --- | --- | --- |
+| `intents.near` (where swaps settle) | protocol fee 1 pip (0.01 bps); no full-access key | NEAR's revenue comes from fees set by 1Click and front-ends, not from the contract's own fee |
+| 1Click fund (`1csfundsadmin.sputnik-dao.near`) | a DAO of 4 accounts; 2 approvals to pay | 510k NEAR forwarded to the buyback multisig; 4 proposals passed with a single vote, including 45,010 NEAR of "fees accrued by mistake" sent to one account in April before the threshold was raised |
+| Buyback multisig (`buybacks.multisignature.near`) | 2 of 4 keys, no full-access key | 4 requests ever; it holds 2.28M NEAR and has sent out 12,025 NEAR (0.5% of what it received) |
+| Front-end fund (`fefundsadmin.sputnik-dao.near`) | a DAO of 5 accounts; 2 approvals to pay, but **1 to change its own rules** (done once, on 2025-11-07, with one vote) | it holds 2.02M NEAR and paid $2.45M in stablecoins to `aurora…` accounts ($2.05M for "liquidity support"), $657k of it after buybacks began |
+
+**Nothing is burned and nothing is locked.** The 4.30M NEAR bought back sits in two places that can move it with two signatures, and 47% of it in a fund where one signer can first rewrite the rules. That does not mean anyone will sell; it means the "buyback" is a policy, not a mechanism, and F3's offset assumes it stays one. This is the third bullish condition in the verdict above.
 
 ## Findings, each one a check
 
@@ -171,7 +192,7 @@ make verify           # renders README/REPORT/FAQ/THESIS from the outputs and re
 
 | Command | You should see |
 | --- | --- |
-| `make check-clean` | the tests pass, then `54/54 outputs match the committed ones` (text exactly, numbers to 1e-9) |
+| `make check-clean` | the tests pass, then `55/55 outputs match the committed ones` (text exactly, numbers to 1e-9) |
 | `make verify` | `18/18 findings hold` and no stale document |
 | `make revenue` | revenue rebuilt from the 3 revenue wallets vs DefiLlama: $8,087,549 vs $8,149,355 since the fee switch |
 | `make official` | the same wallets against NEAR's own dashboard (0.16% apart), the take rate on both revenue definitions, capture by mechanism |
@@ -216,9 +237,9 @@ The 1Click results come from the NEAR Intents Explorer API, which needs a partne
 
 ## Predictions
 
-Six predictions were frozen on 2026-11-11 in [`predictions/PREDICTIONS.csv`](predictions/PREDICTIONS.csv): sha256 committed next to it (checked by a test) and timestamped in Bitcoin with OpenTimestamps, confirmed in block 975,397 (`ots verify predictions/PREDICTIONS.csv.ots`), and anchored on NEAR: the same sha256 is stored in SocialDB on testnet under `near-revenue-audit.testnet/audit/predictions` (transaction [AWcwWsaf…](https://testnet.nearblocks.io/txns/AWcwWsafGXGUw9zh1rZsSwirScbaWDvo2Vct6ESWBB8t)). The raw-snapshot manifest ([BYf9Bpo7…](https://testnet.nearblocks.io/txns/BYf9Bpo72wnnShWE1SJMiX3nDzkTj6G3hLMJ9xzwzSpq)) and the dashboard bundle ([ASxmSMNY…](https://testnet.nearblocks.io/txns/ASxmSMNYuZxciwdyFkFAT3KoCvbJhvg3cJB3PzDCtst9)) are anchored the same way at each release (`node anchor/anchor.mjs`); the daily refresh also anchors its bundle when the `NEAR_TESTNET_KEY` repository secret is set. `make anchor-check` reads them back with a view call, no key needed. Two resolve before judging starts (P1, P2 on 2026-11-15), one on its second day (P3), the rest by April 2027. `make predictions` resolves those whose date has passed; results go to [`predictions/RESULTS.md`](predictions/RESULTS.md).
+Six predictions were frozen on 2026-11-11 in [`predictions/PREDICTIONS.csv`](predictions/PREDICTIONS.csv): sha256 committed next to it (checked by a test) and timestamped in Bitcoin with OpenTimestamps, confirmed in block 975,397 (`ots verify predictions/PREDICTIONS.csv.ots`), and anchored on NEAR: the same sha256 is stored in SocialDB on testnet under `near-revenue-audit.testnet/audit/predictions` (transaction [AWcwWsaf…](https://testnet.nearblocks.io/txns/AWcwWsafGXGUw9zh1rZsSwirScbaWDvo2Vct6ESWBB8t)). The raw-snapshot manifest ([57NRBmXq…](https://testnet.nearblocks.io/txns/57NRBmXqrR3zzuFFEHCjYbmTY28mud3EUpYx6jTLKrf6)) and the dashboard bundle ([ASxmSMNY…](https://testnet.nearblocks.io/txns/ASxmSMNYuZxciwdyFkFAT3KoCvbJhvg3cJB3PzDCtst9)) are anchored the same way at each release (`node anchor/anchor.mjs`); the daily refresh also anchors its bundle when the `NEAR_TESTNET_KEY` repository secret is set. `make anchor-check` reads them back with a view call, no key needed. Two resolve before judging starts (P1, P2 on 2026-11-15), one on its second day (P3), the rest by April 2027. `make predictions` resolves those whose date has passed; results go to [`predictions/RESULTS.md`](predictions/RESULTS.md).
 
-Reading so far, on data to 2026-11-12 (not a resolution): **P1** 4.1 bps, 11-01 to 11-12 against a threshold of 5.0; **P2** 137.9M USD on 2026-11-12 against 140M; **P3** Timelock. The daily refresh updates these on the dashboard's Checks section.
+Reading so far, on data to 2026-11-12 (not a resolution): **P1** 4.1 bps, 11-01 to 11-12 against a threshold of 5.0; **P2** 137.9M USD on 2026-11-12 against 140M; **P3** passed, in its timelock (no veto so far). The daily refresh updates these on the dashboard's Checks section.
 
 ## What NEAR's own dashboard shows, and what this adds
 
@@ -261,6 +282,7 @@ A data project: NEAR is the subject and the main source. It reads mainnet throug
 - **One project**: this is the author's only submission to NEAR HACKATHON.
 - **Libraries and tools** (Q-005): Python (requests, pandas, numpy, pytest, opentimestamps-client), Playwright for screenshots, vanilla HTML/SVG for the dashboard, Vercel for hosting. Code written with the help of AI assistants (Claude).
 - **Not investment advice.** Independent research, not affiliated with NEAR Foundation.
+- **Code frozen at the deadline.** The tag [`hackathon-submission`](https://github.com/Wilivms/near-revenue-audit/tree/hackathon-submission) marks the last human commit before 2026-11-14 23:59 UTC. Every later commit is the daily refresh workflow (data snapshots, `live.json`, the anchors log), committed as `near-revenue-audit bot`; no code changes after the tag.
 
 ## License
 

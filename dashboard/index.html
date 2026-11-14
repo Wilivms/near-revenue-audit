@@ -83,6 +83,7 @@ a { color: inherit; text-underline-offset: 3px; }
 .guide .gv { font: 700 26px/1.1 var(--sans); margin: 8px 0 6px; color: var(--ink); }
 .guide .gt { font-size: 13px; line-height: 1.45; color: var(--ink-2); }
 .guide .go { font-size: 12px; color: var(--accent); margin-top: 10px; }
+.static-big { margin: 0; font: 600 64px/1 var(--mono); letter-spacing: -0.02em; }
 .guide .follow { margin: 14px 0 0; padding: 12px 16px; border: 1px solid var(--line); background: var(--card); font: 13px/1.6 var(--mono); color: var(--ink-2); }
 .guide .follow b { color: var(--ink); font-weight: 700; }
 @media (max-width: 980px) { .guide .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -409,13 +410,13 @@ footer li + li { margin-top: 6px; }
           <div class="meter-track"><div class="meter-fill" id="meterFill"></div></div>
           <div class="meter-scale"><span>0</span><span>50</span><span>100 = supply stops growing</span></div>
         </div>
-        <div class="status-line" id="statusLine"><span class="dot"></span>Loading live data…</div>
+        <div class="status-line" id="statusLine"><span class="dot"></span>Repository snapshot of <span data-s="data_to">2026-11-12</span>. Live figures load with JavaScript.</div>
       </div>
       <div>
         <p class="readout-label">NEAR bought back with protocol revenue, last 30 days</p>
-        <div id="heroMatrix" role="img" aria-label="Loading"></div>
+        <div id="heroMatrix" role="img" aria-label="NEAR bought back per 100 NEAR issued"><p class="static-big"><span data-s="s_per100">21</span>/100</p></div>
         <div class="readout-unit">NEAR bought back per 100 NEAR issued</div>
-        <table class="gtable" id="tiles"><thead><tr><th>Measure</th><th>Value</th><th>Context</th></tr></thead><tbody></tbody></table>
+        <table class="gtable" id="tiles"><thead><tr><th>Measure</th><th>Value</th><th>Context</th></tr></thead><tbody><tr><td>Revenue captured, 30d</td><td class="num"><span class="odo" data-s="s_rev30">$1.86M</span></td><td class="n" data-s="s_bought30">543k NEAR at $3.42</td></tr><tr><td>Take rate</td><td class="num"><span class="odo" data-s="s_take">4.9 bps</span></td><td class="n">of <span data-s="s_vol30">$3.77B</span> Intents volume</td></tr><tr><td>Market cap / revenue</td><td class="num"><span class="odo" data-s="near_captured_mult">205x</span></td><td class="n">break-even below <span data-s="s_be">41×</span></td></tr><tr><td>NEAR issued, 30d</td><td class="num"><span class="odo" data-s="s_issued30">2.6M NEAR</span></td><td class="n" data-s="s_iss_rate">2.43% a year, on-chain</td></tr></tbody></table>
       </div>
     </div>
   </section>
@@ -430,9 +431,10 @@ footer li + li { margin-top: 6px; }
         <a class="g" href="#customer"><div class="gk">Who pays</div><div class="gv">92%</div><div class="gt">of the 1Click fee pool goes to integrators. NEAR's published 20 bps applies to a small part of their volume.</div><div class="go">Customer →</div></a>
         <a class="g" href="#buybacks"><div class="gk">Too small for supply</div><div class="gv">below 41×</div><div class="gt">Supply stops growing only when market cap is below 41× annual captured revenue. The live multiple, above, is about five times that.</div><div class="go">Buybacks →</div></a>
         <a class="g" href="#forecast"><div class="gk">2027</div><div class="gv" id="g2027">18%</div><div class="gt">of 2027 issuance offset in the base case; supply keeps growing unless volume rises several times.</div><div class="go">2027 →</div></a>
-        <a class="g" href="#checks"><div class="gk">Held to account</div><div class="gv" id="gHeld">15 + 33</div><div class="gt"><span id="gHeldF">15</span> findings re-checked on every commit; <span id="gHeldC">33</span> public claims tested at their own dates; predictions anchored on NEAR.</div><div class="go">Checks →</div></a>
+        <a class="g" href="#checks"><div class="gk">Held to account</div><div class="gv" id="gHeld"><span data-s="claims_n">18</span> + <span data-s="public_claims_n">33</span></div><div class="gt"><span id="gHeldF" data-s="claims_n">18</span> findings re-checked on every commit; <span id="gHeldC" data-s="public_claims_n">33</span> public claims tested at their own dates; predictions anchored on NEAR.</div><div class="go">Checks →</div></a>
       </div>
-      <p class="follow" id="follow100">Follow $100 swapped through NEAR Intents over the last 30 days: <b id="f100near">$0.049</b> reaches NEAR's revenue wallets, while <b id="f100iss">$0.246</b> of new NEAR is issued over the same days. Revenue covers <b id="f100cov">20%</b> of issuance; supply stops growing at 100%.<span id="f100cost"></span></p>
+      <p class="follow verdict"><b>Verdict for an investor</b> (a thesis on public data, not personal advice): NEAR's fee capture does not support its price today. Market cap is <b data-s="near_captured_mult">205x</b> captured revenue; supply stops growing below <span data-s="breakeven_now">41x</span>. Nothing bought back is burned or locked, and <span data-s="ct_one_signer">47%</span> of it sits in a fund that one signer can re-rule. We turn constructive if, for a quarter, two of these hold: a take of 5 bps or more after the airdrop, revenue covering half of issuance, a burn or lock written in code. <a href="https://github.com/Wilivms/near-revenue-audit#rule-or-choice-who-controls-the-revenue">Rule or choice →</a></p>
+      <p class="follow" id="follow100">Follow $100 swapped through NEAR Intents over the 30 days to <span id="f100to" data-s="f100_to">2026-11-12</span>: <b id="f100near" data-s="f100_near">$0.049</b> reaches NEAR's revenue wallets, while <b id="f100iss" data-s="f100_issued">$0.238</b> of new NEAR is issued over the same days. Revenue covers <b id="f100cov" data-s="f100_cover">21%</b> of issuance; supply stops growing at 100%.<span id="f100cost"></span></p>
       <details class="numbers follow-x"><summary>Follow $10 to $1M on 1Click: what a swap costs, and who gets it</summary><div class="tbl-wrap" id="tbFollowX"></div><p class="src">Measured on the 1Click swaps of the last 30 days in the band from each size to three times it (the $1M row: $300k–1M). Falls with size to about $3k, flat to $100k, then rises as the solvers' spread widens, while NEAR's slice shrinks. Rebuild: <code>make swap-cost</code></p></details>
     </div>
   </section>
@@ -561,11 +563,11 @@ footer li + li { margin-top: 6px; }
     <div class="wrap">
       <div class="head">
         <div><p class="kicker">05 / Distribution</p><h2 id="h-who">Who owns the customer</h2></div>
-        <p>On 1Click, distribution partners keep most of the fee pool. SwapKit takes 75% of all app fees but sends NEAR almost nothing; NEAR's own revenue comes mostly from users who arrive without an integrator. In November NEAR's 1Click take fell from 4.6 to 2.9 bps, mostly because one burst ended (Trust Wallet, $27M of ZEC at 20 bps on 23–28 Oct); revenue from users without an integrator held at about $5k a day. The volume is broad, not wash-traded: 231k sending addresses, the top 10 at 19%, round trips at 2.7% of volume. Re-sort to see who matters for whom.</p>
+        <p>On 1Click, distribution partners keep most of the fee pool. SwapKit takes 75% of all app fees but sends NEAR almost nothing; NEAR's own revenue comes mostly from users who arrive without an integrator. In November NEAR's 1Click take fell from <span data-s="oc_bps_oct">4.6</span> to <span data-s="oc_bps_nov">2.9</span> bps, mostly because one burst ended (Trust Wallet, $27M of ZEC at 20 bps on 23–28 Oct); revenue from users without an integrator held at about $5k a day. The volume is broad, not wash-traded (<span data-s="oc_from">2026-10-14</span> to <span data-s="oc_to">2026-11-12</span>): <span data-s="q_senders">235k</span> sending addresses, the top 10 at <span data-s="q_top10">19%</span>, round trips at <span data-s="q_rt_vol">2.9%</span> of volume. Re-sort to see who matters for whom.</p>
       </div>
       <div class="card reveal">
         <div class="cardbar">
-          <div><h3>Share of app fees vs share of NEAR's revenue</h3><p class="sub">1Click swaps, the last 30 days collected (to 10 November 2026) (1Click is about 28% of Intents volume)</p></div>
+          <div><h3>Share of app fees vs share of NEAR's revenue</h3><p class="sub">1Click swaps, the last 30 days collected (to <span data-s="oc_to">2026-11-12</span>) (1Click is about 28% of Intents volume)</p></div>
           <div class="seg" id="segWho" role="group" aria-label="Sort by"><span class="pill"></span><button type="button" data-k="a" aria-pressed="true">By app fees</button><button type="button" data-k="b" aria-pressed="false">By NEAR's revenue</button><button type="button" data-k="vol" aria-pressed="false">By volume</button></div>
         </div>
         <div class="legend"><span style="--c:var(--series-1)">Share of all app fees</span><span style="--c:var(--series-2)">Share of NEAR's revenue</span></div>
@@ -1173,6 +1175,7 @@ function headline(D, L, live) {
     $("f100near").textContent = `$${(100 * lf.captured_30d_usd / lf.volume_30d_usd).toFixed(3)}`;
     $("f100iss").textContent = `$${(100 * issued / lf.volume_30d_usd).toFixed(3)}`;
     $("f100cov").textContent = `${Math.round(100 * lf.captured_30d_usd / issued)}%`;
+    if (lf.as_of && $("f100to")) $("f100to").textContent = lf.as_of;
   }
   const nF = (D.checks.findings || []).length, nC = (D.checks.public_claims || []).length;
   if (nF && nC && $("gHeld")) { $("gHeld").textContent = `${nF} + ${nC}`; $("gHeldF").textContent = nF; $("gHeldC").textContent = nC; }

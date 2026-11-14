@@ -10,6 +10,11 @@
  "light_signers_year_before": 402826.75,
  "light_signers_yoy": -0.6925576566104411,
  "light_signers_first4": 2733501.75,
+ "tg_share_of_light_last4": 0.7313760638211972,
+ "light_non_tg_last4": 33268.0,
+ "light_non_tg_year_before": 47291.0,
+ "light_non_tg_yoy": -0.29652576600198766,
+ "light_non_tg_first4": 1946945.25,
  "light_tx_per_signer_last4": 4.7549860310385474,
  "bursts": [
   {
@@ -39,7 +44,7 @@
   }
  ],
  "heavy_txns_drop_2026_04": -0.8053766775119096,
- "lead_lag_tests": 16,
+ "lead_lag_tests": 24,
  "lead_lag_significant_holm": 0,
  "lead_lag_best": {
   "series": "heavy_txns",
@@ -55,6 +60,11 @@
   "txns": 0.061126838496594525,
   "revenue": 0.1745029402610344,
   "near_vs_btc": -0.038773235216357685
+ },
+ "same_week_corr_non_tg": {
+  "intents_volume": -0.03081543804728102,
+  "revenue": 0.18621404809935507,
+  "near_vs_btc": 0.02474370270170424
  },
  "light_vs_revenue_since_march": 0.18340659463390485,
  "weeks_since_march": 36

@@ -682,3 +682,24 @@ Two leads from other theses, taken further and tied to F13 and F3.
 - Balances by RPC on 14 Nov: the pooling accounts are empty; treasury.near holds 1.65M.
 - No path reaches an exchange: the treasury's share of issuance is not selling pressure today, but it is a stock its holders control.
 - **A broken build, caught and fixed (same day).** `elasticity.py` imported scipy, which is not in `requirements.txt`. My environment had it, so local runs passed, but CI and two manual refreshes failed from 09:31 UTC. Spearman's correlation is now computed as Pearson on ranks, with the p-value function the lead-lag test already uses; the numbers are unchanged. Every check is now also run in a fresh virtual environment built from `requirements.txt` alone.
+
+### 66. Rule or choice: who controls the revenue, and a review's fixes (2026-11-14)
+
+**Control map** (`src/analysis/control.py`; `make control-fetch` makes public view calls on mainnet, no key; `make control` runs offline from `data/raw/control/` and the wallet histories). For each link between a fee and the NEAR that is held: who can move the money, with how many signatures, and what was done.
+- `intents.near`: protocol fee 1 pip (0.01 bps); no full-access key. NEAR's revenue comes from the fees 1Click and front-ends set, not from the contract's fee.
+- 1Click fund (DAO of 4): 2 approvals to pay today. It forwarded 510k NEAR to the buyback multisig. Four proposals passed with one vote, among them 45,010 NEAR of "fees accrued by mistake" sent to one implicit account on 22 April, before a policy change raised the threshold to two.
+- Buyback multisig: 2 of 4 function-call keys, no full-access key, 4 requests ever. It holds 2.28M NEAR and has sent out 12,025 NEAR (25 NEAR to nf-payments.near in March, 12,000 to an implicit account in July).
+- Front-end fund (DAO of 5): 2 approvals to pay, but the Admin role changes the policy with **one** vote (done once, 7 Nov 2025). It holds 2.02M NEAR and has paid $2.45M in stablecoins to `aurora…` accounts: $2.05M labelled liquidity support, $0.2M USDC.e, four 50,000 USDC invoices. $657k of it after the buyback programme began.
+- **Correction to REPORT section 1**: it said the fund "paid four 50,000 USDC invoices". That was incomplete: those are $0.2M of $2.45M.
+- Nothing is burned or locked. 47% of the NEAR held sits where one signer can rewrite the rules. F3 counts all of it as offsetting issuance, which holds only while the policy does. A burn or time lock is now one of the verdict's three conditions.
+
+**Signers, refined.** A thesis in the track showed that Telegram-game accounts inflate NEAR's activity. Checked here: `.tg` accounts (created by the HOT game) are 73% of human-scale signers in the last four weeks. Without them, about 33k a week, −30% on a year. The conclusion does not change: no link with Intents volume (r = −0.03), 0 of 24 lead-lag tests significant after Holm.
+
+**From an independent review of the repository**, all taken except one.
+- An explicit verdict with a horizon and switch conditions, at the top of the README, THESIS and dashboard.
+- The dashboard now prints the snapshot's values in its HTML (`data-s` keys filled by `make docs`, checked like the other documents), so it reads without JavaScript.
+- Two mismatches fixed: round trips (2.7% on the site was an older window; now 2.9%, the committed 14 Oct–12 Nov value) and coverage (the dashboard's live 30 days against the README's snapshot, now both dated). P3's reading said "Timelock"; it now says the proposal passed and is in its timelock.
+- Keyless rebuild stated up front; a tag marks the last human commit, and later commits are the refresh bot's.
+- Declined: moving the anchor to mainnet. The project spends nothing and signs nothing on mainnet, by rule.
+
+**Quote race**: a fifth round (10:25 UTC): 1Click paid the most in 52% of 48 swaps, median +0.1 bps from the best.

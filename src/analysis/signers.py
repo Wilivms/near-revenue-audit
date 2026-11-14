@@ -31,6 +31,7 @@ def load() -> pd.DataFrame:
     d = pd.read_csv(f, parse_dates=["week"]).set_index("week")
     med = d["light_signers"].rolling(8, min_periods=4).median().shift(1)
     d["burst"] = d["light_signers"] > 2 * med
+    d["light_non_tg"] = d["light_signers"] - d["light_tg"]  # .tg accounts are created by a Telegram game (HOT)
     return d
 
 
@@ -40,11 +41,11 @@ def main() -> dict:
     clean = d[~d["burst"]]
     last4, year4 = clean.iloc[-4:], clean[(clean.index >= clean.index[-4] - pd.Timedelta(days=364)) & (clean.index <= clean.index[-1] - pd.Timedelta(days=364))]
     g = weekly()
-    s = np.log(d[["light_signers", "heavy_txns"]]).diff()
-    s.loc[d["burst"] | d["burst"].shift(1, fill_value=False), "light_signers"] = np.nan  # burst weeks and the week after
+    s = np.log(d[["light_signers", "light_non_tg", "heavy_txns"]]).diff()
+    s.loc[d["burst"] | d["burst"].shift(1, fill_value=False), ["light_signers", "light_non_tg"]] = np.nan  # burst weeks and the week after
     x = g.join(s, how="inner")
     rows = []
-    for series in ("light_signers", "heavy_txns"):
+    for series in ("light_signers", "light_non_tg", "heavy_txns"):
         for k in LAGS:
             for direction, a, b in (("usage leads price", x[series], x["near_vs_btc"].shift(-k)),
                                     ("price leads usage", x["near_vs_btc"], x[series].shift(-k))):
@@ -57,6 +58,7 @@ def main() -> dict:
         idx = t.index[t["direction"] == direction]
         t.loc[idx, "p_holm"] = _holm(t.loc[idx, "p"].tolist())
     same_week = {c: float(x["light_signers"].corr(x[c])) for c in ("intents_volume", "txns", "revenue", "near_vs_btc")}
+    same_week_non_tg = {c: float(x["light_non_tg"].corr(x[c])) for c in ("intents_volume", "revenue", "near_vs_btc")}
     rev = x.loc["2026-03-02":]
     res = {
         "weeks": int(len(d)), "from": str(d.index[0].date()), "to": str(d.index[-1].date()),
@@ -67,13 +69,17 @@ def main() -> dict:
         "light_signers_last4": float(last4["light_signers"].mean()), "light_signers_year_before": float(year4["light_signers"].mean()),
         "light_signers_yoy": float(last4["light_signers"].mean() / year4["light_signers"].mean() - 1),
         "light_signers_first4": float(clean["light_signers"].iloc[:4].mean()),
+        "tg_share_of_light_last4": float(last4["light_tg"].sum() / last4["light_signers"].sum()),
+        "light_non_tg_last4": float(last4["light_non_tg"].mean()), "light_non_tg_year_before": float(year4["light_non_tg"].mean()),
+        "light_non_tg_yoy": float(last4["light_non_tg"].mean() / year4["light_non_tg"].mean() - 1),
+        "light_non_tg_first4": float(clean["light_non_tg"].iloc[:4].mean()),
         "light_tx_per_signer_last4": float(last4["light_txns"].sum() / last4["light_signers"].sum()),
         "bursts": [{"week": str(k.date()), "light_signers": int(v), "implicit": int(i)} for k, v, i in
                    zip(d.index[d["burst"]], d.loc[d["burst"], "light_signers"], d.loc[d["burst"], "light_implicit"])],
         "heavy_txns_drop_2026_04": float(d.loc["2026-04-06":"2026-04-27", "heavy_txns"].mean() / d.loc["2026-03-02":"2026-03-23", "heavy_txns"].mean() - 1),
         "lead_lag_tests": int(len(t)), "lead_lag_significant_holm": int((t["p_holm"] < 0.05).sum()),
         "lead_lag_best": t.loc[t["p"].idxmin()].to_dict(),
-        "same_week_corr": same_week,
+        "same_week_corr": same_week, "same_week_corr_non_tg": same_week_non_tg,
         "light_vs_revenue_since_march": float(rev["light_signers"].corr(rev["revenue"])), "weeks_since_march": int(rev["revenue"].notna().sum()),
     }
     t.to_csv(OUT / "signers_leadlag.csv", index=False)
