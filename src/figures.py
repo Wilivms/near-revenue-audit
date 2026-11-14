@@ -412,6 +412,18 @@ def figures() -> dict[str, str]:
               "el_hi_g": spct(cs["by_fee_band"]["60+ bps"]["median_relative_growth"]), "el_hi_n": str(cs["by_fee_band"]["60+ bps"]["integrators"]),
               "el_hi_v": usd(cs["by_fee_band"]["60+ bps"]["volume_before_usd"], 0), "el_lo_g": spct(cs["by_fee_band"]["0-10 bps"]["median_relative_growth"]),
               "el_lo_n": str(cs["by_fee_band"]["0-10 bps"]["integrators"])})
+    sg_ = _json("signers.json")
+    f.update({"sg_heavy_n": f"{sg_['heavy_signers_median']:.0f}", "sg_heavy_first": pct(sg_["heavy_share_first"]), "sg_heavy_last": pct(sg_["heavy_share_last"]),
+              "sg_light_share": pct(sg_["light_share_last"]), "sg_light": f"{sg_['light_signers_last4'] / 1e3:.0f}k", "sg_light_first": f"{sg_['light_signers_first4'] / 1e6:.1f}M",
+              "sg_yoy": spct(sg_["light_signers_yoy"]), "sg_bursts": str(len(sg_["bursts"])), "sg_tests": str(sg_["lead_lag_tests"]),
+              "sg_sig": str(sg_["lead_lag_significant_holm"]), "sg_best_r": f"{sg_['lead_lag_best']['r']:+.2f}", "sg_best_p": f"{sg_['lead_lag_best']['p']:.2f}",
+              "sg_vol_r": f"{sg_['same_week_corr']['intents_volume']:+.2f}".replace("-", "−"), "sg_rev_r": f"{sg_['light_vs_revenue_since_march']:+.2f}",
+              "sg_bot_drop": spct(sg_["heavy_txns_drop_2026_04"]), "sg_weeks": str(sg_["weeks"])})
+    tr = _json("treasury.json")
+    f.update({"tr_moved": f"{tr['moved_out_2026_near'] / 1e6:.2f}M", "tr_x": f"{tr['moved_over_captured']:.0f}", "tr_staked1": f"{tr['staked_first_near'] / 1e6:.1f}M",
+              "tr_unstaked_day": tr["unstaked_day"], "tr_endow": f"{tr['foundation_endowment_joined_near'] / 1e6:.0f}M",
+              "tr_staked2": f"{tr['staked_again_near'] / 1e6:.1f}M", "tr_staked2_day": tr["staked_again_days"][1],
+              "tr_captured": f"{tr['captured_by_revenue_wallets_near'] / 1e6:.2f}M"})
     im = _json("implied.json")
     pm = {(x["discount"], x["growth"]): x for x in im["perpetuity"]}
     fv = {x["discount"]: x for x in im["five_years_then_peer_multiple"]}

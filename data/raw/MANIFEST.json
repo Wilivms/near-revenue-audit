@@ -12,9 +12,21 @@
    "bytes": 2677,
    "sha256": "1087806c1dd57d650d1fa793050ccf471da1580328eeea69e0fbed15820e4e47"
   },
+  "bigquery/signers_weekly_2026-11-14.csv": {
+   "bytes": 8364,
+   "sha256": "5c95abfba1f61ca8be09879cc38155f467ddb68b27e1193d00b9287d7f25539e"
+  },
   "bigquery/supply_daily_2026-11-13.csv": {
    "bytes": 16299,
    "sha256": "bb96e3ca89894a25af49a65edc6feae616931f348823c7369289938f20d995f7"
+  },
+  "bigquery/treasury_out_2026-11-14.csv": {
+   "bytes": 239,
+   "sha256": "a2e013d0704ef31753ec92df7472364492783367621f0509f96903ca4b260bad"
+  },
+  "bigquery/treasury_walk_2026-11-14.csv": {
+   "bytes": 4434,
+   "sha256": "1ba44e8a66048b750196fc7cacf67ebf2196624f65ddd2d4737f0beb678d003c"
   },
   "bigquery/wallet_transfers_2026-11-13.csv": {
    "bytes": 43064,

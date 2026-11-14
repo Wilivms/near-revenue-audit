@@ -1,0 +1,25 @@
+{
+ "moved_out_2026_near": 30171200.0,
+ "moved_months": [
+  "2026-04",
+  "2026-05"
+ ],
+ "staked_first_near": 20371079.0,
+ "staked_first_day": "2026-07-31",
+ "unstaked_near": 20483020.0,
+ "unstaked_day": "2026-09-16",
+ "foundation_endowment_joined_near": 25000000.0,
+ "staked_again_near": 47512105.0,
+ "staked_again_days": [
+  "2026-10-06",
+  "2026-10-07"
+ ],
+ "staked_again_pools": [
+  "cnear-1.poolv1.near",
+  "cnear-2.poolv1.near",
+  "cnear-3.poolv1.near"
+ ],
+ "captured_by_revenue_wallets_near": 3291733.5044334475,
+ "moved_over_captured": 9.165748065377752,
+ "note": "main paths of moves of 100,000 NEAR or more; the last hop read from NearBlocks; balances read by RPC on 14 Nov 2026"
+}

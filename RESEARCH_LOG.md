@@ -662,3 +662,22 @@ The take is NEAR's lever only if volume does not leave when fees rise. NEAR rare
 - **Across integrators.** For the 32 integrators with $1M or more in 14 Aug–12 Sep, their fee then against their volume growth by 14 Oct–12 Nov, relative to all of 1Click: Spearman +0.08 (p = 0.65). The 5 charging 60+ bps ($579M) grew 11% against 1Click; the 16 charging 10 bps or less fell 12%.
 - **Within an integrator.** A clean step is a move of 3 bps or more between two stable 10-day windows. 6 fee rises were followed by a median volume change of +25% against 1Click, and 4 cuts by +211%, mostly from small bases. These are few and noisy: an absence of visible effect, not a measured elasticity.
 - **Reading, with F18 and the quote race.** Users pay about 59 bps, do not visibly shop on fees of this size, and 1Click is priced level with rival routers. What limits NEAR's take is the integrators' choice of router, not the users.
+
+### 65. Who signs NEAR's transactions, and where the treasury's NEAR went (2026-11-14)
+
+Two leads from other theses, taken further and tied to F13 and F3.
+
+**Signers** (`sql/signers_weekly.sql`, 71 GB on BigQuery; `src/analysis/signers.py`). Each week from November 2024, signers are grouped by how many transactions they sent that week.
+- **Heavy signers** (above 5,000 a week; a median of 52 accounts) sent 76% of transactions in November 2024 and 79% now. Their transactions fell 81% in April 2026, which is most of the drop in NEAR's transaction count.
+- **Human-scale signers** (at most 50 a week) went from 2.7M a week to 124k, −69% on a year.
+- **Burst weeks**: 5 weeks where human-scale signers exceeded twice their 8-week median are left out of the tests — 2–22 Feb 2026 (1.7M implicit accounts) and 28 Sep–11 Oct 2026.
+- **F13 extended** to human-scale signers and to heavy signers' transactions: 0 of 16 lead-lag correlations with the BTC-adjusted price are significant after Holm (best r = +0.15, p = 0.14). Within the week, human-scale signers do not move with Intents volume (r = −0.09). NEAR's revenue grows without more people signing NEAR transactions.
+
+**Treasury** (`sql/treasury_walk.sql`, about 1.2 TB per statement on the trial credit; `src/analysis/treasury.py`).
+- `treasury.near` moved 30.17M NEAR in 2026: 9.8M in April to two ecotreasury multisigs, and 20.37M in May to an implicit account. That is 9.2x the 3.29M NEAR the revenue wallets received since the fee switch.
+- Followed through moves of 100,000 NEAR or more:
+  - the 20.37M was staked with p2p-org and Figment on 31 Jul and unstaked on 16 Sep;
+  - it was then pooled with 25M from the NEAR Foundation endowment (nfendowment03.near) and the 9.8M branch;
+  - 47.5M was staked again in cnear-1/2/3.poolv1.near on 6–7 Oct (the last hop was read on NearBlocks).
+- Balances by RPC on 14 Nov: the pooling accounts are empty; treasury.near holds 1.65M.
+- No path reaches an exchange: the treasury's share of issuance is not selling pressure today, but it is a stock its holders control.
