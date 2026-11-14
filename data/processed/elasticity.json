@@ -91,8 +91,8 @@
  "fee_cuts_median_volume": 2.113086725039618,
  "cross_section": {
   "integrators": 32,
-  "spearman": 0.08230226411616966,
-  "p": 0.6542904897876077,
+  "spearman": 0.08230226411616967,
+  "p": 0.6542904897876194,
   "by_fee_band": {
    "0-10 bps": {
     "integrators": 16,

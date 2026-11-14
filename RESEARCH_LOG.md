@@ -681,3 +681,4 @@ Two leads from other theses, taken further and tied to F13 and F3.
   - 47.5M was staked again in cnear-1/2/3.poolv1.near on 6–7 Oct (the last hop was read on NearBlocks).
 - Balances by RPC on 14 Nov: the pooling accounts are empty; treasury.near holds 1.65M.
 - No path reaches an exchange: the treasury's share of issuance is not selling pressure today, but it is a stock its holders control.
+- **A broken build, caught and fixed (same day).** `elasticity.py` imported scipy, which is not in `requirements.txt`. My environment had it, so local runs passed, but CI and two manual refreshes failed from 09:31 UTC. Spearman's correlation is now computed as Pearson on ranks, with the p-value function the lead-lag test already uses; the numbers are unchanged. Every check is now also run in a fresh virtual environment built from `requirements.txt` alone.

@@ -22,8 +22,8 @@ import json
 
 import numpy as np
 import pandas as pd
-from scipy.stats import spearmanr
 
+from .leadlag import _p_value
 from .ledger import OUT, RAW
 
 FOLDER = RAW / "oneclick_aggregates"
@@ -93,7 +93,8 @@ def main() -> dict:
     A = A[A["usd"] >= 1e6]
     A["after"] = b.groupby("id")["usd"].sum().reindex(A.index).fillna(0)
     A["growth"] = np.log((A["after"] + 1e4) / (A["usd"] + 1e4)) - np.log(b["usd"].sum() / a["usd"].sum())
-    rho, pv = spearmanr(A["fee"], A["growth"])
+    rho = float(A["fee"].rank().corr(A["growth"].rank()))  # Spearman: Pearson on ranks (no scipy needed)
+    pv = _p_value(rho, len(A))
     bands = pd.cut(A["fee"], [-1, 10, 30, 60, 10_000], labels=["0-10 bps", "10-30 bps", "30-60 bps", "60+ bps"])
     by = {str(k): {"integrators": int(len(g)), "volume_before_usd": float(g["usd"].sum()), "median_relative_growth": float(np.expm1(g["growth"].median()))}
           for k, g in A.groupby(bands, observed=True)}
