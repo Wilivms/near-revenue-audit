@@ -1,0 +1,64 @@
+{
+ "findings": {
+  "F1": {
+   "alternatives": 5,
+   "hold": 5
+  },
+  "F3": {
+   "alternatives": 5,
+   "hold": 5
+  },
+  "F4": {
+   "alternatives": 5,
+   "hold": 5
+  },
+  "F5": {
+   "alternatives": 4,
+   "hold": 3
+  },
+  "F8": {
+   "alternatives": 4,
+   "hold": 4
+  },
+  "F10": {
+   "alternatives": 4,
+   "hold": 4
+  },
+  "F11": {
+   "alternatives": 8,
+   "hold": 8
+  },
+  "F12": {
+   "alternatives": 2,
+   "hold": 2
+  },
+  "F13": {
+   "alternatives": 1,
+   "hold": 1
+  }
+ },
+ "fragile": [
+  "F5"
+ ],
+ "variants": 49,
+ "alternatives": 38,
+ "alternatives_hold": 37,
+ "stress_breaks": [
+  {
+   "finding": "F3",
+   "variant": "best single month since February",
+   "value": 0.2452822779546441
+  },
+  {
+   "finding": "F8",
+   "variant": "Drop 1 valued at 1.50x the conversion price",
+   "value": 1.115230909524592
+  },
+  {
+   "finding": "F11",
+   "variant": "scenario: take now, full history since Mar-2025 (hyper-growth)",
+   "value": 2.7613171419958205
+  }
+ ],
+ "note": "alternative = the same claim under another reasonable choice (a flip makes the finding fragile); stress = a harder test the claim does not make (where it would break); info = context such as statistical power"
+}

@@ -42,7 +42,7 @@ For supply to stop growing, the second bold line has to reach the third. On 1Cli
 ```
 git clone https://github.com/Wilivms/near-revenue-audit && cd near-revenue-audit
 make setup && . .venv/bin/activate
-make check-clean     # → 45/45 outputs match the committed ones, 17/17 findings hold
+make check-clean     # → 47/47 outputs match the committed ones, 17/17 findings hold
 make verify          # → prints every finding and the headline numbers above
 ```
 
@@ -50,6 +50,7 @@ make verify          # → prints every finding and the headline numbers above
 - **Revenue confirmed four independent ways**: DefiLlama, NEAR's dashboard, NEAR's BigQuery dataset, and the withdrawals from `intents.near` to the wallets (within 0.5%).
 - **The questions the dashboards skip, answered with data**: the airdrop's role, who pays, and where the revenue now comes from: 73% of what reaches the wallets since late September is paid out of the confidential pool (about $136M), worth 8.8 bps of confidential volume against 2.0 on public ([REPORT section 10](REPORT.md#10-the-two-questions-near-did-not-answer-and-what-the-data-says)).
 - **Numbers that do not move after the fact**: 0 of 1,143 daily readings of the rebuilt revenue changed across 5 dated snapshots, while DefiLlama's and NEAR's own dashboard revised their latest day of gross fees by up to ×185 (finding F16, `make revisions`).
+- **Every finding stress-tested**: 49 variants (other windows, sources, denominators, prices) recomputed by `make robustness`; 37 of 38 reasonable alternatives hold, and the one finding that is fragile (F5) says so (REPORT section 12).
 - **Events tested against a placebo, not narrated**: the October exploit and six other NEAR events (halving, fee switch, airdrop, HSP-029…) are each compared with the same before/after split at every ordinary date of the year (F17, REPORT section 11).
 - **Other people's claims tested**: 33 statements by NEAR, Nansen, analysts and the press, each checked at its own date.
 - **Bets made in public**: hypotheses written before the tests, six predictions timestamped on Bitcoin and anchored on NEAR testnet, two resolving before judging.
@@ -77,9 +78,9 @@ Each number with its window, its source and the command that rebuilds it. None o
 | --- | --- | --- |
 | 2 min | Open the **[live dashboard](https://near-revenue-audit.vercel.app)** | the live reading (NEAR bought back per 100 issued, recomputed in your browser), then the simulator: move volume and take rate, see break-even |
 | 5 min | Read **[`THESIS.md`](THESIS.md)** | the claim, evidence for and against, what would change our mind, what could not be computed, on one page |
-| 2 min | Run `make setup && . .venv/bin/activate && make check-clean` | every output rebuilt from committed data and compared: `45/45 outputs match`, `17/17 findings hold` |
+| 2 min | Run `make setup && . .venv/bin/activate && make check-clean` | every output rebuilt from committed data and compared: `47/47 outputs match`, `17/17 findings hold` |
 | 3 min | Open **[REPORT section 9](REPORT.md#9-public-claims-checked)** | 33 public claims about NEAR tested at their own dates |
-| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (61 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
+| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (62 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
 
 ## Why this thesis is different
 
@@ -128,7 +129,7 @@ Kept in the open because a thesis is only as good as its corrections. Each one i
 | F2 | NEAR's own dashboard agrees on the wallets | 4.346M vs 4.339M NEAR (0.16% apart) | all-time NEAR received by the same 3 wallets vs revenue.near.org's wallet table; holds if within ±1% (`make official`) | PASS |
 | F3 | Buybacks offset well under a fifth of issuance | 14.8% (NEAR's dashboard: 16.3%) | NEAR captured / net issuance from archival-RPC total supply, Feb–Oct 2026; holds if both definitions are below 20% (`make supply official`) | PASS |
 | F4 | Market cap is far above break-even | 205x annual captured revenue vs 41x (64x after HSP-029) | identity: supply stops growing iff market cap / annual captured revenue < 1 / issuance; holds if above the post-cut threshold (`make montecarlo`) | PASS |
-| F5 | NEAR's take more than doubled Aug to Oct | 2.2 → 5.5 bps of volume | wallet revenue / NEAR-reported Intents volume, by month; holds if October ≥ 2× August (`make official`) | PASS |
+| F5 | NEAR's take doubled from August to October | 2.2 → 5.5 bps of volume (1.8x to 2.5x depending on the window: make robustness) | wallet revenue / NEAR-reported Intents volume, by month; holds if October ≥ 2× August (`make official`) | PASS |
 | F6 | Confidential swaps pay NEAR more than public ones, in every method | 5.5–11 bps vs 1–3 (Dune fee table 7.4) | weekly fit in levels and in first differences, Aug–Oct; holds if the confidential coefficient exceeds the public one in both (`make confidential`) | PASS |
 | F7 | They explain part, not all, of the jump | 22% to 84% of the +3.3 bps | (change in confidential share) × (confidential premium) / rise in take, under three premiums; holds if the range spans below 100% (`make confidential`) | PASS |
 | F8 | Drop 1 of NEAR@3.33 cost less than the revenue uplift | $1.39M vs $1.87M (74%) | 333,333 NEAR at the conversion price vs Sep–Oct revenue above the May–Aug take rate; holds if cost < uplift (`make confidential`) | PASS |
@@ -159,7 +160,7 @@ make verify           # renders README/REPORT/FAQ/THESIS from the outputs and re
 
 | Command | You should see |
 | --- | --- |
-| `make check-clean` | the tests pass, then `45/45 outputs match the committed ones` (text exactly, numbers to 1e-9) |
+| `make check-clean` | the tests pass, then `47/47 outputs match the committed ones` (text exactly, numbers to 1e-9) |
 | `make verify` | `17/17 findings hold` and no stale document |
 | `make revenue` | revenue rebuilt from the 3 revenue wallets vs DefiLlama: $8,087,549 vs $8,149,355 since the fee switch |
 | `make official` | the same wallets against NEAR's own dashboard (0.16% apart), the take rate on both revenue definitions, capture by mechanism |

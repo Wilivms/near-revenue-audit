@@ -1,0 +1,50 @@
+finding,variant,value,holds,kind,note
+F1,baseline: fee switch to the last complete day,0.992416,True,alternative,
+F1,settled DefiLlama days only (to 2026-11-11),0.991733,True,alternative,
+F1,from 1 March (first full month),0.991675,True,alternative,
+F1,last 90 days,0.98702,True,alternative,
+F1,last 30 days,1.011066,True,alternative,
+F1,worst full month (Sep),0.952479,True,stress,a single month is held to ±5%
+F3,"baseline: Feb–Oct, three wallets",0.147911,True,alternative,
+F3,NEAR's dashboard (its revenue and emissions series),0.163026,True,alternative,
+F3,Mar–Oct (first full month),0.13706,True,alternative,
+F3,Aug–Oct (since the take rose),0.175315,True,alternative,
+F3,best single month since February,0.245282,False,stress,
+F3,buyback multisig only,0.069029,True,alternative,
+F4,revenue annualised over the last 30 days,205.446499,True,alternative,post-cut break-even 64x
+F4,revenue annualised over the last 60 days,186.831185,True,alternative,post-cut break-even 64x
+F4,revenue annualised over the last 90 days,223.353175,True,alternative,post-cut break-even 64x
+F4,revenue annualised over the last 180 days,333.521934,True,alternative,post-cut break-even 64x
+F4,"best 30 days since the fee switch, annualised",158.431232,True,alternative,
+F4,NEAR price at which today's revenue would reach the post-cut break-even,1.069216,True,stress,against $3.42 on 2026-11-13; lowest of the last year $0.96
+F5,"baseline: NEAR-reported volume, August vs October",2.487815,True,alternative,2.2 → 5.5 bps
+F5,"DefiLlama volume, August vs October",2.157972,True,alternative,2.6 → 5.5 bps
+F5,"DefiLlama volume, last two weeks of Aug vs of Oct",1.833131,False,alternative,2.8 → 5.2 bps
+F5,"DefiLlama volume, July–August vs October",2.289018,True,alternative,2.4 → 5.5 bps
+F8,take before the campaign = May–Aug (DefiLlama volume),0.842321,True,alternative,Drop 1 cost / uplift
+F8,take before the campaign = Jun–Aug (DefiLlama volume),0.796069,True,alternative,Drop 1 cost / uplift
+F8,take before the campaign = Jul–Aug (DefiLlama volume),0.75713,True,alternative,Drop 1 cost / uplift
+F8,take before the campaign = August (DefiLlama volume),0.81446,True,alternative,Drop 1 cost / uplift
+F8,Drop 1 valued at 1.25x the conversion price,0.929359,True,stress,
+F8,Drop 1 valued at 1.50x the conversion price,1.115231,False,stress,
+F10,TVL 14 days after the snapshot vs at it,2.253501,True,alternative,
+F10,TVL 30 days after the snapshot vs at it,2.169468,True,alternative,
+F10,TVL 45 days after the snapshot vs at it,2.002801,True,alternative,
+F10,lowest TVL since the snapshot vs at it,1.106443,True,alternative,
+F11,"scenario: base: take now, 365d history",0.184826,True,alternative,median share of 2027 issuance offset
+F11,scenario: take back to May–Aug level,0.098799,True,alternative,median share of 2027 issuance offset
+F11,"scenario: take now, zero volume drift",0.184048,True,alternative,median share of 2027 issuance offset
+F11,"scenario: take now, 180d history (bull)",0.498067,True,stress,median share of 2027 issuance offset
+F11,"scenario: take now, full history since Mar-2025 (hyper-growth)",2.761317,False,stress,median share of 2027 issuance offset
+F11,"scenario: take now, price keeps its 365d drift",0.148432,True,alternative,median share of 2027 issuance offset
+F11,"scenario: base, buyback wallet only counted as retired",0.110896,True,alternative,median share of 2027 issuance offset
+F11,scenario: take doubles again,0.369652,True,stress,median share of 2027 issuance offset
+F11,scenario: incentive winds down over 6 months,0.109199,True,alternative,median share of 2027 issuance offset
+F11,"scenario: base + issuance cut (HSP-029, earliest start)",0.198608,True,alternative,median share of 2027 issuance offset
+F11,scenario: incentive winds down + issuance cut,0.117342,True,alternative,median share of 2027 issuance offset
+F11,sensitivity grid: cells where supply still grows (30 cells),0.433333,True,info,"share of volume × take cells below 100%; informative, not a test"
+F12,annualised over 30 days ×365/30 (baseline),207.72003,True,alternative,"peers median 20x, Q3 27x (12 peers)"
+F12,annualised over last 12 months (DefiLlama total1y),413.47932,True,alternative,"peers median 19x, Q3 25x (13 peers)"
+F13,"smallest |r| detected with 80% power, a single test at 5%, n = 95 weeks",0.284051,True,info,"power, not a test: a weaker lead could exist and go undetected"
+F13,"smallest |r| detected with 80% power, the strictest Holm step (24 tests), n = 95 weeks",0.387331,True,info,"power, not a test: a weaker lead could exist and go undetected"
+F13,largest correlation found (absolute),0.166447,True,alternative,

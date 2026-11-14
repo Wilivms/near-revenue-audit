@@ -159,7 +159,7 @@ What the simulation assumes, and what that does to the result:
 
 The track suggests testing whether cross-chain volume through NEAR Intents is a better signal of real usage than the token price. Weekly data, {{ll_weeks}} complete weeks, NEAR's price taken net of BTC (beta {{ll_beta}}) so that a market-wide move does not count as a NEAR signal (log 33, `make leadlag`):
 
-- **Usage does not lead the price, and the price does not lead usage.** Intents volume, L1 transactions and L1 active accounts, lags of one to four weeks, both directions: {{ll_sig}} of {{ll_tests}} correlations are significant after Holm's correction. The strongest before correction is {{ll_best}}.
+- **Usage does not lead the price, and the price does not lead usage.** Intents volume, L1 transactions and L1 active accounts, lags of one to four weeks, both directions: {{ll_sig}} of {{ll_tests}} correlations are significant after Holm's correction. The strongest before correction is {{ll_best}}. How strong a lead could this miss? With these weeks, a correlation needs to reach about {{rob_f13_single}} to be found 80% of the time in a single test, and {{rob_f13_holm}} at the strictest step of Holm's correction; a weaker lead could exist and go undetected. The finding is that no lead strong enough to trade on shows up, not that none exists (`make robustness`).
 - **The two kinds of usage have parted ways.** Over the last 30 days against the same window a year earlier, Intents volume is {{yoy_vol}} while L1 transactions are {{yoy_txns}} and L1 active accounts {{yoy_active}}. Counting transactions says NEAR is shrinking; counting settled volume says it is growing.
 - **What tracks NEAR's revenue.** Weekly changes in captured revenue since March correlate {{ll_rev_vol}} with Intents volume, {{ll_rev_txns}} with L1 transactions, {{ll_rev_active}} with active accounts and {{ll_rev_price}} with the BTC-adjusted price ({{ll_rev_weeks}} weeks).
 - **Reading.** Week to week, NEAR's revenue moves with both Intents volume and L1 transactions (the two move together within a week), but over a year they part ways and only Intents volume grew with revenue. Neither says anything about next month's price. That fits the valuation finding: the market does not price NEAR on this revenue.
@@ -205,6 +205,17 @@ The incident method, applied to every major NEAR event of the last year (`make e
 - **The exploit did not move the price** ({{ev_exp_px3}} in three days, within the usual range) and Intents-wide revenue held; the take rose, as it was rising anyway.
 - **Coincidences named, not explained.** The volume and share jumps after the halving coincide with the Zcash boom of late 2025, and the share fall after HSP-029 with THORChain's November lead; neither is plausibly caused by the event.
 - {{ev_unusual}} of {{ev_tests}} tests come out at p ≤ 0.10, against about {{ev_expected}} expected by chance: some of these are noise, so read each one with its own story and not as proof.
+
+### 12. How fragile is each finding?
+
+Every finding rests on choices: a window, a source, a denominator, a price. `make robustness` (log 62) recomputes each one under the alternatives a careful reader would try first, from the committed outputs, and records whether it still holds. **{{rob_alt_hold}} of {{rob_alt}} alternatives hold; fragile: {{rob_fragile}}.** A *stress* test asks for more than the finding claims and shows where it would break.
+
+{{rob_table}}
+
+- **F5 is the fragile one.** On whole months the take rose 2.2x to 2.5x from August to October, but on the last two weeks of each month it rose 1.8x: the rise is real (the take more than doubled from its May–August level by any window), "more than double" depends on the window, so F5 now says "doubled" and gives the range.
+- **F4 would break only at a NEAR price near ${{rob_be}}**, {{rob_be_drop}} below today's: at today's revenue, that is where the market cap would meet the post-HSP-029 break-even multiple.
+- **F8 holds for any pre-campaign baseline**, but if Drop 1's tokens are valued at 1.5x the conversion price, the airdrop cost more than it brought.
+- Stress results are not hidden by the tests: they mark the edge of each claim.
 
 ## Bull case and bear case
 

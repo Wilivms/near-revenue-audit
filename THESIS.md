@@ -22,7 +22,7 @@ NEAR Intents' protocol revenue is real and has grown, but in its current form it
 
 ## Evidence against
 
-- **The take rate is a lever.** It more than doubled in two months; at 8–15 bps with 2–4× today's volume, buybacks would cover issuance (sensitivity table in `make montecarlo`).
+- **The take rate is a lever.** It doubled in two months (2.2 to 5.5 bps, month on month); at 8–15 bps with 2–4× today's volume, buybacks would cover issuance (sensitivity table in `make montecarlo`).
 - **Confidential swaps do pay NEAR more**, in every method (5.5–11 bps against 1–3). If a part of that use outlives the airdrop, the take stays well above its May–Aug level (2.4 bps).
 - **The part NEAR controls held up in November.** On 1Click, NEAR's revenue from swaps without an integrator was $5.2k a day in late October and $5.4k in early November; the fall came from one integrator's burst ending (Trust Wallet). 
 - **NEAR's own front-end is growing its share.** NEAR's dashboard shows capture by front-end fees rising from 12% of gross fees all-time to 19% over the last 30 days: the flows NEAR controls are the ones that grew.

@@ -167,7 +167,7 @@ What the simulation assumes, and what that does to the result:
 
 The track suggests testing whether cross-chain volume through NEAR Intents is a better signal of real usage than the token price. Weekly data, 98 complete weeks, NEAR's price taken net of BTC (beta 1.45) so that a market-wide move does not count as a NEAR signal (log 33, `make leadlag`):
 
-- **Usage does not lead the price, and the price does not lead usage.** Intents volume, L1 transactions and L1 active accounts, lags of one to four weeks, both directions: 0 of 24 correlations are significant after Holm's correction. The strongest before correction is r = +0.15, p = 0.15 before correction (L1 transactions, 1-week lag).
+- **Usage does not lead the price, and the price does not lead usage.** Intents volume, L1 transactions and L1 active accounts, lags of one to four weeks, both directions: 0 of 24 correlations are significant after Holm's correction. The strongest before correction is r = +0.15, p = 0.15 before correction (L1 transactions, 1-week lag). How strong a lead could this miss? With these weeks, a correlation needs to reach about 0.28 to be found 80% of the time in a single test, and 0.39 at the strictest step of Holm's correction; a weaker lead could exist and go undetected. The finding is that no lead strong enough to trade on shows up, not that none exists (`make robustness`).
 - **The two kinds of usage have parted ways.** Over the last 30 days against the same window a year earlier, Intents volume is +48% while L1 transactions are -85% and L1 active accounts -76%. Counting transactions says NEAR is shrinking; counting settled volume says it is growing.
 - **What tracks NEAR's revenue.** Weekly changes in captured revenue since March correlate 0.45 with Intents volume, 0.52 with L1 transactions, -0.03 with active accounts and 0.11 with the BTC-adjusted price (36 weeks).
 - **Reading.** Week to week, NEAR's revenue moves with both Intents volume and L1 transactions (the two move together within a week), but over a year they part ways and only Intents volume grew with revenue. Neither says anything about next month's price. That fits the valuation finding: the market does not price NEAR on this revenue.
@@ -255,6 +255,27 @@ The incident method, applied to every major NEAR event of the last year (`make e
 - **The exploit did not move the price** (−6% in three days, within the usual range) and Intents-wide revenue held; the take rose, as it was rising anyway.
 - **Coincidences named, not explained.** The volume and share jumps after the halving coincide with the Zcash boom of late 2025, and the share fall after HSP-029 with THORChain's November lead; neither is plausibly caused by the event.
 - 9 of 41 tests come out at p ≤ 0.10, against about 4 expected by chance: some of these are noise, so read each one with its own story and not as proof.
+
+### 12. How fragile is each finding?
+
+Every finding rests on choices: a window, a source, a denominator, a price. `make robustness` (log 62) recomputes each one under the alternatives a careful reader would try first, from the committed outputs, and records whether it still holds. **37 of 38 alternatives hold; fragile: F5.** A *stress* test asks for more than the finding claims and shows where it would break.
+
+| Finding | Alternatives that hold | Weakest alternative | Where it would break (a test it does not claim) |
+| --- | --- | --- | --- |
+| F1 | 5 of 5 | last 90 days: ratio 0.987 | – |
+| F3 | 5 of 5 | Aug–Oct (since the take rose): 17.5% | best single month since February: 24.5% |
+| F4 | 5 of 5 | best 30 days since the fee switch, annualised: 158x | NEAR price at which today's revenue would reach the post-cut break-even: $1.07 |
+| F5 | 3 of 4 | **flips**: DefiLlama volume, last two weeks of Aug vs of Oct: 1.83x | – |
+| F8 | 4 of 4 | take before the campaign = May–Aug (DefiLlama volume): cost 84% of uplift | Drop 1 valued at 1.50x the conversion price: cost 112% of uplift |
+| F10 | 4 of 4 | lowest TVL since the snapshot vs at it: 1.11x | – |
+| F11 | 8 of 8 | scenario: base + issuance cut (HSP-029, earliest start): 20% | scenario: take now, full history since Mar-2025 (hyper-growth): 276% |
+| F12 | 2 of 2 | annualised over 30 days ×365/30 (baseline): 208x | – |
+| F13 | 1 of 1 | largest correlation found (absolute): r = 0.17 | smallest correlation detectable with 80% power over a single test at 5%: 0.28 and the strictest Holm step (24 tests): 0.39 |
+
+- **F5 is the fragile one.** On whole months the take rose 2.2x to 2.5x from August to October, but on the last two weeks of each month it rose 1.8x: the rise is real (the take more than doubled from its May–August level by any window), "more than double" depends on the window, so F5 now says "doubled" and gives the range.
+- **F4 would break only at a NEAR price near $1.07**, 69% below today's: at today's revenue, that is where the market cap would meet the post-HSP-029 break-even multiple.
+- **F8 holds for any pre-campaign baseline**, but if Drop 1's tokens are valued at 1.5x the conversion price, the airdrop cost more than it brought.
+- Stress results are not hidden by the tests: they mark the edge of each claim.
 
 ## Bull case and bear case
 

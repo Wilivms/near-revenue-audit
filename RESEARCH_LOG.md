@@ -621,3 +621,22 @@ The scheduled daily refresh did not start on 14 November (GitHub skipped it); a 
 - **The exploit moved neither price (−6%, p = 0.22) nor Intents-wide revenue**; the take rose (+1.9 bps), as it already was.
 - **Named coincidences.** The halving's volume and share jumps coincide with the late-2025 Zcash boom; the share fall after HSP-029 with THORChain's November lead.
 - **Multiple testing.** 9 of 41 tests come out at p ≤ 0.10, against about 4 expected by chance.
+
+### 62. How fragile is each finding? (2026-11-14)
+
+`src/analysis/robustness.py` (REPORT section 12) recomputes each finding, from the committed outputs, under the alternatives a careful reader would try first, and separates three kinds of variant: *alternatives* (the same claim under another reasonable choice), *stress* tests (a harder claim the finding does not make), and *information* (power). 49 variants in all; 37 of the 38 alternatives hold.
+- **F5 is fragile, and now says so.** On whole months the take went 2.2 → 5.5 bps (2.5x; 2.2x with DefiLlama volume), but on the last two weeks of August against the last two weeks of October it went 2.8 → 5.2 bps (1.8x). The finding now says "doubled" and gives the 1.8x–2.5x range.
+- **F1** holds on every window: settled DefiLlama days only 0.992, last 90 days 0.987, last 30 days 1.011. The worst single month (September, 0.953) is inside ±5%.
+- **F3**: 13.7% to 17.5% depending on the months, 6.9% if only the buyback multisig counts. One month (24.5%) was above a fifth.
+- **F4** holds at every revenue window: 158x at the best 30 days, against the 64x post-cut break-even. It would break only at a NEAR price near $1.07, 69% below today's.
+- **F8** holds for any pre-campaign baseline (cost 76–84% of the uplift), but not if Drop 1's tokens are valued at 1.5x the conversion price (112%).
+- **F11** holds in every scenario except hyper-growth (full history since March 2025), which is already reported as a scenario.
+- **F12** strengthens on 12-month revenue: 413x against a peer median of 19x.
+- **F13's null needed its power stated.** With 95 weeks, a correlation must reach about 0.28 (one test at 5%), or 0.39 at the strictest Holm step, to be found 80% of the time. "Usage does not lead the price" means no lead strong enough to trade on, not that none exists. REPORT section 8 now says this.
+
+**News checked on 14 November** (CoinMarketCap, CryptoTicker, cryptonews; nothing here is analysed yet):
+- NEAR fell to an 8-week low near $3.40 on 12 November (−32% in 30 days), with long liquidations and no Intents or protocol trigger reported.
+- A NEAR AI data incident on 10 November exposed about 100 users.
+- Hackers created six tokens on NEAR on 5–7 November and moved about $430k through DEX pools (Elliptic).
+- HSP-029 still awaits Security Council ratification and a roughly 90-day preparation period before validators deploy it.
+- None of these leaves two weeks of data after it, so none is tested in `make events` yet; the November price fall is already inside the live prediction P1–P5 tracking.

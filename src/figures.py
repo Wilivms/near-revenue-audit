@@ -375,6 +375,33 @@ def figures() -> dict[str, str]:
               "bq_intents_tx_25": pct(bq["activity"]["intents_share_of_txns_oct2025"], 1), "bq_intents_tx_26": pct(bq["activity"]["intents_share_of_txns_oct2026"], 1)})
     rv = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True)["rebuilt_total_usd"]
     f.update(follow_100(v))
+    rb = pd.read_csv(OUT / "robustness.csv").fillna({"note": ""})
+    rj = _json("robustness.json")
+    fmt = {"F1": lambda x: f"ratio {x:.3f}", "F3": lambda x: pct(x, 1), "F4": lambda x: f"{x:.0f}x", "F5": lambda x: f"{x:.2f}x",
+           "F8": lambda x: f"cost {pct(x)} of uplift", "F10": lambda x: f"{x:.2f}x", "F11": lambda x: pct(x), "F12": lambda x: f"{x:.0f}x",
+           "F13": lambda x: f"r = {x:.2f}"}
+    worst = {"F1": lambda a: (a["value"] - 1).abs().idxmax(), "F3": lambda a: a["value"].idxmax(), "F4": lambda a: a["value"].idxmin(),
+             "F5": lambda a: a["value"].idxmin(), "F8": lambda a: a["value"].idxmax(), "F10": lambda a: a["value"].idxmin(),
+             "F11": lambda a: a["value"].idxmax(), "F12": lambda a: a["value"].idxmin(), "F13": lambda a: a["value"].idxmax()}
+    lines = ["| Finding | Alternatives that hold | Weakest alternative | Where it would break (a test it does not claim) |", "| --- | --- | --- | --- |"]
+    for k, g in rb.groupby("finding", sort=False):
+        alt, st = g[g["kind"] == "alternative"], g[g["kind"] != "alternative"]
+        if len(alt):
+            w = alt[~alt["holds"]].iloc[0] if (~alt["holds"]).any() else alt.loc[worst[k](alt)]
+            weak = f"{'**flips**: ' if not w['holds'] else ''}{w['variant']}: {fmt[k](w['value'])}"
+        else:
+            weak = "–"
+        brk = "; ".join(f"{r.variant}: {fmt[k](r.value) if k != 'F4' else f'${r.value:.2f}'}" for r in st.itertuples() if r.kind == "stress" and (not r.holds or k == "F4")) or "–"
+        if k == "F13":
+            brk = "smallest correlation detectable with 80% power over " + " and ".join(f"{r.variant.split(', ')[1]}: {r.value:.2f}" for r in st.itertuples())
+        lines.append(f"| {k} | {int(alt['holds'].sum())} of {len(alt)} | {weak} | {brk} |")
+    f.update({"rob_table": "\n".join(lines), "rob_variants": str(rj["variants"]), "rob_alt": str(rj["alternatives"]), "rob_alt_hold": str(rj["alternatives_hold"]),
+              "rob_fragile": ", ".join(rj["fragile"]) or "none"})
+    be = rb[(rb["finding"] == "F4") & (rb["kind"] == "stress")]["value"].iloc[0]
+    f["rob_be"] = f"{be:.2f}"
+    f["rob_be_drop"] = pct(1 - be / v["price_now"])
+    f13p = rb[(rb["finding"] == "F13") & (rb["kind"] == "info")]["value"].tolist()
+    f.update({"rob_f13_single": f"{f13p[0]:.2f}", "rob_f13_holm": f"{f13p[1]:.2f}"})
     ic = _json("incident.json")
     ie, ip, ih = ic["event"], ic["placebo"], ic["halt"]
     f.update({"ic_hours": f"{ih['hours']:.1f}", "ic_from": ih["last_swap_before_utc"][11:16], "ic_to": ih["first_swap_after_utc"][11:16],
@@ -473,7 +500,7 @@ def claims(v: dict | None = None) -> list[dict]:
         ("F4", "Market cap is far above break-even", f"{f['near_captured_mult']} annual captured revenue vs {f['breakeven_now']} ({f['breakeven_cut']} after HSP-029)",
          "identity: supply stops growing iff market cap / annual captured revenue < 1 / issuance; holds if above the post-cut threshold",
          v["near_captured_mult"] > v["breakeven_cut"], "make montecarlo"),
-        ("F5", "NEAR's take more than doubled Aug to Oct", f"{f['take_aug']} → {f['take_oct']} bps of volume",
+        ("F5", "NEAR's take doubled from August to October", f"{f['take_aug']} → {f['take_oct']} bps of volume (1.8x to 2.5x depending on the window: make robustness)",
          "wallet revenue / NEAR-reported Intents volume, by month; holds if October ≥ 2× August",
          v["take_oct"] >= 2 * v["take_aug"], "make official"),
         ("F6", "Confidential swaps pay NEAR more than public ones, in every method", f"{f['premium_range']} bps vs {f['public_range']} (Dune fee table {f['dune_fee_bps']})",
