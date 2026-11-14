@@ -73,7 +73,7 @@ def main() -> int:
     for d, e in sorted(a.get("results", {}).items()):  # resolved predictions, written in full on the day they resolve
         print(f"{'results':12s} {d}  " + ", ".join(f"{p['id']} {p['status']}" for p in e.get("resolved", [])))
     m = anchored(*MAINNET)  # release anchors written by the account owner on mainnet (no daily bot there)
-    for kind in ("predictions", "snapshot"):
+    for kind in ("predictions", "snapshot", "daily"):
         path = FILES[kind]
         known = _committed_shas(path) | {_sha((ROOT / path).read_bytes())}
         for d, e in sorted(m.get(kind, {}).items()):

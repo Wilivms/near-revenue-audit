@@ -8,8 +8,8 @@ Each value printed in README, REPORT, THESIS, FAQ and the dashboard's static HTM
 | Key | Value | Printed in | Computed at |
 | --- | --- | --- | --- |
 | `anchor_daily_tx` | [ASxmSMNY…](https://testnet.nearblocks.io/txns/ASxmSMNYuZxciwdyFkFA… | README.md | [figures.py#L617](src/figures.py#L617) |
-| `anchor_pred_tx` | [8Wt4twDz…](https://testnet.nearblocks.io/txns/8Wt4twDzdZHn2YsBrnMf… | README.md | [figures.py#L617](src/figures.py#L617) |
-| `anchor_snap_tx` | [8Wt4twDz…](https://testnet.nearblocks.io/txns/8Wt4twDzdZHn2YsBrnMf… | README.md | [figures.py#L617](src/figures.py#L617) |
+| `anchor_pred_tx` | [DQrGZ535…](https://testnet.nearblocks.io/txns/DQrGZ5359CmFMAY5b5tu… | README.md | [figures.py#L617](src/figures.py#L617) |
+| `anchor_snap_tx` | [BkXK6UQw…](https://testnet.nearblocks.io/txns/BkXK6UQwRTrqN7ChUyDb… | README.md | [figures.py#L617](src/figures.py#L617) |
 | `asset_btc` | 37% | REPORT.md | [figures.py#L326](src/figures.py#L326) |
 | `asset_eth` | 14% | REPORT.md | [figures.py#L328](src/figures.py#L328) |
 | `asset_stable_bps` | 1.3 | REPORT.md | [figures.py#L330](src/figures.py#L330) |
