@@ -97,7 +97,7 @@ a { color: inherit; text-underline-offset: 3px; }
 .vpred { margin: 10px 0 0; font: 12.5px/1.55 var(--mono); color: var(--ink-2); }
 @media (max-width: 760px) { .vq { grid-template-columns: 1fr; } .vct th:nth-child(3), .vct td:nth-child(3) { display: none; } .vct th:last-child, .vct td:last-child { display: table-cell !important; } .vct td:nth-child(2) { text-align: left; padding: 11px 8px; } }
 .srcb { color: var(--ink-2); font-size: 12px; }
-.five { max-width: 860px; margin: 18px 0 0; padding-left: 20px; font: 14px/1.6 var(--mono); color: var(--ink-2); }
+.five { max-width: 760px; margin: 22px auto 0; padding-left: 22px; text-align: left; font: 14px/1.6 var(--mono); color: var(--ink-2); }
 .five li { margin: 2px 0; }
 .static-big { margin: 0; font: 600 64px/1 var(--mono); letter-spacing: -0.02em; }
 .guide .follow { margin: 14px 0 0; padding: 12px 16px; border: 1px solid var(--line); background: var(--card); font: 13px/1.6 var(--mono); color: var(--ink-2); }
@@ -423,7 +423,7 @@ footer li + li { margin-top: 6px; }
 
   <section class="vbar" aria-labelledby="h-vbar">
     <div class="wrap">
-      <div class="vbar-head"><p class="kicker" id="h-vbar">The verdict, recomputed with the data</p><p class="vbar-rule">Rule fixed in advance: <span data-s="vd_rule">constructive if two of the three conditions hold for a quarter</span>. Today: <b id="vdVerdict" data-s="vd_verdict">not constructive</b>.</p></div>
+      <div class="vbar-head"><p class="kicker" id="h-vbar">The verdict, recomputed with the data</p><p class="vbar-rule">Rule set on 14 Nov 2026 and recomputed with every refresh since: <span data-s="vd_rule">constructive if two of the three conditions hold for a quarter</span>. Today: <b id="vdVerdict" data-s="vd_verdict">not constructive</b>.</p></div>
       <div class="vq">
         <div class="vqi"><span class="vqk">Real?</span><b id="vdQ1" data-s="vd_q1">yes</b><span class="vqw" id="vdQ1w" data-s="vd_q1_why">rebuilt from the chain; F1, F2 and F19 hold</span></div>
         <div class="vqi"><span class="vqk">Durable?</span><b id="vdQ2" data-s="vd_q2">holds</b><span class="vqw" id="vdQ2w" data-s="vd_q2_why">take 5.0 bps over the last four weeks against a 5.5 bps monthly peak (October); 2.4 bps was its May-August level</span></div>
