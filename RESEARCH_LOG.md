@@ -602,3 +602,7 @@ On 29 September 1Click blocked a $50M swap linked to the Bitget hacker; on 1 Oct
   - Medians, because the rivals carried $250M–300M days on 25–30 Sep; means would show the rivals collapsing afterwards.
 - **Where the cost shows: large integrators.** Of the 25 largest before, 15 kept at least half their volume after, against 21 in the placebo windows, and their combined volume fell 39% against 20%. Integrators active per day rose (94 to 104).
 - Reading: a resilience check the thesis needed. The business and NEAR's revenue came through; the cost was paid in the relationship with large integrators, the same place where REPORT section 3 finds NEAR weakest.
+
+### 60. A refresh-only failure, fixed (2026-11-14)
+
+The scheduled daily refresh did not start on 14 November (GitHub skipped it); a manual run failed on F14. The new NearBlocks wallet snapshot ran to 13 November, one day past the committed BigQuery result (to 12 November), so November compared 13 days against 12 (7.4% apart). The comparison now stops at the earlier of the two last days. Committed outputs are unchanged; the next refresh compares like with like.

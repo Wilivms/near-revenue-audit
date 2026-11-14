@@ -37,7 +37,8 @@ def revenue() -> dict:
     ext = bq[~bq["sender"].isin(WALLETS | {"system"})]
     flows = pd.read_csv(OUT / "revenue_wallet_flows.csv", parse_dates=["date"])
     nb = flows[(flows["dir"] == "in") & flows["is_near"] & ~flows["internal"] & (flows["date"] >= "2026-02-23")]
-    last_full = nb["date"].max() - pd.Timedelta(days=1)  # the NearBlocks snapshot's last day may be partial
+    # the NearBlocks snapshot's last day may be partial, and a newer snapshot runs past the BigQuery query's last day
+    last_full = min(nb["date"].max() - pd.Timedelta(days=1), ext["block_date"].max())
     a = ext[ext["block_date"] <= last_full].groupby(ext["block_date"].dt.to_period("M"))["near_in"].sum()
     b = nb[nb["date"] <= last_full].groupby(nb["date"].dt.to_period("M"))["amount"].sum()
     m = pd.concat([a.rename("bigquery"), b.rename("nearblocks")], axis=1).fillna(0)
