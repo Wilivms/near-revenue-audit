@@ -133,11 +133,14 @@ def test_incident_halt_is_the_longest_gap_on_1_october(monkeypatch, tmp_path):
     import json as _json
     from src.analysis import incident
     mins = [f"2026-09-2{d} 12:00:00+00:00" for d in range(4, 10)] + ["2026-10-01 08:00:00+00:00", "2026-10-01 08:30:00+00:00",
-                                                                     "2026-10-01 12:00:00+00:00", "2026-10-01 12:05:00+00:00"]
-    days = pd.date_range("2026-08-18", "2026-10-16").strftime("%Y-%m-%d")
-    agg = {"daily": [{"day": d, "swaps": 10, "volume_usd": 100.0, "fee_usd": 1.0, "near_usd": 0.1, "integrators": 5} for d in days],
-           "minute_2026-09-24_to_10-02": [{"minute": m, "swaps": 1, "volume_usd": 10.0, "near_usd": 1.0} for m in mins],
-           "top_integrators": {k: [{"rank": 1, "before_usd": 100.0, "after_usd": 60.0}] for k in incident.WINDOWS}}
+                                                                     "2026-10-01 12:00:00+00:00", "2026-10-01 12:05:00+00:00",
+                                                                     "2026-10-01 13:10:00+00:00", "2026-10-02 12:00:00+00:00"]
+    days = pd.date_range("2026-08-14", "2026-11-12").strftime("%Y-%m-%d")
+    agg = {"daily": [{"day": d, "swaps": 10, "volume_usd": 100.0, "fee_usd": 1.0, "near_usd": 0.1, "integrators": 5, "senders": 8,
+                      "new_senders": 2} for d in days],
+           "minute_2026-09-24_to_10-04": [{"minute": m, "swaps": 1, "volume_usd": 10.0, "near_usd": 1.0} for m in mins],
+           "top_integrators": {k: [{"rank": 1, "before_usd": 100.0, "after_usd": 60.0}] for k in incident.WINDOWS},
+           "integrator_daily": [[d, "a", 50.0] for d in days] + [[d, "b", 10.0 if d < "2026-10-01" else 1.0] for d in days]}
     p = tmp_path / "agg.json"
     p.write_text(_json.dumps(agg))
     monkeypatch.setattr(incident, "AGG", p)
@@ -146,3 +149,6 @@ def test_incident_halt_is_the_longest_gap_on_1_october(monkeypatch, tmp_path):
     r = incident.main()
     assert r["halt"]["hours"] == pytest.approx(3.5)
     assert r["event"]["top_integrators_kept_half"] == 1 and r["event"]["volume_usd"]["change"] == pytest.approx(0)
+    d = r["placebo_distribution"]["top_kept_half"]
+    assert d["event"] == 1 and d["placebo_median"] == 2  # "b" fell by 90% after 1 Oct: only "a" kept half
+    assert r["comeback"] == {"cut_back": 1, "back_to_half_by_31oct_12nov": 0, "top_volume_31oct_12nov_vs_before": pytest.approx(51 / 60 - 1)}

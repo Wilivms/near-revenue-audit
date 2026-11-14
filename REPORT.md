@@ -90,17 +90,18 @@ Source: NEAR's own Dune dashboard (@near, "NEAR Intents"), read from its public 
 - **ZEC** is 18.6% of 1Click volume over 76 days but about half of NEAR's 1Click revenue in the last two weeks. (log 13)
 - **Users do not stay.** 3–5% of the addresses active in a given week come back in the same week three months later; at most 9–19% are seen again at any time over 2.5 months. These are lower bounds (a returning user with a new address counts as new). (log 14)
 - **The volume is broad, not wash-traded** (`oneclick_quality.json`, log 36). 235k sending addresses (86% of swaps carry one); 78% swapped once. The top 10 send 19% of volume and the top 100 34% (HHI 93). 140 addresses with 100 swaps or more, likely bots, market makers and integrator hot wallets, send 18% of volume and 14% of NEAR's revenue. Round trips, where an address swaps A into B and B back into A within 24 hours, are 2.9% of volume and 1.3% of NEAR's revenue, 79% of them through one integrator (LI.FI). Self-trading does not inflate the revenue. An independent entry (Toll Road) finds about 1% round trips outside market makers on a 1.2% sample of `intents.near`; the full 1Click record agrees.
-- **The freeze and the exploit did not break it, but large integrators pulled back** (`make incident`, F17, log 59). On 29 September 1Click blocked a $50M swap linked to the Bitget hacker; on 1 October an exploit in the Omni deposit path drained about $3.8M (returned the next day). From the swaps: no swap from 08:33 to 12:16 UTC on 1 October, a 3.7-hour halt (the longest gap the week before was 9 minutes), about $7.10M of volume and $2,014 of NEAR revenue at the previous week's pace. On the median day of the two weeks after (3–16 Oct) against the two weeks before (15–28 Sep), compared with the same two windows a month earlier, when nothing happened:
+- **The freeze and the exploit cost NEAR little revenue, but large integrators pulled back** (`make incident`, F17, log 59 and 61). On 29 September 1Click blocked a $50M swap linked to the Bitget hacker; on 1 October an exploit in the Omni deposit path drained about $3.8M (returned the next day). From the swaps: no swap from 08:33 to 12:16 UTC on 1 October, a 3.7-hour halt (the longest gap the week before was 9 minutes), about $7.10M of volume and $2,014 of NEAR revenue at the previous week's pace. The first full hour after the reopening ran at 59% of the usual volume for that hour, the first 24 hours at 75%. Then the median day of the two weeks after (3–16 Oct) against the two weeks before (15–28 Sep), ranked against the same split at each of 21 placebo dates whose windows avoid the incident:
 
-  | Median day, after against before | Freeze and exploit | Quiet month (placebo) |
-  | --- | --- | --- |
-  | 1Click volume | −30% | −25% |
-  | NEAR's 1Click revenue | −13% | −40% |
-  | Rival venues' volume (THORChain, Chainflip, Maya) | +41% | +33% |
-  | Of the 25 largest integrators, kept at least half their volume | 15 | 21 |
-  | Volume of those 25 integrators | −39% | −20% |
+  | Median day, after against before | Freeze and exploit | Placebo median | p (two-sided) |
+  | --- | --- | --- | --- |
+  | 1Click volume | −30% | −2% | 0.09 |
+  | NEAR's 1Click revenue | −13% | −6% | 0.82 |
+  | Sending addresses | −6% | −33% | 0.73 |
+  | New sending addresses | −12% | −42% | 0.73 |
+  | Of the 25 largest integrators, kept at least half their volume | 15 | 20 | 0.09 |
+  | Volume of those 25 integrators | −39% | −7% | 0.09 |
 
-  Volume fell about as much as in a quiet month, while rivals grew in both: 1Click was already losing share, and the incident added little to it. NEAR's revenue held up better than in the placebo month (its take was rising). The cost shows in the largest integrators: six more of the 25 cut their volume by half than in a normal month, while active integrators per day rose (94 to 104). Medians, because the rival venues carried a few $250M–300M days on 25–30 September.
+  With 21 placebo dates the smallest possible p is 0.09: volume, the integrators who kept their volume and their combined volume all fell further than at any placebo date. Users did not leave (sending addresses, new ones included, within the usual range) and NEAR's revenue held, because its take was rising. The cost was paid by the large integrators: 10 of the 25 cut their volume by more than half, and 3 of them were back above half by 31 Oct–12 Nov (the 25 together still −35% against before). A new sending address is one first seen since 14 August, when the collection starts, so that count drifts down over time; it is read against the placebo dates, which share the drift. Integrators appear in the committed aggregates under a one-way pseudonym only. Medians, because the rival venues carried a few $250M–300M days on 25–30 September.
 - Reading: NEAR's 1Click revenue rests on unattributed users, a few direct deals and one asset. Distribution partners own the flow, and could route it elsewhere.
 
 Coverage limit: 1Click is about 28% of Intents volume, and confidential swaps were not visible in the Explorer API over the period collected. These results describe 1Click, not all of Intents.
@@ -235,6 +236,25 @@ So the 11 bps of the total-revenue fit was 7.6 bps of confidential fee plus a fr
 Quote improvement is 11% of NEAR's reported revenue ($1.18M this year). Taking it out brings the series within a few percent of the wallets on every window longer than a week; what remains is timing (sweeps lag fees by days) and, all time, the 2025 USDC period. *Reading:* about a tenth of the revenue NEAR reports never reaches the wallets that buy NEAR; the offset that matters for supply is the wallet-based 14.8%, not 16.3%. *What would confirm it:* the account that receives the protocol's quote-improvement share, or NEAR stating that its revenue series counts it. *What would refute it:* quote-improvement fees arriving in one of the three wallets.
 
 *Followed on-chain* (NEAR's BigQuery dataset, queries in [`sql/revenue_pipeline.sql`](sql/revenue_pipeline.sql), log 49). Every NEAR the buyback multisig and the front-end fund received from `intents.near` since August arrived through a `native_withdraw` intent: 1.10M and 0.49M NEAR, within 0.5% of the wallet histories this audit rebuilds. About half of the buyback inflow comes from two accounts inside `intents.near` that collect fees in some 170 tokens and convert them to NEAR (751 and 320 withdrawals); the rest, and almost all of the front-end fund's, comes from about 2,350 accounts that each withdrew once. On 13 November the three collecting accounts held about $14k of unconverted fees, under 1% of a month's revenue, so fees waiting to be converted do not explain the gap. Tracing the swaps further shows why NEAR's half of quote improvement cannot be found on the public chain. The account through which the 1Click swaps we traced on 13 November settle (`51e8f94d…`) held about $136M of tokens inside `intents.near` on 13 November, the size of NEAR's confidential TVL ($137.9M on 12 November): it is the confidential pool's account, the bridge to the private shard. The fee arithmetic of these swaps (the confidential fee, and very likely the protocol's half of quote improvement) happens inside the private shard; what the public chain shows is the payout. From 1 October to 12 November, 459,514 of the 623,868 NEAR withdrawn to the buyback multisig and the front-end fund (74%) came through one-off accounts that the pool had funded. Most of NEAR's revenue now leaves the confidential pool, and the swaps that earned it cannot be seen. The other recurring recipients were a market maker and the protocol fee collector (`7066024d…`, $0.4k). H-B remains the best explanation, not a proof; NEAR naming the account would settle it.
+
+### 11. What moved NEAR: 7 events tested the same way
+
+The incident method, applied to every major NEAR event of the last year (`make events`, log 61). For each event: the median day of two weeks after against two weeks before (two-day gaps), on NEAR Intents volume, the revenue rebuilt from the wallets, the take, Intents' share of cross-chain swap volume against THORChain, Chainflip and Maya, and NEAR's return against Bitcoin (abnormal log return, beta from the 120 days before). Each change is ranked against the same split at 184 dates of the last year at least three weeks from any event; **bold** = outside the placebo range at p ≤ 0.10.
+
+| Event | Intents volume | NEAR revenue | Take | Share vs rivals | NEAR vs BTC, 3 days | NEAR vs BTC, 2 weeks |
+| --- | --- | --- | --- | --- | --- | --- |
+| Issuance halved, 2025-10-30 | **+132%** | – | – | **+24 pts** | +0% | +33% |
+| Fee switch and Confidential Intents launch, 2026-02-24 | −2% | – | – | −4 pts | +13% | +22% |
+| Confidential Intents for all developers, 2026-07-13 | −26% | +4% | +0.7 bps | −6 pts | +4% | −12% |
+| Confidential execution in the 1Click API, 2026-07-27 | +13% | −12% | −0.3 bps | +4 pts | −9% | −16% |
+| NEAR@3.33 Drop 1 snapshot, 2026-09-16 | +28% | **+150%** | +1.8 bps | +1 pts | **+26%** | **+56%** |
+| Freeze and $3.8M exploit, 2026-10-01 | −28% | −3% | **+1.9 bps** | −13 pts | −6% | −2% |
+| HSP-029 approved (issuance cap 1.6%), 2026-11-02 | +8% | −4% | −0.6 bps | **−24 pts** | **−16%** | – |
+
+- **The market paid for the airdrop, not for the supply cuts.** The NEAR@3.33 snapshot is the only event that moved revenue (+150%) and the price (+26% against Bitcoin in three days, +56% in two weeks). The issuance halving left the price flat (+0% in three days), and the approval of HSP-029's further cut was followed by −16%. The fee switch drew +13% in three days, not outside the usual range.
+- **The exploit did not move the price** (−6% in three days, within the usual range) and Intents-wide revenue held; the take rose, as it was rising anyway.
+- **Coincidences named, not explained.** The volume and share jumps after the halving coincide with the Zcash boom of late 2025, and the share fall after HSP-029 with THORChain's November lead; neither is plausibly caused by the event.
+- 9 of 41 tests come out at p ≤ 0.10, against about 4 expected by chance: some of these are noise, so read each one with its own story and not as proof.
 
 ## Bull case and bear case
 

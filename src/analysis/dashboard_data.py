@@ -95,6 +95,7 @@ def build() -> dict:
         # peers with material holders revenue only (at least $100k in 30 days): a token paying its holders
         # a few hundred dollars is not a comparable, and its multiple (18,000x for JTO) breaks the chart
         "checks": _checks(),
+        "events": _records(pd.read_csv(OUT / "events.csv")),
         "quote_race": {"summary": json.loads((OUT / "quote_race.json").read_text()),
                        "routes": _records(pd.read_csv(OUT / "quote_race.csv"))},
         "comps": _records(comps[comps["mcap_to_holders_revenue"].notna() & (comps["holders_revenue_30d_usd"] >= 100_000)][["token", "market_cap_usd", "annualised_usd", "mcap_to_holders_revenue"]]),

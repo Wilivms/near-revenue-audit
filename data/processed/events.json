@@ -1,0 +1,105 @@
+{
+ "events": [
+  {
+   "key": "halving",
+   "date": "2025-10-30",
+   "label": "Issuance halved (5% to 2.5% a year), nearcore 2.9.0",
+   "source": "https://invezz.com/news/2025/10/30/near-protocol-near-slashes-inflation-to-2-5-after-successful-halving-upgrade/"
+  },
+  {
+   "key": "fee_switch",
+   "date": "2026-02-24",
+   "label": "Fee switch: Intents fees start buying NEAR (23 Feb), Confidential Intents launch (25 Feb)",
+   "source": "https://tools.prnewswire.com/en-us/live/20813/release/20260225EN95768"
+  },
+  {
+   "key": "confidential_ga",
+   "date": "2026-07-13",
+   "label": "Confidential Intents open to all developers",
+   "source": "https://glitchwire.com/news/nears-confidential-intents-reaches-general-availability-bringing-privacy-infrast/"
+  },
+  {
+   "key": "confidential_1click",
+   "date": "2026-07-27",
+   "label": "Confidential execution added to the 1Click Swap API",
+   "source": "https://coinfomania.com/pl/near-protocol-enhances-1click-swap-api-with-confidential-intents-pl/"
+  },
+  {
+   "key": "airdrop_snapshot",
+   "date": "2026-09-16",
+   "label": "NEAR@3.33 Drop 1 snapshot (confidential balances)",
+   "source": "RESEARCH_LOG.md entry 24"
+  },
+  {
+   "key": "exploit",
+   "date": "2026-10-01",
+   "label": "Freeze of a Bitget-linked swap (29 Sep), $3.8M exploit and 3.7-hour halt (1 Oct)",
+   "source": "https://www.theblock.co/news/ecosystems/2026-10-01-near-intents-halts-services-after-3-8-million-exploit-417404"
+  },
+  {
+   "key": "hsp029",
+   "date": "2026-11-02",
+   "label": "HSP-029 (issuance cap 2.5% to 1.6%) approved, enters its timelock",
+   "source": "RESEARCH_LOG.md entry 41"
+  }
+ ],
+ "placebo_dates": 184,
+ "series_to": "2026-11-12",
+ "unusual": [
+  {
+   "event": "halving",
+   "measure": "volume_change",
+   "value": 1.3166571612934725,
+   "p": 0.010810810810810811
+  },
+  {
+   "event": "halving",
+   "measure": "share_change_pts",
+   "value": 24.26146422914497,
+   "p": 0.06486486486486487
+  },
+  {
+   "event": "confidential_1click",
+   "measure": "confidential_tvl_change",
+   "value": -0.08370044052863435,
+   "p": 0.01834862385321101
+  },
+  {
+   "event": "airdrop_snapshot",
+   "measure": "revenue_change",
+   "value": 1.5020105150712069,
+   "p": 0.01834862385321101
+  },
+  {
+   "event": "airdrop_snapshot",
+   "measure": "abnormal_return_3d",
+   "value": 0.25766553151860117,
+   "p": 0.05405405405405406
+  },
+  {
+   "event": "airdrop_snapshot",
+   "measure": "abnormal_return_14d",
+   "value": 0.5634409724675505,
+   "p": 0.05405405405405406
+  },
+  {
+   "event": "exploit",
+   "measure": "take_change_bps",
+   "value": 1.9214849944956212,
+   "p": 0.05504587155963303
+  },
+  {
+   "event": "hsp029",
+   "measure": "share_change_pts",
+   "value": -24.019270831660535,
+   "p": 0.043243243243243246
+  },
+  {
+   "event": "hsp029",
+   "measure": "abnormal_return_3d",
+   "value": -0.15544354000243324,
+   "p": 0.032432432432432434
+  }
+ ],
+ "note": "change over the median day of two weeks after against two weeks before (2-day gaps), ranked against the same split at every date of the last year at least 21 days from any listed event; p is two-sided; with many events and measures, a few p \u2264 0.10 are expected by chance"
+}

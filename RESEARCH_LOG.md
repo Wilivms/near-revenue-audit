@@ -606,3 +606,18 @@ On 29 September 1Click blocked a $50M swap linked to the Bitget hacker; on 1 Oct
 ### 60. A refresh-only failure, fixed (2026-11-14)
 
 The scheduled daily refresh did not start on 14 November (GitHub skipped it); a manual run failed on F14. The new NearBlocks wallet snapshot ran to 13 November, one day past the committed BigQuery result (to 12 November), so November compared 13 days against 12 (7.4% apart). The comparison now stops at the earlier of the two last days. Committed outputs are unchanged; the next refresh compares like with like.
+
+### 61. The exploit, deeper; and seven NEAR events tested the same way (2026-11-14)
+
+**F17, deeper.** The aggregates now run from 14 Aug to 12 Nov (1.9 million swaps). They add daily sending addresses and new ones, and each integrator's daily volume under a one-way pseudonym, so any split date can be tested offline. One placebo month became a distribution: the same split (two weeks before, two weeks after, two-day gaps) at each of 21 dates whose windows avoid 27 Sep–4 Oct.
+- **Users stayed, and NEAR's revenue held.** Sending addresses −6% (placebo median −33%) and new ones −12% (placebo −42%), both within the usual range. NEAR's 1Click revenue −13% (placebo −6%, p = 0.82).
+- **Large integrators pulled back more than at any placebo date.** Volume −30% (placebo median −2%), integrators keeping half their volume 15 of 25 (placebo 20), and their combined volume −39% (placebo −7%, −18% at worst). With 21 dates the smallest possible p is 0.09.
+- **Recovery.** The first full hour after the reopening ran at 59% of the usual volume for that hour, the first day at 75%. Of the 10 large integrators that cut back, 3 were back above half by 31 Oct–12 Nov; the 25 together were still −35%.
+- **F17 restated:** the exploit cost NEAR little revenue, but large integrators pulled back. It holds if the halt was under 12 hours, NEAR's revenue change lies inside the placebo range, and the top-25 volume change lies below it.
+
+**Seven events, one method** (`src/analysis/events.py`, REPORT section 11). The events: the issuance halving (30 Oct 2025), the fee switch with the Confidential Intents launch (23–25 Feb), Confidential Intents for all developers (13 Jul), confidential execution in the 1Click API (27 Jul), the NEAR@3.33 snapshot (16 Sep), the freeze and exploit (29 Sep–1 Oct) and HSP-029's approval (2 Nov). Measures: Intents volume, revenue rebuilt from the wallets, take, share against THORChain/Chainflip/Maya, and NEAR's abnormal return against Bitcoin (beta over the 120 days before). The placebo is the same split at 184 dates of the last year, at least three weeks from any event; earlier dates are left out because Intents volume then grew several-fold.
+- **The airdrop snapshot is the one event that moved both revenue and price:** revenue +150% (p = 0.02); NEAR +26% against Bitcoin in three days and +56% in two weeks.
+- **The supply cuts did not lift the price.** The halving: +0% in three days. HSP-029's approval: −16% in three days (p = 0.03). The fee switch: +13% (p = 0.11).
+- **The exploit moved neither price (−6%, p = 0.22) nor Intents-wide revenue**; the take rose (+1.9 bps), as it already was.
+- **Named coincidences.** The halving's volume and share jumps coincide with the late-2025 Zcash boom; the share fall after HSP-029 with THORChain's November lead.
+- **Multiple testing.** 9 of 41 tests come out at p ≤ 0.10, against about 4 expected by chance.

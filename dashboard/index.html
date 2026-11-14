@@ -632,6 +632,12 @@ footer li + li { margin-top: 6px; }
         </div>
       </div>
       <div class="card reveal" style="margin-bottom:16px">
+        <h3>What moved NEAR: seven events against a placebo</h3>
+        <p class="sub">Median day, two weeks after against two weeks before each event, ranked against the same split at every ordinary date of the last year. Bold: outside the usual range (p ≤ 0.10).</p>
+        <div class="tbl-wrap" id="tbEvents"></div>
+        <p class="src">The airdrop snapshot moved revenue and the price; the supply cuts did not lift the price; the exploit moved neither. Sources: DefiLlama, the wallet rebuild, CoinGecko. Rebuild: <code>make events</code> · <a href="https://github.com/Wilivms/near-revenue-audit/blob/main/src/analysis/events.py">src/analysis/events.py</a></p>
+      </div>
+      <div class="card reveal" style="margin-bottom:16px">
         <h3>Will rivals compete the take away? The quote race</h3>
         <p class="sub" id="qrSub"></p>
         <div class="tbl-wrap" id="tbQuotes"></div>
@@ -1254,6 +1260,15 @@ function tables(D) {
   table($("tbAsset"), ["Asset (volatile leg)", "Volume", "NEAR's revenue", "NEAR bps", "All fees bps"], D.revenue_by_asset.map((r) => [r.asset, fmtPct(r.volume_share, 1), fmtPct(r.near_revenue_share, 1), r.near_bps.toFixed(1), r.all_fees_bps.toFixed(0)]));
   table($("tbComps"), ["Token", "Market cap", "Holders revenue, annualised", "Multiple"], [...D.comps].sort((a, b) => a.mcap_to_holders_revenue - b.mcap_to_holders_revenue).map((r) => [r.token, fmtUSD(r.market_cap_usd), fmtUSD(r.annualised_usd), `${r.mcap_to_holders_revenue.toFixed(1)}×`]));
   table($("tbShare"), ["Month", "NEAR Intents", "THORChain", "Chainflip", "Maya"], D.crosschain_share.map((r) => [r.month.slice(0, 7), fmtPct(r["near-intents_share"]), fmtPct(r["thorchain-dex_share"]), fmtPct(r["chainflip-amm_share"]), fmtPct(r["maya-protocol_share"])]));
+  if (D.events) {
+    const EV = [["halving", "Issuance halved", "2025-10-30"], ["fee_switch", "Fee switch, Confidential Intents", "2026-02-24"], ["confidential_ga", "Confidential Intents for all", "2026-07-13"],
+      ["confidential_1click", "Confidential in the 1Click API", "2026-07-27"], ["airdrop_snapshot", "NEAR@3.33 snapshot", "2026-09-16"], ["exploit", "Freeze and $3.8M exploit", "2026-10-01"], ["hsp029", "HSP-029 approved", "2026-11-02"]];
+    const M = [["volume_change", (v) => fmtPct(v)], ["revenue_change", (v) => fmtPct(v)], ["take_change_bps", (v) => `${v.toFixed(1)} bps`], ["share_change_pts", (v) => `${v.toFixed(0)} pts`], ["abnormal_return_3d", (v) => fmtPct(v)], ["abnormal_return_14d", (v) => fmtPct(v)]];
+    const sg = (s) => (s.startsWith("-") ? "−" + s.slice(1) : "+" + s);
+    const rows = EV.map(([k, name, d]) => [`${name} (${d})`, ...M.map(([m, f]) => { const r = D.events.find((x) => x.event === k && x.measure === m); if (!r) return "–"; const t = sg(f(r.value)); return r.p_two_sided <= 0.1 ? { b: t } : t; })]);
+    table($("tbEvents"), ["Event", "Intents volume", "NEAR revenue", "Take", "Share vs rivals", "NEAR vs BTC, 3 d", "NEAR vs BTC, 2 wk"], rows.map((r) => r.map((c) => (typeof c === "object" ? c.b : c))));
+    rows.forEach((r, i) => r.forEach((c, j) => { if (typeof c === "object") { const td = $("tbEvents").querySelectorAll("tbody tr")[i]?.children[j]; if (td) td.style.fontWeight = "700"; } }));
+  }
   if (D.quote_race) {
     const Q = D.quote_race.summary, bp = (x) => { if (x == null || Number.isNaN(x)) return "–"; const v = Math.round(x * 10) / 10; return v === 0 ? "0.0" : `${v > 0 ? "+" : "−"}${Math.abs(v).toFixed(1)}`; };
     $("qrSub").textContent = `${Q.rounds} rounds, ${Q.quotes_compared} swaps: 1Click paid the user the most in ${fmtPct(Q.oneclick_best_share)} of them, a median ${bp(Q.median_gap_vs_best_bps)} bps from the best alternative. NEAR's take is inside 1Click's price.`;
@@ -1467,7 +1482,7 @@ function navSpy() {
   let bundle = "the daily refresh (dashboard/live.json)";
   try { D = await getJSON("https://raw.githubusercontent.com/Wilivms/near-revenue-audit/main/dashboard/live.json"); }
   catch (e) { D = null; }
-  if (D && !D.quote_race) try { D.quote_race = (await getJSON("data.json")).quote_race; } catch (e) {}  // a section newer than the last daily bundle
+  if (D && (!D.quote_race || !D.events)) try { const C = await getJSON("data.json"); D.quote_race = D.quote_race || C.quote_race; D.events = D.events || C.events; } catch (e) {}  // sections newer than the last daily bundle
   if (!D) bundle = "the committed snapshot (dashboard/data.json)";
   if (!D) try { D = await getJSON("data.json"); }
   catch (e) { $("statusLine").textContent = "Could not load data.json. Serve this folder over HTTP (make dashboard-serve)."; return; }

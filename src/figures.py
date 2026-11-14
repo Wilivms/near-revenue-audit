@@ -386,6 +386,33 @@ def figures() -> dict[str, str]:
               "ic_int": f"{ie['integrators']['before_per_day']:.0f} to {ie['integrators']['after_per_day']:.0f}",
               "ic_kept": str(ie["top_integrators_kept_half"]), "ic_kept_p": str(ip["top_integrators_kept_half"]), "ic_top": str(ie["top_integrators"]),
               "ic_top_vol": spct(ie["top_integrators_volume_change"]), "ic_top_vol_p": spct(ip["top_integrators_volume_change"])})
+    pdist, cb = ic["placebo_distribution"], ic["comeback"]
+    f.update({"ic_pn": str(pdist["volume_usd_change"]["n"]), "ic_first_hour": pct(ih["first_full_hour_ratio"]), "ic_first_day": pct(ih["first_24h_volume_vs_usual"]),
+              "ic_cut": str(cb["cut_back"]), "ic_back": str(cb["back_to_half_by_31oct_12nov"]), "ic_top_nov": spct(cb["top_volume_31oct_12nov_vs_before"]),
+              **{f"ic_d_{k}": spct(v["event"]) if "change" in k else str(int(v["event"])) for k, v in pdist.items()},
+              **{f"ic_dm_{k}": spct(v["placebo_median"]) if "change" in k else f"{v['placebo_median']:.0f}" for k, v in pdist.items()},
+              **{f"ic_dp_{k}": f"{v['p_two_sided']:.2f}" for k, v in pdist.items()},
+              "ic_top_vol_pmin": spct(pdist["top_volume_change"]["placebo_min"]), "ic_kept_pmin": str(int(pdist["top_kept_half"]["placebo_min"]))})
+    ev = pd.read_csv(OUT / "events.csv")
+    ej = _json("events.json")
+    cols = [("volume_change", "Intents volume", spct), ("revenue_change", "NEAR revenue", spct),
+            ("take_change_bps", "Take", lambda x: f"{x:+.1f} bps".replace("-", "−")), ("share_change_pts", "Share vs rivals", lambda x: f"{x:+.0f} pts".replace("-", "−")),
+            ("abnormal_return_3d", "NEAR vs BTC, 3 days", spct), ("abnormal_return_14d", "NEAR vs BTC, 2 weeks", spct)]
+    lines = ["| Event | " + " | ".join(c[1] for c in cols) + " |", "| --- |" + " --- |" * len(cols)]
+    for e in ej["events"]:
+        r = ev[ev["event"] == e["key"]].set_index("measure")
+        cell = lambda m, fmt: "–" if m not in r.index else (f"**{fmt(r.loc[m, 'value'])}**" if r.loc[m, "p_two_sided"] <= 0.10 else fmt(r.loc[m, "value"]))  # noqa: E731
+        short = {"halving": "Issuance halved", "fee_switch": "Fee switch and Confidential Intents launch", "confidential_ga": "Confidential Intents for all developers",
+                 "confidential_1click": "Confidential execution in the 1Click API", "airdrop_snapshot": "NEAR@3.33 Drop 1 snapshot",
+                 "exploit": "Freeze and $3.8M exploit", "hsp029": "HSP-029 approved (issuance cap 1.6%)"}[e["key"]]
+        lines.append(f"| {short}, {e['date']} | " + " | ".join(cell(m, fmt) for m, _, fmt in cols) + " |")
+    f.update({"ev_table": "\n".join(lines), "ev_n": str(len(ej["events"])), "ev_tests": str(len(ev)), "ev_unusual": str(len(ej["unusual"])),
+              "ev_expected": f"{len(ev) * 0.1:.0f}", "ev_placebo": str(ej["placebo_dates"])})
+    evv = lambda k, m: ev[(ev["event"] == k) & (ev["measure"] == m)]["value"].iloc[0]  # noqa: E731
+    f.update({"ev_snap_rev": spct(evv("airdrop_snapshot", "revenue_change")), "ev_snap_px3": spct(evv("airdrop_snapshot", "abnormal_return_3d")),
+              "ev_snap_px14": spct(evv("airdrop_snapshot", "abnormal_return_14d")), "ev_hsp_px3": spct(evv("hsp029", "abnormal_return_3d")),
+              "ev_exp_px3": spct(evv("exploit", "abnormal_return_3d")), "ev_fs_px3": spct(evv("fee_switch", "abnormal_return_3d")),
+              "ev_halv_px3": spct(evv("halving", "abnormal_return_3d")), "ev_halv_vol": spct(evv("halving", "volume_change"))})
     qr = _json("quote_race.json")
     bc = qr["by_corridor_median_gap_bps"]
     sg = lambda x: "0.0 bps" if round(x, 1) == 0 else f"{x:+.1f} bps".replace("-", "−")  # noqa: E731
@@ -484,10 +511,12 @@ def claims(v: dict | None = None) -> list[dict]:
          "every dated snapshot in data/raw compared day by day with the latest (same rebuild code on each wallet snapshot); holds if no complete day of the rebuilt revenue moved by 1% or more (figures that use DefiLlama's gross fees stop at its settled days)",
          _json("source_revisions.json")["rebuilt_from_wallets"]["pairs"] > 0 and sum(x["moved_1pct"] for x in _json("source_revisions.json")["rebuilt_from_wallets"]["by_age"].values()) == 0,
          "make revisions"),
-        ("F17", "The freeze and the exploit cost the business little, and NEAR's revenue less",
-         f"1Click stopped for {f['ic_hours']} hours on 1 Oct ({f['ic_from']} to {f['ic_to']} UTC), about {f['ic_rev_lost']} of NEAR revenue at the previous week's pace; on the median day of the two weeks after, NEAR's 1Click revenue changed {f['ic_rev']} against {f['ic_rev_p']} in a quiet month, volume {f['ic_vol']} against {f['ic_vol_p']}",
-         "from 1Click swap aggregates (the longest gap with no swap on 1 Oct; 3-16 Oct against 15-28 Sep, and the same comparison a month earlier as placebo); holds if the halt lasted under 12 hours and NEAR's 1Click revenue fell no more than in the placebo month",
-         _json("incident.json")["halt"]["hours"] < 12 and _json("incident.json")["event"]["near_usd"]["change"] >= _json("incident.json")["placebo"]["near_usd"]["change"],
+        ("F17", "The exploit cost NEAR little revenue, but large integrators pulled back",
+         f"1Click stopped for {f['ic_hours']} hours on 1 Oct ({f['ic_from']} to {f['ic_to']} UTC), about {f['ic_rev_lost']} of NEAR revenue; in the two weeks after, NEAR's 1Click revenue changed {f['ic_rev']} (inside the range of {f['ic_pn']} placebo dates) while the 25 largest integrators' volume changed {f['ic_top_vol']}, below every placebo date ({f['ic_top_vol_pmin']} at worst); {f['ic_back']} of the {f['ic_cut']} that cut back returned by November",
+         "1Click swap aggregates: the longest gap with no swap on 1 Oct; the median day of 3-16 Oct against 15-28 Sep, ranked against the same split at every date whose windows avoid 27 Sep-4 Oct; holds if the halt lasted under 12 hours, NEAR's 1Click revenue change lies within the placebo range and the top-25 integrators' volume change lies below it",
+         _json("incident.json")["halt"]["hours"] < 12
+         and _json("incident.json")["placebo_distribution"]["near_usd_change"]["placebo_min"] <= _json("incident.json")["placebo_distribution"]["near_usd_change"]["event"] <= _json("incident.json")["placebo_distribution"]["near_usd_change"]["placebo_max"]
+         and _json("incident.json")["placebo_distribution"]["top_volume_change"]["event"] < _json("incident.json")["placebo_distribution"]["top_volume_change"]["placebo_min"],
          "make incident"),
     ]
     return [{"id": i, "finding": a, "number": n, "check": c, "passed": bool(p), "command": cmd} for i, a, n, c, p, cmd in rows]

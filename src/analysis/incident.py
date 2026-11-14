@@ -37,8 +37,10 @@ RIVALS = ["thorchain-dex", "chainflip-amm", "maya-protocol"]
 
 
 def collect() -> dict:
+    import hashlib
+
     from . import swaps
-    keep = lambda f: "2026-08-17" <= f.split("swaps_")[1][:10] <= "2026-10-18"  # noqa: E731
+    keep = lambda f: "2026-08-13" <= f.split("swaps_")[1][:10] <= "2026-11-12"  # noqa: E731
     files = [f for f in sorted(glob.glob(str(swaps.DATA / "swaps_*.csv.gz"))) if keep(f)]
     real = swaps.glob.glob
     swaps.glob.glob = lambda pattern: files
@@ -46,23 +48,35 @@ def collect() -> dict:
         df = swaps.load()
     finally:
         swaps.glob.glob = real
-    df = df[(df["ts"] >= "2026-08-18") & (df["ts"] < "2026-10-17")]
+    df = df[(df["ts"] >= "2026-08-14") & (df["ts"] < "2026-11-13")]
     day = df["ts"].dt.strftime("%Y-%m-%d")
+    first_seen = df.groupby("sender_hash")["ts"].transform("min").dt.strftime("%Y-%m-%d")
+    df["new_sender"] = df["sender_hash"].notna() & (first_seen == day)
     daily = df.groupby(day).agg(swaps=("usd", "size"), volume_usd=("usd", "sum"), fee_usd=("fee_usd", "sum"),
-                                near_usd=("near_usd", "sum"), integrators=("ref", "nunique"))
-    around = df[(df["ts"] >= "2026-09-24") & (df["ts"] < "2026-10-03")]
+                                near_usd=("near_usd", "sum"), integrators=("ref", "nunique"), senders=("sender_hash", "nunique"))
+    daily["new_senders"] = df[df["new_sender"]].groupby(day[df["new_sender"]])["sender_hash"].nunique()
+    daily = daily.fillna(0)
+    around = df[(df["ts"] >= "2026-09-24") & (df["ts"] < "2026-10-05")]
     minute = around.groupby(around["ts"].dt.floor("min")).agg(swaps=("usd", "size"), volume_usd=("usd", "sum"), near_usd=("near_usd", "sum"))
+    w = df[(day >= "2026-08-18") & (day <= "2026-10-16")]
+    wd = day[w.index]
     by_ref = {}
     for name, (before, after) in WINDOWS.items():
-        b = df[(day >= before[0]) & (day <= before[1]) & (df["ref"] != "(none)")].groupby("ref")["usd"].sum()
-        a = df[(day >= after[0]) & (day <= after[1])].groupby("ref")["usd"].sum()
+        b = w[(wd >= before[0]) & (wd <= before[1]) & (w["ref"] != "(none)")].groupby("ref")["usd"].sum()
+        a = w[(wd >= after[0]) & (wd <= after[1])].groupby("ref")["usd"].sum()
         top = b.sort_values(ascending=False).head(TOP)
         by_ref[name] = [{"rank": i + 1, "before_usd": round(float(v), 2), "after_usd": round(float(a.get(r, 0.0)), 2)}
                         for i, (r, v) in enumerate(top.items())]  # integrators by rank only: no names needed
-    out = {"note": "aggregates of 1Click swaps (NEAR Intents Explorer API); no swap, address or integrator name",
+    # every integrator's daily volume under a one-way pseudonym, so any split date can be tested offline
+    ids = {r: hashlib.sha256(f"near-revenue-audit:{r}".encode()).hexdigest()[:10] for r in df["ref"].unique() if r != "(none)"}
+    rd = df[df["ref"] != "(none)"].groupby([day[df["ref"] != "(none)"], "ref"])["usd"].sum().reset_index()
+    rd.columns = ["day", "ref", "usd"]
+    out = {"note": "aggregates of 1Click swaps (NEAR Intents Explorer API), 14 Aug to 12 Nov 2026; no swap, address or integrator "
+                   "name (integrators appear under a one-way pseudonym)",
            "daily": daily.round(4).reset_index(names="day").to_dict("records"),
-           "minute_2026-09-24_to_10-02": [{"minute": str(k), **{c: round(float(v), 4) for c, v in r.items()}} for k, r in minute.iterrows()],
-           "top_integrators": by_ref}
+           "minute_2026-09-24_to_10-04": [{"minute": str(k), **{c: round(float(v), 4) for c, v in r.items()}} for k, r in minute.iterrows()],
+           "top_integrators": by_ref,
+           "integrator_daily": [[r.day, ids[r.ref], round(float(r.usd), 2)] for r in rd.itertuples() if r.usd > 0]}
     AGG.parent.mkdir(parents=True, exist_ok=True)
     AGG.write_text(json.dumps(out))
     print(f"incident: saved {AGG.relative_to(RAW.parents[1])} ({len(df):,} swaps aggregated)")
@@ -82,10 +96,43 @@ def _mean(s: pd.Series, w: tuple[str, str]) -> float:
     return float(s[(s.index >= w[0]) & (s.index <= w[1])].median())
 
 
+def _win(e: pd.Timestamp) -> tuple[tuple[str, str], tuple[str, str]]:
+    f = lambda d: str((e + pd.Timedelta(days=d)).date())  # noqa: E731
+    return (f(-16), f(-3)), (f(2), f(15))  # as for 1 Oct: 15-28 Sep before, 3-16 Oct after
+
+
+def _placebo_dates(daily: pd.DataFrame) -> list[str]:
+    first, last = pd.Timestamp(daily.index.min()), pd.Timestamp(daily.index.max())
+    out = []
+    for d in pd.date_range(first + pd.Timedelta(days=16), last - pd.Timedelta(days=15)):
+        (b0, _), (_, a1) = _win(d)
+        if a1 < "2026-09-27" or b0 > "2026-10-04":  # neither window touches 27 Sep to 4 Oct
+            out.append(str(d.date()))
+    return out
+
+
+def _split(daily: pd.DataFrame, ints: pd.DataFrame, e: pd.Timestamp) -> dict:
+    (b0, b1), (a0, a1) = _win(e)
+    med = lambda c, w0, w1: float(daily.loc[w0:w1, c].median())  # noqa: E731
+    stats = {f"{c}_change": med(c, a0, a1) / med(c, b0, b1) - 1 for c in ("volume_usd", "near_usd", "senders", "new_senders")}
+    pre = ints[(ints["day"] >= b0) & (ints["day"] <= b1)].groupby("id")["usd"].sum() / 14
+    post = ints[(ints["day"] >= a0) & (ints["day"] <= a1)].groupby("id")["usd"].sum() / 14
+    top = pre.sort_values(ascending=False).head(TOP)
+    kept = post.reindex(top.index).fillna(0) >= 0.5 * top
+    stats["top_kept_half"] = int(kept.sum())
+    stats["top_volume_change"] = float(post.reindex(top.index).fillna(0).sum() / top.sum() - 1)
+    late = ints[(ints["day"] >= "2026-10-31") & (ints["day"] <= "2026-11-12")].groupby("id")["usd"].sum() / 13
+    cut = top.index[~kept]
+    back = late.reindex(cut).fillna(0) >= 0.5 * top[cut]
+    return {"stats": stats, "comeback": {"cut_back": int(len(cut)), "back_to_half_by_31oct_12nov": int(back.sum()),
+                                         "top_volume_31oct_12nov_vs_before": float(late.reindex(top.index).fillna(0).sum() / top.sum() - 1)}}
+
+
 def main() -> dict:
     agg = json.loads(AGG.read_text())
     daily = pd.DataFrame(agg["daily"]).set_index("day")
-    m = pd.DataFrame(agg["minute_2026-09-24_to_10-02"])
+    ints = pd.DataFrame(agg["integrator_daily"], columns=["day", "id", "usd"])
+    m = pd.DataFrame(agg["minute_2026-09-24_to_10-04"])
     m["minute"] = pd.to_datetime(m["minute"])
     # 1. the halt: the longest gap between two swaps on 1 October
     oct1 = m[(m["minute"] >= "2026-10-01") & (m["minute"] < "2026-10-02")].sort_values("minute")
@@ -117,10 +164,31 @@ def main() -> dict:
         r["windows"] = {"before": list(b), "after": list(a)}
         windows[name] = r
     e, p = windows["event"], windows["placebo"]
-    res = {"halt": halt, "event": e, "placebo": p,
+    # recovery after the reopening, hour by hour, against the same hour of day in the week before
+    after = m[(m["minute"] >= first_after.floor("h")) & (m["minute"] < first_after.floor("h") + pd.Timedelta(hours=48))]
+    ah = after.groupby(after["minute"].dt.floor("h"))["volume_usd"].sum()
+    norm = (week.groupby(week["minute"].dt.hour)["volume_usd"].sum() / 7).reindex(range(24))
+    ratio = pd.Series({h: v / norm[h.hour] for h, v in ah.items()}).dropna()
+    full = ratio[ratio.index > first_after.floor("h")]  # the reopening hour itself is partial
+    halt["first_full_hour_ratio"] = round(float(full.iloc[0]), 3)
+    day1 = [first_after.floor("h") + pd.Timedelta(hours=k) for k in range(1, 25)]
+    halt["first_24h_volume_vs_usual"] = round(float(ah.reindex(day1).fillna(0).sum() / norm.reindex([h.hour for h in day1]).sum()), 3)
+    # a distribution of placebo dates instead of one: the same split at every date whose windows avoid the incident
+    split = {d: _split(daily, ints, pd.Timestamp(d)) for d in _placebo_dates(daily)}
+    ev = _split(daily, ints, pd.Timestamp("2026-10-01"))
+    dist = {}
+    for k in ev["stats"]:
+        vals = [v["stats"][k] for v in split.values()]
+        lo, hi = sum(x <= ev["stats"][k] for x in vals), sum(x >= ev["stats"][k] for x in vals)
+        dist[k] = {"event": ev["stats"][k], "placebo_median": float(pd.Series(vals).median()), "placebo_min": min(vals), "placebo_max": max(vals),
+                   "rank_low": lo, "n": len(vals), "p_two_sided": min(1.0, 2 * min(lo + 1, hi + 1) / (len(vals) + 1))}
+    res = {"halt": halt, "event": e, "placebo": p, "placebo_dates": sorted(split), "placebo_distribution": dist,
+           "comeback": ev["comeback"],
            "volume_vs_rivals_beyond_placebo": (1 + e["volume_vs_rivals"]) / (1 + p["volume_vs_rivals"]) - 1,
            "retention_event_vs_placebo": [e["top_integrators_kept_half"], p["top_integrators_kept_half"], TOP]}
     (OUT / "incident.json").write_text(json.dumps(res, indent=1))
+    print(f"incident: placebo dates {len(split)}; " + "; ".join(f"{k} {v['event']:+.2f} (placebo median {v['placebo_median']:+.2f}, p={v['p_two_sided']:.2f})" for k, v in dist.items()))
+    print(f"incident: recovery, first full hour {halt['first_full_hour_ratio']:.0%} of usual, first 24 h {halt['first_24h_volume_vs_usual']:.0%}; comeback {ev['comeback']}")
     print(f"incident: halt {hours:.1f} h ({last_before:%H:%M} to {first_after:%H:%M} UTC, 1 Oct), NEAR revenue forgone about "
           f"${halt['near_revenue_forgone_usd']:,.0f}; volume {e['volume_usd']['change']:+.0%} after vs before "
           f"(rivals {e['rivals_volume']['change']:+.0%}; placebo month {p['volume_usd']['change']:+.0%}, rivals {p['rivals_volume']['change']:+.0%}); "
