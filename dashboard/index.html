@@ -187,6 +187,13 @@ section.block { border-bottom: 1px solid var(--line); padding: 80px 0; }
 .card + .card { margin-top: 16px; }
 .card h3 { font: 700 19px/1.25 var(--sans); letter-spacing: -0.015em; margin: 0 0 4px; }
 .card .sub { font-size: 12px; color: var(--ink-2); margin: 0 0 14px; }
+.vlog { list-style: none; margin: 14px 0 0; padding: 0; font-size: 13px; }
+.vlog li { display: grid; grid-template-columns: 22px 1fr; gap: 6px; padding: 7px 0; border-top: 1px solid var(--line); min-width: 0; }
+.vlog li .m { font: 600 13px var(--mono); }
+.vlog li.ok .m { color: var(--good-text); } .vlog li.bad .m { color: var(--critical-text); } .vlog li.run .m { color: var(--ink-2); }
+.vlog li div { min-width: 0; overflow-wrap: anywhere; }
+.vlog code { font-size: 12px; }
+.vres { margin: 12px 0 0; font-weight: 600; }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .grid2 .card + .card { margin-top: 0; }
 .grid2 + .card { margin-top: 16px; }
@@ -652,6 +659,7 @@ footer li + li { margin-top: 6px; }
       <div class="card" style="margin-top:20px"><h3>Dated predictions</h3><p class="sub">Frozen 2026-11-11; status as of the data date. "So far" is a reading on the data to date, not a resolution</p><div class="tbl-wrap" id="tbPred"></div></div>
       <div class="card" style="margin-top:20px"><h3>Public claims, checked</h3><p class="sub">What NEAR, analysts and the press say about revenue, buybacks, issuance and usage, tested on this audit's data at each claim's date</p><div class="tbl-wrap" id="tbPublic"></div></div>
       <div class="card" style="margin-top:20px"><h3>Anchored on NEAR</h3><p class="sub">sha256 of the predictions, the raw-snapshot manifest and the dashboard bundle, written to SocialDB on NEAR testnet under <code>near-revenue-audit.testnet/audit</code>. Check with <code>make anchor-check</code> (a view call, no key)</p><div class="tbl-wrap" id="tbAnchors"></div></div>
+      <div class="card" style="margin-top:20px" id="verifyCard"><h3>Verify it in your browser</h3><p class="sub">No key, no wallet, no install, about 10 MB: your browser reads the hash anchored on NEAR testnet, hashes the raw files it was computed from, rebuilds NEAR's revenue from the raw receipts and compares it with this audit and with NEAR's own dashboard. Nothing here trusts this page's server.</p><button class="btn blue" id="verifyBtn" type="button">Run the check</button><ol class="vlog" id="verifyLog" aria-live="polite"></ol><p class="vres" id="verifyRes"></p></div>
       <div class="card" style="margin-top:20px"><h3>The track's own hypothesis</h3><p class="sub" id="leadlagSub"></p></div>
     </div>
   </section>
@@ -1326,6 +1334,91 @@ function scorecard(D) {
   [...st.tBodies[0].rows].forEach((row, i) => { const c = row.cells[2]; const txt = c.textContent; c.replaceChildren(); const sp = el("span", { class: "tag" }); sp.append(icon(score[i][1]), document.createTextNode(txt)); c.appendChild(sp); });
 }
 
+// ---- Verify in the browser: NEAR anchor -> manifest -> raw files -> revenue rebuilt from receipts
+const REPO_RAW = "https://raw.githubusercontent.com/Wilivms/near-revenue-audit/main/";
+const WALLETS = ["buybacks.multisignature.near", "fefundsadmin.sputnik-dao.near", "1csfundsadmin.sputnik-dao.near"];
+const WSHORT = { "buybacks.multisignature.near": "buybacks", "fefundsadmin.sputnik-dao.near": "fefundsadmin", "1csfundsadmin.sputnik-dao.near": "1csfundsadmin" };
+const hex = (buf) => [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+const sha256 = async (bytes) => hex(await crypto.subtle.digest("SHA-256", bytes));
+async function anchoredSnapshots() {
+  const args = btoa(JSON.stringify({ keys: ["near-revenue-audit.testnet/audit/snapshot/*"] }));
+  const r = await fetch("https://rpc.testnet.near.org", { method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "query", params: { request_type: "call_function", finality: "final", account_id: "v1.social08.testnet", method_name: "get", args_base64: args } }) });
+  const j = await r.json();
+  if (!j.result) throw new Error("NEAR RPC: " + JSON.stringify(j.error || j).slice(0, 120));
+  const raw = JSON.parse(new TextDecoder().decode(new Uint8Array(j.result.result)));
+  const by = ((raw["near-revenue-audit.testnet"] || {}).audit || {}).snapshot || {};
+  return Object.entries(by).map(([date, v]) => ({ date, ...JSON.parse(v) }));
+}
+// the same rules as src/analysis/revenue_wallets.py: each receipt once, no `system` refunds, no failed receipts,
+// NEAR and wNEAR received from outside the three wallets
+function nearIn(txns, ft, wallet, until) {
+  let total = 0; const seen = new Set();
+  for (const t of txns) {
+    if (seen.has(t.receipt_id) || t.predecessor_account_id === "system") continue;
+    seen.add(t.receipt_id);
+    if ((t.outcomes || {}).status === false) continue;
+    const day = new Date(Number(BigInt(t.block_timestamp) / 1000000n)).toISOString().slice(0, 10);
+    if (day > until || t.receiver_account_id !== wallet || t.predecessor_account_id === wallet || WALLETS.includes(t.predecessor_account_id)) continue;
+    for (const a of t.actions || []) if (a.action === "TRANSFER") total += (a.deposit || 0) / 1e24;
+  }
+  for (const t of ft) {
+    const f = t.ft || {}, dec = Number(f.decimals || 0), sym = f.symbol || f.contract || "?";
+    const amt = dec ? Math.trunc(Number(t.delta_amount || 0)) / 10 ** dec : 0;
+    const day = new Date(Number(BigInt(t.block_timestamp) / 1000000n)).toISOString().slice(0, 10);
+    if (amt > 0 && day <= until && (sym === "NEAR" || sym === "wNEAR") && !WALLETS.includes(t.involved_account_id || "")) total += amt;
+  }
+  return total;
+}
+async function runVerify() {
+  const log = $("verifyLog"), res = $("verifyRes"), btn = $("verifyBtn");
+  log.replaceChildren(); res.textContent = ""; btn.disabled = true;
+  const step = (text) => { const li = el("li", { class: "run" }); const m = el("span", { class: "m" }); m.textContent = "…"; const d = el("div"); d.textContent = text; li.append(m, d); log.appendChild(li); return { done: (ok, more) => { li.className = ok ? "ok" : "bad"; m.textContent = ok ? "✓" : "✗"; if (more) d.textContent = text + " " + more; } }; };
+  let allOk = true;
+  const check = (s, ok, more) => { s.done(ok, more); allOk = allOk && ok; };
+  try {
+    let s = step("Read the manifest hashes anchored on NEAR testnet (SocialDB, a view call)…");
+    const anchors = await anchoredSnapshots();
+    check(s, anchors.length > 0, `${anchors.length} dated ${anchors.length === 1 ? "anchor" : "anchors"} under near-revenue-audit.testnet/audit/snapshot.`);
+    s = step("Download data/raw/MANIFEST.json from GitHub and hash it…");
+    const manBytes = await (await fetch(REPO_RAW + "data/raw/MANIFEST.json", { cache: "no-store" })).arrayBuffer();
+    const manSha = await sha256(manBytes);
+    const hit = anchors.filter((a) => a.sha256 === manSha).sort((a, b) => (a.date < b.date ? 1 : -1))[0];
+    check(s, !!hit, hit ? `sha256 ${manSha.slice(0, 12)}… is the one anchored on ${hit.date}.` : `sha256 ${manSha.slice(0, 12)}… is not among the anchored hashes.`);
+    const man = JSON.parse(new TextDecoder().decode(manBytes)).files;
+    const latest = (prefix) => Object.keys(man).filter((k) => k.startsWith(prefix + "/")).sort().pop();
+    const want = [...WALLETS.flatMap((w) => [`wallet_${WSHORT[w]}_txns`, `wallet_${WSHORT[w]}_ft`]), "near_revenue"].map(latest);
+    s = step(`Download the ${want.length} raw files the revenue rests on and hash each one…`);
+    const files = {}; let bytes = 0, bad = [];
+    await Promise.all(want.map(async (k) => {
+      const b = await (await fetch(REPO_RAW + "data/raw/" + k, { cache: "no-store" })).arrayBuffer();
+      bytes += b.byteLength;
+      if ((await sha256(b)) !== man[k].sha256) bad.push(k);
+      files[k] = JSON.parse(new TextDecoder().decode(b));
+    }));
+    check(s, bad.length === 0, bad.length ? `different from the manifest: ${bad.join(", ")}.` : `${(bytes / 1e6).toFixed(1)} MB, every sha256 equals the manifest's.`);
+    const snapDate = want[want.length - 1].slice("near_revenue/".length, "near_revenue/".length + 10);
+    s = step(`Rebuild, from the raw NearBlocks receipts, the NEAR received by NEAR's three revenue wallets up to ${snapDate}…`);
+    const mine = {};
+    for (const w of WALLETS) mine[w] = nearIn(files[latest(`wallet_${WSHORT[w]}_txns`)], files[latest(`wallet_${WSHORT[w]}_ft`)], w, snapDate);
+    const mineTotal = WALLETS.reduce((a, w) => a + mine[w], 0);
+    check(s, mineTotal > 0, `${Math.round(mineTotal).toLocaleString("en-US")} NEAR.`);
+    s = step("Compare with this audit's own number (the Python pipeline, data.json)…");
+    const bundle = await (await fetch(REPO_RAW + "dashboard/data.json", { cache: "no-store" })).json();
+    const off = bundle.official.summary, ours = off.wallets_total.rebuilt_near;
+    const same = off.snapshot === snapDate && Math.abs(mineTotal / ours - 1) < 1e-9;
+    check(s, same, `pipeline ${Math.round(ours).toLocaleString("en-US")} NEAR: ${same ? "the same to the last digit" : "different"}.`);
+    s = step("Compare with NEAR's own dashboard (revenue.near.org, snapshot of the same day)…");
+    const theirs = files[want[want.length - 1]].rows.reduce((a, r) => a + r.nearAmount, 0);
+    const gap = mineTotal / theirs - 1;
+    check(s, Math.abs(gap) <= 0.01, `${Math.round(theirs).toLocaleString("en-US")} NEAR on NEAR's page: ${(gap * 100).toFixed(2)}% apart (finding F2 holds within 1%).`);
+    res.textContent = allOk ? "Verified: the anchored data gives the published revenue, and NEAR's own count agrees." : "Something did not match: see the step marked ✗.";
+  } catch (e) {
+    allOk = false; res.textContent = "The check could not finish: " + (e.message || e) + ". Try again, or run make check-clean.";
+  }
+  btn.disabled = false; btn.textContent = "Run it again";
+}
+
 function holderView(D) {
   const r = (asset, win) => D.token_risk.find((x) => x.asset === asset && x.window === win);
   const n = r("NEAR", "since Nov 2024"), b = r("BTC", "since Nov 2024"), n1 = r("NEAR", "last 365 days");
@@ -1371,6 +1464,7 @@ function navSpy() {
   charts(D);
   seg($("segSupply"), (k) => { supplyKey = k; renderSupply(D); $("chSupply").closest(".reveal").classList.add("in"); });
   seg($("segWho"), (k) => { who.sort = k; placeRows(who, !REDUCED); });
+  if ($("verifyBtn")) $("verifyBtn").addEventListener("click", runVerify);
   observeReveals();
   let rt, lastW = innerWidth;
   addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (Math.abs(innerWidth - lastW) > 40) { lastW = innerWidth; charts(D); } }, 200); });

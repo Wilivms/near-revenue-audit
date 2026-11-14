@@ -32,6 +32,7 @@ For supply to stop growing, the second bold line has to reach the third. On 1Cli
 **3. See it live: [near-revenue-audit.vercel.app](https://near-revenue-audit.vercel.app)**
 - **Top of the page:** NEAR bought back per 100 issued, recomputed in your browser from live data.
 - **"What would it take?"**: drag daily volume and NEAR's take rate until supply stops growing.
+- **"Verify it in your browser"** (Checks section): one click reads the hash anchored on NEAR testnet, hashes the raw files, rebuilds the revenue from the raw receipts and compares it with this audit and NEAR's own dashboard. No key, no install.
 - **"Every finding is a test"**: the {{claims_n}} findings, {{public_claims_n}} public claims about NEAR, six dated predictions and their on-chain anchors, all updated daily.
 
 **4. Re-run it** (about 2 minutes, no key, no network after setup)
