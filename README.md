@@ -249,4 +249,4 @@ A data project: NEAR is the subject and the main source. It reads mainnet throug
 
 ## License
 
-MIT
+MIT for the code and the analysis. The snapshots in `data/raw/` are public API responses (DefiLlama, CoinGecko, NearBlocks, NEAR RPC, revenue.near.org, results of our own queries on NEAR's BigQuery dataset), kept unchanged and dated so that every number can be re-run and checked against its anchor; they remain under their providers' terms and are used here for non-commercial research, with attribution in [Data sources](#data-sources-and-how-they-were-obtained). A provider that wants its snapshots removed can open an issue; `make refresh` re-fetches them. Per-swap 1Click data is not in the repository (see above).
