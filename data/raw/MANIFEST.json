@@ -288,6 +288,18 @@
    "bytes": 325759,
    "sha256": "bd4b7533455bd68dbaf6e9ab48eedfce6049e2872802f0dce7a6ec4de93e0e7a"
   },
+  "quotes/2026-11-14T0100.json": {
+   "bytes": 7961,
+   "sha256": "c4fdbe8d50b3ae8e970164f855559df6e3a2fb7677f8658498611bbef25fcd14"
+  },
+  "quotes/2026-11-14T0102.json": {
+   "bytes": 7930,
+   "sha256": "9f4376dfcce6429fc5824bf56731e9544f52b4e25c6fe79d4d55d71a4d94b725"
+  },
+  "quotes/2026-11-14T0104.json": {
+   "bytes": 7854,
+   "sha256": "7d179b6f6415e5d255285682286b0cdc088b59a9e5fa7b344a123daf952d3511"
+  },
   "stake/2026-10-31.json": {
    "bytes": 118,
    "sha256": "85d5d0acb481ecaa36a7c41d39d4abf1b8e4efdbcce67aaeca7695c2a4d19169"

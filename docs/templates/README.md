@@ -17,6 +17,7 @@
 - **Too small for the token.** Buybacks offset {{offset_rebuilt}} of new NEAR ({{offset_window}}). Market cap is {{near_captured_mult}} captured revenue; supply stops growing only below {{breakeven_now}}.
 - **Partly bought.** NEAR's take doubled from {{take_aug}} to {{take_oct}} bps in two months, a fifth to most of it from confidential swaps during an airdrop whose first drop cost {{drop1_over_uplift}} of the revenue it added. It is already easing ({{take_last_week}} bps in early November).
 - **NEAR does not own the customer.** On 1Click, integrators keep {{oc_integrators_keep}} of the fee pool.
+- **Priced level with its rivals.** In {{qr_rounds}} live quote rounds against Relay, Across and LI.FI, 1Click paid users the most in {{qr_best_share}} of swaps, median {{qr_median}} from the best: rivals are not undercutting NEAR Intents so far.
 
 **2. Follow $100** ({{f100_from}} to {{f100_to}}, {{f100_vol}} of Intents volume)
 

@@ -114,3 +114,16 @@ def test_revisions_compare_by_age():
     assert r["by_age"]["1"]["moved_1pct"] == 1 and r["by_age"]["3"]["moved_1pct"] == 0
     assert r["settled_after_days"] == 2
     assert r["largest"][0]["factor"] == 8.0
+
+
+def test_quote_race_gap_sign_and_lifi_fee(monkeypatch):
+    from src.analysis import quotes
+    rnd = {"started_utc": "2026-11-14T01:00:00+00:00", "rows": [{
+        "route": "r", "corridor": "c", "from": "USDC.arb", "to": "USDC.base", "size_in": 1000, "quotes": {
+            "1click": {"amount_out": "1000"}, "relay": {"amount_out": "990"}, "across": None,
+            "lifi": {"amount_out": "995", "lifi_fee_pct": 0.0025}}}]}
+    monkeypatch.setattr(quotes, "rounds", lambda: [rnd])
+    t = quotes.table()
+    assert t.loc[0, "best_competitor"] == "lifi"
+    assert t.loc[0, "gap_vs_best_bps"] == pytest.approx((1000 / 995 - 1) * 1e4)  # positive: 1Click pays more
+    assert t.loc[0, "gap_vs_best_ex_lifi_fee_bps"] == pytest.approx((1000 / (995 / 0.9975) - 1) * 1e4)

@@ -1,4 +1,4 @@
-.PHONY: revisions open-questions oneclick-offline setup pycheck anchor-check bigquery reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
+.PHONY: quotes quotes-fetch revisions open-questions oneclick-offline setup pycheck anchor-check bigquery reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -30,6 +30,12 @@ risk:        ## holder's view: NEAR vs BTC risk, issuance, stake, buyback yield;
 confidential: ## confidential swaps from NEAR's Dune dashboard (data/raw/dune): volume share, take-rate regression, H4.1, incentive cost
 	python3 -m src.analysis.confidential
 
+quotes:      ## quote race offline: 1Click against Relay, Across and LI.FI on the same swaps (data/raw/quotes)
+	python3 -m src.analysis.quotes
+
+quotes-fetch: ## one live quote round (network, about a minute, no key, nothing sent)
+	python3 -m src.ingest.quotes
+
 revisions:   ## do the sources revise past days? every dated snapshot of DefiLlama, NEAR's dashboard and the wallet rebuild, compared
 	python3 -m src.analysis.revisions
 
@@ -54,13 +60,13 @@ pycheck:
 test:        ## model checks
 	python3 -m pytest -q tests
 
-STEPS = ledger revenue supply governance montecarlo backtest leadlag bigquery oneclick-offline confidential official revisions open-questions predictions dashboard
+STEPS = ledger revenue supply governance montecarlo backtest leadlag bigquery oneclick-offline confidential official revisions quotes open-questions predictions dashboard
 
 reproduce:   ## every offline step on the committed snapshots, then the tests
 	$(MAKE) $(STEPS) test
 
 refresh:     ## fetch fresh public snapshots (network), re-run everything, re-render the documents, then the tests
-	REFRESH=1 $(MAKE) data supply comps risk official-fetch governance-fetch leadlag-fetch manifest $(STEPS) docs test
+	REFRESH=1 $(MAKE) data supply comps risk official-fetch governance-fetch leadlag-fetch quotes-fetch manifest $(STEPS) docs test
 
 manifest:    ## sha256 of every raw snapshot -> data/raw/MANIFEST.json
 	python3 -m src.manifest

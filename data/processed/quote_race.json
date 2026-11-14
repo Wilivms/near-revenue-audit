@@ -1,0 +1,20 @@
+{
+ "rounds": 3,
+ "first_round": "2026-11-14T01:00:45+00:00",
+ "last_round": "2026-11-14T01:04:00+00:00",
+ "quotes_compared": 28,
+ "oneclick_best_share": 0.4642857142857143,
+ "oneclick_best_share_ex_lifi_fee": 0.0,
+ "median_gap_vs_best_ex_lifi_fee_bps": -18.06038570359381,
+ "median_gap_vs_best_bps": -0.06223990275444624,
+ "by_corridor_median_gap_bps": {
+  "same asset, EVM L2 to L2": 0.06,
+  "same asset, Ethereum to L2": -1.2,
+  "cross asset, EVM": -0.22,
+  "cross chain family, Solana to EVM": -3.27,
+  "native BTC to EVM": 5.43
+ },
+ "best_corridor": "native BTC to EVM",
+ "worst_corridor": "cross chain family, Solana to EVM",
+ "note": "gap = 1Click's output over the best competitor's for the same swap, in basis points; positive = 1Click pays the user more. Every router as its public API quotes it, fees included; LI.FI's quote includes its default 0.25% fixed fee, so the comparison is also given with LI.FI's output grossed up by that fee ('ex LI.FI fee', the harder test for 1Click)."
+}

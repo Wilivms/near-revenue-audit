@@ -370,6 +370,15 @@ def figures() -> dict[str, str]:
               "bq_intents_tx_25": pct(bq["activity"]["intents_share_of_txns_oct2025"], 1), "bq_intents_tx_26": pct(bq["activity"]["intents_share_of_txns_oct2026"], 1)})
     rv = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True)["rebuilt_total_usd"]
     f.update(follow_100(v))
+    qr = _json("quote_race.json")
+    bc = qr["by_corridor_median_gap_bps"]
+    sg = lambda x: "0.0 bps" if round(x, 1) == 0 else f"{x:+.1f} bps".replace("-", "−")  # noqa: E731
+    f.update({"qr_rounds": str(qr["rounds"]), "qr_swaps": str(qr["quotes_compared"]), "qr_first": qr["first_round"][:16].replace("T", " "),
+              "qr_last": qr["last_round"][:16].replace("T", " "), "qr_best_share": pct(qr["oneclick_best_share"]),
+              "qr_median": sg(qr["median_gap_vs_best_bps"]), "qr_ex_lifi_median": sg(qr["median_gap_vs_best_ex_lifi_fee_bps"]),
+              "qr_c_l2": sg(bc["same asset, EVM L2 to L2"]), "qr_c_l1l2": sg(bc["same asset, Ethereum to L2"]),
+              "qr_c_xasset": sg(bc["cross asset, EVM"]), "qr_c_sol": sg(bc["cross chain family, Solana to EVM"]),
+              "qr_c_btc": sg(bc["native BTC to EVM"])})
     sr = _json("source_revisions.json")
     fl, rb, nd = sr["defillama"]["gross fees"], sr["rebuilt_from_wallets"], sr["near_dashboard"]["gross fees"]
     big = fl["largest"][0]

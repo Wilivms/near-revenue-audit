@@ -44,6 +44,9 @@ Definitions. This audit counts all NEAR captured by the three revenue wallets NE
 **Aggregators revise recent days. Can a number here change after the fact?**
 Not the revenue. Every refresh keeps a dated snapshot of each source, and `make revisions` (finding F16) compares them day by day: the revenue rebuilt from the wallets, run on each of 5 snapshots from 2026-10-29 to 2026-11-13, changed on 0 of 1,143 complete days, because a settled receipt does not change. DefiLlama's gross fees are first published for a partial day and raised later, up to ×185 (2026-11-10: $1,611 → $297,452); NEAR's own dashboard shows the same jumps, so its 7-day share of fees captured reads high on the day it is published. Fees settle after 3 days, so the one figure here that uses them (the fees line of "Follow $100") stops at the last settled day.
 
+**Will competing bridges compete NEAR's take away?**
+Not on prices so far. `make quotes` compares what 1Click, Relay, Across and LI.FI pay for the same swap asked within the same minute: over 3 rounds, 1Click paid the most in 46% of 28 swaps, median −0.1 bps from the best alternative, fees included; it leads on native BTC (+5.4 bps) and trails on Ethereum to L2 (−1.2 bps) and Solana (−3.3 bps). The pressure on NEAR's take comes from integrators, who keep most of the fee pool, more than from rival routers (REPORT section 6).
+
 **Is the volume real, or a few addresses trading with themselves?**
 Real and broad, on 1Click where it can be measured (REPORT section 3, log 36). Over the last 30 days: 235k sending addresses, 78% swapping once, the top 10 at 19% of volume. Round trips (A to B and back within a day by the same address) are 2.9% of volume and 1.3% of NEAR's revenue. Confidential swaps cannot be checked this way: the Explorer API does not show them.
 

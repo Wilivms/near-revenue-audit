@@ -123,6 +123,17 @@ What the simulation assumes, and what that does to the result:
 
 - **Peers.** Tokens whose holders receive protocol revenue trade at a median **{{peers_median}}** market cap / annualised holders revenue ({{peers_n}} peers with material holders revenue, interquartile {{peers_iqr}}). NEAR trades at **{{near_holders_mult}}**. At the peer median, NEAR Intents' revenue would support about {{near_value_at_peer}} of market cap, against {{near_mcap}} (about {{price_at_peer}} a NEAR, against {{price_now}}): about {{share_not_revenue}} of NEAR's value rests on something other than this revenue (log 22). NEAR is a layer 1 and most peers are applications, so the gap is partly a category premium, not a mispricing.
 - **Competitors.** Among cross-chain swap venues on DefiLlama, NEAR Intents went from 6% of volume (June 2025) to 58–79% each month from May to October 2026, while THORChain fell from 84% to 4–31%. November to date reverses it (NEAR 35%, THORChain 53%): DefiLlama shows THORChain volume above $180M a day from 4 November. That is eight days of data and may be a reporting artefact; it is flagged, not concluded. NEAR led its category on volume for six months; it has not yet turned that share into enough captured revenue.
+- **Price.** Will competing routers compete NEAR's take away? A quote race (`src/ingest/quotes.py`, `make quotes`) asks 1Click, Relay, LI.FI and, on same-asset routes, Across for the same swap within the same minute, on five corridors at about $1k and $20k, and keeps every answer in `data/raw/quotes/`. Over {{qr_rounds}} rounds ({{qr_first}} to {{qr_last}} UTC, {{qr_swaps}} swaps), 1Click paid the user the most in **{{qr_best_share}}** of swaps, a median **{{qr_median}}** from the best alternative, all fees included:
+
+  | Corridor | 1Click against the best alternative (median) |
+  | --- | --- |
+  | Native BTC to EVM | {{qr_c_btc}} |
+  | Same asset, L2 to L2 (USDC) | {{qr_c_l2}} |
+  | Cross asset, EVM (ETH to USDC) | {{qr_c_xasset}} |
+  | Same asset, Ethereum to L2 (ETH) | {{qr_c_l1l2}} |
+  | Solana to EVM (SOL to USDC) | {{qr_c_sol}} |
+
+  LI.FI's public quote includes its default 0.25% fee; without it, LI.FI would beat everyone (1Click {{qr_ex_lifi_median}}), so the result depends on which front-end a user comes through. Quotes are not fills and leave out the origin-chain gas each route needs. Read with the 1Click data: NEAR keeps a few basis points inside a price that is level with the market, so its take is not what loses 1Click a swap; where 1Click loses (Ethereum to L2, Solana), the gap is a few basis points, about the size of the take itself. More rounds are added at each refresh.
 - **Protocol fee.** The `intents.near` fee itself is 1 pip (about 0.01 bps), unchanged since March 2025: NEAR's revenue comes from app fees, not from the protocol fee.
 
 ### 7. The holder's view

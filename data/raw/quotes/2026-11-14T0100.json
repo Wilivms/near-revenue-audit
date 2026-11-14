@@ -1,0 +1,375 @@
+{
+ "started_utc": "2026-11-14T01:00:45+00:00",
+ "finished_utc": "2026-11-14T01:01:52+00:00",
+ "note": "dry quotes for a public placeholder address; nothing was signed or sent",
+ "rows": [
+  {
+   "route": "usdc-arb-base",
+   "corridor": "same asset, EVM L2 to L2",
+   "from": "USDC.arb",
+   "to": "USDC.base",
+   "size_in": 1000,
+   "amount_in": "1000000000",
+   "out_decimals": 6,
+   "quotes": {
+    "1click": {
+     "status": 201,
+     "amount_out": "999905544",
+     "time_estimate_s": 27,
+     "error": null,
+     "seconds": 3.64
+    },
+    "relay": {
+     "status": 200,
+     "amount_out": "999879217",
+     "time_estimate_s": 1,
+     "error": null,
+     "seconds": 0.51
+    },
+    "lifi": {
+     "status": 200,
+     "amount_out": "997500000",
+     "tool": "polymerStandard",
+     "lifi_fee_pct": 0.0025,
+     "time_estimate_s": 1080,
+     "error": null,
+     "seconds": 1.79
+    },
+    "across": {
+     "status": 200,
+     "amount_out": "999896687",
+     "time_estimate_s": 2,
+     "error": null,
+     "seconds": 0.55
+    }
+   }
+  },
+  {
+   "route": "usdc-arb-base",
+   "corridor": "same asset, EVM L2 to L2",
+   "from": "USDC.arb",
+   "to": "USDC.base",
+   "size_in": 20000,
+   "amount_in": "20000000000",
+   "out_decimals": 6,
+   "quotes": {
+    "1click": {
+     "status": 201,
+     "amount_out": "19997944591",
+     "time_estimate_s": 27,
+     "error": null,
+     "seconds": 3.52
+    },
+    "relay": {
+     "status": 200,
+     "amount_out": "19997979215",
+     "time_estimate_s": 1,
+     "error": null,
+     "seconds": 0.78
+    },
+    "lifi": {
+     "status": 200,
+     "amount_out": "19950000000",
+     "tool": "polymerStandard",
+     "lifi_fee_pct": 0.0025,
+     "time_estimate_s": 1080,
+     "error": null,
+     "seconds": 1.59
+    },
+    "across": {
+     "status": 200,
+     "amount_out": "19997996687",
+     "time_estimate_s": 1,
+     "error": null,
+     "seconds": 0.45
+    }
+   }
+  },
+  {
+   "route": "eth-eth-arb",
+   "corridor": "same asset, Ethereum to L2",
+   "from": "ETH.eth",
+   "to": "ETH.arb",
+   "size_in": 0.5,
+   "amount_in": "500000000000000000",
+   "out_decimals": 18,
+   "quotes": {
+    "1click": {
+     "status": 201,
+     "amount_out": "499897805200489900",
+     "time_estimate_s": 44,
+     "error": null,
+     "seconds": 3.51
+    },
+    "relay": {
+     "status": 200,
+     "amount_out": "499739069431664795",
+     "time_estimate_s": 1,
+     "error": null,
+     "seconds": 0.78
+    },
+    "lifi": {
+     "status": 200,
+     "amount_out": "498750000000000000",
+     "tool": "arbitrum",
+     "lifi_fee_pct": 0.0025,
+     "time_estimate_s": 592,
+     "error": null,
+     "seconds": 2.49
+    },
+    "across": {
+     "status": 200,
+     "amount_out": "499954309974158998",
+     "time_estimate_s": 2,
+     "error": null,
+     "seconds": 0.56
+    }
+   }
+  },
+  {
+   "route": "eth-eth-arb",
+   "corridor": "same asset, Ethereum to L2",
+   "from": "ETH.eth",
+   "to": "ETH.arb",
+   "size_in": 10,
+   "amount_in": "10000000000000000000",
+   "out_decimals": 18,
+   "quotes": {
+    "1click": {
+     "status": 201,
+     "amount_out": "9997978904009798000",
+     "time_estimate_s": 44,
+     "error": null,
+     "seconds": 3.78
+    },
+    "relay": {
+     "status": 200,
+     "amount_out": "9994989067966887195",
+     "time_estimate_s": 24,
+     "error": null,
+     "seconds": 0.53
+    },
+    "lifi": {
+     "status": 200,
+     "amount_out": "9975000000000000000",
+     "tool": "arbitrum",
+     "lifi_fee_pct": 0.0025,
+     "time_estimate_s": 592,
+     "error": null,
+     "seconds": 1.97
+    },
+    "across": {
+     "status": 200,
+     "amount_out": "9999241809974159000",
+     "time_estimate_s": 6,
+     "error": null,
+     "seconds": 0.47
+    }
+   }
+  },
+  {
+   "route": "eth-usdc",
+   "corridor": "cross asset, EVM",
+   "from": "ETH.eth",
+   "to": "USDC.arb",
+   "size_in": 0.5,
+   "amount_in": "500000000000000000",
+   "out_decimals": 6,
+   "quotes": {
+    "1click": {
+     "status": 201,
+     "amount_out": "962161912",
+     "time_estimate_s": 44,
+     "error": null,
+     "seconds": 3.52
+    },
+    "relay": {
+     "status": 200,
+     "amount_out": "962193931",
+     "time_estimate_s": 1,
+     "error": null,
+     "seconds": 0.37
+    },
+    "lifi": {
+     "status": 200,
+     "amount_out": "961802028",
+     "tool": "layerswap",
+     "lifi_fee_pct": 0.0025,
+     "time_estimate_s": 15,
+     "error": null,
+     "seconds": 2.74
+    }
+   }
+  },
+  {
+   "route": "eth-usdc",
+   "corridor": "cross asset, EVM",
+   "from": "ETH.eth",
+   "to": "USDC.arb",
+   "size_in": 10,
+   "amount_in": "10000000000000000000",
+   "out_decimals": 6,
+   "quotes": {
+    "1click": {
+     "status": 201,
+     "amount_out": "19241411315",
+     "time_estimate_s": 44,
+     "error": null,
+     "seconds": 3.61
+    },
+    "relay": {
+     "status": 200,
+     "amount_out": "19247345696",
+     "time_estimate_s": 24,
+     "error": null,
+     "seconds": 0.5
+    },
+    "lifi": {
+     "status": 200,
+     "amount_out": "19236704564",
+     "tool": "layerswap",
+     "lifi_fee_pct": 0.0025,
+     "time_estimate_s": 15,
+     "error": null,
+     "seconds": 2.46
+    }
+   }
+  },
+  {
+   "route": "sol-usdc",
+   "corridor": "cross chain family, Solana to EVM",
+   "from": "SOL.sol",
+   "to": "USDC.eth",
+   "size_in": 13,
+   "amount_in": "13000000000",
+   "out_decimals": 6,
+   "quotes": {
+    "1click": {
+     "status": 201,
+     "amount_out": "1004912319",
+     "time_estimate_s": 27,
+     "error": null,
+     "seconds": 3.43
+    },
+    "relay": {
+     "status": 200,
+     "amount_out": "1003874492",
+     "time_estimate_s": 3,
+     "error": null,
+     "seconds": 0.34
+    },
+    "lifi": {
+     "status": 200,
+     "amount_out": "1004457198",
+     "tool": "mayan",
+     "lifi_fee_pct": 0.0025,
+     "time_estimate_s": 3,
+     "error": null,
+     "seconds": 1.97
+    }
+   }
+  },
+  {
+   "route": "sol-usdc",
+   "corridor": "cross chain family, Solana to EVM",
+   "from": "SOL.sol",
+   "to": "USDC.eth",
+   "size_in": 260,
+   "amount_in": "260000000000",
+   "out_decimals": 6,
+   "quotes": {
+    "1click": {
+     "status": 201,
+     "amount_out": "20105204225",
+     "time_estimate_s": 27,
+     "error": null,
+     "seconds": 3.53
+    },
+    "relay": {
+     "status": 200,
+     "amount_out": "20069754128",
+     "time_estimate_s": 3,
+     "error": null,
+     "seconds": 0.54
+    },
+    "lifi": {
+     "status": 200,
+     "amount_out": "20091613443",
+     "tool": "layerswap",
+     "lifi_fee_pct": 0.0025,
+     "time_estimate_s": 101,
+     "error": null,
+     "seconds": 1.38
+    }
+   }
+  },
+  {
+   "route": "btc-usdc",
+   "corridor": "native BTC to EVM",
+   "from": "BTC.btc",
+   "to": "USDC.eth",
+   "size_in": 0.015,
+   "amount_in": "1500000",
+   "out_decimals": 6,
+   "quotes": {
+    "1click": {
+     "status": 201,
+     "amount_out": "1020540713",
+     "time_estimate_s": 812,
+     "error": null,
+     "seconds": 3.62
+    },
+    "relay": {
+     "status": 400,
+     "amount_out": null,
+     "time_estimate_s": null,
+     "error": "This address is blocked and cannot be used for transactions",
+     "seconds": 0.39
+    },
+    "lifi": {
+     "status": 200,
+     "amount_out": "1019821159",
+     "tool": "layerswap",
+     "lifi_fee_pct": 0.0025,
+     "time_estimate_s": 2243,
+     "error": null,
+     "seconds": 3.41
+    }
+   }
+  },
+  {
+   "route": "btc-usdc",
+   "corridor": "native BTC to EVM",
+   "from": "BTC.btc",
+   "to": "USDC.eth",
+   "size_in": 0.3,
+   "amount_in": "30000000",
+   "out_decimals": 6,
+   "quotes": {
+    "1click": {
+     "status": 201,
+     "amount_out": "20415955858",
+     "time_estimate_s": 812,
+     "error": null,
+     "seconds": 3.9
+    },
+    "relay": {
+     "status": 400,
+     "amount_out": null,
+     "time_estimate_s": null,
+     "error": "This address is blocked and cannot be used for transactions",
+     "seconds": 0.57
+    },
+    "lifi": {
+     "status": 200,
+     "amount_out": "20408631193",
+     "tool": "symbiosis",
+     "lifi_fee_pct": 0.0025,
+     "time_estimate_s": 1200,
+     "error": null,
+     "seconds": 3.74
+    }
+   }
+  }
+ ]
+}

@@ -28,6 +28,7 @@ NEAR Intents' protocol revenue is real and has grown, but in its current form it
 - **NEAR's own front-end is growing its share.** NEAR's dashboard shows capture by front-end fees rising from 12% of gross fees all-time to 19% over the last 30 days: the flows NEAR controls are the ones that grew.
 - **NEAR's own revenue series is higher.** It runs 21% above the wallets; if that revenue is real and retired, the offset is 16.3% rather than 14.8%. It does not change the order of magnitude.
 - **Issuance is being cut.** HSP-029 passed with 99.97% of veNEAR cast; fully phased in, it lowers the break-even multiple's bar from 41x to 64x.
+- **Competition is not compressing the price yet.** In 3 live quote rounds (28 identical swaps asked of 1Click, Relay, Across and LI.FI within the same minute, five corridors, about $1k and $20k), 1Click paid the user the most in 46%, median −0.1 bps from the best alternative, fees included: ahead on native BTC (+5.4 bps), level on L2 stablecoins and EVM swaps, behind on Ethereum to L2 (−1.2 bps) and Solana (−3.3 bps). NEAR's take is inside that price; where 1Click trails, the gap is about the size of that take. (`make quotes`)
 - **Intents volume is growing** (+48% over the last 30 days against a year earlier) while L1 activity falls (-85% transactions): the part of NEAR that earns is the part that grows.
 
 ## What would change our mind
