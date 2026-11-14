@@ -1,0 +1,20 @@
+name: tag-submission
+# Marks the last human commit before the deadline with the tag hackathon-submission (run once, by hand).
+on:
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: "commit to tag"
+        required: true
+permissions:
+  contents: write
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: |
+          git tag -f hackathon-submission "${{ github.event.inputs.sha }}"
+          git push -f origin hackathon-submission
