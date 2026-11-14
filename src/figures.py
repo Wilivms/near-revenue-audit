@@ -610,12 +610,17 @@ def figures() -> dict[str, str]:
               "bq_is_self_inc": pct(si["self_signed_share_of_increase"], 1), "bq_is_self_nov": pct(si["self_signed_share_nov"]),
               "bq_is_others": f"{si['by_others_change'] * 100:+.0f}%", "bq_is_other_signers": f"{si['other_signers_change'] * 100:+.0f}%"})
     anchors = [json.loads(x) for x in (ROOT / "anchor" / "anchors.jsonl").read_text().splitlines() if x.strip()]
-    last = {a["kind"]: a for a in anchors}
-    link = lambda a: f"[{a['tx'][:8]}…](https://testnet.nearblocks.io/txns/{a['tx']})"  # noqa: E731
+    last = {a["kind"]: a for a in anchors if a.get("network") != "mainnet"}  # testnet releases
+    main = {}
+    for a in anchors:  # mainnet: the first record of each release kind (the owner-signed write)
+        if a.get("network") == "mainnet" and a["kind"] in ("predictions", "snapshot"):
+            main.setdefault(a["kind"], a)
+    link = lambda a: f"[{a['tx'][:8]}…]({'https://nearblocks.io' if a.get('network') == 'mainnet' else 'https://testnet.nearblocks.io'}/txns/{a['tx']})"  # noqa: E731
     # releases only: the daily bot appends a "daily" row every day, and the documents must not change with it
     first_daily = next(a for a in anchors if a["kind"] == "daily")
     f.update({"anchor_pred_tx": link(last["predictions"]), "anchor_snap_tx": link(last["snapshot"]), "anchor_daily_tx": link(first_daily),
-              "anchor_pred_date": last["predictions"]["date"]})
+              "anchor_pred_date": last["predictions"]["date"],
+              "anchor_main_pred_tx": link(main["predictions"]), "anchor_main_snap_tx": link(main["snapshot"])})
     from .predictions import resolve
     for _, r in resolve(pd.Timestamp(v["data_to"])).iterrows():
         f[f"{r.id.lower()}_so_far"] = r.so_far or r.status

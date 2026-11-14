@@ -434,7 +434,7 @@ footer li + li { margin-top: 6px; }
         <tr><td data-s="vd_c2">revenue covers half of new issuance or more</td><td data-s="vd_c2_now">21% (last 30 days)</td><td data-s="vd_c2_rec">0 of the last 3 months</td><td class="st" data-s="vd_c2_st">not met</td></tr>
         <tr><td data-s="vd_c3">bought NEAR burned or locked by a rule</td><td data-s="vd_c3_now">0% of 4.30M NEAR held</td><td data-s="vd_c3_rec">read on 2026-11-14</td><td class="st" data-s="vd_c3_st">not met</td></tr>
       </tbody></table>
-      <p class="vpred" id="vdPreds">Predictions frozen on 11 Nov and timestamped on Bitcoin: <b>P1</b> resolves 15 Nov (so far <span data-s="p1_so_far">4.1 bps, 11-01 to 11-12</span>, threshold 5.0), <b>P2</b> 15 Nov (so far <span data-s="p2_so_far">137.9M USD on 2026-11-12</span>, threshold 140M), <b>P3</b> 17 Nov (<span data-s="p3_so_far">passed, in its timelock (no veto so far)</span>). Results are written on NEAR testnet the day they resolve.</p>
+      <p class="vpred" id="vdPreds">Predictions frozen on 11 Nov and timestamped on Bitcoin: <b>P1</b> resolves 15 Nov (so far <span data-s="p1_so_far">4.1 bps, 11-01 to 11-12</span>, threshold 5.0), <b>P2</b> 15 Nov (so far <span data-s="p2_so_far">137.9M USD on 2026-11-12</span>, threshold 140M), <b>P3</b> 17 Nov (<span data-s="p3_so_far">passed, in its timelock (no veto so far)</span>). Results are written on NEAR mainnet and testnet the day they resolve.</p>
     </div>
   </section>
 
@@ -728,7 +728,7 @@ footer li + li { margin-top: 6px; }
       <div class="card"><h3>Findings</h3><p class="sub" id="checksSub"></p><div class="tbl-wrap" id="tbChecks"></div></div>
       <div class="card" style="margin-top:20px"><h3>Dated predictions</h3><p class="sub">Frozen 2026-11-11; status as of the data date. "So far" is a reading on the data to date, not a resolution</p><div class="tbl-wrap" id="tbPred"></div></div>
       <div class="card" style="margin-top:20px"><h3>Public claims, checked</h3><p class="sub">What NEAR, analysts and the press say about revenue, buybacks, issuance and usage, tested on this audit's data at each claim's date</p><div class="tbl-wrap" id="tbPublic"></div></div>
-      <div class="card" style="margin-top:20px"><h3>Anchored on NEAR</h3><p class="sub">sha256 of the predictions, the raw-snapshot manifest and the dashboard bundle, written to SocialDB on NEAR testnet under <code>near-revenue-audit.testnet/audit</code>. Check with <code>make anchor-check</code> (a view call, no key)</p><div class="tbl-wrap" id="tbAnchors"></div></div>
+      <div class="card" style="margin-top:20px"><h3>Anchored on NEAR</h3><p class="sub">sha256 of the predictions, the raw-snapshot manifest and the dashboard bundle, written to SocialDB on NEAR mainnet under <code>near-revenue-audit.near/audit</code> and on testnet under <code>near-revenue-audit.testnet/audit</code>. Check with <code>make anchor-check</code> (a view call, no key)</p><div class="tbl-wrap" id="tbAnchors"></div></div>
       <div class="card" style="margin-top:20px" id="verifyCard"><h3>Verify it in your browser</h3><p class="sub">No key, no wallet, no install, about 10 MB: your browser reads the hashes anchored on NEAR mainnet and testnet, hashes the raw files it was computed from, rebuilds NEAR's revenue from the raw receipts and compares it with this audit and with NEAR's own dashboard. Nothing here trusts this page's server.</p><button class="btn blue" id="verifyBtn" type="button">Run the check</button><ol class="vlog" id="verifyLog" aria-live="polite"></ol><p class="vres" id="verifyRes"></p></div>
       <div class="card" style="margin-top:20px"><h3>The track's own hypothesis</h3><p class="sub" id="leadlagSub"></p></div>
     </div>
@@ -1226,7 +1226,7 @@ function verdictBar(D) {
   const P = (D.checks && D.checks.predictions) || [];
   const txt = P.filter((p) => ["P1", "P2", "P3"].includes(p.id)).map((p) => p.status === "pending" || p.status === "awaiting data"
     ? `${p.id} resolves ${p.resolve_on}${p.so_far ? ` (so far: ${p.so_far})` : ""}` : `${p.id} ${p.status.toUpperCase()} (${typeof p.value === "number" ? p.value.toLocaleString("en-US", { maximumFractionDigits: 2 }) : p.value})`);
-  if (txt.length) $("vdPreds").textContent = `Predictions frozen on 11 Nov 2026, timestamped on Bitcoin, results written on NEAR testnet the day they resolve: ${txt.join(" · ")}.`;
+  if (txt.length) $("vdPreds").textContent = `Predictions frozen on 11 Nov 2026, timestamped on Bitcoin, results written on NEAR mainnet and testnet the day they resolve: ${txt.join(" · ")}.`;
 }
 
 function headline(D, L, live) {
