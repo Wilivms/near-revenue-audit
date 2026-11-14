@@ -654,3 +654,4 @@ A pass over all 83 thesis projects on 14 November looked for analyses worth adop
   - At 10–20% discount rates and 0–5% growth, the market cap needs 10x to 41x today's captured revenue.
   - Mid case (15%, 3% growth): 24x, about $3.0B a day of Intents volume at today's 4.9 bps take.
   - Alternatively, revenue growing 75–91% a year for five years, then valued at the 20x peer median. Intents volume is +48% on a year earlier.
+- **Follow $10 to $1M** (same day, finer bands). Cost by swap size, in bands from each size to 3x it. Under $10 it is 220 bps, $10–30 137 bps and $30–100 75 bps: fixed network costs. From $3k to $100k it is flat at 55–56 bps. Above $100k it rises again: 63 bps at $100k–300k and 64 bps at $300k–1M, where solvers and networks take 16 then 21 bps, while NEAR's slice falls to 2.8 then 1.0 bps. Only 7 swaps above $1M, too few to read. The largest swaps pay NEAR least, consistent with direct deals or fee caps for large flows.

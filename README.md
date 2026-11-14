@@ -29,7 +29,18 @@
 | New NEAR issued over the same days | **$0.238** |
 | Revenue as a share of new issuance | **21%** (14.8% over February 2026 to October 2026) |
 
-And on 1Click (about a quarter of Intents volume, where the retail apps and their fees are), each swap records what was sent and what was delivered, so the user's whole cost can be split. Per $100: **$0.59**, of which $0.43 to integrators, **$0.04 to NEAR** and $0.12 to solvers and networks (6.4% to NEAR, F18).
+And on 1Click (about a quarter of Intents volume, where the retail apps and their fees are), each swap records what was sent and what was delivered, so the user's whole cost can be split. Per $100 on average: **$0.59**, of which $0.43 to integrators, **$0.04 to NEAR** and $0.12 to solvers and networks (6.4% to NEAR, F18). By size:
+
+| You swap | You give up | to integrators | to NEAR | to solvers and networks | NEAR's share |
+| --- | --- | --- | --- | --- | --- |
+| $10 | **$0.14** (137 bps) | $0.05 | $0.01 | $0.08 | 4% |
+| $100 | **$0.64** (64 bps) | $0.42 | $0.05 | $0.17 | 8% |
+| $1,000 | **$6.09** (61 bps) | $4.81 | $0.48 | $0.80 | 8% |
+| $10,000 | **$54.72** (55 bps) | $42.91 | $4.24 | $7.57 | 8% |
+| $100,000 | **$626** (63 bps) | $439 | $28.21 | $159 | 5% |
+| $1,000,000 | **$6,430** (64 bps) | $4,274 | $104 | $2,052 | 2% |
+
+Each row applies the measured cost of real swaps in the band from that size to three times it ($10–30, $100–300, …); the $1M row uses swaps of $300k–1M, as there were only a handful above $1M. The cost falls with size until about $3k (small swaps carry fixed network costs), is flat at 55–56 bps from $3k to $100k, then rises again above $100k as the solvers' spread widens, while NEAR's slice shrinks.
 
 For supply to stop growing, the second bold line has to reach the third. On 1Click alone, a $100 swap pays $0.469 in fees: $0.431 to integrators, $0.038 to NEAR.
 
@@ -209,7 +220,7 @@ The 1Click results come from the NEAR Intents Explorer API, which needs a partne
 
 ## Predictions
 
-Six predictions were frozen on 2026-11-11 in [`predictions/PREDICTIONS.csv`](predictions/PREDICTIONS.csv): sha256 committed next to it (checked by a test) and timestamped in Bitcoin with OpenTimestamps, confirmed in block 975,397 (`ots verify predictions/PREDICTIONS.csv.ots`), and anchored on NEAR: the same sha256 is stored in SocialDB on testnet under `near-revenue-audit.testnet/audit/predictions` (transaction [AWcwWsaf…](https://testnet.nearblocks.io/txns/AWcwWsafGXGUw9zh1rZsSwirScbaWDvo2Vct6ESWBB8t)). The raw-snapshot manifest ([2aPoWzHH…](https://testnet.nearblocks.io/txns/2aPoWzHHSGBjZtT2U7RbtsMU9qwY2QSJ51SJFrdqL3MH)) and the dashboard bundle ([ASxmSMNY…](https://testnet.nearblocks.io/txns/ASxmSMNYuZxciwdyFkFAT3KoCvbJhvg3cJB3PzDCtst9)) are anchored the same way at each release (`node anchor/anchor.mjs`); the daily refresh also anchors its bundle when the `NEAR_TESTNET_KEY` repository secret is set. `make anchor-check` reads them back with a view call, no key needed. Two resolve before judging starts (P1, P2 on 2026-11-15), one on its second day (P3), the rest by April 2027. `make predictions` resolves those whose date has passed; results go to [`predictions/RESULTS.md`](predictions/RESULTS.md).
+Six predictions were frozen on 2026-11-11 in [`predictions/PREDICTIONS.csv`](predictions/PREDICTIONS.csv): sha256 committed next to it (checked by a test) and timestamped in Bitcoin with OpenTimestamps, confirmed in block 975,397 (`ots verify predictions/PREDICTIONS.csv.ots`), and anchored on NEAR: the same sha256 is stored in SocialDB on testnet under `near-revenue-audit.testnet/audit/predictions` (transaction [AWcwWsaf…](https://testnet.nearblocks.io/txns/AWcwWsafGXGUw9zh1rZsSwirScbaWDvo2Vct6ESWBB8t)). The raw-snapshot manifest ([3mLrE8KT…](https://testnet.nearblocks.io/txns/3mLrE8KT1jBtAsjEnJpYt8RM1RfUetAGABWnjtVnAi4k)) and the dashboard bundle ([ASxmSMNY…](https://testnet.nearblocks.io/txns/ASxmSMNYuZxciwdyFkFAT3KoCvbJhvg3cJB3PzDCtst9)) are anchored the same way at each release (`node anchor/anchor.mjs`); the daily refresh also anchors its bundle when the `NEAR_TESTNET_KEY` repository secret is set. `make anchor-check` reads them back with a view call, no key needed. Two resolve before judging starts (P1, P2 on 2026-11-15), one on its second day (P3), the rest by April 2027. `make predictions` resolves those whose date has passed; results go to [`predictions/RESULTS.md`](predictions/RESULTS.md).
 
 Reading so far, on data to 2026-11-12 (not a resolution): **P1** 4.1 bps, 11-01 to 11-12 against a threshold of 5.0; **P2** 137.9M USD on 2026-11-12 against 140M; **P3** Timelock. The daily refresh updates these on the dashboard's Checks section.
 

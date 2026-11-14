@@ -106,14 +106,21 @@ Source: NEAR's own Dune dashboard (@near, "NEAR Intents"), read from its public 
 
 | Swap size | Swaps | User pays | Integrators | NEAR | Solvers and networks |
 | --- | --- | --- | --- | --- | --- |
-| under $100 | 299,805 | 97 bps | 42 | 4.6 | 50 |
-| $100-1k | 131,559 | 62 bps | 44 | 5.0 | 12 |
-| $1k-10k | 59,400 | 58 bps | 47 | 4.2 | 7 |
-| $10k-100k | 15,245 | 55 bps | 41 | 4.8 | 9 |
-| over $100k | 1,517 | 62 bps | 43 | 2.0 | 17 |
+| under $10 | 148,188 | 220 bps | 45 | 4.9 | 170 |
+| $10-30 | 69,632 | 137 bps | 47 | 5.1 | 84 |
+| $30-100 | 81,985 | 75 bps | 41 | 4.5 | 30 |
+| $100-300 | 75,422 | 64 bps | 42 | 4.9 | 17 |
+| $300-1k | 56,137 | 61 bps | 45 | 5.1 | 11 |
+| $1k-3k | 35,498 | 61 bps | 48 | 4.8 | 8 |
+| $3k-10k | 23,902 | 56 bps | 46 | 3.9 | 6 |
+| $10k-30k | 10,183 | 55 bps | 43 | 4.2 | 8 |
+| $30k-100k | 5,062 | 56 bps | 40 | 5.2 | 10 |
+| $100k-300k | 1,226 | 63 bps | 44 | 2.8 | 16 |
+| $300k-1M | 284 | 64 bps | 43 | 1.0 | 21 |
+| over $1M (too few swaps to read) | 7 | 27 bps | 39 | 0.0 | -12 |
 | **All** | 507,526 | **59 bps** | 43 | 3.8 | 12 |
 
-  Users pay about 59 bps; integrators take about three quarters of it, NEAR 6.4%, and the rest (solver spread, gas, withdrawal costs and price moves, by difference) about a fifth. Small swaps cost the most (97 bps under $100, mostly fixed network costs); from $1k up the cost is flat near 58 bps. NEAR's slice is small enough that it could double without users noticing much, and the integrators' slice is what a competing router would undercut.
+  Users pay about 59 bps; integrators take about three quarters of it, NEAR 6.4%, and the rest (solver spread, gas, withdrawal costs and price moves, by difference) about a fifth. The cost curve has three parts. Under $3k it falls with size: fixed network costs (220 bps under $10, of which most is the rest). From $3k to $100k it is flat at 55–56 bps, where the integrators' fee is most of it and the rest is 6 bps. Above $100k it rises again (64 bps at $300k–1M) as the solvers' spread widens (21 bps), while NEAR's slice falls to 1.0 bps: the largest swaps pay NEAR least, consistent with direct deals and fee caps for large flows. NEAR's slice is small enough that it could double without users noticing much, and the integrators' slice is what a competing router would undercut.
 - Reading: NEAR's 1Click revenue rests on unattributed users, a few direct deals and one asset. Distribution partners own the flow, and could route it elsewhere.
 
 Coverage limit: 1Click is about 28% of Intents volume, and confidential swaps were not visible in the Explorer API over the period collected. These results describe 1Click, not all of Intents.

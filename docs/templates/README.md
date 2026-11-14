@@ -28,7 +28,11 @@
 | New NEAR issued over the same days | **{{f100_issued}}** |
 | Revenue as a share of new issuance | **{{f100_cover}}** ({{offset_rebuilt}} over {{offset_window}}) |
 
-And on 1Click (about a quarter of Intents volume, where the retail apps and their fees are), each swap records what was sent and what was delivered, so the user's whole cost can be split. Per $100: **{{sc_cost_100}}**, of which {{sc_int_100}} to integrators, **{{sc_near_100}} to NEAR** and {{sc_rest_100}} to solvers and networks ({{sc_near_share}} to NEAR, F18).
+And on 1Click (about a quarter of Intents volume, where the retail apps and their fees are), each swap records what was sent and what was delivered, so the user's whole cost can be split. Per $100 on average: **{{sc_cost_100}}**, of which {{sc_int_100}} to integrators, **{{sc_near_100}} to NEAR** and {{sc_rest_100}} to solvers and networks ({{sc_near_share}} to NEAR, F18). By size:
+
+{{sc_follow_table}}
+
+Each row applies the measured cost of real swaps in the band from that size to three times it ($10–30, $100–300, …); the $1M row uses swaps of $300k–1M, as there were only a handful above $1M. The cost falls with size until about $3k (small swaps carry fixed network costs), is flat at {{sc_flat_lo}}–{{sc_flat_hi}} bps from $3k to $100k, then rises again above $100k as the solvers' spread widens, while NEAR's slice shrinks.
 
 For supply to stop growing, the second bold line has to reach the third. On 1Click alone, a $100 swap pays {{f100_oc_pool}} in fees: {{f100_oc_int}} to integrators, {{f100_oc_near}} to NEAR.
 

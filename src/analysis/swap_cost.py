@@ -24,8 +24,9 @@ import pandas as pd
 from .ledger import OUT, RAW
 
 FOLDER = RAW / "oneclick_aggregates"
-BUCKETS = [0, 100, 1_000, 10_000, 100_000, float("inf")]
-LABELS = ["under $100", "$100-1k", "$1k-10k", "$10k-100k", "over $100k"]
+BUCKETS = [0, 10, 30, 100, 300, 1_000, 3_000, 10_000, 30_000, 100_000, 300_000, 1_000_000, float("inf")]
+LABELS = ["under $10", "$10-30", "$30-100", "$100-300", "$300-1k", "$1k-3k", "$3k-10k", "$10k-30k", "$30k-100k", "$100k-300k",
+          "$300k-1M", "over $1M"]
 
 
 def collect(since: str = "2026-08-14") -> dict:

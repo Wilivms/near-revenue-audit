@@ -382,13 +382,28 @@ def figures() -> dict[str, str]:
               "sc_int": f"{s30['integrators_bps']:.0f}", "sc_near": f"{s30['near_bps']:.1f}", "sc_rest": f"{s30['solvers_networks_bps']:.0f}",
               "sc_near_share": pct(s30["near_share_of_cost"], 1), "sc_cost_100": c100(s30["cost_bps"]), "sc_int_100": c100(s30["integrators_bps"]),
               "sc_near_100": c100(s30["near_bps"]), "sc_rest_100": c100(s30["solvers_networks_bps"]),
-              "sc_small": f"{sc['by_size']['under $100']['cost_bps']:.0f}", "sc_mid": f"{sc['by_size']['$1k-10k']['cost_bps']:.0f}",
+              "sc_small": f"{sc['by_size']['under $10']['cost_bps']:.0f}", "sc_mid": f"{sc['by_size']['$3k-10k']['cost_bps']:.0f}",
               "sc_left": pct(sc["left_out_last30"]["share_of_volume"], 3)})
     lines = ["| Swap size | Swaps | User pays | Integrators | NEAR | Solvers and networks |", "| --- | --- | --- | --- | --- | --- |"]
     for b, x in sc["by_size"].items():
-        lines.append(f"| {b} | {x['swaps']:,} | {x['cost_bps']:.0f} bps | {x['integrators_bps']:.0f} | {x['near_bps']:.1f} | {x['solvers_networks_bps']:.0f} |")
+        few = " (too few swaps to read)" if x["swaps"] < 100 else ""
+        lines.append(f"| {b}{few} | {x['swaps']:,} | {x['cost_bps']:.0f} bps | {x['integrators_bps']:.0f} | {x['near_bps']:.1f} | {x['solvers_networks_bps']:.0f} |")
     lines.append(f"| **All** | {s30['swaps']:,} | **{s30['cost_bps']:.0f} bps** | {s30['integrators_bps']:.0f} | {s30['near_bps']:.1f} | {s30['solvers_networks_bps']:.0f} |")
     f["sc_table"] = "\n".join(lines)
+    follow = [(10, "$10-30"), (100, "$100-300"), (1_000, "$1k-3k"), (10_000, "$10k-30k"), (100_000, "$100k-300k"), (1_000_000, "$300k-1M")]
+    money = lambda x: f"${x:,.2f}" if x < 100 else f"${x:,.0f}"  # noqa: E731
+    lines = ["| You swap | You give up | to integrators | to NEAR | to solvers and networks | NEAR's share |", "| --- | --- | --- | --- | --- | --- |"]
+    for amt, b in follow:
+        x = sc["by_size"][b]
+        lines.append(f"| ${amt:,} | **{money(amt * x['cost_bps'] / 1e4)}** ({x['cost_bps']:.0f} bps) | {money(amt * x['integrators_bps'] / 1e4)} | "
+                     f"{money(amt * x['near_bps'] / 1e4)} | {money(amt * x['solvers_networks_bps'] / 1e4)} | {pct(x['near_bps'] / x['cost_bps'])} |")
+    f["sc_follow_table"] = "\n".join(lines)
+    bs = sc["by_size"]
+    flat = [bs[b]["cost_bps"] for b in ("$3k-10k", "$10k-30k", "$30k-100k")]
+    f.update({"sc_tiny": f"{bs['under $10']['cost_bps']:.0f}", "sc_flat_lo": f"{min(flat):.0f}", "sc_flat_hi": f"{max(flat):.0f}",
+              "sc_big": f"{bs['$300k-1M']['cost_bps']:.0f}", "sc_big_rest": f"{bs['$300k-1M']['solvers_networks_bps']:.0f}",
+              "sc_flat_rest": f"{bs['$3k-10k']['solvers_networks_bps']:.0f}", "sc_big_near": f"{bs['$300k-1M']['near_bps']:.1f}",
+              "sc_10_cost": f"${10 * bs['$10-30']['cost_bps'] / 1e4:.2f}"})
     im = _json("implied.json")
     pm = {(x["discount"], x["growth"]): x for x in im["perpetuity"]}
     fv = {x["discount"]: x for x in im["five_years_then_peer_multiple"]}
