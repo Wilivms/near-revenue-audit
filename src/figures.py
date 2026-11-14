@@ -375,6 +375,31 @@ def figures() -> dict[str, str]:
               "bq_intents_tx_25": pct(bq["activity"]["intents_share_of_txns_oct2025"], 1), "bq_intents_tx_26": pct(bq["activity"]["intents_share_of_txns_oct2026"], 1)})
     rv = pd.read_csv(OUT / "revenue_rebuilt_daily.csv", index_col=0, parse_dates=True)["rebuilt_total_usd"]
     f.update(follow_100(v))
+    sc = _json("swap_cost.json")
+    s30 = sc["last30"]
+    c100 = lambda b: f"${b / 100:.2f}"  # bps of $100 in dollars  # noqa: E731
+    f.update({"sc_from": sc["from"], "sc_to": sc["to"], "sc_swaps": f"{s30['swaps']:,}", "sc_cost": f"{s30['cost_bps']:.0f}",
+              "sc_int": f"{s30['integrators_bps']:.0f}", "sc_near": f"{s30['near_bps']:.1f}", "sc_rest": f"{s30['solvers_networks_bps']:.0f}",
+              "sc_near_share": pct(s30["near_share_of_cost"], 1), "sc_cost_100": c100(s30["cost_bps"]), "sc_int_100": c100(s30["integrators_bps"]),
+              "sc_near_100": c100(s30["near_bps"]), "sc_rest_100": c100(s30["solvers_networks_bps"]),
+              "sc_small": f"{sc['by_size']['under $100']['cost_bps']:.0f}", "sc_mid": f"{sc['by_size']['$1k-10k']['cost_bps']:.0f}",
+              "sc_left": pct(sc["left_out_last30"]["share_of_volume"], 3)})
+    lines = ["| Swap size | Swaps | User pays | Integrators | NEAR | Solvers and networks |", "| --- | --- | --- | --- | --- | --- |"]
+    for b, x in sc["by_size"].items():
+        lines.append(f"| {b} | {x['swaps']:,} | {x['cost_bps']:.0f} bps | {x['integrators_bps']:.0f} | {x['near_bps']:.1f} | {x['solvers_networks_bps']:.0f} |")
+    lines.append(f"| **All** | {s30['swaps']:,} | **{s30['cost_bps']:.0f} bps** | {s30['integrators_bps']:.0f} | {s30['near_bps']:.1f} | {s30['solvers_networks_bps']:.0f} |")
+    f["sc_table"] = "\n".join(lines)
+    im = _json("implied.json")
+    pm = {(x["discount"], x["growth"]): x for x in im["perpetuity"]}
+    fv = {x["discount"]: x for x in im["five_years_then_peer_multiple"]}
+    f.update({"im_lo": f"{min(x['times_today'] for x in im['perpetuity']):.0f}", "im_hi": f"{max(x['times_today'] for x in im['perpetuity']):.0f}",
+              "im_mid": f"{pm[(0.15, 0.03)]['times_today']:.0f}", "im_mid_vol": usd(pm[(0.15, 0.03)]["volume_per_day_usd"], 1),
+              "im_g5": pct(fv[0.15]["growth_per_year"]), "im_g5_lo": pct(fv[0.10]["growth_per_year"]), "im_g5_hi": pct(fv[0.20]["growth_per_year"]),
+              "im_peer": f"{im['peer_median_multiple']:.0f}x", "im_volg": spct(im["volume_growth_last_30d_vs_year_before"]), "im_take": f"{im['take_bps']:.1f}"})
+    lines = ["| Discount rate | Growth 0% | Growth 3% | Growth 5% | Or: growth a year for 5 years, then the peer multiple |", "| --- | --- | --- | --- | --- |"]
+    for r in (0.10, 0.15, 0.20):
+        lines.append(f"| {r:.0%} | " + " | ".join(f"{pm[(r, g)]['times_today']:.0f}x" for g in (0.0, 0.03, 0.05)) + f" | {pct(fv[r]['growth_per_year'])} |")
+    f["im_table"] = "\n".join(lines)
     rb = pd.read_csv(OUT / "robustness.csv").fillna({"note": ""})
     rj = _json("robustness.json")
     fmt = {"F1": lambda x: f"ratio {x:.3f}", "F3": lambda x: pct(x, 1), "F4": lambda x: f"{x:.0f}x", "F5": lambda x: f"{x:.2f}x",
@@ -545,6 +570,11 @@ def claims(v: dict | None = None) -> list[dict]:
          and _json("incident.json")["placebo_distribution"]["near_usd_change"]["placebo_min"] <= _json("incident.json")["placebo_distribution"]["near_usd_change"]["event"] <= _json("incident.json")["placebo_distribution"]["near_usd_change"]["placebo_max"]
          and _json("incident.json")["placebo_distribution"]["top_volume_change"]["event"] < _json("incident.json")["placebo_distribution"]["top_volume_change"]["placebo_min"],
          "make incident"),
+        ("F18", "Users pay about 60 bps a swap on 1Click; NEAR keeps about a sixteenth of it",
+         f"{f['sc_cost']} bps of what users send is gone on delivery ({f['sc_from']} to {f['sc_to']}, {f['sc_swaps']} swaps): integrators {f['sc_int']}, NEAR {f['sc_near']}, solvers and networks {f['sc_rest']} ({f['sc_near_share']} to NEAR)",
+         "dollar value sent and delivered per 1Click swap (Explorer API), split by the fees in each record, daily sums committed; holds if NEAR's share of the user's cost is under 10% and integrators' over half",
+         _json("swap_cost.json")["last30"]["near_share_of_cost"] < 0.10 and _json("swap_cost.json")["last30"]["integrators_bps"] > 0.5 * _json("swap_cost.json")["last30"]["cost_bps"],
+         "make swap-cost"),
     ]
     return [{"id": i, "finding": a, "number": n, "check": c, "passed": bool(p), "command": cmd} for i, a, n, c, p, cmd in rows]
 

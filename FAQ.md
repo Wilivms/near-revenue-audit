@@ -50,6 +50,12 @@ Not its users or NEAR's revenue, but its large integrators. The swaps show no 1C
 **Which NEAR events actually moved anything?**
 `make events` tests seven (the issuance halving, the fee switch, two Confidential Intents launches, the NEAR@3.33 snapshot, the exploit, HSP-029) the same way, against a placebo distribution. The airdrop snapshot is the only one that moved both revenue (+150%) and price (+26% against Bitcoin in three days); the supply cuts did not lift the price (REPORT section 11).
 
+**What does a swap cost the user, and how much of it reaches NEAR?**
+On 1Click, about 59 bps of what a user sends is gone on delivery (507,526 swaps, 2026-10-14 to 2026-11-12): 43 bps to integrators, 3.8 to NEAR and 12 to solvers and networks, so NEAR keeps 6.4% of the user's cost (F18). Swaps under $100 cost about 97 bps, mostly fixed network costs.
+
+**What revenue does NEAR's price imply?**
+Run backwards (REPORT section 4): at a 15% discount rate and 3% growth, 24x today's captured revenue, about $3.0B a day of Intents volume at today's take; or 83% a year of growth for five years before trading at the peer multiple (20x). It values revenue as if paid to holders, which favours the price.
+
 **Will competing bridges compete NEAR's take away?**
 Not on prices so far. `make quotes` compares what 1Click, Relay, Across and LI.FI pay for the same swap asked within the same minute: over 4 rounds, 1Click paid the most in 50% of 38 swaps, median 0.0 bps from the best alternative, fees included; it leads on native BTC (+7.0 bps) and trails on Ethereum to L2 (−1.2 bps) and Solana (+3.1 bps). The pressure on NEAR's take comes from integrators, who keep most of the fee pool, more than from rival routers (REPORT section 6).
 

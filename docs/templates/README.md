@@ -28,6 +28,8 @@
 | New NEAR issued over the same days | **{{f100_issued}}** |
 | Revenue as a share of new issuance | **{{f100_cover}}** ({{offset_rebuilt}} over {{offset_window}}) |
 
+And on 1Click (about a quarter of Intents volume, where the retail apps and their fees are), each swap records what was sent and what was delivered, so the user's whole cost can be split. Per $100: **{{sc_cost_100}}**, of which {{sc_int_100}} to integrators, **{{sc_near_100}} to NEAR** and {{sc_rest_100}} to solvers and networks ({{sc_near_share}} to NEAR, F18).
+
 For supply to stop growing, the second bold line has to reach the third. On 1Click alone, a $100 swap pays {{f100_oc_pool}} in fees: {{f100_oc_int}} to integrators, {{f100_oc_near}} to NEAR.
 
 **3. See it live: [near-revenue-audit.vercel.app](https://near-revenue-audit.vercel.app)**
@@ -49,6 +51,7 @@ make verify          # → prints every finding and the headline numbers above
 - **Revenue confirmed four independent ways**: DefiLlama, NEAR's dashboard, NEAR's BigQuery dataset, and the withdrawals from `intents.near` to the wallets (within 0.5%).
 - **The questions the dashboards skip, answered with data**: the airdrop's role, who pays, and where the revenue now comes from: {{pool_share_late}} of what reaches the wallets since late September is paid out of the confidential pool (about $136M), worth {{pool_bps}} bps of confidential volume against {{pool_rest_bps}} on public ([REPORT section 10](REPORT.md#10-the-two-questions-near-did-not-answer-and-what-the-data-says)).
 - **Numbers that do not move after the fact**: {{rv_rb_moved}} of {{rv_rb_pairs}} daily readings of the rebuilt revenue changed across {{rv_rb_snaps}} dated snapshots, while DefiLlama's and NEAR's own dashboard revised their latest day of gross fees by up to {{rv_fee_factor}} (finding F16, `make revisions`).
+- **What the price implies, run backwards**: at a 15% discount rate and 3% growth, NEAR's market cap needs {{im_mid}}x today's captured revenue (about {{im_mid_vol}} a day of Intents volume at today's take), or {{im_g5}} a year of revenue growth for five years before trading at the peer multiple (REPORT section 4).
 - **Every finding stress-tested**: {{rob_variants}} variants (other windows, sources, denominators, prices) recomputed by `make robustness`; {{rob_alt_hold}} of {{rob_alt}} reasonable alternatives hold, and the one finding that is fragile ({{rob_fragile}}) says so (REPORT section 12).
 - **Events tested against a placebo, not narrated**: the October exploit and six other NEAR events (halving, fee switch, airdrop, HSP-029…) are each compared with the same before/after split at every ordinary date of the year (F17, REPORT section 11).
 - **Other people's claims tested**: {{public_claims_n}} statements by NEAR, Nansen, analysts and the press, each checked at its own date.

@@ -29,20 +29,22 @@
 | New NEAR issued over the same days | **$0.238** |
 | Revenue as a share of new issuance | **21%** (14.8% over February 2026 to October 2026) |
 
+And on 1Click (about a quarter of Intents volume, where the retail apps and their fees are), each swap records what was sent and what was delivered, so the user's whole cost can be split. Per $100: **$0.59**, of which $0.43 to integrators, **$0.04 to NEAR** and $0.12 to solvers and networks (6.4% to NEAR, F18).
+
 For supply to stop growing, the second bold line has to reach the third. On 1Click alone, a $100 swap pays $0.469 in fees: $0.431 to integrators, $0.038 to NEAR.
 
 **3. See it live: [near-revenue-audit.vercel.app](https://near-revenue-audit.vercel.app)**
 - **Top of the page:** NEAR bought back per 100 issued, recomputed in your browser from live data.
 - **"What would it take?"**: drag daily volume and NEAR's take rate until supply stops growing.
 - **"Verify it in your browser"** (Checks section): one click reads the hash anchored on NEAR testnet, hashes the raw files, rebuilds the revenue from the raw receipts and compares it with this audit and NEAR's own dashboard. No key, no install.
-- **"Every finding is a test"**: the 17 findings, 33 public claims about NEAR, six dated predictions and their on-chain anchors, all updated daily.
+- **"Every finding is a test"**: the 18 findings, 33 public claims about NEAR, six dated predictions and their on-chain anchors, all updated daily.
 
 **4. Re-run it** (about 2 minutes, no key, no network after setup)
 
 ```
 git clone https://github.com/Wilivms/near-revenue-audit && cd near-revenue-audit
 make setup && . .venv/bin/activate
-make check-clean     # → 47/47 outputs match the committed ones, 17/17 findings hold
+make check-clean     # → 49/49 outputs match the committed ones, 18/18 findings hold
 make verify          # → prints every finding and the headline numbers above
 ```
 
@@ -50,6 +52,7 @@ make verify          # → prints every finding and the headline numbers above
 - **Revenue confirmed four independent ways**: DefiLlama, NEAR's dashboard, NEAR's BigQuery dataset, and the withdrawals from `intents.near` to the wallets (within 0.5%).
 - **The questions the dashboards skip, answered with data**: the airdrop's role, who pays, and where the revenue now comes from: 73% of what reaches the wallets since late September is paid out of the confidential pool (about $136M), worth 8.8 bps of confidential volume against 2.0 on public ([REPORT section 10](REPORT.md#10-the-two-questions-near-did-not-answer-and-what-the-data-says)).
 - **Numbers that do not move after the fact**: 0 of 1,143 daily readings of the rebuilt revenue changed across 5 dated snapshots, while DefiLlama's and NEAR's own dashboard revised their latest day of gross fees by up to ×185 (finding F16, `make revisions`).
+- **What the price implies, run backwards**: at a 15% discount rate and 3% growth, NEAR's market cap needs 24x today's captured revenue (about $3.0B a day of Intents volume at today's take), or 83% a year of revenue growth for five years before trading at the peer multiple (REPORT section 4).
 - **Every finding stress-tested**: 49 variants (other windows, sources, denominators, prices) recomputed by `make robustness`; 37 of 38 reasonable alternatives hold, and the one finding that is fragile (F5) says so (REPORT section 12).
 - **Events tested against a placebo, not narrated**: the October exploit and six other NEAR events (halving, fee switch, airdrop, HSP-029…) are each compared with the same before/after split at every ordinary date of the year (F17, REPORT section 11).
 - **Other people's claims tested**: 33 statements by NEAR, Nansen, analysts and the press, each checked at its own date.
@@ -78,9 +81,9 @@ Each number with its window, its source and the command that rebuilds it. None o
 | --- | --- | --- |
 | 2 min | Open the **[live dashboard](https://near-revenue-audit.vercel.app)** | the live reading (NEAR bought back per 100 issued, recomputed in your browser), then the simulator: move volume and take rate, see break-even |
 | 5 min | Read **[`THESIS.md`](THESIS.md)** | the claim, evidence for and against, what would change our mind, what could not be computed, on one page |
-| 2 min | Run `make setup && . .venv/bin/activate && make check-clean` | every output rebuilt from committed data and compared: `47/47 outputs match`, `17/17 findings hold` |
+| 2 min | Run `make setup && . .venv/bin/activate && make check-clean` | every output rebuilt from committed data and compared: `49/49 outputs match`, `18/18 findings hold` |
 | 3 min | Open **[REPORT section 9](REPORT.md#9-public-claims-checked)** | 33 public claims about NEAR tested at their own dates |
-| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (62 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
+| as needed | **[`REPORT.md`](REPORT.md)** (the full argument), **[`FAQ.md`](FAQ.md)** (reviewer questions), **[`RESEARCH_LOG.md`](RESEARCH_LOG.md)** (63 dated entries, dead ends and corrections), **[`HYPOTHESES.md`](HYPOTHESES.md)** (written before the tests), **[`predictions/`](predictions/)** | |
 
 ## Why this thesis is different
 
@@ -98,7 +101,7 @@ Each number with its window, its source and the command that rebuilds it. None o
 - Revenue rebuilt from the chain matches DefiLlama within 0.8% and NEAR's own dashboard within 0.16%; NEAR's public BigQuery dataset matches the wallet histories **to the last digit** (3.292M NEAR) and issuance within 0.06%.
 
 **Held to account in public**
-- 17/17 findings with explicit pass conditions, re-checked in CI on every commit; documents rendered from the outputs, so no figure is typed by hand.
+- 18/18 findings with explicit pass conditions, re-checked in CI on every commit; documents rendered from the outputs, so no figure is typed by hand.
 - 33 claims by NEAR, Nansen, analysts and the press tested at their own dates: 18 survive, 6 are close, 9 do not hold.
 - Hypotheses and kill criteria written before the analysis; the weekly model missed its first unseen week and the report says so.
 - Six dated predictions, frozen on 2026-11-11, timestamped in Bitcoin and anchored on NEAR (testnet); two resolve before judging (P1 so far: 4.1 bps, 11-01 to 11-12, threshold 5.0).
@@ -121,7 +124,7 @@ Kept in the open because a thesis is only as good as its corrections. Each one i
 
 ## Findings, each one a check
 
-`make verify` rebuilds every document from the outputs and re-runs these checks; it fails if a finding no longer follows from the data or a document has drifted from it. Result on the committed data: **17/17 hold**.
+`make verify` rebuilds every document from the outputs and re-runs these checks; it fails if a finding no longer follows from the data or a document has drifted from it. Result on the committed data: **18/18 hold**.
 
 | ID | Finding | Number | How it is checked | Result |
 | --- | --- | --- | --- | --- |
@@ -142,6 +145,7 @@ Kept in the open because a thesis is only as good as its corrections. Each one i
 | F15 | The 1Click results recompute without the partner key | 30 figures (integrator shares, the November take, the fee-schedule test) recomputed from the published daily aggregates, all within 1.5% | data/processed/oneclick_daily.csv (daily sums by integrator, route type, NEAR fee tier, ZEC; no swap or address) recomputed and compared with the outputs of make swaps; holds if all agree within 1.5% (`make oneclick-offline`) | PASS |
 | F16 | The rebuilt revenue never revises; the aggregators' latest days do | 0 of 1,143 daily readings of the rebuilt revenue changed across 5 dated snapshots; DefiLlama's gross fees for the latest day were revised up to ×185 (2026-11-10: $1,611 → $297,452), settled after 3 days | every dated snapshot in data/raw compared day by day with the latest (same rebuild code on each wallet snapshot); holds if no complete day of the rebuilt revenue moved by 1% or more (figures that use DefiLlama's gross fees stop at its settled days) (`make revisions`) | PASS |
 | F17 | The exploit cost NEAR little revenue, but large integrators pulled back | 1Click stopped for 3.7 hours on 1 Oct (08:33 to 12:16 UTC), about $2,014 of NEAR revenue; in the two weeks after, NEAR's 1Click revenue changed −13% (inside the range of 21 placebo dates) while the 25 largest integrators' volume changed −39%, below every placebo date (−18% at worst); 3 of the 10 that cut back returned by November | 1Click swap aggregates: the longest gap with no swap on 1 Oct; the median day of 3-16 Oct against 15-28 Sep, ranked against the same split at every date whose windows avoid 27 Sep-4 Oct; holds if the halt lasted under 12 hours, NEAR's 1Click revenue change lies within the placebo range and the top-25 integrators' volume change lies below it (`make incident`) | PASS |
+| F18 | Users pay about 60 bps a swap on 1Click; NEAR keeps about a sixteenth of it | 59 bps of what users send is gone on delivery (2026-10-14 to 2026-11-12, 507,526 swaps): integrators 43, NEAR 3.8, solvers and networks 12 (6.4% to NEAR) | dollar value sent and delivered per 1Click swap (Explorer API), split by the fees in each record, daily sums committed; holds if NEAR's share of the user's cost is under 10% and integrators' over half (`make swap-cost`) | PASS |
 
 ## Try it (do X → see Y)
 
@@ -160,8 +164,8 @@ make verify           # renders README/REPORT/FAQ/THESIS from the outputs and re
 
 | Command | You should see |
 | --- | --- |
-| `make check-clean` | the tests pass, then `47/47 outputs match the committed ones` (text exactly, numbers to 1e-9) |
-| `make verify` | `17/17 findings hold` and no stale document |
+| `make check-clean` | the tests pass, then `49/49 outputs match the committed ones` (text exactly, numbers to 1e-9) |
+| `make verify` | `18/18 findings hold` and no stale document |
 | `make revenue` | revenue rebuilt from the 3 revenue wallets vs DefiLlama: $8,087,549 vs $8,149,355 since the fee switch |
 | `make official` | the same wallets against NEAR's own dashboard (0.16% apart), the take rate on both revenue definitions, capture by mechanism |
 | `make confidential` | the weekly fit (1.0 bps public, 11.0 confidential; 5.5 on week-to-week changes), the share of the jump explained, the airdrop counterfactual, the out-of-sample week, H4.1 |
@@ -196,7 +200,7 @@ The 1Click results come from the NEAR Intents Explorer API, which needs a partne
 | Criterion | Where to check it |
 | --- | --- |
 | Runs as described | `make check-clean` (CI runs it on every push: badge above); `make verify`; `data/raw/MANIFEST.json` with a test that every snapshot matches its hash |
-| Evidence, not conviction | 17 findings with explicit pass conditions (above); hypotheses and kill criteria registered before the analysis ([`HYPOTHESES.md`](HYPOTHESES.md), unchanged since its first commit); results against expectations reported as written (H4.1 rejected, the fit's out-of-sample miss, a kill criterion triggered on 1Click) |
+| Evidence, not conviction | 18 findings with explicit pass conditions (above); hypotheses and kill criteria registered before the analysis ([`HYPOTHESES.md`](HYPOTHESES.md), unchanged since its first commit); results against expectations reported as written (H4.1 rejected, the fit's out-of-sample miss, a kill criterion triggered on 1Click) |
 | Technical implementation | revenue rebuilt from wallet histories ([`revenue_wallets.py`](src/analysis/revenue_wallets.py)); supply from archival-RPC headers ([`supply.py`](src/analysis/supply.py)); 2.7M swaps from the Intents Explorer API ([`intents_explorer.py`](src/ingest/intents_explorer.py), [`swaps.py`](src/analysis/swaps.py)); robustness of the channel fit ([`confidential.py`](src/analysis/confidential.py)); joint block bootstrap with a walk-forward backtest ([`montecarlo.py`](src/analysis/montecarlo.py), [`backtest_mc.py`](src/analysis/backtest_mc.py)); governance read on-chain ([`governance.py`](src/analysis/governance.py)) |
 | Design | the dashboard: a what-if simulator on the break-even identity, live kill criteria, a scenario fan chart, a "show the numbers" table under each chart and the sources listed on the page; light theme, phone widths, reduced-motion support |
 | Impact | findings that change how NEAR's revenue should be read: the September jump decomposed and costed, the integrator economics of 1Click, a 21% gap inside NEAR's own revenue reporting, a public threshold ($177M/day) shown to be 3–6× too low |
@@ -205,7 +209,7 @@ The 1Click results come from the NEAR Intents Explorer API, which needs a partne
 
 ## Predictions
 
-Six predictions were frozen on 2026-11-11 in [`predictions/PREDICTIONS.csv`](predictions/PREDICTIONS.csv): sha256 committed next to it (checked by a test) and timestamped in Bitcoin with OpenTimestamps, confirmed in block 975,397 (`ots verify predictions/PREDICTIONS.csv.ots`), and anchored on NEAR: the same sha256 is stored in SocialDB on testnet under `near-revenue-audit.testnet/audit/predictions` (transaction [AWcwWsaf…](https://testnet.nearblocks.io/txns/AWcwWsafGXGUw9zh1rZsSwirScbaWDvo2Vct6ESWBB8t)). The raw-snapshot manifest ([wFKKLHrV…](https://testnet.nearblocks.io/txns/wFKKLHrVtDsg4QxbRu3JVcd9F111HBjk8wWuwWFC7WZ)) and the dashboard bundle ([ASxmSMNY…](https://testnet.nearblocks.io/txns/ASxmSMNYuZxciwdyFkFAT3KoCvbJhvg3cJB3PzDCtst9)) are anchored the same way at each release (`node anchor/anchor.mjs`); the daily refresh also anchors its bundle when the `NEAR_TESTNET_KEY` repository secret is set. `make anchor-check` reads them back with a view call, no key needed. Two resolve before judging starts (P1, P2 on 2026-11-15), one on its second day (P3), the rest by April 2027. `make predictions` resolves those whose date has passed; results go to [`predictions/RESULTS.md`](predictions/RESULTS.md).
+Six predictions were frozen on 2026-11-11 in [`predictions/PREDICTIONS.csv`](predictions/PREDICTIONS.csv): sha256 committed next to it (checked by a test) and timestamped in Bitcoin with OpenTimestamps, confirmed in block 975,397 (`ots verify predictions/PREDICTIONS.csv.ots`), and anchored on NEAR: the same sha256 is stored in SocialDB on testnet under `near-revenue-audit.testnet/audit/predictions` (transaction [AWcwWsaf…](https://testnet.nearblocks.io/txns/AWcwWsafGXGUw9zh1rZsSwirScbaWDvo2Vct6ESWBB8t)). The raw-snapshot manifest ([2aPoWzHH…](https://testnet.nearblocks.io/txns/2aPoWzHHSGBjZtT2U7RbtsMU9qwY2QSJ51SJFrdqL3MH)) and the dashboard bundle ([ASxmSMNY…](https://testnet.nearblocks.io/txns/ASxmSMNYuZxciwdyFkFAT3KoCvbJhvg3cJB3PzDCtst9)) are anchored the same way at each release (`node anchor/anchor.mjs`); the daily refresh also anchors its bundle when the `NEAR_TESTNET_KEY` repository secret is set. `make anchor-check` reads them back with a view call, no key needed. Two resolve before judging starts (P1, P2 on 2026-11-15), one on its second day (P3), the rest by April 2027. `make predictions` resolves those whose date has passed; results go to [`predictions/RESULTS.md`](predictions/RESULTS.md).
 
 Reading so far, on data to 2026-11-12 (not a resolution): **P1** 4.1 bps, 11-01 to 11-12 against a threshold of 5.0; **P2** 137.9M USD on 2026-11-12 against 140M; **P3** Timelock. The daily refresh updates these on the dashboard's Checks section.
 

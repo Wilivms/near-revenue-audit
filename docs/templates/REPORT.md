@@ -94,6 +94,11 @@ Source: NEAR's own Dune dashboard (@near, "NEAR Intents"), read from its public 
   | Volume of those {{ic_top}} integrators | {{ic_d_top_volume_change}} | {{ic_dm_top_volume_change}} | {{ic_dp_top_volume_change}} |
 
   With {{ic_pn}} placebo dates the smallest possible p is 0.09: volume, the integrators who kept their volume and their combined volume all fell further than at any placebo date. Users did not leave (sending addresses, new ones included, within the usual range) and NEAR's revenue held, because its take was rising. The cost was paid by the large integrators: {{ic_cut}} of the 25 cut their volume by more than half, and {{ic_back}} of them were back above half by 31 Oct–12 Nov (the 25 together still {{ic_top_nov}} against before). A new sending address is one first seen since 14 August, when the collection starts, so that count drifts down over time; it is read against the placebo dates, which share the drift. Integrators appear in the committed aggregates under a one-way pseudonym only. Medians, because the rival venues carried a few $250M–300M days on 25–30 September.
+- **What a swap costs the user, and who gets it** (`make swap-cost`, F18, log 63). Every 1Click swap records the dollar value sent and delivered; the difference is the user's whole cost, split by the fees in the record ({{sc_from}} to {{sc_to}}, {{sc_swaps}} swaps; records more than 5% above or 20% below what was sent, {{sc_left}} of volume, left out):
+
+{{sc_table}}
+
+  Users pay about {{sc_cost}} bps; integrators take about three quarters of it, NEAR {{sc_near_share}}, and the rest (solver spread, gas, withdrawal costs and price moves, by difference) about a fifth. Small swaps cost the most ({{sc_small}} bps under $100, mostly fixed network costs); from $1k up the cost is flat near {{sc_mid}} bps. NEAR's slice is small enough that it could double without users noticing much, and the integrators' slice is what a competing router would undercut.
 - Reading: NEAR's 1Click revenue rests on unattributed users, a few direct deals and one asset. Distribution partners own the flow, and could route it elsewhere.
 
 Coverage limit: 1Click is about 28% of Intents volume, and confidential swaps were not visible in the Explorer API over the period collected. These results describe 1Click, not all of Intents.
@@ -106,6 +111,12 @@ Coverage limit: 1Click is about 28% of Intents volume, and confidential swaps we
 - Buybacks are reflexive: NEAR captured per month stayed in a 0.2–0.6M range with no upward trend while the price rose more than 4x from February to October. More dollars did not buy more NEAR.
 - The invariant that matters, independent of volume: NEAR is net deflationary when **market cap / annual captured revenue < 1 / issuance rate ≈ {{breakeven_now}}**. Today: {{near_captured_mult}}. (log 6)
 - The often-quoted "about $177M of daily volume makes NEAR deflationary" assumes 100% of fees buy NEAR. With the share that is actually captured, the threshold is about {{be_vol_now}} a day at today's price and take ({{take_now}} bps). (log 6, 17)
+
+**What the price implies** (`make implied`, log 63). Run backwards from the market cap: the captured revenue that would justify it, valued as if all of it reached holders (which favours the price: it buys NEAR back and is not paid out, and issuance still dilutes).
+
+{{im_table}}
+
+At a 15% discount rate and 3% growth, the price needs {{im_mid}}x today's revenue, about {{im_mid_vol}} a day of Intents volume at today's {{im_take}} bps take. Or revenue growing {{im_g5_lo}} to {{im_g5_hi}} a year for five years, then valued at the median multiple of the peers that pay holders ({{im_peer}}). Intents volume over the last 30 days is {{im_volg}} on a year earlier; the take would have to keep rising as well.
 
 ### 5. End-2027
 

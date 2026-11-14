@@ -640,3 +640,17 @@ The scheduled daily refresh did not start on 14 November (GitHub skipped it); a 
 - Hackers created six tokens on NEAR on 5–7 November and moved about $430k through DEX pools (Elliptic).
 - HSP-029 still awaits Security Council ratification and a roughly 90-day preparation period before validators deploy it.
 - None of these leaves two weeks of data after it, so none is tested in `make events` yet; the November price fall is already inside the live prediction P1–P5 tracking.
+
+### 63. Ideas from the other theses, taken further: the user's whole cost, and the price run backwards (2026-11-14)
+
+A pass over all 83 thesis projects on 14 November looked for analyses worth adopting or doing better. Two stood out as gaps here.
+- **The user's whole cost of a swap** (`src/analysis/swap_cost.py`, F18). "Follow $100" followed the fee pool; this follows the user's money. Each 1Click swap records the dollar value sent and delivered, so 1 − delivered/sent is the whole cost. The fees in the record split it into integrators, NEAR, and the rest by difference: solver spread, gas, withdrawal costs, price moves. Over 14 Oct–12 Nov (507,526 swaps):
+  - the user pays 59 bps: integrators 43, NEAR 3.8, solvers and networks 12, so NEAR keeps 6.4%;
+  - swaps under $100 cost 97 bps, mostly fixed network costs; from $1k up the cost is flat at 55–57 bps;
+  - by month: August 50 bps (NEAR 2.6), September 60 (2.5), October 59 (4.4);
+  - left out: records more than 5% above or 20% below what was sent (0.9% of swaps, a negligible share of volume);
+  - only daily sums by size bucket are committed (`data/raw/oneclick_aggregates/swap_cost_2026-11-12.json`).
+- **The price run backwards** (`src/analysis/implied.py`, REPORT section 4). This treats captured revenue as if it were all paid to holders, which favours the price.
+  - At 10–20% discount rates and 0–5% growth, the market cap needs 10x to 41x today's captured revenue.
+  - Mid case (15%, 3% growth): 24x, about $3.0B a day of Intents volume at today's 4.9 bps take.
+  - Alternatively, revenue growing 75–91% a year for five years, then valued at the 20x peer median. Intents volume is +48% on a year earlier.

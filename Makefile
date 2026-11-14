@@ -1,4 +1,4 @@
-.PHONY: robustness events incident incident-collect quotes quotes-fetch revisions open-questions oneclick-offline setup pycheck anchor-check bigquery reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
+.PHONY: swap-cost swap-cost-collect implied robustness events incident incident-collect quotes quotes-fetch revisions open-questions oneclick-offline setup pycheck anchor-check bigquery reproduce refresh data ledger revenue supply swaps montecarlo backtest comps risk confidential dashboard dashboard-serve test all manifest check-clean governance governance-fetch predictions leadlag leadlag-fetch docs verify
 
 data:        ## fetch DefiLlama, RPC, NearBlocks and price snapshots into data/raw/
 	python3 -m src.ingest.sources
@@ -36,6 +36,15 @@ incident:    ## the freeze and the exploit (29 Sep to 2 Oct): the halt, volume, 
 incident-collect: ## aggregates for `make incident` from the private per-swap 1Click data (needs make swaps-collect first)
 	python3 -m src.analysis.incident --collect
 
+swap-cost:   ## what a 1Click swap costs the user, split between integrators, NEAR and solvers/networks
+	python3 -m src.analysis.swap_cost
+
+swap-cost-collect: ## daily sums for `make swap-cost` from the private per-swap 1Click data
+	python3 -m src.analysis.swap_cost --collect
+
+implied:     ## reverse valuation: the revenue and growth NEAR's market cap implies
+	python3 -m src.analysis.implied
+
 robustness:  ## each finding recomputed under the alternatives a careful reader would try; fragile ones are named
 	python3 -m src.analysis.robustness
 
@@ -72,7 +81,7 @@ pycheck:
 test:        ## model checks
 	python3 -m pytest -q tests
 
-STEPS = ledger revenue supply governance montecarlo backtest leadlag bigquery oneclick-offline confidential official revisions quotes incident events robustness open-questions predictions dashboard
+STEPS = ledger revenue supply governance montecarlo backtest leadlag bigquery oneclick-offline confidential official revisions quotes incident events swap-cost implied robustness open-questions predictions dashboard
 
 reproduce:   ## every offline step on the committed snapshots, then the tests
 	$(MAKE) $(STEPS) test

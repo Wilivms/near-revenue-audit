@@ -152,3 +152,12 @@ def test_incident_halt_is_the_longest_gap_on_1_october(monkeypatch, tmp_path):
     d = r["placebo_distribution"]["top_kept_half"]
     assert d["event"] == 1 and d["placebo_median"] == 2  # "b" fell by 90% after 1 Oct: only "a" kept half
     assert r["comeback"] == {"cut_back": 1, "back_to_half_by_31oct_12nov": 0, "top_volume_31oct_12nov_vs_before": pytest.approx(51 / 60 - 1)}
+
+
+def test_swap_cost_split_adds_up():
+    from src.analysis import swap_cost
+    g = pd.DataFrame({"swaps": [2], "in_usd": [1000.0], "out_usd": [994.0], "app_fees_usd": [5.0], "near_usd": [0.5]})
+    r = swap_cost._split(g)
+    assert r["cost_bps"] == pytest.approx(60)
+    assert r["integrators_bps"] + r["near_bps"] + r["solvers_networks_bps"] == pytest.approx(r["cost_bps"])
+    assert r["near_share_of_cost"] == pytest.approx(0.5 / 6)

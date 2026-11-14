@@ -292,6 +292,10 @@
    "bytes": 1935609,
    "sha256": "9e26013f367af944728b1d6c4004ad62d7938d1d7c02ba405e4f56e382a7a7cc"
   },
+  "oneclick_aggregates/swap_cost_2026-11-12.json": {
+   "bytes": 77624,
+   "sha256": "8624d4a16110ac741dbab48b5afc3330507382cf5dee76056a739d49d81f577d"
+  },
   "quotes/2026-11-14T0100.json": {
    "bytes": 7961,
    "sha256": "c4fdbe8d50b3ae8e970164f855559df6e3a2fb7677f8658498611bbef25fcd14"

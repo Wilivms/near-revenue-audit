@@ -1,0 +1,94 @@
+{
+ "from": "2026-10-14",
+ "to": "2026-11-12",
+ "last30": {
+  "swaps": 507526,
+  "volume_usd": 1060866027.3744,
+  "cost_bps": 58.67585197921854,
+  "integrators_bps": 43.14017117153693,
+  "near_bps": 3.7790569078004057,
+  "solvers_networks_bps": 11.756623899881209,
+  "near_share_of_cost": 0.0644056588925006
+ },
+ "by_size": {
+  "under $100": {
+   "swaps": 299805,
+   "volume_usd": 6913205.3733,
+   "cost_bps": 97.08500959514032,
+   "integrators_bps": 42.085017627809805,
+   "near_bps": 4.621717318481505,
+   "solvers_networks_bps": 50.378274648849015,
+   "near_share_of_cost": 0.04760484999439964
+  },
+  "$100-1k": {
+   "swaps": 131559,
+   "volume_usd": 46645815.451400004,
+   "cost_bps": 61.73264418542046,
+   "integrators_bps": 44.33047314082141,
+   "near_bps": 5.043620005852826,
+   "solvers_networks_bps": 12.358551038746217,
+   "near_share_of_cost": 0.08170102013942228
+  },
+  "$1k-10k": {
+   "swaps": 59400,
+   "volume_usd": 202375127.91059995,
+   "cost_bps": 57.742341520158334,
+   "integrators_bps": 46.73395413085553,
+   "near_bps": 4.210894366309946,
+   "solvers_networks_bps": 6.797493022992858,
+   "near_share_of_cost": 0.07292559074418357
+  },
+  "$10k-100k": {
+   "swaps": 15245,
+   "volume_usd": 449299923.9834,
+   "cost_bps": 55.332130118317394,
+   "integrators_bps": 41.29378278436005,
+   "near_bps": 4.8147719608337285,
+   "solvers_networks_bps": 9.223575373123616,
+   "near_share_of_cost": 0.08701584324583639
+  },
+  "over $100k": {
+   "swaps": 1517,
+   "volume_usd": 355631954.65569997,
+   "cost_bps": 62.28389759982189,
+   "integrators_bps": 43.29218721615019,
+   "near_bps": 2.0425652658329176,
+   "solvers_networks_bps": 16.94914511783879,
+   "near_share_of_cost": 0.032794435553094844
+  }
+ },
+ "by_month": {
+  "2026-08": {
+   "swaps": 491867,
+   "volume_usd": 806196330.5659001,
+   "cost_bps": 49.78504537328732,
+   "integrators_bps": 32.79470185933676,
+   "near_bps": 2.6230315455735527,
+   "solvers_networks_bps": 14.367311968376999,
+   "near_share_of_cost": 0.052687137792204713
+  },
+  "2026-09": {
+   "swaps": 682864,
+   "volume_usd": 1513749067.4938002,
+   "cost_bps": 60.332649351986234,
+   "integrators_bps": 41.84834524845015,
+   "near_bps": 2.4867971223476357,
+   "solvers_networks_bps": 15.997506981188453,
+   "near_share_of_cost": 0.04121809913964548
+  },
+  "2026-10": {
+   "swaps": 499845,
+   "volume_usd": 1091098989.1564999,
+   "cost_bps": 58.97725252843045,
+   "integrators_bps": 41.43747236990156,
+   "near_bps": 4.423731229676437,
+   "solvers_networks_bps": 13.116048928852441,
+   "near_share_of_cost": 0.07500741455434776
+  }
+ },
+ "left_out_last30": {
+  "swaps": 4367,
+  "share_of_volume": 9.154037505060173e-06
+ },
+ "source_file": "swap_cost_2026-11-12.json"
+}

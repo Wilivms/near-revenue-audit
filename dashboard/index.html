@@ -432,7 +432,7 @@ footer li + li { margin-top: 6px; }
         <a class="g" href="#forecast"><div class="gk">2027</div><div class="gv" id="g2027">18%</div><div class="gt">of 2027 issuance offset in the base case; supply keeps growing unless volume rises several times.</div><div class="go">2027 →</div></a>
         <a class="g" href="#checks"><div class="gk">Held to account</div><div class="gv" id="gHeld">15 + 33</div><div class="gt"><span id="gHeldF">15</span> findings re-checked on every commit; <span id="gHeldC">33</span> public claims tested at their own dates; predictions anchored on NEAR.</div><div class="go">Checks →</div></a>
       </div>
-      <p class="follow" id="follow100">Follow $100 swapped through NEAR Intents over the last 30 days: <b id="f100near">$0.049</b> reaches NEAR's revenue wallets, while <b id="f100iss">$0.246</b> of new NEAR is issued over the same days. Revenue covers <b id="f100cov">20%</b> of issuance; supply stops growing at 100%.</p>
+      <p class="follow" id="follow100">Follow $100 swapped through NEAR Intents over the last 30 days: <b id="f100near">$0.049</b> reaches NEAR's revenue wallets, while <b id="f100iss">$0.246</b> of new NEAR is issued over the same days. Revenue covers <b id="f100cov">20%</b> of issuance; supply stops growing at 100%.<span id="f100cost"></span></p>
     </div>
   </section>
   <section class="block" id="simulator" aria-labelledby="h-sim">
@@ -1260,6 +1260,10 @@ function tables(D) {
   table($("tbAsset"), ["Asset (volatile leg)", "Volume", "NEAR's revenue", "NEAR bps", "All fees bps"], D.revenue_by_asset.map((r) => [r.asset, fmtPct(r.volume_share, 1), fmtPct(r.near_revenue_share, 1), r.near_bps.toFixed(1), r.all_fees_bps.toFixed(0)]));
   table($("tbComps"), ["Token", "Market cap", "Holders revenue, annualised", "Multiple"], [...D.comps].sort((a, b) => a.mcap_to_holders_revenue - b.mcap_to_holders_revenue).map((r) => [r.token, fmtUSD(r.market_cap_usd), fmtUSD(r.annualised_usd), `${r.mcap_to_holders_revenue.toFixed(1)}×`]));
   table($("tbShare"), ["Month", "NEAR Intents", "THORChain", "Chainflip", "Maya"], D.crosschain_share.map((r) => [r.month.slice(0, 7), fmtPct(r["near-intents_share"]), fmtPct(r["thorchain-dex_share"]), fmtPct(r["chainflip-amm_share"]), fmtPct(r["maya-protocol_share"])]));
+  if (D.swap_cost && $("f100cost")) {
+    const c = D.swap_cost.last30, d = (b) => `$${(b / 100).toFixed(2)}`;
+    $("f100cost").textContent = ` On 1Click a user gives up ${d(c.cost_bps)} per $100: ${d(c.integrators_bps)} to integrators, ${d(c.near_bps)} to NEAR, ${d(c.solvers_networks_bps)} to solvers and networks.`;
+  }
   if (D.events) {
     const EV = [["halving", "Issuance halved", "2025-10-30"], ["fee_switch", "Fee switch, Confidential Intents", "2026-02-24"], ["confidential_ga", "Confidential Intents for all", "2026-07-13"],
       ["confidential_1click", "Confidential in the 1Click API", "2026-07-27"], ["airdrop_snapshot", "NEAR@3.33 snapshot", "2026-09-16"], ["exploit", "Freeze and $3.8M exploit", "2026-10-01"], ["hsp029", "HSP-029 approved", "2026-11-02"]];
@@ -1482,7 +1486,7 @@ function navSpy() {
   let bundle = "the daily refresh (dashboard/live.json)";
   try { D = await getJSON("https://raw.githubusercontent.com/Wilivms/near-revenue-audit/main/dashboard/live.json"); }
   catch (e) { D = null; }
-  if (D && (!D.quote_race || !D.events)) try { const C = await getJSON("data.json"); D.quote_race = D.quote_race || C.quote_race; D.events = D.events || C.events; } catch (e) {}  // sections newer than the last daily bundle
+  if (D && (!D.quote_race || !D.events || !D.swap_cost)) try { const C = await getJSON("data.json"); D.quote_race = D.quote_race || C.quote_race; D.events = D.events || C.events; D.swap_cost = D.swap_cost || C.swap_cost; } catch (e) {}  // sections newer than the last daily bundle
   if (!D) bundle = "the committed snapshot (dashboard/data.json)";
   if (!D) try { D = await getJSON("data.json"); }
   catch (e) { $("statusLine").textContent = "Could not load data.json. Serve this folder over HTTP (make dashboard-serve)."; return; }

@@ -1,0 +1,96 @@
+{
+ "market_cap_usd": 4640959837.0,
+ "revenue_annualised_usd": 22589627.31570283,
+ "take_bps": 4.919465307371541,
+ "peer_median_multiple": 20.273501248695876,
+ "perpetuity": [
+  {
+   "discount": 0.1,
+   "growth": 0.0,
+   "revenue_needed_usd": 464095983.70000005,
+   "times_today": 20.544649861372033,
+   "volume_per_day_usd": 2584622039.814286
+  },
+  {
+   "discount": 0.1,
+   "growth": 0.03,
+   "revenue_needed_usd": 315405037.46601945,
+   "times_today": 13.96238340093245,
+   "volume_per_day_usd": 1756539250.3592236
+  },
+  {
+   "discount": 0.1,
+   "growth": 0.05,
+   "revenue_needed_usd": 220998087.47619048,
+   "times_today": 9.783166600653349,
+   "volume_per_day_usd": 1230772399.9115648
+  },
+  {
+   "discount": 0.15,
+   "growth": 0.0,
+   "revenue_needed_usd": 696143975.55,
+   "times_today": 30.816974792058044,
+   "volume_per_day_usd": 3876933059.721429
+  },
+  {
+   "discount": 0.15,
+   "growth": 0.03,
+   "revenue_needed_usd": 540694349.9417475,
+   "times_today": 23.935514401598482,
+   "volume_per_day_usd": 3011210143.4729543
+  },
+  {
+   "discount": 0.15,
+   "growth": 0.05,
+   "revenue_needed_usd": 441996174.9523809,
+   "times_today": 19.566333201306694,
+   "volume_per_day_usd": 2461544799.823129
+  },
+  {
+   "discount": 0.2,
+   "growth": 0.0,
+   "revenue_needed_usd": 928191967.4000001,
+   "times_today": 41.089299722744066,
+   "volume_per_day_usd": 5169244079.628572
+  },
+  {
+   "discount": 0.2,
+   "growth": 0.03,
+   "revenue_needed_usd": 765983662.4174758,
+   "times_today": 33.908645402264526,
+   "volume_per_day_usd": 4265881036.586686
+  },
+  {
+   "discount": 0.2,
+   "growth": 0.05,
+   "revenue_needed_usd": 662994262.4285715,
+   "times_today": 29.349499801960047,
+   "volume_per_day_usd": 3692317199.734694
+  }
+ ],
+ "five_years_then_peer_multiple": [
+  {
+   "discount": 0.1,
+   "revenue_in_5y_usd": 368673971.7722744,
+   "times_today": 16.32049819237152,
+   "growth_per_year": 0.7480211472209943,
+   "volume_per_day_usd": 2053202153.0366247
+  },
+  {
+   "discount": 0.15,
+   "revenue_in_5y_usd": 460434919.9746264,
+   "times_today": 20.382581506980518,
+   "growth_per_year": 0.8274766539128575,
+   "volume_per_day_usd": 2564233011.841396
+  },
+  {
+   "discount": 0.2,
+   "revenue_in_5y_usd": 569620069.0715272,
+   "times_today": 25.216001181018363,
+   "growth_per_year": 0.9069321606047209,
+   "volume_per_day_usd": 3172301930.099218
+  }
+ ],
+ "volume_growth_last_30d_vs_year_before": 0.4788268142343435,
+ "note": "captured revenue valued as if paid to holders (it buys NEAR back and is not paid out), which favours the price"
+}
