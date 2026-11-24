@@ -22,23 +22,40 @@ jobs:
           python-version: "3.13"
       - run: pip install -r requirements.txt
       - name: Fetch fresh public data and recompute
-        run: make refresh
+        id: refresh
+        # If NearBlocks cannot be reached, the revenue wallets keep their previous snapshot and the last days would read
+        # as zero revenue: publish nothing that day (green, with a warning) and let the next scheduled run retry.
+        run: |
+          set -o pipefail
+          status=0
+          make refresh 2>&1 | tee "$RUNNER_TEMP/refresh.log" || status=$?
+          if grep -qE "WARNING fetch_(buyback_txns|revenue_wallets) failed" "$RUNNER_TEMP/refresh.log"; then
+            echo "::warning::NearBlocks was unreachable, so the revenue wallets could not be refreshed; nothing is published today and the next scheduled run retries."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          [ "$status" -eq 0 ] || exit "$status"
+          echo "publish=true" >> "$GITHUB_OUTPUT"
       - name: Restore the rolling 31-day 1Click cache (private to this repository's Actions; never committed)
+        if: steps.refresh.outputs.publish == 'true'
         uses: actions/cache@v4
         with:
           path: data/intents_v2
           key: oneclick-${{ github.run_id }}
           restore-keys: oneclick-
       - name: 1Click, last 31 days (partner key; per-swap data stays on the runner, only the bundle is kept)
+        if: steps.refresh.outputs.publish == 'true'
         env:
           INTENTS_JWT: ${{ secrets.INTENTS_JWT }}
         run: |
           python3 -m src.analysis.oneclick_live
           make oneclick-offline dashboard
       - uses: actions/setup-node@v4
+        if: steps.refresh.outputs.publish == 'true'
         with:
           node-version: "22"
       - name: Commit the live bundle only, and anchor it on NEAR testnet
+        if: steps.refresh.outputs.publish == 'true'
         env:
           NEAR_TESTNET_KEY: ${{ secrets.NEAR_TESTNET_KEY }}
           NEAR_MAINNET_KEY: ${{ secrets.NEAR_MAINNET_KEY }}

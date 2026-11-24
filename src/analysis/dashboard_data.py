@@ -131,7 +131,7 @@ def _checks() -> dict:
             # release anchors only: the daily bot appends to anchors.jsonl every day, and this bundle must rebuild
             # byte for byte; the page reads the full log from GitHub when it can
             "anchors": [a for a in (json.loads(x) for x in (OUT.parents[1] / "anchor" / "anchors.jsonl").read_text().splitlines() if x.strip())
-                        if a["kind"] != "daily"]}
+                        if a["kind"] not in ("daily", "results")]}
 
 
 def main() -> None:

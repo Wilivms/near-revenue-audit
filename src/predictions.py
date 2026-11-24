@@ -120,7 +120,7 @@ def resolve(today: pd.Timestamp | None = None) -> pd.DataFrame:
     for _, p in df.iterrows():
         value = None
         if pd.Timestamp(p.resolve_on) <= today:
-            args = [a for a in p.metric_args.split(";") if a]
+            args = [a for a in str(p.metric_args).split(";") if a and a != "nan"]  # empty metric_args reads as NaN
             value = METRICS[p.metric](*args)
             if p.metric == "supply_on_or_after" and value is not None:  # compared with the supply on the day made
                 pts = _latest("supply_history", "blocks.json")
